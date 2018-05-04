@@ -13,6 +13,7 @@ This repository contains demos and documentation for [HARK](https://github.com/e
   |--DemArk
   ```
 3. Run `cd DemARK && jupyter notebook`. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
+4. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
 
 ## Issues
 
