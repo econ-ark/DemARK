@@ -1,4 +1,4 @@
-wget https://github.com/econ-ark/HARK/archive/master.tar.gz
+wget https://codeload.github.com/econ-ark/HARK/tar.gz/master
 mv master.tar.gz ../
 tar -xzf ../master.tar.gz
 mv ../HARK-master ../HARK
