@@ -1,4 +1,3 @@
 wget -nv https://codeload.github.com/econ-ark/HARK/tar.gz/master
-mv master ../
-tar -xzf ../master
-mv ../HARK-master ../HARK
+tar -xzf master
+export HARK_PATH=./HARK-master
