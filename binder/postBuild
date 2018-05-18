@@ -1,6 +1,7 @@
 #!/bin/sh
 wget -nv https://codeload.github.com/econ-ark/HARK/tar.gz/master
 mv master lib
+cd lib
 tar -xzf lib/master
 rm lib/master
 jupyter contrib nbextension install --user
