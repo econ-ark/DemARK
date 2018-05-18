@@ -1,5 +1,5 @@
 #!/bin/sh
-cd ../lib
 wget -nv https://codeload.github.com/econ-ark/HARK/tar.gz/master
-tar -xzf master
-rm master
+mv master ../lib
+tar -xzf ../lib/master
+rm ../lib/master
