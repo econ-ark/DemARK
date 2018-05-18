@@ -3,3 +3,5 @@ wget -nv https://codeload.github.com/econ-ark/HARK/tar.gz/master
 mv master lib
 tar -xzf lib/master
 rm lib/master
+jupyter contrib nbextension install --user
+jupyter nbextension enable hide_input/main
