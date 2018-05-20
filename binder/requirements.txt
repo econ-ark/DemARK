@@ -4,4 +4,3 @@ ipywidgets==7.2.1
 scipy==1.0.0
 jupyter_contrib_nbextensions
 econ-ark
-jupyterhub==0.6.*
