@@ -6,6 +6,8 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 
 ## Local installation
 
+*Warning:* DemARK requires Python 2.7 and will not run under Python 3.
+
 ### Option 1: With Jupyter
 
 0. [Install jupyter](https://jupyter.org/install).
