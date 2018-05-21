@@ -10,7 +10,7 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 
 0. [Install jupyter](https://jupyter.org/install).
 1. Clone `DemArk` to the folder of your choice
-2. Run `pip install binder/requirements.txt` to install dependencies
+2. Run `pip install -r binder/requirements.txt` to install dependencies
 3. Run `binder/postBuild` to enable notebook extensions
 4. Run `jupyter notebook` from the `DemARK` root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
 5. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
