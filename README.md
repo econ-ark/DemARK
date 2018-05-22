@@ -2,7 +2,7 @@
 
 This repository contains demos and documentation for [HARK](https://github.com/econ-ark/HARK).
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/master)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/stable)
 
 ## Local installation
 
