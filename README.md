@@ -2,7 +2,7 @@
 
 This repository contains demos and documentation for [HARK](https://github.com/econ-ark/HARK).
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/stable)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/master)
 
 ## Local installation
 
@@ -14,10 +14,14 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 1. Clone `DemArk` to the folder of your choice
 2. Run `pip install -r binder/requirements.txt` to install dependencies
 3. Enable notebook extensions.
+
    **On Linux/macOS:**
+
    Run `binder/postBuild` in your terminal
 
+
    **On Windows:**
+
    Run `binder/postBuild.bat`
 
 4. Run `jupyter notebook` from the `DemARK` root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
