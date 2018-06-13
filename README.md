@@ -1,4 +1,4 @@
-# DemARK
+# DemArk
 
 This repository contains demos and documentation for [HARK](https://github.com/econ-ark/HARK).
 
