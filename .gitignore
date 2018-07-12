@@ -3,3 +3,4 @@
 .idea
 .ipynb_checkpoints/*
 +notebooks/.ipynb_checkpoints/*-checkpoint.ipynb
+.ipynb_checkpoints
