@@ -6,8 +6,6 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 
 ## Local installation
 
-**Warning:** DemARK requires Python 2.7 and will not run under Python 3.
-
 ### Option 1: With Jupyter
 
 0. [Install jupyter](https://jupyter.org/install).
@@ -17,8 +15,7 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 
    **On Linux/macOS:**
 
-   Run `binder/postBuild` in your terminal
-
+   Run `binder/postBuild` in your terminal (at a shell in the binder directory, `./postBuild`)
 
    **On Windows:**
 
