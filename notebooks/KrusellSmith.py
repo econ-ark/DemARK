@@ -36,7 +36,7 @@
 # ### Overview
 #
 # The benchmark Krusell-Smith model has the following broad features:
-#    * The aggregate state switches between good and bad with known probabilities
+#    * The aggregate state switches between "good" and "bad" with known probabilities
 #    * All consumers experience the same aggregate state for the economy (good or bad)
 #    * _ex ante_ there is only one type of consumer, which is infinitely lived
 #    * _ex post_ heterogeneity arises from uninsurable idiosyncratic income shocks
@@ -100,7 +100,7 @@
 # %% [markdown]
 # ##### Discussion of the KS Algorithm
 #
-# In general, $\Gamma$ is a high-dimensional object because it includes the whole distribution of individuals' wealth in the economy. Because the optimal amount to save is a nonlinear function of the level of idiosyncratic $k$, next period's aggregate capital stock $\bar{k}'$ depends on the distribution of the holdings of idiosyncratic $k$ across the population of consumers. Therefore the law of motion $H$ is not a trivial function of the $\Gamma$. 
+# In principle, $\Gamma$ is a high-dimensional object because it includes the whole distribution of individuals' wealth in the economy. Because the optimal amount to save is a nonlinear function of the level of idiosyncratic $k$, next period's aggregate capital stock $\bar{k}'$ depends on the distribution of the holdings of idiosyncratic $k$ across the population of consumers. Therefore the law of motion $H$ is not a trivial function of the $\Gamma$. 
 #
 # KS simplified this problem as by noting the following. 
 #
@@ -109,17 +109,14 @@
 # 1. The channels by which the budget constraint depends on the aggregate state are:
 #    * The probability distributions of $\epsilon$ and $z$ are affected by the aggregate state
 #    * Interest rates and wages depend on the future values of $\bar{k}$ and $\bar{\ell}$
-#   
+# 1. The probability distributions for the future values of $\{\epsilon, z\}$ are known
+#    * They are fully determined by the Markov transition matrices
+# 1. But the values of $r$ and $w$ are both determined by the future value of $\bar{k}$ (in combination with the exogenous value of $\bar{\ell}$)
+#    * So the only _endogenous_ object that the agent needs to form expectations about, in order to have a complete rational expectation about everything affecting them, is $\bar{k}'$
 #
-# Now note that
+# The key result in Krusell and Smith is the discovery that a very simple linear rule does an extraordinarily good job (though not quite perfect) in forecasting $\bar{k'}$
 #
-# 1. The probability distributions for the future values of $\{\epsilon, z\}$ are known; they are fully determined by the Markov transition matrices
-# 1. The values of $r$ and $w$ are both determined by the future value of $\bar{k}$ (in combination with the exogenous value of $\bar{\ell}$)
-# 1. So the only endogenous object that the agent needs to form expectations about, in order to have a complete rational expectation about everything affecting them, is $\bar{k}$
-#
-# The key result in Krusell and Smith is the discovery that a very simple linear rule does an extraordinarily good job (though not quite perfect) in forecasting $\bar{k}$
-#
-# They then argue that, since rationality is surely bounded to some degree, the solution that an agent obtains using a good forecasting rule for $\bar{k}$ is "good enough" to compute an "approximate" solution to the consumer's optimization problem.
+# They then argue that, since rationality is surely bounded to some degree, the solution that an agent obtains using a good forecasting rule for $\bar{k}'$ is "good enough" to compute an "approximate" solution to the consumer's optimization problem.
 #
 # They define a generic algorithm to find a forecasting rule for $\bar{k}$ as follows
 #
@@ -134,9 +131,9 @@
 #
 # \begin{eqnarray*}
 # V(k, \epsilon; \bar k, z) &=& max_{c, k'}\{U(c) + \beta E[V(k' ,\epsilon'; \bar k', z')|z, \epsilon]\} \\
-# c + k' &=& r(\bar{k}, \bar{\ell}, z)k + w(\bar{k}, \bar{\ell}, z)l\epsilon + (1-\delta)k; \\
-# \text{When }~ z=z_g \quad \log\bar k' & = & a_0 + a_1 \log\bar k; \\
-# \text{When }~ z=z_b  \quad  \log\bar k' & = & b_0 + b_1 \log\bar k ; \\
+# c + k' &=& r(\bar{k}, \bar{\ell}, z)k + w(\bar{k}, \bar{\ell}, z)l\epsilon + (1-\delta)k \\
+# \text{When }~ z=z_g, \quad \mathbb{E}[\log\bar{k}'] & = & a_0 + a_1 \log\bar k \\
+# \text{When }~ z=z_b,  \quad \mathbb{E}[\log\bar{k}'] & = & b_0 + b_1 \log\bar k \\
 # k' &\geq& 0 \\
 # \end{eqnarray*}
 
@@ -146,7 +143,7 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
@@ -191,7 +188,7 @@ import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 
 # %% {"code_folding": [4]}
-# This cell defines a dictionary to make an instance of our Krusell-Smith consumer.
+# Define a dictionary to make an 'instance' of our Krusell-Smith consumer.
 
 # The folded dictionary below contains many parameters to the 
 # AggShockMarkovConsumerType agent that are not needed for the KS model
@@ -252,10 +249,8 @@ KSAgentDictionary['cycles']  = 0        # cycles=0 means consumer is infinitely 
 p_change=0.125
 p_remain=1-p_change
 
-# Macro transition probabilities for AggShockMarkovConsumerType
+# Now we define macro transition probabilities for AggShockMarkovConsumerType
 #   [i,j] is probability of being in state j next period conditional on being in state i this period. 
-
-# Markov transition matrix for the aggregate state: 
 # In both states, there is 0.875 chance of staying, 0.125 chance of switching
 AggMrkvArray = \
 np.array([[p_remain,p_change],  # Probabilities of states 0 and 1 next period if in state 0
@@ -284,7 +279,7 @@ KSAgent = AggShockMarkovConsumerType(**KSAgentDictionary)
 #       * In the KS notation, this is $\epsilon\ell$  
 #
 
-# %% {"code_folding": [10]}
+# %% {"code_folding": []}
 # Construct the income distribution for the Krusell-Smith agent
 prb_eg = 0.96         # Probability of   employment in the good state
 prb_ug = 1-prb_eg     # Probability of unemployment in the good state
@@ -295,9 +290,6 @@ ell_ug = ell_ub = 0   # Labor supply is zero for unemployed consumers in either 
 ell_eg = 1.0/prb_eg   # Labor supply for employed consumer in good state
 ell_eb = 1.0/prb_eb   # 1=pe_g*ell_ge+pu_b*ell_gu=pe_b*ell_be+pu_b*ell_gu
 
-KSAgent.IncomeDstn[0] = [[np.array([prb_eg,prb_ug]),np.array([p_ind,p_ind]),np.array([ell_eg,ell_ug])], # Agg state good
-                         [np.array([prb_eb,prb_ub]),np.array([p_ind,p_ind]),np.array([ell_eb,ell_ub])]  # Agg state bad
-  
 # IncomeDstn is a list of lists, one for each aggregate Markov state
 # Each contains three arrays of floats, representing a discrete approximation to the income process. 
 # Order: 
@@ -305,8 +297,13 @@ KSAgent.IncomeDstn[0] = [[np.array([prb_eg,prb_ug]),np.array([p_ind,p_ind]),np.a
 #   idiosyncratic persistent income level by state (KS have no persistent shocks p_ind is always 1.0)
 #   idiosyncratic transitory income level by state
 
+KSAgent.IncomeDstn[0] = \
+[[np.array([prb_eg,prb_ug]),np.array([p_ind,p_ind]),np.array([ell_eg,ell_ug])], # Agg state good
+ [np.array([prb_eb,prb_ub]),np.array([p_ind,p_ind]),np.array([ell_eb,ell_ub])]  # Agg state bad
+]
+
 # %% [markdown]
-# Up to this point, individual agents do not have enough information to solve their decision problem yet. What is missing are beliefs about the macro variables $r$ and $w$, both of which are functions of $z$ and $\bar{k}$. 
+# Up to this point, individual agents do not have enough information to solve their decision problem yet. What is missing are beliefs about the endogenous macro variables $r$ and $w$, both of which are functions of $\bar{k}$. 
 
 # %% [markdown]
 # #### The Aggregate Economy
@@ -347,22 +344,25 @@ KSEconomy = CobbDouglasMarkovEconomy(agents = [KSAgent], **KSEconomyDictionary) 
 # The structure of the inputs for $\texttt{AggShkDstn}$ follows the same logic as for $\texttt{IncomeDstn}$. Now there is only one possible outcome for each aggregate state (the KS aggregate states are very simple), therefore, each aggregate state has only one possible condition which happens with probability 1.
 
 # %%
-Perm_g = Perm_b = 1.0 # No aggregate permanent shocks
-Tran_g = 1.01 # Productivity in the good aggregate state
-Tran_b = 0.99
+# Calibrate the magnitude of the aggregate shocks
 
-KSAggShkDstn = [
-    [np.array([1.0]),np.array([Perm_g]),np.array([Tran_g])],
-    [np.array([1.0]),np.array([Perm_b]),np.array([Tran_b])]
-]
+Tran_g = 1.01 # Productivity z in the good aggregate state
+Tran_b = 0.99 # and the bad state
 
+# The HARK framework allows permanent shocks
+Perm_g = Perm_b = 1.0 # KS assume there are no aggregate permanent shocks
 
-KSEconomy.AggShkDstn = KSAggShkDstn
- 
 # Aggregate productivity shock distribution by state.
 # First element is probabilities of different outcomes, given the state you are in. 
 # Second element is agg permanent shocks (here we don't have any, so just they are just 1.).
 # Third  element is agg transitory shocks, which are calibrated the same as in Krusell Smith.
+
+KSAggShkDstn = [
+    [np.array([1.0]),np.array([Perm_g]),np.array([Tran_g])], # Aggregate good
+    [np.array([1.0]),np.array([Perm_b]),np.array([Tran_b])]  # Aggregate bad
+]
+
+KSEconomy.AggShkDstn = KSAggShkDstn
 
 # %% [markdown]
 # #### Summing Up
@@ -439,7 +439,7 @@ from HARK.utilities import getLorenzShares, getPercentiles
 # from the U.S. Survey of Consumer Finances
 from HARK.cstwMPC.SetupParamsCSTW import SCF_wealth, SCF_weights
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Construct the Lorenz curves and plot them
 
 pctiles = np.linspace(0.001,0.999,15)
@@ -481,9 +481,9 @@ print("The Euclidean distance between simulated wealth distribution and the esti
 #
 # The HARK toolkit is not natively set up to accommodate stochastic time preference factors (though an extension to accommodate this would be easy).  
 #
-# Here, instead, we assume that different agents have different values of $\beta$ that are uniformly distributed over some range. We approximate the uniform distribution by seven points.  The agents are heterogeneous _ex ante_ (and permanently).
+# Here, instead, we assume that different agents have different values of $\beta$ that are uniformly distributed over some range. We approximate the uniform distribution by three points.  The agents are heterogeneous _ex ante_ (and permanently).
 
-# %%
+# %% {"code_folding": [0]}
 # Construct the distribution of types
 from HARK.utilities import approxUniform
 
@@ -502,7 +502,7 @@ for nn in range(len(DiscFac_dstn)):
     NewType.seed = nn # give each consumer type a different RNG seed
     MyTypes.append(NewType)
 
-# %%
+# %% {"code_folding": [0]}
 # Put all agents into the economy
 KSEconomy_sim = CobbDouglasMarkovEconomy(agents = MyTypes, **KSEconomyDictionary) 
 KSEconomy_sim.AggShkDstn = KSAggShkDstn # Agg shocks are the same as defined earlier
@@ -513,12 +513,12 @@ for ThisType in MyTypes:
 KSEconomy_sim.makeAggShkHist() # Make a simulated prehistory of the economy
 KSEconomy_sim.solve()          # Solve macro problem by getting a fixed point dynamic rule
 
-# %%
+# %% {"code_folding": [0]}
 # Get the level of end-of-period assets a for all types of consumers
 aLvl_all = np.concatenate([KSEconomy_sim.aLvlNow[i] for i in range(len(MyTypes))])
 print('Aggregate capital to income ratio is ' + str(np.mean(aLvl_all)))
 
-# %%
+# %% {"code_folding": [0]}
 # Plot the distribution of wealth across all agent types
 sim_3beta_wealth = aLvl_all
 pctiles = np.linspace(0.001,0.999,15)
@@ -539,7 +539,8 @@ plt.legend(loc=2)
 plt.ylim([0,1])
 plt.show()
 
-# %%
+# %% {"code_folding": [0]}
+# Plot the distribution of wealth 
 for i in range(len(MyTypes)):
     if i<=2:
         plt.hist(KSEconomy_sim.aLvlNow[i],label=r'\beta='+str(round(DiscFac_dstn[i],4)))
@@ -547,11 +548,11 @@ plt.legend(loc=2)
 plt.title('Wealth Distribution of 3 Types')
 
 # %%
-#print('Wealth Distribution of the Most Impatient Type')
+# Zoom in on 'Wealth Distribution of the Most Impatient Type'
 plt.hist(KSEconomy_sim.aLvlNow[0])
 plt.title('Wealth Distribution of the Most Impatient Type')
 
 # %%
-#print('Wealth Distribution of the Most patient Type:')
+# Wealth Distribution of the most patient type
 plt.hist(KSEconomy_sim.aLvlNow[-1])
 plt.title('Wealth Distribution of the Most Patient Type')
