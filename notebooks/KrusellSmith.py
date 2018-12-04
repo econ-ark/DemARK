@@ -25,11 +25,11 @@
 # ---
 
 # %% [markdown]
-# # Krusell Smith (1998) Tao: Please put a link to a downloadable PDF of the KS paper here
+# # [Krusell Smith (1998)](https://www.journals.uchicago.edu/doi/pdf/10.1086/250034)
 # <!-- Also, though the notebook says it is by you and Melih, the only notations I found were for additions by you -->
 # <!-- If Melih did not do much, his name does not deserve to be on an equal footing with yours -->
 # - Original version by Tim Munday 
-# - Comments and additions by Tao Wang and Melih Firat
+# - Comments and extensions by Tao Wang and Melih Firat
 # - Further edits by Chris Carroll
 
 # %% [markdown]
@@ -212,10 +212,10 @@ KSAgentDictionary = {
     "aXtraMax" : 20,                       # Maximum end-of-period "assets above minimum" value               
     "aXtraExtra" : [None],                 # Some other value of "assets above minimum" to add to the grid
     "aXtraNestFac" : 3,                    # Exponential nesting factor when constructing "assets above minimum" grid
-    "aXtraCount" : 24,                     # Num of pts in the grid of "assets above minimum"
+    "aXtraCount" : 24,                     # Number of points in the grid of "assets above minimum"
 # Parameters describing the income process
-    "PermShkCount" : 1,                    # Num of pts in discrete approximation to permanent income shocks - no shocks of this kind!
-    "TranShkCount" : 1,                    # Num of pts in discrete approximation to transitory income shocks - no shocks of this kind!
+    "PermShkCount" : 1,                    # Number of points in discrete approximation to permanent income shocks - no shocks of this kind!
+    "TranShkCount" : 1,                    # Number of points in discrete approximation to transitory income shocks - no shocks of this kind!
     "PermShkStd" : [0.],                   # Standard deviation of log permanent income shocks - no shocks of this kind!
     "TranShkStd" : [0.],                   # Standard deviation of log transitory income shocks - no shocks of this kind!
     "UnempPrb" : 0.0,                      # Probability of unemployment while working - no shocks of this kind!
@@ -233,8 +233,8 @@ KSAgentDictionary = {
                            1.0,1.02,1.1,
                            1.2,1.6,2.0,
                            3.0]),          # Grid of capital-to-labor-ratios (factors)
-    'MrkvArray': np.array([[0.875,0.125],
-                           [0.125,0.875]]),# Macro transition probabilities. [i,j] is probability of being in state j next
+    'MrkvArray': np.array([[0.825,0.175],
+                           [0.175,0.825]]),  # Transition probabilities for macroecon. [i,j] is probability of being in state j next
                                            # period conditional on being in state i this period. 
     'PermShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate permanent shocks by state. No continous shocks in a state.
     'TranShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate transitory shocks by state. No continuous shocks in a state.
@@ -295,10 +295,9 @@ ell_ug = ell_ub = 0   # Labor supply is zero for unemployed consumers in either 
 ell_eg = 1.0/prb_eg   # Labor supply for employed consumer in good state
 ell_eb = 1.0/prb_eb   # 1=pe_g*ell_ge+pu_b*ell_gu=pe_b*ell_be+pu_b*ell_gu
 
-KSAgent.IncomeDstn[0] = [[np.array([prb_eg,prb_ug]),np.array([p_ind,p_ind]),np.array([ell_eg,ell_eg])], # Agg state good
-                         [np.array([prb_eb,prb_ub]),np.array([p_ind,p_ind]),np.array([ell_eb,ell_eb])]  # Agg state bad
-                        ] 
-
+KSAgent.IncomeDstn[0] = [[np.array([prb_eg,prb_ug]),np.array([p_ind,p_ind]),np.array([ell_eg,ell_ug])], # Agg state good
+                         [np.array([prb_eb,prb_ub]),np.array([p_ind,p_ind]),np.array([ell_eb,ell_ub])]  # Agg state bad
+  
 # IncomeDstn is a list of lists, one for each aggregate Markov state
 # Each contains three arrays of floats, representing a discrete approximation to the income process. 
 # Order: 
@@ -357,6 +356,7 @@ KSAggShkDstn = [
     [np.array([1.0]),np.array([Perm_b]),np.array([Tran_b])]
 ]
 
+
 KSEconomy.AggShkDstn = KSAggShkDstn
  
 # Aggregate productivity shock distribution by state.
@@ -400,15 +400,6 @@ KSEconomy.solve() # Solve the economy using the market method.
 print('Aggregate savings as a function of aggregate market resources:')
 plotFuncs(KSEconomy.AFunc,0.1,2*KSEconomy.kSS)
 
-# Tao: The wage and interest rate functions are just a plot of the Cobb-Douglas production function
-# Is there any reason to plot them?  There is nothing unique to the KS model about them
-# Please delete these unless I'm missing something
-# print('Wage rate as function of capital ratio:')
-# plotFuncs(KSEconomy.wFunc, 0.1, 20) 
-
-# print('Interest factor as function of capital ratio')
-# plotFuncs(KSEconomy.Rfunc, 0.1, 20)
-
 print('Consumption function at each aggregate market resources gridpoint (in general equilibrium):')
 KSAgent.unpackcFunc()
 m_grid = np.linspace(0,10,200)
@@ -449,16 +440,15 @@ from HARK.utilities import getLorenzShares, getPercentiles
 from HARK.cstwMPC.SetupParamsCSTW import SCF_wealth, SCF_weights
 
 # %% {"code_folding": []}
-# Construct the Lorenz curves and plot them: Tao, is there a problem here?  
-# Is the KS distribution SO close to the 45 degree line that they cannot be visually distinguished?
-# If so, probably the plot below needs to be supplemented with another plot 
-# The second plot might just be of the _difference_ between the KS distribution and the 45 degree line
+# Construct the Lorenz curves and plot them
+
 pctiles = np.linspace(0.001,0.999,15)
 SCF_Lorenz_points = getLorenzShares(SCF_wealth,weights=SCF_weights,percentiles=pctiles)
 sim_Lorenz_points = getLorenzShares(sim_wealth,percentiles=pctiles)
 
 # Plot 
 plt.figure(figsize=(5,5))
+plt.title('Wealth Distribution')
 plt.plot(pctiles,SCF_Lorenz_points,'--k',label='SCF')
 plt.plot(pctiles,sim_Lorenz_points,'-b',label='Benchmark KS')
 plt.plot(pctiles,pctiles,'g-.',label='45 Degree')
@@ -498,11 +488,10 @@ print("The Euclidean distance between simulated wealth distribution and the esti
 from HARK.utilities import approxUniform
 
 # Specify the distribution of the discount factor
-num_types = 7              # number of types we want; this follows cstwMPC
-DiscFac_mean   = 0.9858 # center of beta distribution 
+num_types = 3              # number of types we want;
+DiscFac_mean   = 0.9858    # center of beta distribution 
 DiscFac_spread = 0.0085    # spread of beta distribution
 DiscFac_dstn = approxUniform(num_types, DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread)[1]
-#DiscFac_dstn = np.array([0.9858,0.9894,0.9930])
 BaselineType = deepcopy(KSAgent)
 
 MyTypes = [] # initialize an empty list to hold our consumer types
@@ -530,25 +519,6 @@ aLvl_all = np.concatenate([KSEconomy_sim.aLvlNow[i] for i in range(len(MyTypes))
 print('Aggregate capital to income ratio is ' + str(np.mean(aLvl_all)))
 
 # %%
-# Tao: Why is this commented out?
-'''
-for i in range(len(MyTypes)):
-    plt.hist(KSEconomy_sim.aLvlNow[i],label=r'\beta='+str(DiscFac_dstn[i]))
-plt.legend(loc=2)
-'''
-
-# %%
-# Tao: Do the figures below have identical horizontal axes so that they can be compared?
-# Please replace the "print" statements with proper in-figure labels
-# so that the two figures can be seen in the same cell one above the other for easy comparison
-print('Wealth Distribution of the Most Patient Type:')
-plt.hist(KSEconomy_sim.aLvlNow[0])
-
-# %%
-print('Wealth Distribution of the Most Impatient Type:')
-plt.hist(KSEconomy_sim.aLvlNow[-1])
-
-# %%
 # Plot the distribution of wealth across all agent types
 sim_3beta_wealth = aLvl_all
 pctiles = np.linspace(0.001,0.999,15)
@@ -558,6 +528,7 @@ sim_3beta_Lorenz_points = getLorenzShares(sim_3beta_wealth,percentiles=pctiles)
 
 ## Plot
 plt.figure(figsize=(5,5))
+plt.title('Wealth Distribution')
 plt.plot(pctiles,SCF_Lorenz_points,'--k',label='SCF')
 plt.plot(pctiles,sim_Lorenz_points,'-b',label='Benchmark KS')
 plt.plot(pctiles,sim_3beta_Lorenz_points,'-*r',label='3 Types')
@@ -568,17 +539,19 @@ plt.legend(loc=2)
 plt.ylim([0,1])
 plt.show()
 
-# %% [markdown]
-# ### Heterogeneity in the MPC 
+# %%
+for i in range(len(MyTypes)):
+    if i<=2:
+        plt.hist(KSEconomy_sim.aLvlNow[i],label=r'\beta='+str(round(DiscFac_dstn[i],4)))
+plt.legend(loc=2)
+plt.title('Wealth Distribution of 3 Types')
 
 # %%
-# Write a function to tell us about the distribution of the MPC in this code block, then test it!
-def describeMPCdstn(SomeTypes,percentiles):
-    MPC_sim = np.concatenate([ThisType.MPCnow for ThisType in SomeTypes])
-    MPCpercentiles_quarterly = getPercentiles(MPC_sim,percentiles=percentiles)
-    MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
-    
-    for j in range(len(percentiles)):
-        print('The ' + str(100*percentiles[j]) + 'the percentile of the MPC is ' + str(MPCpercentiles_annual[j]))
-        
-describeMPCdstn(MyTypes,np.linspace(0.05,0.95,19))
+#print('Wealth Distribution of the Most Impatient Type')
+plt.hist(KSEconomy_sim.aLvlNow[0])
+plt.title('Wealth Distribution of the Most Impatient Type')
+
+# %%
+#print('Wealth Distribution of the Most patient Type:')
+plt.hist(KSEconomy_sim.aLvlNow[-1])
+plt.title('Wealth Distribution of the Most Patient Type')
