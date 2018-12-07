@@ -482,7 +482,7 @@ print("The Euclidean distance between simulated wealth distribution and the esti
 #
 # Here, instead, we assume that different agents have different values of $\beta$ that are uniformly distributed over some range. We approximate the uniform distribution by three points.  The agents are heterogeneous _ex ante_ (and permanently).
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Construct the distribution of types
 from HARK.utilities import approxUniform
 
@@ -501,7 +501,7 @@ for nn in range(len(DiscFac_dstn)):
     NewType.seed = nn # give each consumer type a different RNG seed
     MyTypes.append(NewType)
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Put all agents into the economy
 KSEconomy_sim = CobbDouglasMarkovEconomy(agents = MyTypes, **KSEconomyDictionary) 
 KSEconomy_sim.AggShkDstn = KSAggShkDstn # Agg shocks are the same as defined earlier
@@ -512,12 +512,13 @@ for ThisType in MyTypes:
 KSEconomy_sim.makeAggShkHist() # Make a simulated prehistory of the economy
 KSEconomy_sim.solve()          # Solve macro problem by getting a fixed point dynamic rule
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Get the level of end-of-period assets a for all types of consumers
 aLvl_all = np.concatenate([KSEconomy_sim.aLvlNow[i] for i in range(len(MyTypes))])
+
 print('Aggregate capital to income ratio is ' + str(np.mean(aLvl_all)))
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot the distribution of wealth across all agent types
 sim_3beta_wealth = aLvl_all
 pctiles = np.linspace(0.001,0.999,15)
@@ -538,20 +539,56 @@ plt.legend(loc=2)
 plt.ylim([0,1])
 plt.show()
 
+# %%
+# The mean levels of wealth for the three types of consumer are 
+[np.mean(KSEconomy_sim.aLvlNow[0]),np.mean(KSEconomy_sim.aLvlNow[1]),np.mean(KSEconomy_sim.aLvlNow[2])]
+
 # %% {"code_folding": []}
 # Plot the distribution of wealth 
 for i in range(len(MyTypes)):
     if i<=2:
-        plt.hist(KSEconomy_sim.aLvlNow[i],label=r'$\beta$='+str(round(DiscFac_dstn[i],4)))
+        plt.hist(np.log(KSEconomy_sim.aLvlNow[i])\
+                 ,label=r'$\beta$='+str(round(DiscFac_dstn[i],4))\
+                 ,bins=np.arange(-2.,np.log(max(aLvl_all)),0.05))
+        plt.yticks([])
 plt.legend(loc=2)
-plt.title('Wealth Distribution of 3 Types')
+plt.title('Log Wealth Distribution of 3 Types')
+plt.show()
 
 # %%
-# Zoom in on 'Wealth Distribution of the Most Impatient Type'
-plt.hist(KSEconomy_sim.aLvlNow[0])
-plt.title('Wealth Distribution of the Most Impatient Type')
+# Distribution of wealth in original model with one type
+plt.hist(np.log(sim_wealth),bins=np.arange(-2.,np.log(max(aLvl_all)),0.05))
+plt.yticks([])
+plt.title('Log Wealth Distribution of Original Model with One Type')
+plt.show()
 
-# %%
-# Wealth Distribution of the most patient type
-plt.hist(KSEconomy_sim.aLvlNow[-1])
-plt.title('Wealth Distribution of the Most Patient Type')
+# %% [markdown]
+# ### Target Wealth is Nonlinear in Time Preference Rate
+#
+# Note the nonlinear relationship between wealth and time preference in the economy with three types.  Although the three groups are uniformly spaced in $\beta$ values, there is a lot of overlap in the distribution of wealth of the two impatient types, who are both separated from the most patient type by a large gap.  
+#
+# A model of buffer stock saving that has simplified enough to be [tractable](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/Consumption/TractableBufferStock) yields some insight.  If $\sigma$ is a measure of income risk, $r$ is the interest rate, and $\theta$ is the time preference rate, then for an 'impatient' consumer (for whom $\theta > r$), in the logarithmic utility case an approximate formula for the target level of wealth is:
+#
+# <!-- Search for 'an approximation to target market resources' and note that a=m-1, and \gamma=0 -->
+#
+# \begin{eqnarray}
+#  a & \approx & \left(\frac{1}{ \theta(1+(\theta-r)/\sigma)-r}\right)
+# \end{eqnarray}
+#
+# Conceptually, this reflects the fact that the only reason any of these agents holds positive wealth is the precautionary motive.  (If there is no uncertainty, $\sigma=0$ and thus $a=0$).  
+#
+# For positive uncertainty $\sigma>0$, as the degree of impatience (given by $\theta-r$) approaches zero, the target level of wealth approaches infinity.  
+#
+# A plot of $a$ as a function of $\theta$ for a particular parameterization is shown below.
+
+# %% {"code_folding": [0]}
+# Plot target wealth as a function of time preference rate for calibrated tractable model
+fig = plt.figure()
+ax  = plt.axes()
+sigma = 0.01
+r = 0.02
+theta = np.linspace(0.023,0.10,100)
+plt.plot(theta,1/(theta*(1+(theta-r)/sigma)-r))
+plt.xlabel(r'$\theta$')
+plt.ylabel('Target wealth')
+plt.show()
