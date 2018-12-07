@@ -142,7 +142,7 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
@@ -538,11 +538,11 @@ plt.legend(loc=2)
 plt.ylim([0,1])
 plt.show()
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot the distribution of wealth 
 for i in range(len(MyTypes)):
     if i<=2:
-        plt.hist(KSEconomy_sim.aLvlNow[i],label=r'\beta='+str(round(DiscFac_dstn[i],4)))
+        plt.hist(KSEconomy_sim.aLvlNow[i],label=r'$\beta$='+str(round(DiscFac_dstn[i],4)))
 plt.legend(loc=2)
 plt.title('Wealth Distribution of 3 Types')
 
