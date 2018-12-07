@@ -62,15 +62,14 @@
 # The agent can choose to save by buying capital $k$ which is bounded below at the borrowing constraint of 0.
 #
 #
-# Putting all of this together, aggregate output is given by 
-#
+# Putting all of this together, aggregate output is given by: 
 # \begin{eqnarray}
 # \bar{y} & = & z\bar{k}^\alpha \bar{\ell}^{1-\alpha}
 # \end{eqnarray}
 #
 
 # %% [markdown]
-# The aggregate shocks $z$ follow a first-order Markov chains with the transition probability of moving from state $s$ to state $s'$ denoted by $\pi_{ss'}$. The aggregate shocks and individual shocks are correlated: The probability of being unemployed is higher in bad times, when aggregate productivity is low, than in good times, when aggregate productivity is high.
+# The aggregate shocks $z$ follow first-order Markov chains with the transition probability of moving from state $s$ to state $s'$ denoted by $\pi_{ss'}$. The aggregate shocks and individual shocks are correlated: The probability of being unemployed is higher in bad times, when aggregate productivity is low, than in good times, when aggregate productivity is high.
 #
 # #### Idiosyncratic and Aggregate Together
 #
@@ -102,7 +101,7 @@
 #
 # In principle, $\Gamma$ is a high-dimensional object because it includes the whole distribution of individuals' wealth in the economy. Because the optimal amount to save is a nonlinear function of the level of idiosyncratic $k$, next period's aggregate capital stock $\bar{k}'$ depends on the distribution of the holdings of idiosyncratic $k$ across the population of consumers. Therefore the law of motion $H$ is not a trivial function of the $\Gamma$. 
 #
-# KS simplified this problem as by noting the following. 
+# KS simplified this problem by noting the following. 
 #
 # 1. The agent cares about the future aggregate aggregate state only insofar as that state affects their own personal value of $c$
 # 1. Future values of $c$ depend on the aggregate state only through the budget constraint
