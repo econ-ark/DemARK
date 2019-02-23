@@ -2,8 +2,6 @@
 # jupyter:
 #   jupytext:
 #     formats: ipynb,py:percent
-#     metadata_filter:
-#       cells: collapsed
 #     text_representation:
 #       extension: .py
 #       format_name: percent
@@ -82,7 +80,7 @@ import HARK # Prevents import error from Demos repo
 # ### The Baseline Model
 #
 # We want the model to have these elements:
-# 0. "Standard" infinite horizon consumption/savings model, with mortality and permanent and temporary shocks to income
+# 1. "Standard" infinite horizon consumption/savings model, with mortality and permanent and temporary shocks to income
 # 0. The capacity to provide a reasonable match to the distribution of wealth inequality in advanced economies
 # 0. Ex-ante heterogeneity in consumers' discount factors (to capture wealth inequality)
 #
@@ -94,9 +92,6 @@ import HARK # Prevents import error from Demos repo
 # - A Markov state that represents the state of the Chinese economy (to be detailed later)
 #
 # HARK's $\texttt{MarkovConsumerType}$ is the right tool for this experiment.  So we need to prepare the parameters to create that ConsumerType, and then create it.
-
-# %% [markdown]
-#
 
 # %% {"code_folding": [0]}
 # Initialize the cstwMPC parameters
@@ -168,34 +163,36 @@ ChinaExample = MarkovConsumerType(**init_China_parameters)
 # %% [markdown]
 # Currently, Markov states can differ in their interest factor, permanent growth factor, survival probability, and income distribution.  Each of these needs to be specifically set.
 #
-# Do that here, except income distribution, which will be done later (because we want to examine the consequences of different income distributions).
+# Do that here, except shock distribution, which will be done later (because we want to examine the consequences of different shock distributions).
 
 # %%
-ChinaExample.assignParameters(PermGroFac = [np.array([1.,1.06 ** (.25)])], #needs to be a list, with 0th element of shape of shape (StateCount,)
-                              Rfree      = np.array(StateCount*[init_China_parameters['Rfree']]), #need to be an array, of shape (StateCount,)
+GrowthFastAnn = 1.06 # Six percent annual growth 
+GrowthSlowAnn = 1.00 # Stagnation
+ChinaExample.assignParameters(PermGroFac = [np.array([GrowthSlow.,GrowthFast ** (.25)])], #needs to be a list, with 0th element of shape of shape (StateCount,)
+                              Rfree      =  np.array(StateCount*[init_China_parameters['Rfree']]), #needs to be an array, of shape (StateCount,)
                               LivPrb     = [np.array(StateCount*[init_China_parameters['LivPrb']][0])], #needs to be a list, with 0th element of shape of shape (StateCount,)
                               cycles     = 0)
 
 ChinaExample.track_vars = ['aNrmNow','cNrmNow','pLvlNow'] # Names of variables to be tracked
 
 # %% [markdown]
-# Now, add in ex-ante heterogeneity in consumers' discount factors
+# Now, add in ex-ante heterogeneity in consumers' discount factors.
 #
-# The cstwMPC parameters do not define a discount factor, since there is ex-ante heterogeneity in the discount factor.  To prepare to create this ex-ante heterogeneity, first create the desired number of consumer types:
+# The cstwMPC parameters do not define a single discount factor; instead, there is ex-ante heterogeneity in the discount factor.  To prepare to create this ex-ante heterogeneity, first create the desired number of consumer types:
 #
 
 # %%
 num_consumer_types   = 7 # declare the number of types we want
 ChineseConsumerTypes = [] # initialize an empty list
 
-for nn in log_progress(range(num_consumer_types), every=1):
+for nn in range(num_consumer_types):
     # Now create the types, and append them to the list ChineseConsumerTypes
     newType = deepcopy(ChinaExample)    
     ChineseConsumerTypes.append(newType)
 
 # %% [markdown]
 #
-# Now, generate the desired ex-ante heterogeneity, by giving the different consumer types each with their own discount factor.
+# Now, generate the desired ex-ante heterogeneity, by giving the different consumer types each their own discount factor.
 #
 # First, decide the discount factors to assign:
 
@@ -207,7 +204,7 @@ topDiscFac    = 0.9934
 DiscFac_list  = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac)[1]
 
 # Now, assign the discount factors we want to the ChineseConsumerTypes
-for j in log_progress(range(num_consumer_types), every=1):
+for j in range(num_consumer_types):
     ChineseConsumerTypes[j].DiscFac = DiscFac_list[j]
 
 # %% [markdown]
@@ -230,6 +227,8 @@ LowGrowthIncomeDstn  = constructLognormalIncomeProcessUnemployment(IncomeParams)
 
 # Remember the standard deviation of the permanent income shock in the low-growth state for later
 LowGrowth_PermShkStd = IncomeParams.PermShkStd
+
+
 
 def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
     """
@@ -346,7 +345,7 @@ def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
 # %% [markdown]
 # Now we can use the function we just defined to calculate the path of the national saving rate following the economic reforms, for a given value of the increase to the variance of permanent income accompanying the reforms.  We are going to graph this path for various values for this increase.
 #
-# Remember, we want to see if any plausible value for this increase can explain the high Chinese saving rate.
+# Remember, we want to see if a plausible value for this increase in uncertainty can explain the high Chinese saving rate.
 
 # %%
 # Declare the number of periods before the reforms to plot in the graph
@@ -373,7 +372,7 @@ for PermShkVarMultiplier in log_progress(PermShkVarMultipliers, every=1):
 # We've calculated the path of the national saving rate as we wanted. All that's left is to graph the results!
 
 # %%
-plt.ylabel('Natl Savings Rate')
+plt.ylabel('Natl Saving Rate')
 plt.xlabel('Quarters Since Economic Reforms')
 plt.plot(quarters_to_plot,NatlSavingsRates[0],label=str(PermShkVarMultipliers[0]) + ' x variance')
 plt.plot(quarters_to_plot,NatlSavingsRates[1],label=str(PermShkVarMultipliers[1]) + ' x variance')
@@ -385,7 +384,7 @@ ncol=2, mode="expand", borderaxespad=0.) #put the legend on top
 plt.show()
 
 # %% [markdown]
-# The figure shows that, if the rate of growth increases the way Chinese growth did, but is not accompanied by any change in the degree of uncertainty, the saving rate declines drastically, from an initial (calibrated) value of about 0.1 (ten percent) to close to zero.  For this model to have any hope of predicting an increase in the saving rate, it is clear that the increase in uncertainty that accompanies the increase in growth will have to be substantial.  
+# The figure shows that, if the rate of growth increases the way Chinese growth did, but is not accompanied by any change in the degree of uncertainty, the model's predicted saving rate declines drastically, from an initial (calibrated) value of about 0.1 (ten percent) to close to zero.  For this model to have any hope of predicting an increase in the saving rate, it is clear that the increase in uncertainty that accompanies the increase in growth will have to be substantial.  
 #
 # The red line shows that a mere doubling of uncertainty from its baseline value is not enough: The steady state saving rate is still below its slow-growth value.
 #
@@ -395,9 +394,6 @@ plt.show()
 #
 # But this is getting close to a point where the model starts to break down (for both numerical and conceptual reasons), as shown by the erratic path of the saving rate when we multiply the initial variance by 11.  
 #
-# We do not have historical data on the magnitude of permanent income shocks in China in the pre-1978 period; it seems implausible that the degree of uncertainty could have increased by such a large amount, but in the absence of good data it is hard to know for sure.  
+# We do not have historical data on the magnitude of permanent income shocks in China in the pre-1978 period; it would be remarkable if the degree of uncertainty increased by such a large amount, but in the absence of good data it is hard to know for sure.  
 #
-# What the experiment does demonstrate, though, is that it is _not_ the case that "it is easy to explain anything by invoking some plausible but unmeasurable change in uncertainty."  Substantial differences in the degree of permanent (or highly persistent) income uncertainty across countries, across periods, and across people have been measured in many papers, and those differences could in principle be compared to differences in saving rates to get a firmer fix on the quantitative importance of the "precautionary saving" explanation in the Chinese context.
-
-# %%
-
+# What the experiment does demonstrate, though, is that it is _not_ the case that "it is easy to explain anything by invoking some plausible but unmeasurable change in uncertainty."  Substantial differences in the degree of permanent (or highly persistent) income uncertainty across countries, across periods, and across people have been measured in the literature, and those differences could in principle be compared to differences in saving rates to get a firmer fix on the quantitative importance of the "precautionary saving" explanation in the Chinese context.
