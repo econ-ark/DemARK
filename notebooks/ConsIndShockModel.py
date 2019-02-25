@@ -1,5 +1,8 @@
 # ---
 # jupyter:
+#   '@webio':
+#     lastCommId: 779f6c5616b04b58baaaa0f6c348270c
+#     lastKernelId: a944b08f-0ae0-4c26-883f-9fab53a82ac3
 #   jupytext:
 #     formats: ipynb,py:percent
 #     metadata_filter:
@@ -22,7 +25,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.6
+#     version: 3.6.5
 # ---
 
 # %% [markdown]
@@ -30,7 +33,7 @@
 
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
-import sys 
+import sys
 import os
 
 from HARK.ConsumptionSaving.ConsIndShockModel import *
@@ -56,7 +59,7 @@ mystr = lambda number : "{:.4f}".format(number)
 # Solve the model described in [PerfForesightCRRA](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA)
 
 # %%
-PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight)   
+PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight)
 PFexample.cycles = 0 # Make this type have an infinite horizon
 
 PFexample.solve()
@@ -97,7 +100,7 @@ plotFuncsDer(IndShockExample.cFunc[0],IndShockExample.solution[0].mNrmMin,5)
 
 # Compare the consumption functions for the perfect foresight and idiosyncratic
 # shock types.  Risky income cFunc asymptotically approaches perfect foresight cFunc.
-print('Consumption functions for perfect foresight vs idiosyncratic shocks:')            
+print('Consumption functions for perfect foresight vs idiosyncratic shocks:')
 plotFuncs([PFexample.cFunc[0],IndShockExample.cFunc[0]],IndShockExample.solution[0].mNrmMin,100)
 
 # Compare the value functions for the two types
@@ -147,7 +150,7 @@ LifecycleExample.initializeSim()
 LifecycleExample.simulate()
 
 # %% [markdown]
-# ## "Cyclical" consumer type 
+# ## "Cyclical" consumer type
 # Make and solve a "cyclical" consumer type who lives the same four quarters repeatedly.
 # The consumer has income that greatly fluctuates throughout the year.
 
@@ -176,7 +179,9 @@ CyclicalExample.simulate()
 # %% [markdown]
 # ## Agent with a kinky interest rate (Rboro > RSave)
 #
-# Models of this kind are analyzed in [A Theory of the Consumption Function, With and Without Liquidity Constraints](http://econ.jhu.edu/people/ccarroll/ATheoryv3.JEP)
+# Models of this kind are analyzed in [A Theory of the Consumption Function, With
+# and Without Liquidity Constraints](http://www.econ2.jhu.edu/people/ccarroll/ATheoryv3JEP.pdf)
+# and the [expanded edition](http://www.econ2.jhu.edu/people/ccarroll/ATheoryv3NBER.pdf).
 
 # %%
 KinkyExample = KinkedRconsumerType(**Params.init_kinked_R)
