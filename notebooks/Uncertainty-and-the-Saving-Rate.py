@@ -91,6 +91,8 @@
 # %% [markdown]
 # # Uncertainty and Saving in Partial Equilibrium
 #
+# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/master?filepath=notebooks%2FUncertainty-and-the-Saving-Rate.ipynb)
+#
 # Saving rates vary widely across countries, but there is no consensus about the main causes of those differences.
 #
 # One commonly mentioned factor is differences across countries in the degree of uncertainty that individuals face, which should induce different amounts of precautionary saving.
