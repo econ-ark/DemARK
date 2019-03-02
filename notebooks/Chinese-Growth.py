@@ -381,7 +381,7 @@ plt.plot(quarters_to_plot,NatlSavingsRates[3],label=str(PermShkVarMultipliers[3]
 plt.plot(quarters_to_plot,NatlSavingsRates[4],label=str(PermShkVarMultipliers[4]) + ' x variance')
 plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
 ncol=2, mode="expand", borderaxespad=0.) #put the legend on top
-plt.show()
+plt.show(block=False)
 
 # %% [markdown]
 # The figure shows that, if the rate of growth increases the way Chinese growth did, but is not accompanied by any change in the degree of uncertainty, the model's predicted saving rate declines drastically, from an initial (calibrated) value of about 0.1 (ten percent) to close to zero.  For this model to have any hope of predicting an increase in the saving rate, it is clear that the increase in uncertainty that accompanies the increase in growth will have to be substantial.  

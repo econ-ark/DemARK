@@ -436,7 +436,7 @@ plotReg(pVarList,savRteList,
         Title='Uncertainty vs Saving',
         fileName='savRtevsPermShkVar'
        )
-plt.show()
+plt.show(block=False)
 plotReg(pVarList,KtoYList,
         xMin=pVarList[1]-0.0002,xMax=pVarList[-1]+0.0002,yMin=1.7,yMax=KtoYList[-1]+0.1,
         xLbl=r'Variance of Permanent Shocks, $\sigma^{2}_{\psi}$',
@@ -456,7 +456,7 @@ if Generator:
         plt.savefig(FigDir + nb_name + '-' + fileName + '.png')
         plt.savefig(FigDir + nb_name + '-' + fileName + '.svg')
         plt.savefig(FigDir + nb_name + '-' + fileName + '.pdf')
-plt.show()                
+plt.show(block=False)                
 
 # %% {"code_folding": [0]}
 # Calculate variance of transitory shock vs saving measures
@@ -487,7 +487,7 @@ plotReg(tVarList,savRteList_Tran,
         Title='Uncertainty vs Saving',
         fileName='savRteVSTranShkVar'
        )
-plt.show()
+plt.show(block=False)
 plotReg(tVarList,KtoYList_Tran,
         xMin=tVarList[1]-0.001,xMax=tVarList[-1]+0.001,yMin=savRteList[1]-0.01,yMax=KtoYList[-1]+0.1,
         xLbl=r'Variance of Permanent Shocks, $\sigma^{2}_{\psi}$',
@@ -495,4 +495,4 @@ plotReg(tVarList,KtoYList_Tran,
         Title='Uncertainty vs Net Worth Ratio',
         fileName='BvsTranShkVar'
        )
-plt.show()                
+plt.show(block=False)                
