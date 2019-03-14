@@ -40,7 +40,7 @@
 # $$
 # will produce solutions that are necessary but not sufficient. Note, that there is no explicit mentioning of the discrete choices in the expectation, but they obviously vary over the realized states in general. For the optimal consumption, it doesn't matter what the choice is exactly, only what expected marginal utility is tomorrow. The algorithm presented in [1] is designed to take advantage of models with this structure.
 #
-# To visualize the problem, consider the following pictures that show the output of an EGM step from the model in the REMARK [linkhere]. 
+# To visualize the problem, consider the following pictures that show the output of an EGM step from the model in the REMARK [linkhere].
 
 # imports
 import numpy as np
@@ -53,8 +53,8 @@ from HARK.interpolation import LinearInterp
 
 def dcegmSegments(x, v):
     """
-    Find index vectors `rise` and `fall` such that `rise` holds the indeces `i`
-    such that x[i+1]>x[i] and `fall` holds indeces `j` such that either
+    Find index vectors `rise` and `fall` such that `rise` holds the indices `i`
+    such that x[i+1]>x[i] and `fall` holds indices `j` such that either
     - x[j+1] < x[j] or,
     - x[j]>x[j-1] and v[j]<v[j-1].
 
@@ -85,7 +85,7 @@ def dcegmSegments(x, v):
     # solutions from the inverted Euler equations that do not represent optimal
     # choices (the FOCs are only necessary in these models).
     #
-    # `fall` is a vector of indeces that represent the first elements in all
+    # `fall` is a vector of indices that represent the first elements in all
     # of the falling segments (the curve can potentially fold several times)
     fall = np.empty(0, dtype=int) # initialize with empty and then add the last point below while-loop
 
@@ -120,9 +120,9 @@ def dcegmSegments(x, v):
             i = k
 
         i = i + 1
-        
+
     fall = np.append(fall, len(v)-1)
-    
+
     return rise, fall
 # think! nanargmax makes everythign super ugly because numpy changed the wraning
 # in all nan slices to a valueerror...it's nans, aaarghgghg
@@ -167,17 +167,17 @@ def calcMultilineEnvelope(M, C, V_T, commonM):
     commonC[:] = np.nan
 
     # Now, loop over all segments as defined by the "kinks" or the combination
-    # of "rise" and "fall" indeces. These (rise[j], fall[j]) pairs define regions
+    # of "rise" and "fall" indices. These (rise[j], fall[j]) pairs define regions
     for j in range(num_kinks):
         # Find points in the common grid that are in the range of the points in
         # the interval defined by (rise[j], fall[j]).
-        below = M[rise[j]] >= commonM # boolean array of bad indeces below
-        above = M[fall[j]] <= commonM # boolen array of bad indeces above
+        below = M[rise[j]] >= commonM # boolean array of bad indices below
+        above = M[fall[j]] <= commonM # boolen array of bad indices above
         in_range = below + above == 0 # pick out elements that are neither
 
-        # create range of indeces in the input arrays
+        # create range of indices in the input arrays
         idxs = range(rise[j], fall[j]+1)
-        # grab ressource values at the relevant indeces
+        # grab ressource values at the relevant indices
         m_idx_j = M[idxs]
 
         # based in in_range, find the relevant ressource values to interpolate
@@ -250,7 +250,7 @@ plt.ylabel("consumption")
 
 rise, fall = dcegmSegments(m_egm, vt_egm)
 
-# In `rise` we have all the starting indeces for the segments that are "good", that is `(m, vt)` draws an increasing curve.
+# In `rise` we have all the starting indices for the segments that are "good", that is `(m, vt)` draws an increasing curve.
 
 rise
 
@@ -287,7 +287,3 @@ plt.ylabel("transformed values")
 # [2] Carroll, C. D. (2006). The method of endogenous gridpoints for solving dynamic stochastic optimization problems. Economics letters, 91(3), 312-320.
 #
 #
-
-
-
-
