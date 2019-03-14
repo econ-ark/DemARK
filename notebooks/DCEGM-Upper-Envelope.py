@@ -1,34 +1,48 @@
 # -*- coding: utf-8 -*-
 # ---
 # jupyter:
-#   '@webio':
-#     lastCommId: 2fcd51ef15434cdb9d52fcf3dcad75bc
-#     lastKernelId: 9fe7e06a-15cd-419d-80c9-60fcdedc7d5e
 #   jupytext:
+#     cell_metadata_filter: collapsed
 #     formats: ipynb,py:light
-#     metadata_filter:
-#       cells: collapsed
+#     rst2md: false
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.3'
-#       jupytext_version: 0.8.3
+#       jupytext_version: 1.0.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.8
 # ---
 
+# # DCEGM Upper Envelope
+#
+# This notebook provides a simple introduction to the upper envelope calculation in the DCEGM algorithm in [1]. It takes the EGM method proposed in [2], and extends it to the mixed choice (discrete and continuous) case. It handles various constraints. It works on 1-dimensional problems.
+#
+# The main challenge in the types of models considered in [1] is, that the first order conditions to the Bellman equations are no longer sufficient. Though, they are still necessary in a broad class of models. This means that our EGM step will give us (resource, consumption) pairs that do fulfill the FOCs, but that are sub-optimal (there's another consumption choices for the same initial resources that gives a higher value).
+#
+# Take a consumption model formulated as:
+# $$
+# \max_{\{c_t\}^T_{t=1}} \sum^T_{t=1}\beta^t\cdot u(c_t)
+# $$
+# given some initial condition on $x$ and some laws of motion for the states, though explicit references to states are omitted. Then, if we're in a class of models described in [2], we can show that
+# $$
+# c_t = {u_{c}}^{-1}[E_t(u_c(c_{t+1}))]
+# $$
+# uniquely determines an optimal consumption today given the expected marginal utility of consuming  tomorrow. However, if there is a another choice in the choice set, and that choice is discrete, we get
+# $$
+# \max_{\{c_t, d_t\}^T_{t=1}} \sum^T_{t=1}\beta^t\cdot u(c_t, d_t)
+# $$
+# again given initial conditions and the laws of motion. Then, we can show that
+# $$
+# c_t = {u_{c}}^{-1}[E_t(u_c(c_{t+1}))]
+# $$
+# will produce solutions that are necessary but not sufficient. Note, that there is no explicit mentioning of the discrete choices in the expectation, but they obviously vary over the realized states in general. For the optimal consumption, it doesn't matter what the choice is exactly, only what expected marginal utility is tomorrow. The algorithm presented in [1] is designed to take advantage of models with this structure.
+#
+# To visualize the problem, consider the following pictures that show the output of an EGM step from the model in the REMARK [linkhere]. 
+
+# imports
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -218,14 +232,6 @@ def calcMultilineEnvelope(M, C, V_T, commonM):
     return upperM, upperC, upperV_T
 
 # -
-
-# # DCEGM Upper Envelope
-#
-# This notebook provides a simple introduction to the upper envelope calculation in the DCEGM algorithm in [1]. It takes the EGM method proposed in [2], and extends it to the mixed choice (discrete and continuous) case. It handles various constraints, but is a 1-dimensional method.
-#
-# The main challenge in the types of models considered in [1] is, that the first order conditions are no longer sufficient. Though, they are still necessary in a broad class of models. This means that our EGM step will give is (resource, consumption) pairs that do fulfill the FOCs, but that are sub-optimal (there's another consumption choices for the same initial resources that gives a higher value).
-#
-# In DCEGM, we might end up with a collection of resource, consumption, and (monotonously transformed) values that look like the following.
 
 m_common = np.linspace(0,1.0,100)
 m_egm = np.array([0.0, 0.04, 0.25, 0.15, 0.1, 0.3, 0.6,0.5, 0.35, 0.6, 0.75,0.85])
