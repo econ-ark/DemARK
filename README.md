@@ -1,12 +1,10 @@
-# DemArk
+# DemARK
 
 This repository contains demos and documentation for [HARK](https://github.com/econ-ark/HARK).
 
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/master)
 
 ## Local installation
-
-**Warning:** DemARK requires Python 2.7 and will not run under Python 3.
 
 ### Option 1: With Jupyter
 
@@ -17,8 +15,7 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 
    **On Linux/macOS:**
 
-   Run `binder/postBuild` in your terminal
-
+   Run `binder/postBuild` in your terminal (at a shell in the binder directory, `./postBuild`)
 
    **On Windows:**
 
@@ -35,6 +32,16 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 3. Follow the link in your terminal to the running instance of jupyter
 4. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
 
+## Contributions
+
+We are eager to encourage contributions.
+
+These can take the form either of new notebooks, or proposed edits for existing notebooks. Either kind of contribution can be made by issuing a pull request.
+
+However, to deal with the well-known problem that normal jupyter notebooks do not "play nicely" with github version control, we will require interactions 
+with contributors to be conducted after the installation of the [jupytext](https://towardsdatascience.com/introducing-jupytext-9234fdff6c57) tool.
+Specifically, you will need to follow the instructions for installing jupytext on your computer, and then need to configure it to use the "percent"
+format. Over time, we intend to add the necessary metadata to all our jupyter notebooks to make them automatically invoke jupytext when compiled.
 
 ## Issues
 
