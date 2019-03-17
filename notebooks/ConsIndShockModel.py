@@ -25,13 +25,36 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.5
+#     version: 3.6.7
+#   varInspector:
+#     cols:
+#       lenName: 16
+#       lenType: 16
+#       lenVar: 40
+#     kernels_config:
+#       python:
+#         delete_cmd_postfix: ''
+#         delete_cmd_prefix: 'del '
+#         library: var_list.py
+#         varRefreshCmd: print(var_dic_list())
+#       r:
+#         delete_cmd_postfix: ') '
+#         delete_cmd_prefix: rm(
+#         library: var_list.r
+#         varRefreshCmd: 'cat(var_dic_list()) '
+#     types_to_exclude:
+#     - module
+#     - function
+#     - builtin_function_or_method
+#     - instance
+#     - _Feature
+#     window_display: false
 # ---
 
 # %% [markdown]
 # # ConsIndShockModel: Consumption With Shocks
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 import sys
 import os
@@ -54,9 +77,29 @@ mystr = lambda number : "{:.4f}".format(number)
 # See [HARK documentation](https://github.com/econ-ark/HARK/Documentation) for brief mathematical descriptions of the models being solved.  Detailed mathematical references are referenced _in situ_ below.
 
 # %% [markdown]
-# ## Perfect Foresight Consumer
+# ## Perfect Foresight CRRA Utility Consumer
 #
-# Solve the model described in [PerfForesightCRRA](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA)
+# The $\mathtt{PerfForesightConsumerType}$ class defines the solution for the problem of a consumer with Constant Relative Risk Aversion utility 
+# $$\newcommand{\CRRA}{\rho}$$
+# \begin{equation}
+# U(C) = \frac{C^{1-\CRRA}}{1-\rho}
+# \end{equation}
+# has perfect foresight about everything except the (stochastic) date of death, which occurs with constant probability implying a "survival probability" $\newcommand{\LivPrb}{\aleph}\LivPrb < 1$.  Permanent labor income $P_t$ grows from period to period by a factor $\Gamma_t$.  At the beginning of each period $t$, the consumer has some amount of market resources $M_t$ (which includes both market wealth and currrent income) and must choose how much of those resources to consume $C_t$ and how much to retain in a riskless asset $A_t$ which will earn return factor $R$. The agent's flow of utility $U(C_t)$ from consumption is geometrically discounted by factor $\beta$. Between periods, the agent survives with probability $\newcommand{\LivFac}{\aleph}{\LivFac_{t}}$ which results in a further downweighting of future utility because the consumer does not receive utility after death.  For notational simplicity, we omit $\LivFac$ from the statement of the problem (effectively assuming $\LivFac=1$). 
+#
+# The agent's problem can be written in Bellman form as:
+# $$\newcommand{\DiscFac}{\beta}\renewcommand{\LivFac}{\aleph}{}$$
+# \begin{eqnarray*}
+# V_t(M_t,P_t) &=& \max_{C_t}~U(C_t) ~+ \phantom{\LivFac} \DiscFac V_{t+1}(M_{t+1},P_{t+1}), \\
+# & s.t. & \\
+# %A_t &=& M_t - C_t, \\
+# M_{t+1} &=& R (M_{t}-C_{t}) + Y_{t+1}, \\
+# P_{t+1} &=& \Gamma_{t+1} P_t, \\
+# \end{eqnarray*}
+#
+# A particular perfect foresight agent's problem can be characterized by values of risk aversion $\rho$, discount factor $\beta$, and return factor $R$, along with sequences of income growth factors $\{ \Gamma_t \}$ and survival probabilities $\{\LivPrb_t = \LivPrb = 1\}$ (which are allowed to vary by age but which for present purposes we will assume are time invariant at $\LivPrb$.  To keep things simple, let's forget about "sequences" of income growth and mortality, and just think about an $\textit{infinite horizon}$ consumer with constant income growth and survival probability of $\LivFac=1$.
+#
+#
+# Solve the model described above and in [PerfForesightCRRA](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA)
 
 # %%
 PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight)
@@ -80,6 +123,21 @@ PFexample.simulate()
 # ## Consumer with idiosyncratic income shocks
 #
 # Solve a model like the one analyzed in [BufferStockTheory](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/)
+#
+# Specifically, our new type of consumer receives two income shocks at the beginning of each period: a completely transitory shock $\newcommand{\tShkEmp}{\theta}{\tShkEmp_t}$ and a completely permanent shock $\newcommand{\pShk}{\psi}{\pShk_t}$.  Moreover, lenders will not let the agent borrow money such that his ratio of end-of-period assets $A_t$ to permanent income $P_t$ is less than $\underline{a}$.  As with the perfect foresight problem, this model can be framed in terms of $\textit{normalized}$ variables, e.g. $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for all the theory).
+#
+# \begin{eqnarray*}
+# v_t(m_t) &=& \max_{c_t} {~} U(c_t) + \phantom{\LivPrb} \beta  \mathbb{E}_{t} [(\Gamma_{t+1}\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ], \\
+# a_t &=& m_t - c_t, \\
+# a_t &\geq& \underline{a}, \\
+# m_{t+1} &=& R/(\Gamma_{t+1} \psi_{t+1}) a_t + \theta_{t+1}, \\
+# \mathbb{E}[\psi]=\mathbb{E}[\theta] &=& 1, \\
+# u(c) &=& \frac{c^{1-\rho}}{1-\rho}.
+# \end{eqnarray*}
+#
+# HARK represents agents with this kind of problem as instances of the class $\texttt{IndShockConsumerType}$.  To create an $\texttt{IndShockConsumerType}$, we must specify the same set of parameters as for a $\texttt{PerfForesightConsumerType}$, as well as an artificial borrowing constraint $\underline{a}$ and a stochastic process for the income shocks. 
+#
+# The user can specify any desired discrete approximation to a continuous distribution for the IID shocks.  We have built-in tools for constructing thes as discrete equiprobably approximations to lognormal, which is the default assumption.
 
 # %%
 IndShockExample = IndShockConsumerType(**Params.init_idiosyncratic_shocks)

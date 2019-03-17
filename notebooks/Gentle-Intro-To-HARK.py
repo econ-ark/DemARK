@@ -22,7 +22,30 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.6
+#     version: 3.6.7
+#   varInspector:
+#     cols:
+#       lenName: 16
+#       lenType: 16
+#       lenVar: 40
+#     kernels_config:
+#       python:
+#         delete_cmd_postfix: ''
+#         delete_cmd_prefix: 'del '
+#         library: var_list.py
+#         varRefreshCmd: print(var_dic_list())
+#       r:
+#         delete_cmd_postfix: ') '
+#         delete_cmd_prefix: rm(
+#         library: var_list.r
+#         varRefreshCmd: 'cat(var_dic_list()) '
+#     types_to_exclude:
+#     - module
+#     - function
+#     - builtin_function_or_method
+#     - instance
+#     - _Feature
+#     window_display: false
 # ---
 
 # %% [markdown]
@@ -59,19 +82,26 @@ from HARK.utilities import plotFuncs
 # %% [markdown]
 # ## Your First HARK Model: Perfect Foresight
 #
-# We start with almost the simplest possible consumption model: A consumer with CRRA utility $U(C) = \frac{C^{1-\rho}}{1-\rho}$ has perfect foresight about everything except the (stochastic) date of death, which occurs with probability $\mathsf{D}$, implying  a "survival probability" $(1-\mathsf{D}) < 1$.  Permanent labor income $P_t$ grows from period to period by a factor $\Gamma_t$.  At the beginning of each period $t$, the consumer has some amount of market resources $M_t$ (which includes both market wealth and currrent income) and must choose how much of those resources to consume $C_t$ and how much to retain in a riskless asset $A_t$ which will earn return factor $R$. The agent receives a flow of utility $U(C_t)$ from consumption (with CRRA preferences) and geometrically discounts future utility flows by factor $\beta$. Between periods, the agent dies with probability $\mathsf{D}_t$, ending his problem.
+# $$\newcommand{\CRRA}{\rho}\newcommand{\DiscFac}{\beta}$$
+# We start with almost the simplest possible consumption model: A consumer with CRRA utility 
+#
+# \begin{equation}
+# U(C) = \frac{C^{1-\CRRA}}{1-\rho}
+# \end{equation}
+#
+# has perfect foresight about everything except the (stochastic) date of death, which occurs with constant probability implying a "survival probability" $\newcommand{\LivPrb}{\aleph}\LivPrb < 1$.  Permanent labor income $P_t$ grows from period to period by a factor $\Gamma_t$.  At the beginning of each period $t$, the consumer has some amount of market resources $M_t$ (which includes both market wealth and currrent income) and must choose how much of those resources to consume $C_t$ and how much to retain in a riskless asset $A_t$ which will earn return factor $R$. The agent's flow of utility $U(C_t)$ from consumption is geometrically discounted by factor $\beta$. Between periods, the agent dies with probability $\mathsf{D}_t$, ending his problem.
 #
 # The agent's problem can be written in Bellman form as:
 #
 # \begin{eqnarray*}
-# V_t(M_t,P_t) &=& \max_{C_t} U(C_t) + \beta (1-\mathsf{D}_{t+1}) V_{t+1}(M_{t+1},P_{t+1}), \\
+# V_t(M_t,P_t) &=& \max_{C_t}~U(C_t) + \beta \aleph V_{t+1}(M_{t+1},P_{t+1}), \\
 # & s.t. & \\
 # %A_t &=& M_t - C_t, \\
 # M_{t+1} &=& R (M_{t}-C_{t}) + Y_{t+1}, \\
 # P_{t+1} &=& \Gamma_{t+1} P_t, \\
 # \end{eqnarray*}
 #
-# A particular perfect foresight agent's problem can be characterized by values of risk aversion $\rho$, discount factor $\beta$, and return factor $R$, along with sequences of income growth factors $\{ \Gamma_t \}$ and death probabilities $\{\mathsf{D}_t\}$.  To keep things simple, let's forget about "sequences" of income growth and mortality, and just think about an $\textit{infinite horizon}$ consumer with constant income growth and survival probability.
+# A particular perfect foresight agent's problem can be characterized by values of risk aversion $\rho$, discount factor $\beta$, and return factor $R$, along with sequences of income growth factors $\{ \Gamma_t \}$ and survival probabilities $\{\mathsf{\aleph}_t\}$.  To keep things simple, let's forget about "sequences" of income growth and mortality, and just think about an $\textit{infinite horizon}$ consumer with constant income growth and survival probability.
 #
 # ## Representing Agents in HARK
 #
@@ -90,7 +120,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 # | $\rho$ | Relative risk aversion | $\texttt{CRRA}$ | 2.5 |
 # | $\beta$ | Discount factor | $\texttt{DiscFac}$ | 0.96 |
 # | $R$ | Risk free interest factor | $\texttt{Rfree}$ | 1.03 |
-# | $1 - \mathsf{D}$ | Survival probability | $\texttt{LivPrb}$ | 0.98 |
+# | $\newcommand{\LivFac}{\aleph}\LivFac$ | Survival probability | $\texttt{LivPrb}$ | 0.98 |
 # | $\Gamma$ | Income growth factor | $\texttt{PermGroFac}$ | 1.01 |
 #
 #
@@ -214,7 +244,7 @@ plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],0.,10.)
 # Specifically, our new type of consumer receives two income shocks at the beginning of each period: a completely transitory shock $\theta_t$ and a completely permanent shock $\psi_t$.  Moreover, lenders will not let the agent borrow money such that his ratio of end-of-period assets $A_t$ to permanent income $P_t$ is less than $\underline{a}$.  As with the perfect foresight problem, this model can be framed in terms of $\textit{normalized}$ variables, e.g. $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for all the theory).
 #
 # \begin{eqnarray*}
-# v_t(m_t) &=& \max_{c_t} U(c_t) + \beta (1 - \mathsf{D}_{t+1}) \mathbb{E} [(\Gamma_{t+1}\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ], \\
+# v_t(m_t) &=& \max_{c_t} ~ U(c_t) ~ +  \phantom{\LivFac} \beta \mathbb{E} [(\Gamma_{t+1}\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ], \\
 # a_t &=& m_t - c_t, \\
 # a_t &\geq& \underline{a}, \\
 # m_{t+1} &=& R/(\Gamma_{t+1} \psi_{t+1}) a_t + \theta_{t+1}, \\
@@ -224,7 +254,7 @@ plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],0.,10.)
 #
 # HARK represents agents with this kind of problem as instances of the class $\texttt{IndShockConsumerType}$.  To create an $\texttt{IndShockConsumerType}$, we must specify the same set of parameters as for a $\texttt{PerfForesightConsumerType}$, as well as an artificial borrowing constraint $\underline{a}$ and a sequence of income shock joint. It's easy enough to pick a borrowing constraint -- say, zero -- but how would we specify the distributions of the shocks?  Can't the joint distribution of permanent and transitory shocks be just about anything?
 #
-# $\textit{Yes}$, and HARK can handle whatever correlation structure a user might care to specify.  However, the default behavior of $\texttt{IndShockConsumerType}$ is that the distribution of permanent income shocks is mean one lognormal, and the distribution of transitory shocks is mean one lognormal with a point mass representing unemployment.  The distributions are independent of each other by default, and are approximated with $N$ point equiprobable distributions.
+# $\textit{Yes}$, and HARK can handle whatever correlation structure a user might care to specify.  However, the default behavior of $\texttt{IndShockConsumerType}$ is that the distribution of permanent income shocks is mean one lognormal, and the distribution of transitory shocks is mean one lognormal augmented with a point mass representing unemployment.  The distributions are independent of each other by default, and are approximated with $N$ point equiprobable distributions.
 #
 # Let's make an infinite horizon instance of $\texttt{IndShockConsumerType}$ with the same parameters as our original perfect foresight agent, plus the extra parameters to specify the income shock distribution and the artificial borrowing constraint. As before, we'll make a dictionary:
 #
@@ -239,7 +269,7 @@ plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],0.,10.)
 # | $\mho$ | Unemployment probability | $\texttt{UnempPrb}$ | 0.05 |
 # | $\underline{\theta}$ | Transitory shock when unemployed | $\texttt{IncUnemp}$ | 0.3 |
 
-# %% {"code_folding": [0, 2]}
+# %% {"code_folding": [2]}
 # This cell defines a parameter dictionary for making an instance of IndShockConsumerType.
 
 IndShockDictionary = {
