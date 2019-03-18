@@ -9,7 +9,7 @@ This repository contains demos and documentation for [HARK](https://github.com/e
 ### Option 1: With Jupyter
 
 0. [Install jupyter](https://jupyter.org/install).
-1. Clone `DemArk` to the folder of your choice
+1. Clone `DemARK` to the folder of your choice
 2. Run `pip install -r binder/requirements.txt` to install dependencies
 3. Enable notebook extensions.
 
