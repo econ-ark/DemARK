@@ -100,7 +100,7 @@ from HARK.estimation import minimizeNelderMead
 from HARK.ConsumptionSaving.ConsIndShockModel import *
 from HARK.cstwMPC.SetupParamsCSTW import init_infinite
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Set standard HARK parameter values
 
 base_params = deepcopy(init_infinite)
@@ -108,12 +108,12 @@ base_params['LivPrb'] = [0.975]
 base_params['Rfree'] = 1.04/base_params['LivPrb'][0]
 base_params['PermShkStd'] = [0.1]
 base_params['TranShkStd'] = [0.1]
-base_params['T_age'] = T_kill # Kill off agents if they manage to achieve T_kill working years
+base_params['T_age'] = 120 # Kill off agents if they manage to achieve T_kill working years
 base_params['AgentCount'] = 10000
 base_params['pLvlInitMean'] = np.log(23.72) # From Table 1, in thousands of USD
-base_params['T_sim'] = T_kill  # No point simulating past when agents would be killed off
+base_params['T_sim'] = 120  # No point simulating past when agents would be killed off
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Set key problem-specific parameters
 
 TypeCount = 8    # Number of consumer types with heterogeneous discount factors
@@ -123,7 +123,7 @@ Splurge = 0.0    # Consumers automatically spend this amount of any lottery priz
 do_secant = True # If True, calculate MPC by secant, else point MPC
 drop_corner = False # If True, ignore upper left corner when calculating distance
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define the MPC targets from Fagereng et al Table 9; element i,j is lottery quartile i, deposit quartile j
 
 MPC_target_base = np.array([[1.047, 0.745, 0.720, 0.490],
@@ -132,12 +132,12 @@ MPC_target_base = np.array([[1.047, 0.745, 0.720, 0.490],
                             [0.354, 0.325, 0.242, 0.216]])
 MPC_target = AdjFactor*MPC_target_base
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define the four lottery sizes, in thousands of USD; these are eyeballed centers/averages
 
 lottery_size = np.array([1.625, 3.3741, 7.129, 40.0])
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Make several consumer types to be used during estimation
 
 BaseType = IndShockConsumerType(**base_params)
@@ -146,7 +146,7 @@ for j in range(TypeCount):
     EstTypeList.append(deepcopy(BaseType))
     EstTypeList[-1](seed = j)
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define the objective function
 
 def FagerengObjFunc(center,spread,verbose=False):
@@ -235,7 +235,7 @@ def FagerengObjFunc(center,spread,verbose=False):
     return distance
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Conduct the estimation
 
 guess = [0.92,0.03]

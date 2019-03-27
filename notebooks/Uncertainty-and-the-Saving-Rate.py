@@ -62,7 +62,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.6
+#     version: 3.6.7
 #   varInspector:
 #     cols:
 #       lenName: 16
@@ -427,7 +427,7 @@ ShrinksBy = KtoYList[1]/KtoYList[-1]
 print('Halving the magnitude of the permanent variance causes target wealth to fall to %1.3f' % ShrinksBy)
 print('of its original value.')
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot pVar vs saving measures
 plotReg(pVarList,savRteList,
         xMin=pVarList[1]-0.0002,xMax=pVarList[-1]+0.0002,yMin=savRteList[1]-0.01,yMax=savRteList[-1]+0.01,
