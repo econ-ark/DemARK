@@ -1,54 +1,17 @@
 # ---
 # jupyter:
-#   '@webio':
-#     lastCommId: 779f6c5616b04b58baaaa0f6c348270c
-#     lastKernelId: a944b08f-0ae0-4c26-883f-9fab53a82ac3
 #   jupytext:
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
-#     metadata_filter:
-#       cells: collapsed
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.0.5
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% [markdown]
@@ -74,7 +37,7 @@ mystr = lambda number : "{:.4f}".format(number)
 # 3. The model described in (2), with an interest rate for debt that differs from the interest rate for savings.
 #
 # See [NARK](https://github.com/econ-ark/NARK) for information on variable naming conventions.
-# See [HARK documentation](https://github.com/econ-ark/HARK/Documentation) for brief mathematical descriptions of the models being solved.  Detailed mathematical references are referenced _in situ_ below.
+# See [HARK documentation](https://github.com/econ-ark/HARK/tree/master/Documentation) for brief mathematical descriptions of the models being solved.  Detailed mathematical references are referenced _in situ_ below.
 
 # %% [markdown]
 # ## Perfect Foresight CRRA Utility Consumer
@@ -178,7 +141,7 @@ IndShockExample.simulate()
 # %% [markdown]
 # ## Idiosyncratic shocks consumer with a finite lifecycle
 #
-# Models of this kinds are described in [SolvingMicroDSOPs](http://econ.jhu.edu/people/ccarroll/SolvingMicroDSOPs) and an example is solved in the [SolvingMicroDSOPs REMARK](https://github.com/econ-ark/REMARK/REMARKs/SolvingMicroDSOPs.md).
+# Models of this kinds are described in [SolvingMicroDSOPs](http://econ.jhu.edu/people/ccarroll/SolvingMicroDSOPs) and an example is solved in the [SolvingMicroDSOPs REMARK](https://github.com/econ-ark/REMARK/blob/master/REMARKs/SolvingMicroDSOPs.md).
 
 # %%
 LifecycleExample = IndShockConsumerType(**Params.init_lifecycle)
