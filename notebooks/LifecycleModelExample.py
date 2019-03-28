@@ -160,6 +160,8 @@ import HARK.ConsumptionSaving.ConsIndShockModel as Model        # The consumptio
 import HARK.SolvingMicroDSOPs.EstimationParameters as Params    # Parameters for the consumer type and the estimation
 from HARK.utilities import plotFuncsDer, plotFuncs              # Some tools
 
+import numpy as np
+
 # %%
 # Set up default values for CRRA, DiscFac, and simulation variables in the dictionary 
 Params.init_consumer_objects["CRRA"]= 2.00            # Default coefficient of relative risk aversion (rho)
@@ -169,6 +171,22 @@ Params.init_consumer_objects["aNrmInitMean"]= -10.0   # Mean of log initial asse
 Params.init_consumer_objects["aNrmInitStd"]= 1.0      # Standard deviation of log initial assets
 Params.init_consumer_objects["pLvlInitMean"]= 0.0     # Mean of log initial permanent income 
 Params.init_consumer_objects["pLvlInitStd"]= 0.0      # Standard deviation of log initial permanent income
+
+# %%
+# Make a lifecycle consumer to be used for estimation
+LifeCyclePop = Model.IndShockConsumerType(**Params.init_consumer_objects)
+
+# %%
+# Solve and simulate the model (ignore the "warning" message)
+LifeCyclePop.solve()                            # Obtain consumption rules by age 
+LifeCyclePop.unpackcFunc()                      # Expose the consumption rules
+
+# Which variables do we want to track
+LifeCyclePop.track_vars = ['aNrmNow','pLvlNow','mNrmNow','cNrmNow','TranShkNow']
+
+LifeCyclePop.T_sim = 120                        # Nobody lives to be older than 145 years (=25+120)
+LifeCyclePop.initializeSim()                    # Construct the age-25 distribution of income and assets
+LifeCyclePop.simulate()                         # Simulate a population behaving according to this model
 
 # %%
 # Plot the consumption functions during working life
@@ -206,10 +224,13 @@ w, h = 1, LifeCyclePop.T_cycle
 giant_list = [[0 for x in range(w)] for y in range(h)]
 SavingRate_list = []
 
+import warnings
+warnings.filterwarnings("ignore") # Suppress some disturbing but harmless warnings
+
 for t in range(1,LifeCyclePop.T_cycle+1):
     #aLvlGro_hist[0] = 0 # set the first growth rate to 0, since there is no data for period 0
     aLvlGroNow = np.log(LifeCyclePop.aNrmNow_hist[t]/LifeCyclePop.aNrmNow_hist[t-1]) # (10000,)
-    
+
     # Call the saving rate function with test value for 
     SavingRate = savingRateFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] )
       
@@ -227,6 +248,7 @@ for t in range(1,LifeCyclePop.T_cycle+1):
     
     giant_list[t-1] = matrix_list
     
+# Print command disabled to prevent giant print!
 #print giant_list
 
 # %%
