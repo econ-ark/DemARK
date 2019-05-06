@@ -1,6 +1,77 @@
 # -*- coding: utf-8 -*-
 # ---
 # jupyter:
+#   cite2c:
+#     citations:
+#       6202365/4F64GG8F:
+#         DOI: 10.3982/QE643
+#         URL: https://onlinelibrary.wiley.com/doi/abs/10.3982/QE643
+#         abstract: "We present a fast and accurate computational method for solving\
+#           \ and estimating a class of dynamic programming models with discrete and\
+#           \ continuous choice variables. The solution method we develop for structural\
+#           \ estimation extends the endogenous grid-point method (EGM) to discrete-continuous\
+#           \ (DC) problems. Discrete choices can lead to kinks in the value functions\
+#           \ and discontinuities in the optimal policy rules, greatly complicating\
+#           \ the solution of the model. We show how these problems are ameliorated\
+#           \ in the presence of additive choice-specific independent and identically\
+#           \ distributed extreme value taste shocks that are typically interpreted\
+#           \ as \u201Cunobserved state variables\u201D in structural econometric applications,\
+#           \ or serve as \u201Crandom noise\u201D to smooth out kinks in the value\
+#           \ functions in numerical applications. We present Monte Carlo experiments\
+#           \ that demonstrate the reliability and efficiency of the DC-EGM algorithm\
+#           \ and the associated maximum likelihood estimator for structural estimation\
+#           \ of a life-cycle model of consumption with discrete retirement decisions."
+#         accessed:
+#           day: 21
+#           month: 3
+#           year: 2019
+#         author:
+#         - family: Iskhakov
+#           given: Fedor
+#         - family: "J\xF8rgensen"
+#           given: Thomas H.
+#         - family: Rust
+#           given: John
+#         - family: Schjerning
+#           given: Bertel
+#         container-title: Quantitative Economics
+#         id: 6202365/4F64GG8F
+#         issue: '2'
+#         issued:
+#           year: 2017
+#         language: en
+#         note: 'bibtex:ijrsDCEGM2017
+#
+#
+#           https://github.com/econ-ark/REMARK/blob/master/remarks
+#
+#
+#           https://github.com/econ-ark/DemARK/blob/master/notebooks
+#
+#
+#           from HARK import DCEGM'
+#         page: 317-365
+#         page-first: '317'
+#         title: The endogenous grid method for discrete-continuous dynamic choice models
+#           with (or without) taste shocks
+#         type: article-journal
+#         volume: '8'
+#       6202365/HQ6H9JEI:
+#         DOI: 10.1016/j.econlet.2005.09.013
+#         URL: http://econ.jhu.edu/people/ccarroll/EndogenousArchive.zip
+#         author:
+#         - family: Carroll
+#           given: Christopher D.
+#         container-title: Economics Letters
+#         id: 6202365/HQ6H9JEI
+#         issued:
+#           month: 9
+#           year: 2006
+#         page: "312\u2013320"
+#         page-first: '312'
+#         title: The Method of Endogenous Gridpoints for Solving Dynamic Stochastic
+#           Optimization Problems
+#         type: article-journal
 #   jupytext:
 #     cell_metadata_filter: collapsed
 #     formats: ipynb,py:light
@@ -9,24 +80,58 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.3'
-#       jupytext_version: 1.0.2
+#       jupytext_version: 0.8.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.6.7
+#   varInspector:
+#     cols:
+#       lenName: 16
+#       lenType: 16
+#       lenVar: 40
+#     kernels_config:
+#       python:
+#         delete_cmd_postfix: ''
+#         delete_cmd_prefix: 'del '
+#         library: var_list.py
+#         varRefreshCmd: print(var_dic_list())
+#       r:
+#         delete_cmd_postfix: ') '
+#         delete_cmd_prefix: rm(
+#         library: var_list.r
+#         varRefreshCmd: 'cat(var_dic_list()) '
+#     types_to_exclude:
+#     - module
+#     - function
+#     - builtin_function_or_method
+#     - instance
+#     - _Feature
+#     window_display: false
 # ---
 
 # # DCEGM Upper Envelope
 #
-# This notebook provides a simple introduction to the upper envelope calculation in the DCEGM algorithm in [1]. It takes the EGM method proposed in [2], and extends it to the mixed choice (discrete and continuous) case. It handles various constraints. It works on 1-dimensional problems.
+# This notebook provides a simple introduction to the upper envelope calculation in the DCEGM algorithm in <cite data-cite="6202365/4F64GG8F"></cite> (henceforth, DCEGM). It takes the EGM method proposed in <cite data-cite="6202365/HQ6H9JEI"></cite>, and extends it to the mixed choice (discrete and continuous) case. It handles various constraints. It works on a 1-dimensional problems.
 #
-# The main challenge in the types of models considered in [1] is, that the first order conditions to the Bellman equations are no longer sufficient. Though, they are still necessary in a broad class of models. This means that our EGM step will give us (resource, consumption) pairs that do fulfill the FOCs, but that are sub-optimal (there's another consumption choices for the same initial resources that gives a higher value).
+# The main challenge in the types of models considered in DCEGM is, that the first order conditions to the Bellman equations are no longer sufficient to find an optimum.  Though, they are still necessary in a broad class of models. This means that our EGM step will give us (resource, consumption) pairs that do fulfill the FOCs, but that are sub-optimal (there's another consumption choices for the same initial resources that gives a higher value).
 #
 # Take a consumption model formulated as:
 # $$
 # \max_{\{c_t\}^T_{t=1}} \sum^T_{t=1}\beta^t\cdot u(c_t)
 # $$
-# given some initial condition on $x$ and some laws of motion for the states, though explicit references to states are omitted. Then, if we're in a class of models described in [2], we can show that
+# given some initial condition on $x$ and some laws of motion for the states, though explicit references to states are omitted. Then, if we're in a class of models described in EGM
+# , we can show that
 # $$
 # c_t = {u_{c}}^{-1}[E_t(u_c(c_{t+1}))]
 # $$
