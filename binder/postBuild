@@ -1,6 +1,8 @@
 #!/bin/sh
 jupyter contrib nbextension install --user
 jupyter nbextension enable codefolding/main
+jupyter nbextension enable codefolding/edit
+jupyter nbextension enable latex_envs
 python -m cite2c.install
 result=$(python <<EOF
 from notebook.services.config.manager import ConfigManager
