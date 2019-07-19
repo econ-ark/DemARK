@@ -5,50 +5,17 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.1.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.6
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
-%matplotlib inline
+# %matplotlib inline
 # The first step is to be able to bring things in from different directories
 import sys 
 import os
@@ -93,7 +60,7 @@ import HARK # Prevents import error from Demos repo
 #
 # HARK's $\texttt{MarkovConsumerType}$ is the right tool for this experiment.  So we need to prepare the parameters to create that ConsumerType, and then create it.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [1]}
 # Initialize the cstwMPC parameters
 init_China_parameters = {
     "CRRA":1.0,                    # Coefficient of relative risk aversion   
@@ -168,7 +135,7 @@ ChinaExample = MarkovConsumerType(**init_China_parameters)
 # %%
 GrowthFastAnn = 1.06 # Six percent annual growth 
 GrowthSlowAnn = 1.00 # Stagnation
-ChinaExample.assignParameters(PermGroFac = [np.array([GrowthSlow.,GrowthFast ** (.25)])], #needs to be a list, with 0th element of shape of shape (StateCount,)
+ChinaExample.assignParameters(PermGroFac = [np.array([GrowthSlowAnn,GrowthFastAnn ** (.25)])], #needs to be a list, with 0th element of shape of shape (StateCount,)
                               Rfree      =  np.array(StateCount*[init_China_parameters['Rfree']]), #needs to be an array, of shape (StateCount,)
                               LivPrb     = [np.array(StateCount*[init_China_parameters['LivPrb']][0])], #needs to be a list, with 0th element of shape of shape (StateCount,)
                               cycles     = 0)
