@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
@@ -145,7 +145,7 @@ from copy import copy, deepcopy
 #
 # To reproduce their basic results, we must import an $\texttt{AgentType}$ subclass and define a dictionary with calibrated parameters identical to those in the paper.
 
-# %% {"code_folding": [0, 4]}
+# %% {"code_folding": [0]}
 # Import IndShockConsumerType
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
