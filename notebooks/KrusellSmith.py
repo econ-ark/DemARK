@@ -6,45 +6,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.1.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% [markdown]
@@ -168,7 +135,7 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [6, 17]}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
@@ -410,6 +377,10 @@ KSEconomy.AggShkDstn = KSAggShkDstn
 KSAgent.getEconomyData(KSEconomy) # Makes attributes of the economy, attributes of the agent
 
 KSEconomy.makeAggShkHist() # Make a simulated history of the economy
+
+# Set tolerance level. 
+
+KSEconomy.tolerance = 0.001
 
 # Solve macro problem by finding a fixed point for beliefs
 
