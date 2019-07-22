@@ -12,7 +12,10 @@ Click the Binder link. Binder builds an environment in the cloud for you to use.
 The first time Binder launches it may take a while since it is busy creating a
 container to run the demo notebooks. Subsequent launches should be quicker.
 
-TODO add binder link and specify a SHA1
+**Use this link while testing**
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/willingc/DemARK/troubleshoot)
+
 
 ## Local installation
 
