@@ -1,0 +1,8 @@
+cite2c
+econ-ark
+ipywidgets
+jupyter
+jupyter_contrib_nbextensions
+matplotlib
+numpy
+scipy
