@@ -1,0 +1,3 @@
+Check widgets are working fine in: notebooks/TractableBufferStockQuickDemo.ipynb
+Double check codefolding
+Check latex_env
