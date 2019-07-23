@@ -2,8 +2,6 @@
 
 This repository contains demos and documentation for [HARK](https://github.com/econ-ark/HARK).
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/master)
-
 ## Try the notebooks on Binder
 
 **No installation is needed. Runs in a web browser**
@@ -35,12 +33,14 @@ python3 -m venv myarkenv
 source myarkenv/bin/activate
 pip install --upgrade pip
 pip install -r requirements-local.txt
+jupyter notebook
 ```
 
 This will launch the jupyter file browser. The notebooks can be selected and
 run.
 
-You may also wish to activate a few notebook extensions for convenience:
+You may also wish to activate a few notebook extensions for convenience. First, stop Jupyter Notebook. Next add the following
+at the command line:
 
 ```
 # Docs on nbextensions: https://jupyter-contrib-nbextensions.readthedocs.io
@@ -53,20 +53,6 @@ jupyter notebook
 ```
 
 Locally, you can enable/disable extensions by: http://localhost:8888/nbextensions
-
-
----
-
-TODO Note for Binder (Hash or hide access token)
-
-```
-result=$(python <<EOF
-from notebook.services.config.manager import ConfigManager
-cm = ConfigManager()
-cm.update('cite2c', {'zotero':{"user_id": "5043554","username": "econ-ark","access_token": "XZpH9NsoAZmDMmjLKiy8xMXX"}})
-EOF
-)
-```
 
 ---
 
