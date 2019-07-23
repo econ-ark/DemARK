@@ -27,19 +27,48 @@ The installation instructions are provided for Python 3.6+.
 2. Activate the `myarkenv` environment.
 3. Upgrade pip.
 4. Use pip to install requirements.
-5. Run Jupyter notebook.
+5. Add and enable notebook extensions
+6. Run Jupyter notebook.
 
 ```
 python3 -m venv myarkenv
 source myarkenv/bin/activate
 pip install --upgrade pip
 pip install -r requirements-local.txt
-jupyter notebook
 ```
 
 This will launch the jupyter file browser. The notebooks can be selected and
 run.
 
+You may also wish to activate a few notebook extensions for convenience:
+
+```
+# Docs on nbextensions: https://jupyter-contrib-nbextensions.readthedocs.io
+jupyter contrib nbextension install --user  # installs css/js and nbconvert config info
+jupyter nbextension enable codefolding/main  # enable codefolding in a notebook code cell
+jupyter nbextension enable codefolding/edit  # enable codefolding in editor
+jupyter nbextension enable --py latex_envs  # enable some latex features into notebook
+python3 -m cite2c.install  # Enables the cite2c extension (you will need to log into zotero if you use this extension) **Optional**
+jupyter notebook
+```
+
+Locally, you can enable/disable extensions by: http://localhost:8888/nbextensions
+
+
+---
+
+TODO Note for Binder (Hash or hide access token)
+
+```
+result=$(python <<EOF
+from notebook.services.config.manager import ConfigManager
+cm = ConfigManager()
+cm.update('cite2c', {'zotero':{"user_id": "5043554","username": "econ-ark","access_token": "XZpH9NsoAZmDMmjLKiy8xMXX"}})
+EOF
+)
+```
+
+---
 
 ### Option 1b: With Jupyter using conda
 
