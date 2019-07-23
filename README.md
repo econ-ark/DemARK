@@ -39,8 +39,9 @@ jupyter notebook
 This will launch the jupyter file browser. The notebooks can be selected and
 run.
 
-You may also wish to activate a few notebook extensions for convenience. First, stop Jupyter Notebook. Next add the following
-at the command line:
+You may also wish to activate a few notebook extensions for convenience.
+- First, stop Jupyter Notebook.
+- Next execute the following at the command line:
 
 ```
 # Docs on nbextensions: https://jupyter-contrib-nbextensions.readthedocs.io
@@ -63,34 +64,6 @@ TODO: create an environment.yml
 ### Option 2
 
 TODO Create a docker container and host on Docker Hub.
-
----
-
-### Option 1: With Jupyter
-
-1. [Install jupyter](https://jupyter.org/install).
-2. Clone `DemARK` to the folder of your choice
-3. Run `pip install -r binder/requirements.txt` to install dependencies
-4. Enable notebook extensions.
-
-   **On Linux/macOS:**
-
-   Run `binder/postBuild` in your terminal (at a shell in the binder directory, `./postBuild`)
-
-   **On Windows:**
-
-   Run `binder/postBuild.bat`
-
-5. Run `jupyter notebook` from the `DemARK` root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
-6. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
-
-### Option 2: With Docker and repo2docker
-
-0. [Install Docker](https://www.docker.com/community-edition)
-1. [Install `repo2docker`](https://github.com/jupyter/repo2docker#installation), using the "install from source" instructions
-2. Run `jupyter repo2docker https://github.com/econ-ark/DemARK`
-3. Follow the link in your terminal to the running instance of jupyter
-4. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
 
 ---
 
