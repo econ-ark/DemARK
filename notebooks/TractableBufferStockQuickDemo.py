@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
@@ -19,7 +19,7 @@
 # %% [markdown]
 # # The Tractable Buffer Stock Model
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # This cell has just a bit of initial setup. You can click the arrow to expand it.
 # %matplotlib inline
 import matplotlib.pyplot as plt
@@ -71,7 +71,7 @@ TBS_dictionary =  {'UnempPrb' : .00625,    # Probability of becoming unemployed
 MyTBStype = TractableConsumerType(**TBS_dictionary)
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define a function that plots the employed consumption function and sustainable consumption function 
 # for given parameter values
 
@@ -234,8 +234,8 @@ show_targ_widget = widgets.Checkbox(
 # To make some of the widgets not appear, replace X_widget with fixed(desired_fixed_value) in the arguments below.
 interact(makeTBSplot,
          DiscFac = DiscFac_widget,
-#         CRRA = CRRA_widget,
-         CRRA = fixed(2.5),
+         CRRA = CRRA_widget,
+#         CRRA = fixed(2.5),
          Rfree = Rfree_widget,
          PermGroFac = PermGroFac_widget,
          UnempPrb = UnempPrb_widget,
