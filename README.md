@@ -62,11 +62,14 @@ python3 -m cite2c.install  # Enables the cite2c extension (you will need to log 
 jupyter notebook
 ```
 
-### Option 2
+### Option 2: With Docker and repo2docker
 
-TODO Create a docker container and host on Docker Hub.
+0. [Install Docker](https://www.docker.com/community-edition)
+1. [Install `repo2docker`](https://github.com/jupyter/repo2docker#installation), using the "install from source" instructions
+2. Run `jupyter repo2docker https://github.com/econ-ark/DemARK`
+3. Follow the link in your terminal to the running instance of jupyter
+4. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
 
----
 
 ## Contributions
 
