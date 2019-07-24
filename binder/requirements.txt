@@ -1,5 +1,5 @@
 cite2c
-econ-ark
+econ-ark==0.10.1.dev
 ipywidgets
 jupyter
 jupyter_contrib_nbextensions
