@@ -10,9 +10,7 @@ Click the Binder link. Binder builds an environment in the cloud for you to use.
 The first time Binder launches it may take a while since it is busy creating a
 container to run the demo notebooks. Subsequent launches should be quicker.
 
-**Use this link while testing**
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/willingc/DemARK/troubleshoot)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/master)
 
 
 ## Local installation
@@ -32,19 +30,7 @@ The installation instructions are provided for Python 3.6+.
 python3 -m venv myarkenv
 source myarkenv/bin/activate
 pip install --upgrade pip
-pip install -r requirements-local.txt
-jupyter notebook
-```
-
-This will launch the jupyter file browser. The notebooks can be selected and
-run.
-
-You may also wish to activate a few notebook extensions for convenience.
-- First, stop Jupyter Notebook.
-- Next execute the following at the command line:
-
-```
-# Docs on nbextensions: https://jupyter-contrib-nbextensions.readthedocs.io
+pip install -r requirements.txt
 jupyter contrib nbextension install --user  # installs css/js and nbconvert config info
 jupyter nbextension enable codefolding/main  # enable codefolding in a notebook code cell
 jupyter nbextension enable codefolding/edit  # enable codefolding in editor
@@ -53,13 +39,28 @@ python3 -m cite2c.install  # Enables the cite2c extension (you will need to log 
 jupyter notebook
 ```
 
-Locally, you can enable/disable extensions by: http://localhost:8888/nbextensions
+This will launch the jupyter file browser. The notebooks can be selected and
+run.
+
+Locally, you can enable/disable extensions by: http://localhost:8888/nbextensions. More information can be found in the [notebook extensions documentation](https://jupyter-contrib-nbextensions.readthedocs.io)
 
 ---
 
 ### Option 1b: With Jupyter using conda
 
-TODO: create an environment.yml
+Using conda from Anaconda or miniconda, enter the following to create a local
+conda environment.
+
+```
+conda env create -f environment.yml
+conda activate demos
+jupyter contrib nbextension install --user  # installs css/js and nbconvert config info
+jupyter nbextension enable codefolding/main  # enable codefolding in a notebook code cell
+jupyter nbextension enable codefolding/edit  # enable codefolding in editor
+jupyter nbextension enable --py latex_envs  # enable some latex features into notebook
+python3 -m cite2c.install  # Enables the cite2c extension (you will need to log into zotero if you use this extension) **Optional**
+jupyter notebook
+```
 
 ### Option 2
 
