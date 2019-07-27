@@ -1,99 +1,17 @@
 # ---
 # jupyter:
-#   cite2c:
-#     citations:
-#       6202365/574VIUMA:
-#         URL: https://sites.google.com/site/kathrinschlafmann/RozsypalSchlafmann.pdf
-#         abstract: Using micro level data, we document a systematic, income-related
-#           component in household income forecast errors. We show that these errors
-#           can be formalized by a modest deviation from rational expectations, where
-#           agents overestimate the persistence of their income process. We then investigate
-#           the implications of these distortions on consumption and savings behavior
-#           and find two effects. First, these distortions allow an otherwise fully
-#           optimization-based quantitative model to match the joint distribution of
-#           liquid assets and income. Second, the bias alters the distribution of marginal
-#           propensities to consume which makes government stimulus policies less effective.
-#         author:
-#         - family: Rozsypal
-#           given: Filip
-#         - family: Schlafmann
-#           given: Kathrin
-#         id: 6202365/574VIUMA
-#         issued:
-#           year: 2019
-#         note: 'Citation Key: RozsypalSchlafmann:2019'
-#         title: Overpersistence Bias in Individual Income Expectations and its Aggregate
-#           Implications
-#         type: manuscript
-#       undefined:
-#         URL: https://sites.google.com/site/kathrinschlafmann/RozsypalSchlafmann.pdf
-#         abstract: Using micro level data, we document a systematic, income-related
-#           component in household income forecast errors. We show that these errors
-#           can be formalized by a modest deviation from rational expectations, where
-#           agents overestimate the persistence of their income process. We then investigate
-#           the implications of these distortions on consumption and savings behavior
-#           and find two effects. First, these distortions allow an otherwise fully
-#           optimization-based quantitative model to match the joint distribution of
-#           liquid assets and income. Second, the bias alters the distribution of marginal
-#           propensities to consume which makes government stimulus policies less effective.
-#         author:
-#         - family: Rozsypal
-#           given: Filip
-#         - family: Schlafmann
-#           given: Kathrin
-#         id: 6202365/574VIUMA
-#         issued:
-#           year: 2019
-#         note: 'Citation Key: RozsypalSchlafmann:2019'
-#         title: Overpersistence Bias in Individual Income Expectations and its Aggregate
-#           Implications
-#         type: manuscript
 #   jupytext:
+#     cell_metadata_filter: collapsed
 #     formats: ipynb,py:percent
-#     metadata_filter:
-#       cells: collapsed
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.1.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% [markdown]
@@ -114,9 +32,9 @@
 #
 # (This thought experiment is motivated by an interesting recennt paper presented at the NBER Summer Institute's _Behavioral Macroeconomics Conference_ <cite data-cite="undefined"></cite>
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
-%matplotlib inline
+# %matplotlib inline
 import matplotlib.pyplot as plt
 
 import sys
@@ -131,7 +49,7 @@ from HARK.utilities import approxUniform, getLorenzShares, calcSubpopAvg
 from time import clock
 mystr = lambda number : "{:.4f}".format(number)
 
-# %% {"code_folding": [1, 2]}
+# %% {"code_folding": [1]}
 # This cell makes a subclass of PersistentShockConsumerType including the MPC 
 class PersistentShockConsumerTypeX(PersistentShockConsumerType):
     def getControls(self):
@@ -144,7 +62,7 @@ class PersistentShockConsumerTypeX(PersistentShockConsumerType):
         self.cLvlNow = cLvlNow
         self.MPCnow  = MPCnow
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [1]}
 # This cell defines a dictionary to make an instance of "persistent shocks" consumer for the infinite horizon model
 BaselineDict = {
         "CRRA": 2.0,                           # Coefficient of relative risk aversion
@@ -284,7 +202,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
 #
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Call the function with test values for (CorrAct, CorrPcvd, DiscFac_center, DiscFac_spread)
 AggWealthRatio, Lorenz, Gini, Avg_MPC = runRoszypalSchlaffmanExperiment(0.97, 0.9831,  0.9867, 0.0067)
 
