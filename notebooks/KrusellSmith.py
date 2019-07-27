@@ -92,7 +92,7 @@
 # %% [markdown]
 # ##### Discussion of the KS Algorithm
 #
-# In principle, $\Gamma$ is a high-dimensional object because it includes the whole distribution of individuals' wealth in the economy. Because the optimal amount to save is a nonlinear function of the level of idiosyncratic $k$, next period's aggregate capital stock $\bar{k}'$ depends on the distribution of the holdings of idiosyncratic $k$ across the population of consumers. Therefore the law of motion $H$ is not a trivial function of the $\Gamma$. 
+# In principle, $\Gamma$ is a high-dimensional object because it includes the whole distribution of individuals' wealth and employment states. Because the optimal amount to save is a nonlinear function of the level of idiosyncratic $k$, next period's aggregate capital stock $\bar{k}'$ depends on the distribution of the holdings of idiosyncratic $k$ across the population of consumers. Therefore the law of motion $H$ is not a trivial function of the $\Gamma$. 
 #
 # KS simplified this problem by noting the following. 
 #
@@ -135,7 +135,7 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": [6, 17]}
+# %% {"code_folding": [0, 6]}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
@@ -171,15 +171,15 @@ import os
 from copy import copy
 from HARK.utilities import plotFuncs, plotFuncsDer
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Import components of HARK needed for solving the KS model
-from HARK.ConsumptionSaving.ConsAggShockModel import *
+from   HARK.ConsumptionSaving.ConsAggShockModel import *
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
 # Markov consumer type that allows aggregate shocks (redundant but instructive)
 from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 
-# %% {"code_folding": [0, 4]}
+# %% {"code_folding": []}
 # Define a dictionary to make an 'instance' of our Krusell-Smith consumer.
 
 # The folded dictionary below contains many parameters to the 
@@ -222,8 +222,8 @@ KSAgentDictionary = {
                            1.0,1.02,1.1,
                            1.2,1.6,2.0,
                            3.0]),          # Grid of capital-to-labor-ratios (factors)
-    'MrkvArray': np.array([[0.825,0.175],
-                           [0.175,0.825]]),  # Transition probabilities for macroecon. [i,j] is probability of being in state j next
+    'MrkvArray': np.array([[0.875,0.125],
+                           [0.125,0.875]]),  # Transition probabilities for macroecon. [i,j] is probability of being in state j next
                                            # period conditional on being in state i this period. 
     'PermShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate permanent shocks by state. No continous shocks in a state.
     'TranShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate transitory shocks by state. No continuous shocks in a state.
@@ -271,7 +271,7 @@ KSAgent = AggShockMarkovConsumerType(**KSAgentDictionary)
 #       * In the KS notation, this is $\epsilon\ell$  
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Construct the income distribution for the Krusell-Smith agent
 prb_eg = 0.96         # Probability of   employment in the good state
 prb_ug = 1-prb_eg     # Probability of unemployment in the good state
@@ -300,7 +300,7 @@ KSAgent.IncomeDstn[0] = \
 # %% [markdown]
 # #### The Aggregate Economy
 
-# %% {"code_folding": [2]}
+# %% {"code_folding": []}
 from HARK.ConsumptionSaving.ConsAggShockModel import CobbDouglasMarkovEconomy
 
 KSEconomyDictionary = {
@@ -313,7 +313,7 @@ KSEconomyDictionary = {
     'DiscFac': 0.99,
     'CRRA': 1.0,
     'PermGroFacAgg': [1.0,1.0],
-    'AggregateL':1.0, # Not sure on this. Looks like we have fixed the labour level...
+    'AggregateL':1.0, # Fix aggregate labor supply at 1.0 - makes interpretation of z easier
     'act_T':1200, # Number of periods for economy to run in simulation
     'intercept_prev': [0.0,0.0], # Make some initial guesses at linear savings rule intercepts for each state
     'slope_prev': [1.0,1.0], # Make some initial guesses at linear savings rule slopes for each state
@@ -335,7 +335,7 @@ KSEconomy = CobbDouglasMarkovEconomy(agents = [KSAgent], **KSEconomyDictionary) 
 #
 # The structure of the inputs for $\texttt{AggShkDstn}$ follows the same logic as for $\texttt{IncomeDstn}$. Now there is only one possible outcome for each aggregate state (the KS aggregate states are very simple), therefore, each aggregate state has only one possible condition which happens with probability 1.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Calibrate the magnitude of the aggregate shocks
 
 Tran_g = 1.01 # Productivity z in the good aggregate state
@@ -371,7 +371,7 @@ KSEconomy.AggShkDstn = KSAggShkDstn
 # ### Solving the Model
 # Now, we have fully defined all of the elements of the macroeconomy, and we are in postion to construct an object that represents the economy and to construct a rational expectations equilibrium.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Construct the economy, make an initial history, then solve 
 
 KSAgent.getEconomyData(KSEconomy) # Makes attributes of the economy, attributes of the agent
@@ -380,7 +380,7 @@ KSEconomy.makeAggShkHist() # Make a simulated history of the economy
 
 # Set tolerance level. 
 
-KSEconomy.tolerance = 0.001
+KSEconomy.tolerance = 0.01
 
 # Solve macro problem by finding a fixed point for beliefs
 
@@ -390,7 +390,7 @@ KSEconomy.solve() # Solve the economy using the market method.
 # %% [markdown]
 # The last line above is the converged aggregate saving rule for good and bad times, respectively.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot some key results
 
 print('Aggregate savings as a function of aggregate market resources:')
@@ -405,7 +405,7 @@ for M in KSAgent.Mgrid:
     plt.plot(m_grid,c_at_this_M)
 plt.show()
 
-print('Saving at each individual market resources gridpoint (in general equilibrium):')
+print('Savings at each individual market resources gridpoint (in general equilibrium):')
 KSAgent.unpackcFunc()
 m_grid = np.linspace(0,10,200)
 KSAgent.unpackcFunc()
@@ -422,12 +422,15 @@ plt.show()
 #
 
 # %%
+dir(sim_wealth)
+
+# %%
 sim_wealth = KSEconomy.aLvlNow[0]
 
 print("The mean of individual wealth is "+ str(sim_wealth.mean()) + ";\n the standard deviation is "
       + str(sim_wealth.std())+";\n the median is " + str(np.median(sim_wealth)) +".")
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Get some tools for plotting simulated vs actual wealth distributions
 from HARK.utilities import getLorenzShares, getPercentiles
 
@@ -435,7 +438,7 @@ from HARK.utilities import getLorenzShares, getPercentiles
 # from the U.S. Survey of Consumer Finances
 from HARK.cstwMPC.SetupParamsCSTW import SCF_wealth, SCF_weights
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Construct the Lorenz curves and plot them
 
 pctiles = np.linspace(0.001,0.999,15)
@@ -479,7 +482,7 @@ print("The Euclidean distance between simulated wealth distribution and the esti
 #
 # Here, instead, we assume that different agents have different values of $\beta$ that are uniformly distributed over some range. We approximate the uniform distribution by three points.  The agents are heterogeneous _ex ante_ (and permanently).
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Construct the distribution of types
 from HARK.utilities import approxUniform
 
@@ -498,7 +501,7 @@ for nn in range(len(DiscFac_dstn)):
     NewType.seed = nn # give each consumer type a different RNG seed
     MyTypes.append(NewType)
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Put all agents into the economy
 KSEconomy_sim = CobbDouglasMarkovEconomy(agents = MyTypes, **KSEconomyDictionary) 
 KSEconomy_sim.AggShkDstn = KSAggShkDstn # Agg shocks are the same as defined earlier
@@ -509,13 +512,13 @@ for ThisType in MyTypes:
 KSEconomy_sim.makeAggShkHist() # Make a simulated prehistory of the economy
 KSEconomy_sim.solve()          # Solve macro problem by getting a fixed point dynamic rule
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Get the level of end-of-period assets a for all types of consumers
 aLvl_all = np.concatenate([KSEconomy_sim.aLvlNow[i] for i in range(len(MyTypes))])
 
 print('Aggregate capital to income ratio is ' + str(np.mean(aLvl_all)))
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot the distribution of wealth across all agent types
 sim_3beta_wealth = aLvl_all
 pctiles = np.linspace(0.001,0.999,15)
@@ -536,11 +539,11 @@ plt.legend(loc=2)
 plt.ylim([0,1])
 plt.show()
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # The mean levels of wealth for the three types of consumer are 
 [np.mean(KSEconomy_sim.aLvlNow[0]),np.mean(KSEconomy_sim.aLvlNow[1]),np.mean(KSEconomy_sim.aLvlNow[2])]
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot the distribution of wealth 
 for i in range(len(MyTypes)):
     if i<=2:
@@ -552,7 +555,7 @@ plt.legend(loc=2)
 plt.title('Log Wealth Distribution of 3 Types')
 plt.show()
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Distribution of wealth in original model with one type
 plt.hist(np.log(sim_wealth),bins=np.arange(-2.,np.log(max(aLvl_all)),0.05))
 plt.yticks([])
@@ -578,7 +581,7 @@ plt.show()
 #
 # A plot of $a$ as a function of $\theta$ for a particular parameterization is shown below.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot target wealth as a function of time preference rate for calibrated tractable model
 fig = plt.figure()
 ax  = plt.axes()
