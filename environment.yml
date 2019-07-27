@@ -1,0 +1,15 @@
+name: demos
+channels:
+- conda-forge
+dependencies:
+# Jupyter
+- ipywidgets
+- jupyter
+- jupyter_contrib_nbextensions
+# libraries
+- matplotlib
+- numpy
+- scipy
+- pip:
+  - cite2c
+  - econ-ark==0.10.1.dev

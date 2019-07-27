@@ -1,9 +1,16 @@
 #!/bin/sh
+
+# Install and enable notebook extensions
+# https://jupyter-contrib-nbextensions.readthedocs.io
 jupyter contrib nbextension install --user
 jupyter nbextension enable codefolding/main
 jupyter nbextension enable codefolding/edit
-jupyter nbextension enable latex_envs
+jupyter nbextension enable --py latex_envs
+
+# Enable cite2c extension
 python -m cite2c.install
+
+# Add zotero credential to notebook configuration
 result=$(python <<EOF
 from notebook.services.config.manager import ConfigManager
 cm = ConfigManager()
