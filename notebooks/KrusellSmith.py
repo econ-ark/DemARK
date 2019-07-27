@@ -135,7 +135,7 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": [0, 6]}
+# %% {"code_folding": [6]}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
@@ -164,7 +164,6 @@ else:
 
 import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.rcParams['text.usetex'] = True
 
 import sys
 import os
@@ -179,7 +178,7 @@ import HARK.ConsumptionSaving.ConsumerParameters as Params
 # Markov consumer type that allows aggregate shocks (redundant but instructive)
 from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 
-# %% {"code_folding": []}
+# %% {"code_folding": [4]}
 # Define a dictionary to make an 'instance' of our Krusell-Smith consumer.
 
 # The folded dictionary below contains many parameters to the 
