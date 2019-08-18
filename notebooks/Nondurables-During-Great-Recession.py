@@ -1,13 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -17,7 +17,7 @@
 # %% [markdown]
 # # Spending on Nondurables During the Great Recession
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 # %matplotlib inline
 import matplotlib.pyplot as plt
@@ -65,7 +65,7 @@ from HARK.utilities import plotFuncs
 # With this basic setup, HARK's IndShockConsumerType is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
 #
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Import calibrated parameters from the cstwMPC project.
 init_infinite = {
     "CRRA":1.0,                    # Coefficient of relative risk aversion 
@@ -115,7 +115,7 @@ BaselineType = IndShockConsumerType(**init_infinite)
 #
 # First, let's create a list with seven copies of our baseline type.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # A list in python can contain anything -- including consumers
 num_consumer_types   = 7 # declare the number of types we want
 ConsumerTypes = [] # initialize an empty list
@@ -129,7 +129,7 @@ for nn in range(num_consumer_types):
 # %% [markdown]
 # Now we can give each of the consumer types their own discount factor. (This distribution of parameters was estimated in the paper ["The Distribution of Wealth and the Marginal Propensity to Consume" by Carroll, Slacalek, Tokuoka, and White (2017) (cstwMPC)](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC).  
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
 from HARK.utilities import approxUniform
 
@@ -149,7 +149,7 @@ for j in range(num_consumer_types):
 #
 # The cell below does both of those tasks, looping through the consumer types. For each one, it solves that type's infinite horizon model, then simulates 1000 periods to generate an approximation to the long run distribution of wealth.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # log_progress presents a pretty bar that interactively shows how far the calculations have gotten
 for ConsumerType in log_progress(ConsumerTypes, every=1):
     ## We configured their discount factor above.  Now solve
@@ -166,7 +166,7 @@ for ConsumerType in log_progress(ConsumerTypes, every=1):
 #
 # First, let's define a simple function that merely calculates the average consumption level across the entire population in the most recent simulated period.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # We just merge the cNrm and pNrm lists already constructed for each ConsumerType
 def calcAvgC(ConsumerTypes):
     """
@@ -197,7 +197,7 @@ def calcAvgC(ConsumerTypes):
 #  6. Calculate the new average consumption level as percentage change vs the prior level.
 # 3. Return the list of percentage changes
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Whenever you define a function, you should describe it (with a "docstring")
 def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
     '''
@@ -251,7 +251,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
 # %% [markdown]
 # Our counterfactual experiment function takes three inputs-- consumer types, counterfactual values, and the name of the parameter we want to change. For the sake of convenience, let's define small functions to run the experiment for each parameter with just a single input.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Trivial functions can be useful in making the logic of your program clear
 def calcConsChangeAfterPermShkChange(newVals):
     return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"PermShkStd")
@@ -266,7 +266,7 @@ def calcConsChangeAfterUnempPrbChange(newVals):
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Calculate the consequences of an "MIT shock" to the standard deviation of permanent shocks
 ratio_min = 0.8 # minimum number to multiply uncertainty parameter by
 TargetChangeInC = -6.3 # Source: FRED

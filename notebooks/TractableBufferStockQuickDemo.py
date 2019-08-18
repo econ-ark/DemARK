@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.1
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -19,7 +19,7 @@
 # %% [markdown]
 # # The Tractable Buffer Stock Model
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # This cell has just a bit of initial setup. You can click the arrow to expand it.
 # %matplotlib inline
 import matplotlib.pyplot as plt
@@ -61,7 +61,7 @@ from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerTy
 #
 # Under plausible parameter values the model has a target level of $m = M/P$ (market resources to permanent income) with an analytical solution that exhibits plausible relationships among all of the parameters.  (See the linked handout for details).
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Define a parameter dictionary and representation of the agents for the tractable buffer stock model
 TBS_dictionary =  {'UnempPrb' : .00625,    # Probability of becoming unemployed
                    'DiscFac' : 0.975,      # Intertemporal discount factor
@@ -71,7 +71,7 @@ TBS_dictionary =  {'UnempPrb' : .00625,    # Probability of becoming unemployed
 MyTBStype = TractableConsumerType(**TBS_dictionary)
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Define a function that plots the employed consumption function and sustainable consumption function 
 # for given parameter values
 
@@ -228,7 +228,7 @@ show_targ_widget = widgets.Checkbox(
 # \end{equation}
 #
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Make an interactive plot of the tractable buffer stock solution
 
 # To make some of the widgets not appear, replace X_widget with fixed(desired_fixed_value) in the arguments below.

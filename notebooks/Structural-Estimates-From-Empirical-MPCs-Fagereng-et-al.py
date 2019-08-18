@@ -1,68 +1,17 @@
 # ---
 # jupyter:
-#   cite2c:
-#     citations:
-#       6202365/SUE56C4B:
-#         author:
-#         - family: Fagereng
-#           given: Andreas
-#         - family: Holm
-#           given: Martin B.
-#         - family: Natvik
-#           given: Gisle J.
-#         genre: discussion paper
-#         id: 6202365/SUE56C4B
-#         issued:
-#           year: 2017
-#         publisher: Statistics Norway
-#         title: MPC Heterogeneity and Household Balance Sheets
-#         type: report
 #   jupytext:
+#     cell_metadata_filter: collapsed
 #     formats: ipynb,py:percent
-#     metadata_filter:
-#       cells: collapsed
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% [markdown]

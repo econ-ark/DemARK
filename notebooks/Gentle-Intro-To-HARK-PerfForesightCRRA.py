@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -18,9 +18,9 @@
 #
 # This notebook provides a simple, hands-on tutorial for first time HARK users -- and potentially first time Python users.  It does not go "into the weeds" - we have hidden some code cells that do boring things that you don't need to digest on your first experience with HARK.  Our aim is to convey a feel for how the toolkit works.
 #
-# For readers for whom this is your very first experience with Python, we have put important Python concepts in \textbf{boldface}. 
+# For readers for whom this is your very first experience with Python, we have put important Python concepts in **boldface**. 
 #
-# For those for whom this is the first time they have used a Jupyter notebook, we have put Jupyter instructions in \textit{italics}. Only cursory definitions (if any) are provided here.  If you want to learn more, there are many online Python and Jupyter tutorials.
+# For those for whom this is the first time they have used a Jupyter notebook, we have put Jupyter instructions in _italics_. Only cursory definitions (if any) are provided here.  If you want to learn more, there are many online Python and Jupyter tutorials.
 
 # %% {"code_folding": []}
 # This cell has just a bit of initial setup. You can click the triangle to the left to expand it.
@@ -61,11 +61,11 @@ from HARK.utilities import plotFuncs
 # P_{t+1} &=& \Gamma_{t+1} P_t, \\
 # \end{eqnarray*}
 #
-# A particular perfect foresight agent's problem can be characterized by values of risk aversion $\rho$, discount factor $\beta$, and return factor $R$, along with sequences of income growth factors $\{ \Gamma_t \}$ and death probabilities $\{\mathsf{D}_t\}$.  To keep things simple, let's forget about "sequences" of income growth and mortality, and just think about an \textit{infinite horizon} consumer with constant income growth and survival probability.
+# A particular perfect foresight agent's problem can be characterized by values of risk aversion $\rho$, discount factor $\beta$, and return factor $R$, along with sequences of income growth factors $\{ \Gamma_t \}$ and death probabilities $\{\mathsf{D}_t\}$.  To keep things simple, let's forget about "sequences" of income growth and mortality, and just think about an _infinite horizon_ consumer with constant income growth and survival probability.
 #
 # ## Representing Agents in HARK
 #
-# HARK represents agents solving this type of problem as \textbf{instances} of the \textbf{class} $\texttt{PerfForesightConsumerType}$, a \textbf{subclass} of $\texttt{AgentType}$.  To make agents of this class, we must import the class itself into our workspace.  (Run the cell below in order to do this).
+# HARK represents agents solving this type of problem as **instances** of the **class** $\texttt{PerfForesightConsumerType}$, a **subclass** of $\texttt{AgentType}$.  To make agents of this class, we must import the class itself into our workspace.  (Run the cell below in order to do this).
 
 # %%
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
@@ -73,7 +73,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 # %% [markdown]
 # The $\texttt{PerfForesightConsumerType}$ class contains within itself the python code that constructs the solution for the perfect foresight model we are studying here, as specifically articulated in [these lecture notes](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/).  
 #
-# To create an instance of $\texttt{PerfForesightConsumerType}$, we simply call the class as if it were a function, passing as arguments the specific parameter values we want it to have.  In the hidden cell below, we define a \textbf{dictionary} named $\texttt{PF_dictionary}$ with these parameter values:
+# To create an instance of $\texttt{PerfForesightConsumerType}$, we simply call the class as if it were a function, passing as arguments the specific parameter values we want it to have.  In the hidden cell below, we define a **dictionary** named $\texttt{PF_dictionary}$ with these parameter values:
 #
 # | Param | Description | Code | Value |
 # | :---:  | ---                    | ---             | ---   | 
@@ -86,7 +86,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 #
 # For now, don't worry about the specifics of dictionaries.  All you need to know is that a dictionary lets us pass many arguments wrapped up in one simple data structure.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # This cell defines a parameter dictionary. You can expand it if you want to see what that looks like.
 PF_dictionary = {
     'CRRA' : 2.5,
@@ -104,7 +104,7 @@ PF_dictionary = {
 # worry about these for now.
 
 # %% [markdown]
-# Let's make an \textbf{object} named $\texttt{PFexample}$ which is an \textbf{instance} of the $\texttt{PerfForesightConsumerType}$ class. The object $\texttt{PFexample}$ will bundle together the abstract mathematical description of the solution embodied in $\texttt{PerfForesightConsumerType}$, and the specific set of parameter values defined in $\texttt{PF_dictionary}$.  Such a bundle is created passing $\texttt{PF_dictionary}$ to the class $\texttt{PerfForesightConsumerType}$:
+# Let's make an **object** named $\texttt{PFexample}$ which is an **instance** of the $\texttt{PerfForesightConsumerType}$ class. The object $\texttt{PFexample}$ will bundle together the abstract mathematical description of the solution embodied in $\texttt{PerfForesightConsumerType}$, and the specific set of parameter values defined in $\texttt{PF_dictionary}$.  Such a bundle is created passing $\texttt{PF_dictionary}$ to the class $\texttt{PerfForesightConsumerType}$:
 
 # %%
 PFexample = PerfForesightConsumerType(**PF_dictionary) 
@@ -115,7 +115,7 @@ PFexample = PerfForesightConsumerType(**PF_dictionary)
 #
 # ## Solving an Agent's Problem
 #
-# To tell the agent actually to solve the problem, we call the agent's $\texttt{solve}$  \textbf{method}. (A \textbf{method} is essentially a function that an object runs that affects the object's own internal characteristics -- in this case, the method adds the consumption function to the contents of $\texttt{PFexample}$.)
+# To tell the agent actually to solve the problem, we call the agent's $\texttt{solve}$  **method**. (A **method** is essentially a function that an object runs that affects the object's own internal characteristics -- in this case, the method adds the consumption function to the contents of $\texttt{PFexample}$.)
 #
 # The cell below calls the $\texttt{solve}$ method for $\texttt{PFexample}$
 
@@ -123,9 +123,9 @@ PFexample = PerfForesightConsumerType(**PF_dictionary)
 PFexample.solve()
 
 # %% [markdown]
-# Running the $\texttt{solve}$ method creates the \textbf{attribute} of $\texttt{PFexample}$ named $\texttt{solution}.$  In fact, every subclass of $\texttt{AgentType}$ works the same way: The class definition contains the abstract algorithm that knows how to solve the model, but to obtain the particular solution for a specific instance (paramterization/configuration), that instance must be instructed to $\texttt{solve()}$ its problem.  
+# Running the $\texttt{solve}$ method creates the **attribute** of $\texttt{PFexample}$ named $\texttt{solution}.$  In fact, every subclass of $\texttt{AgentType}$ works the same way: The class definition contains the abstract algorithm that knows how to solve the model, but to obtain the particular solution for a specific instance (paramterization/configuration), that instance must be instructed to $\texttt{solve()}$ its problem.  
 #
-# The $\texttt{solution}$ attribute is always a \textit{list} of solutions to a single period of the problem. In the case of an infinite horizon model like the one here, there is just one element in that list -- the solution to all periods of the infinite horizon problem.  The consumption function stored as the first element (element 0) of the solution list can be retrieved by:
+# The $\texttt{solution}$ attribute is always a _list_ of solutions to a single period of the problem. In the case of an infinite horizon model like the one here, there is just one element in that list -- the solution to all periods of the infinite horizon problem.  The consumption function stored as the first element (element 0) of the solution list can be retrieved by:
 
 # %%
 PFexample.solution[0].cFunc
@@ -159,6 +159,7 @@ print("This agent's consumption function is defined down to m_t = " + str(mMinim
 # %%
 # YOUR FIRST HANDS-ON EXERCISE!
 # Fill in the value for "mPlotBottom" to plot the consumption function from the point where it is zero.
+mPlotBottom = 0. # You should replace 0. with the correct answer 
 plotFuncs(PFexample.solution[0].cFunc,mPlotBottom,mPlotTop)
 
 # %% [markdown]
@@ -170,12 +171,12 @@ plotFuncs(PFexample.solution[0].cFunc,mPlotBottom,mPlotTop)
 NewExample = deepcopy(PFexample)
 
 # %% [markdown]
-# In Python, you can set an \textbf{attribute} of an object just like any other variable.  For example, we could make the new agent less patient:
+# In Python, you can set an **attribute** of an object just like any other variable.  For example, we could make the new agent less patient:
 
 # %%
 NewExample.DiscFac = 0.90
 NewExample.solve()
-mPlotBottom = mMinimum
+mPlotBottom = NewExample.solution[0].mNrmMin
 plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],mPlotBottom,mPlotTop)
 
 # %% [markdown]
@@ -183,13 +184,13 @@ plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],mPlotBottom
 #
 # Let's try to deal with the "problem" of massive human wealth by making another consumer who has essentially no future income.  We can almost eliminate human wealth by making the permanent income growth factor $\textit{very}$ small.
 #
-# In $\texttt{PFexample}$, the agent's income grew by 1 percent per period-- his $\texttt{PermGroFac}$ took the value 1.01. What if our new agent had a growth factor of 0.01 -- his income \textit{shrinks} by 99 percent each period?  In the cell below, set $\texttt{NewExample}$'s discount factor back to its original value, then set its $\texttt{PermGroFac}$ attribute so that the growth factor is 0.01 each period.
+# In $\texttt{PFexample}$, the agent's income grew by 1 percent per period-- his $\texttt{PermGroFac}$ took the value 1.01. What if our new agent had a growth factor of 0.01 -- his income _shrinks_ by 99 percent each period?  In the cell below, set $\texttt{NewExample}$'s discount factor back to its original value, then set its $\texttt{PermGroFac}$ attribute so that the growth factor is 0.01 each period.
 #
-# Important: Recall that the model at the top of this document said that an agent's problem is characterized by a sequence of income growth factors, but we tabled that concept.  Because $\texttt{PerfForesightConsumerType}$ treats $\texttt{PermGroFac}$ as a \textit{time-varying} attribute, it must be specified as a \textbf{list} (with a single element in this case).
+# Important: Recall that the model at the top of this document said that an agent's problem is characterized by a sequence of income growth factors, but we tabled that concept.  Because $\texttt{PerfForesightConsumerType}$ treats $\texttt{PermGroFac}$ as a _time-varying_ attribute, it must be specified as a **list** (with a single element in this case).
 
 # %%
 # Revert NewExample's discount factor and make his future income minuscule
-your lines here!
+# your lines here!
 
 # Compare the old and new consumption functions
 plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],0.,10.)

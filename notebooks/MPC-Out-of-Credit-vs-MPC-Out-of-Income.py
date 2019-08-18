@@ -1,52 +1,19 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,py:light
+#     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.3'
-#       jupytext_version: 0.8.3
+#       format_name: percent
+#       format_version: '1.2'
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
-# + {"cell_marker": "\"\"\"", "cell_type": "markdown"}
+# %% [markdown]
 # # The MPC out of Credit vs the MPC Out of Income
 #
 # This notebook compares the Marginal Propensity to Consume (MPC) out of an increase in a credit limit, and the MPC out of transitory shock to income.
@@ -55,50 +22,54 @@
 #
 # The notebook illustrates one simple way to use HARK: import and solve a model for different parameter values, to see how parameters affect the solution.
 #
-#
-# + {}
 # The first step is to create the ConsumerType we want to solve the model for.
 
+# %%
 from __future__ import division, print_function
 # %matplotlib inline
 
+# %% {"code_folding": [0]}
 ## Import the HARK ConsumerType we want
 ## Here, we bring in an agent making a consumption/savings decision every period, subject
 ## to transitory and permanent income shocks.
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
+# %% {"code_folding": [0]}
 ## Import the default parameter values
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
+# %% {"code_folding": [0]}
 ## Now, create an instance of the consumer type using the default parameter values
 ## We create the instance of the consumer type by calling IndShockConsumerType()
 ## We use the default parameter values by passing **Params.init_idiosyncratic_shocks as an argument
 BaselineExample = IndShockConsumerType(**Params.init_idiosyncratic_shocks)
 
-## Note: we've created an instance of a very standard consumer type, and many assumptions go
-## into making this kind of consumer.  As with any structural model, these assumptions matter.
-## For example, this consumer pays the same interest rate on
-## debt as she earns on savings.  If instead we wanted to solve the problem of a consumer
-## who pays a higher interest rate on debt than she earns on savings, this would be really easy,
-## since this is a model that is also solved in HARK.  All we would have to do is import that model
-## and instantiate an instance of that ConsumerType instead.  As a homework assignment, we leave it
-## to you to uncomment the two lines of code below, and see how the results change!
-#from ConsIndShockModel import KinkedRconsumerType
-#BaselineExample = KinkedRconsumerType(**Params.init_kinked_R)
+# %% {"code_folding": [0]}
+# Note: we've created an instance of a very standard consumer type, and many assumptions go
+# into making this kind of consumer.  As with any structural model, these assumptions matter.
+# For example, this consumer pays the same interest rate on
+# debt as she earns on savings.  If instead we wanted to solve the problem of a consumer
+# who pays a higher interest rate on debt than she earns on savings, this would be really easy,
+# since this is a model that is also solved in HARK.  All we would have to do is import that model
+# and instantiate an instance of that ConsumerType instead.  As a homework assignment, we leave it
+# to you to uncomment the two lines of code below, and see how the results change!
+from ConsIndShockModel import KinkedRconsumerType
+BaselineExample = KinkedRconsumerType(**Params.init_kinked_R)
 
-# + {"cell_marker": "\"\"\"", "cell_type": "markdown"}
+
+# %% [markdown]
 # The next step is to change the values of parameters as we want.
 #
 # To see all the parameters used in the model, along with their default values, see $\texttt{ConsumerParameters.py}$
 #
 # Parameter values are stored as attributes of the $\texttt{ConsumerType}$ the values are used for. For example, the risk-free interest rate $\texttt{Rfree}$ is stored as $\texttt{BaselineExample.Rfree}$. Because we created $\texttt{BaselineExample}$ using the default parameters values at the moment $\texttt{BaselineExample.Rfree}$ is set to the default value of $\texttt{Rfree}$ (which, at the time this demo was written, was 1.03).  Therefore, to change the risk-free interest rate used in $\texttt{BaselineExample}$ to (say) 1.02, all we need to do is:
 #
-# -
 
+# %% {"code_folding": [0]}
 # Change the Default Riskfree Interest Rate
 BaselineExample.Rfree = 1.02
 
-# +
+# %% {"code_folding": [0]}
 ## Change some parameter values
 BaselineExample.Rfree       = 1.02 #change the risk-free interest rate
 BaselineExample.CRRA        = 2.   # change  the coefficient of relative risk aversion
@@ -123,9 +94,9 @@ BaselineExample.DiscFac     = .5   #chosen so that target debt-to-permanent-inco
 ## IndShockConsumerType.
 BaselineExample.cycles      = 0
 
-# + {"cell_marker": "\"\"\"", "cell_type": "markdown"}
+# %%
 # Now, create another consumer to compare the BaselineExample to.
-# + {}
+# %% {"code_folding": [0]}
 # The easiest way to begin creating the comparison example is to just copy the baseline example.
 # We can change the parameters we want to change later.
 from copy import deepcopy
@@ -143,18 +114,19 @@ credit_change =  .0001
 # We do this by decreasing the artificial borrowing constraint.
 XtraCreditExample.BoroCnstArt = BaselineExample.BoroCnstArt - credit_change
 
-# + {"cell_marker": "\"\"\"", "cell_type": "markdown"}
+# %% [markdown]
 # Now we are ready to solve the consumers' problems.
 # In HARK, this is done by calling the solve() method of the ConsumerType.
 
-# +
+# %% {"code_folding": [0]}
 ### First solve the baseline example.
 BaselineExample.solve()
 
 ### Now solve the comparison example of the consumer with a bit more credit
 XtraCreditExample.solve()
 
-# + {"cell_marker": "\"\"\"", "cell_type": "markdown"}
+
+# %% [markdown]
 # Now that we have the solutions to the 2 different problems, we can compare them.
 #
 # We are going to compare the consumption functions for the two different consumers.
@@ -167,7 +139,7 @@ XtraCreditExample.solve()
 # counts from 0!)  Therefore, the consumption function cFunc from the solution to the
 # BaselineExample is $\texttt{BaselineExample.solution[0].cFunc}$
 
-# +
+# %% {"code_folding": [0]}
 ## First, declare useful functions to plot later
 
 def FirstDiffMPC_Income(x):
@@ -190,7 +162,7 @@ def FirstDiffMPC_Credit(x):
     return (XtraCreditExample.solution[0].cFunc(x) -
             BaselineExample.solution[0].cFunc(x)) / credit_change
 
-# + {"code_folding": []}
+# %% {"code_folding": [0]}
 ## Now, plot the functions we want
 
 # Import a useful plotting function from HARK.utilities

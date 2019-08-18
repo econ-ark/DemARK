@@ -1,91 +1,16 @@
 # ---
 # jupyter:
-#   cite2c:
-#     citations:
-#       6202365/7MR8GUVS:
-#         DOI: 10.3982/QE694
-#         URL: https://onlinelibrary.wiley.com/doi/abs/10.3982/QE694
-#         abstract: In a model calibrated to match micro- and macroeconomic evidence
-#           on household income dynamics, we show that a modest degree of heterogeneity
-#           in household preferences or beliefs is sufficient to match empirical measures
-#           of wealth inequality in the United States. The heterogeneity-augmented model's
-#           predictions are consistent with microeconomic evidence that suggests that
-#           the annual marginal propensity to consume (MPC) is much larger than the
-#           roughly 0.04 implied by commonly used macroeconomic models (even ones including
-#           some heterogeneity). The high MPC arises because many consumers hold little
-#           wealth despite having a strong precautionary motive. Our model also plausibly
-#           predicts that the aggregate MPC can differ greatly depending on how the
-#           shock is distributed across households (depending, e.g., on their wealth,
-#           or employment status).
-#         accessed:
-#           day: 5
-#           month: 2
-#           year: 2019
-#         author:
-#         - family: Carroll
-#           given: Christopher
-#         - family: Slacalek
-#           given: Jiri
-#         - family: Tokuoka
-#           given: Kiichi
-#         - family: White
-#           given: Matthew N.
-#         container-title: Quantitative Economics
-#         id: 6202365/7MR8GUVS
-#         issue: '3'
-#         issued:
-#           year: 2017
-#         language: en
-#         note: 'Citation Key: carrollDistributionWealthMarginal2017'
-#         page: 977-1020
-#         page-first: '977'
-#         title: The distribution of wealth and the marginal propensity to consume
-#         type: article-journal
-#         volume: '8'
 #   jupytext:
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% [markdown]
@@ -191,7 +116,7 @@ from time import clock
 import numpy as np
 import scipy as sp
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Import HARK tools and cstwMPC parameter values
 from HARK.utilities import plotFuncsDer, plotFuncs
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
@@ -241,7 +166,7 @@ for n in range(Params.pref_type_count):
     EstimationAgentList.append(deepcopy(BaselineType))
     EstimationAgentList[n].seed = n  # Give every instance a different seed
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Make an economy for the consumers to live in
 
 EstimationEconomy                = cstwMPC.cstwMPCmarket(**Params.init_market)
@@ -421,13 +346,13 @@ for pVar in points * pVarBase:
     savRteList.append(calcSavRte(EstimationEconomy,"PermShkStd",[pStd]))
     KtoYList.append(0.25*np.mean(np.array(EstimationEconomy.KtoYnow_hist)[EstimationEconomy.ignore_periods:]))
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Calculate how much net worth shrinks when permanent variance is halved 
 ShrinksBy = KtoYList[1]/KtoYList[-1]
 print('Halving the magnitude of the permanent variance causes target wealth to fall to %1.3f' % ShrinksBy)
 print('of its original value.')
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Plot pVar vs saving measures
 plotReg(pVarList,savRteList,
         xMin=pVarList[1]-0.0002,xMax=pVarList[-1]+0.0002,yMin=savRteList[1]-0.01,yMax=savRteList[-1]+0.01,
