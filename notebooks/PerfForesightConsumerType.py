@@ -15,7 +15,7 @@
 # ---
 
 # %% [markdown]
-# # PerfForesightConsumerType: Perfect foresight consumption-saving
+# # PerfForesightConsumerType
 
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
@@ -27,10 +27,10 @@ import numpy as np
 mystr = lambda number : "{:.4f}".format(number)
 
 # %% [markdown]
-# The module $\texttt{HARK.ConsumptionSaving.ConsIndShockModel}$ concerns consumption-saving models with idiosyncratic shocks to (non-capital) income.  All of the models assume CRRA utility with geometric discounting, no bequest motive, and income shocks are fully transitory or fully permanent.
+# The module $\texttt{HARK.ConsumptionSaving.ConsIndShockModel}$ concerns consumption-saving models with idiosyncratic shocks to (non-capital) income.  All of the models assume CRRA utility with geometric discounting, no bequest motive, and income shocks that are either fully transitory or fully permanent.
 #
 # $\texttt{ConsIndShockModel}$ currently includes three models:
-# 1. A very basic "perfect foresight" model with no uncertainty.
+# 1. A very basic "perfect foresight" model with no uncertainty (shocks are zero).
 # 2. A model with risk over transitory and permanent income shocks.
 # 3. The model described in (2), with an interest rate for debt that differs from the interest rate for savings.
 #
@@ -42,18 +42,18 @@ mystr = lambda number : "{:.4f}".format(number)
 # $\newcommand{\DiscFac}{\beta}$
 
 # %% [markdown]
-# ## Statement of perfect foresight consumption-saving model
+# ## Statement of the model
 #
-# The $\texttt{PerfForesightConsumerType}$ class the problem of a consumer with Constant Relative Risk Aversion utility 
+# The $\texttt{PerfForesightConsumerType}$ class solves the problem of a consumer with Constant Relative Risk Aversion utility 
 # ${\CRRA}$
 # \begin{equation}
 # U(C) = \frac{C^{1-\CRRA}}{1-\rho},
 # \end{equation}
-# has perfect foresight about everything except whether he will die between the end of period $t$ and the beginning of period $t+1$, which occurs with probability $\DiePrb_{t+1}$.  Permanent labor income $P_t$ grows from period $t$ to period $t+1$ by factor $\PermGroFac_{t+1}$.  The consumer faces no artificial borrowing constraint and is able to borrow against the entire future stream of income he will receive.
+# who has perfect foresight about everything except whether he will die between the end of period $t$ and the beginning of period $t+1$.  Permanent labor income $P_t$ grows from period $t$ to period $t+1$ by factor $\PermGroFac_{t+1}$.  The consumer faces no artificial borrowing constraint: He is able to borrow against his entire future stream of income.
 #
-# At the beginning of period $t$, the consumer has an amount of market resources $M_t$ (which includes both market wealth and currrent income) and must choose how much of those resources to consume $C_t$ and how much to retain in a riskless asset $A_t$, which will earn return factor $\Rfree$. The agent's flow of future utility $U(C_{t+n})$ from consumption is geometrically discounted by factor $\DiscFac$ per period. If the consumer dies, he receives zero utility flow for the rest of time.
+# At the beginning of period $t$, the consumer has market resources $M_t$ (which includes both market wealth and currrent income) and must choose how much to consume $C_t$ and how much to retain in a riskless asset $A_t$, which will earn return factor $\Rfree$. The agent's flow of future utility $U(C_{t+n})$ from consumption is geometrically discounted by factor $\DiscFac$ per period.  The consumer only experiences future value if he survives, which occurs with probability $1-\DiePrb_{t+1}$.
 #
-# The agent's problem can be written in Bellman form as:
+# For parallelism with the treatment of more complicated problems, we write the problem rather elaborately in Bellman form as:
 #
 # \begin{eqnarray*}
 # V_t(M_t,P_t) &=& \max_{C_t}~U(C_t) ~+ \DiscFac (1 - \DiePrb_{t+1}) V_{t+1}(M_{t+1},P_{t+1}), \\
@@ -64,26 +64,24 @@ mystr = lambda number : "{:.4f}".format(number)
 # P_{t+1} &=& \PermGroFac_{t+1} P_t.
 # \end{eqnarray*}
 #
-# The consumer's problem is characterized by a coefficient of relative risk aversion $\CRRA$, an intertemporal discount factor $\DiscFac$, an interest factor $\Rfree$, and age-varying sequences of the permanent income growth factor $\PermGroFac_t$ and survival probability $(1 - \DiePrb_t)$.
-#
-# While it does not reduce the computational complexity of the problem (as permanent income is deterministic, given its initial condition $P_0$), HARK represents this problem with *normalized* variables (represented in lower case), dividing all real variables by permanent income $P_t$ and utility levels by $P_t^{1-\CRRA}$.  The Bellman form of the model thus reduces to:
+# The parameters of the consumer's problem are the coefficient of relative risk aversion $\CRRA$, the intertemporal discount factor $\DiscFac$, an interest factor $\Rfree$, and age-varying sequences of the permanent income growth factor $\PermGroFac_t$ and survival probability $(1 - \DiePrb_t)$.  [These lecture notes](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA) show that under these assumptions the problem can be transformed into an equivalent problem stated in terms of *normalized* variables (represented in lower case); all real variables are divided by permanent income $P_t$ and value is divided by $P_t^{1-\CRRA}$.  The Bellman form of the normalized model (see the lecture notes for details) is:
 #
 # \begin{eqnarray*}
 # v_t(m_t) &=& \max_{c_t}~U(c_t) ~+ \DiscFac (1 - \DiePrb_{t+1}) \PermGroFac_{t+1}^{1-\CRRA} v_{t+1}(m_{t+1}), \\
 # & s.t. & \\
 # a_t &=& m_t - c_t, \\
-# m_{t+1} &=& \Rfree/\PermGroFac_{t+1} a_t + 1.
+# m_{t+1} &=& a_t (\Rfree/\PermGroFac_{t+1} )+ 1.
 # \end{eqnarray*}
 
 # %% [markdown]
 # ## Solution method for PerfForesightConsumerType
 #
-# Because of the assumptions of CRRA utility, no risk other than mortality, and no artificial borrowing constraint, the problem has a closed form solution.  In fact, the consumption function is perfectly linear, and the value function composed with the inverse utility function is also linear.  The mathematical solution of this model is described in detail in the lecture notes [PerfForesightCRRA](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA).  
+# Because of the assumptions of CRRA utility, no risk other than mortality, and no artificial borrowing constraint, the problem has a closed form solution in which consumption is a linear function of resources, and the utility-inverse of the value function is also linear (that is, $u^{-1}(v)$ is linear in $m$).  Details of the mathematical solution of this model can be found in the lecture notes [PerfForesightCRRA](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA).  
 #
-# The one period problem for this model is solved by the function $\texttt{solveConsPerfForesight}$, which creates an instance of the class $\texttt{ConsPerfForesightSolver}$. To construct an instance of the class $\texttt{PerfForesightConsumerType}$, several parameters must be passed to its constructor as shown in the table below. 
+# The one period problem for this model is solved by the function $\texttt{solveConsPerfForesight}$, which creates an instance of the class $\texttt{ConsPerfForesightSolver}$. To construct an instance of the class $\texttt{PerfForesightConsumerType}$, several parameters must be passed to this constructor. 
 
 # %% [markdown]
-# ## Example parameter values to construct an instance of PerfForesightConsumerType
+# ## Example parameter values
 #
 # | Parameter | Description | Code | Example value | Time-varying? |
 # | :---: | --- | --- | --- | --- |
@@ -95,7 +93,7 @@ mystr = lambda number : "{:.4f}".format(number)
 # |$T$| Number of periods in this type's "cycle" |$\texttt{T_cycle}$| $1$ | |
 # |(none)| Number of times the "cycle" occurs |$\texttt{cycles}$| $0$ | |
 #
-# Note that the survival probability and income growth factor have time subscripts; likewise, the example values for these parameters are *lists* rather than simply single floats.  This is because those parameters are *time-varying*: their values can depend on which period of the problem the agent is in.  All time-varying parameters *must* be specified as lists, even if the same value occurs in each period for this type.
+# Note that the survival probability and income growth factor have time subscripts; likewise, the example values for these parameters are *lists* rather than simply single floats.  This is because those parameters are in principle *time-varying*: their values can depend on which period of the problem the agent is in (for example, mortality probability depends on age).  All time-varying parameters *must* be specified as lists, even when the model is being solved for an infinite horizon case where in practice the parameter takes the same value in every period.
 #
 # The last two parameters in the table specify the "nature of time" for this type: the number of (non-terminal) periods in this type's "cycle", and the number of times that the "cycle" occurs.  *Every* subclass of $\texttt{AgentType}$ uses these two code parameters to define the nature of time.  Here, $\texttt{T_cycle}$ has the value $1$, indicating that there is exactly one period in the cycle, while $\texttt{cycles}$ is $0$, indicating that the cycle is repeated in *infinite* number of times-- it is an infinite horizon model, with the same "kind" of period repeated over and over.
 #
@@ -120,7 +118,7 @@ PerfForesightDict = {
 }
 
 # %% [markdown]
-# ## Solving and examining the solution of the perfect foresight model
+# ## Inspecting the solution
 #
 # With the dictionary we have just defined, we can create an instance of $\texttt{PerfForesightConsumerType}$ by passing the dictionary to the class (as if the class were a function).  This instance can then be solved by invoking its $\texttt{solve}$ method.
 
@@ -136,15 +134,13 @@ PFexample.solve()
 print(PFexample.solution)
 
 # %% [markdown]
-# Each element of $\texttt{solution}$ has a few attributes. To see all of them, we can use the \texttt{vars} built in function:
-#
-# the consumption functions reside in the attribute $\texttt{cFunc}$ of each element of $\texttt{ConsumerType.solution}$.  This method creates a (time varying) attribute $\texttt{cFunc}$ that contains a list of consumption functions.
+# Each element of $\texttt{solution}$ has a few attributes. To see all of them, we can use the $\texttt{vars}$ built in function: the consumption functions are instantiated in the attribute $\texttt{cFunc}$ of each element of $\texttt{ConsumerType.solution}$.  This method creates a (time varying) attribute $\texttt{cFunc}$ that contains a list of consumption functions by age.
 
 # %%
 print(vars(PFexample.solution[0]))
 
 # %% [markdown]
-# The two most important attributes of a single period solution of this model are the (normalized) consumption function $\texttt{cFunc}$ and the (normalized) value function $\texttt{vFunc}$.  Let's plot those functions near the lower bound of the permissible state space (the attribute $\texttt{mNrmMin}$ tells us the lower bound of $m_t$ where the consumption function is defined).
+# The two most important attributes of a single period solution are the (normalized) consumption function $\texttt{cFunc}$ and the (normalized) value function $\texttt{vFunc}$; the marginal value function $\texttt{vPfunc}$ is also constructed.  Let's plot those functions near the lower bound of the permissible state space (the attribute $\texttt{mNrmMin}$ tells us the lower bound of $m_t$ where the consumption function is defined).
 
 # %%
 print('Linear perfect foresight consumption function:')
@@ -156,14 +152,73 @@ print('Perfect foresight value function:')
 plotFuncs(PFexample.solution[0].vFunc,mMin+0.1,mMin+10.1)
 
 # %% [markdown]
+# ## Solution Method
+#
+#
+# ### Recursive Formula for $\kappa_{t}$
+#
+# The paper [BufferStockTheory](https://www.econ2.jhu.edu/people/ccarroll/papers/BufferStockTheory/) has a few other results that are used in the solution code.  One is [the recursive formula for the MPC](https://www.econ2.jhu.edu/people/ccarroll/papers/BufferStockTheory/#MPCnvrs). Starting with the last period, in which $\kappa_{T}=1$, the inverse MPC's (and therefore the MPC's themselves) can be constructed using the recursive formula:
+#
+# \begin{align}
+# \kappa_{t}^{-1} & = & 1 + \kappa_{t+1}^{-1}(\Rfree \beta)^{1/\rho}/G 
+# \end{align}
+#
+# ### Consumption Function
+#
+# For the perfect foresight problem, there is a well-known [analytical solution]( http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/#cFuncAnalytical) for the consumption function:  Calling $o_{t}$ 'overall wealth' (including market wealth plus human wealth $h_{t}$) and designating the marginal propensity to consume in period $t$ by $\kappa_{t}$:
+#
+# \begin{align}
+# \mathrm{c}_{t} & = o_{t}\kappa_{t}
+# \end{align}
+#
+# and in our normalized model $o_{t} = m_{t}-1+h_{t}$ (the '-1' term subtracts off the normalized current income of 1 from market resources $m$ which were market wealth plus current income).
+#
+# ### Value Function
+#
+# A convenient feature of the perfect foresight problem is that the value function has a simple [analytical form](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/#vFuncAnalytical):
+#
+# \begin{align}
+# \mathrm{v}_{t} & = \mathrm{u}(\mathrm{c}_{t}(m))\kappa_{t}^{-1}\\
+#  &= \mathrm{u}(o_{t} \kappa_{t}) \kappa_{t}^{-1} \\ 
+#  &= \mathrm{u}(o_{t})\kappa_{t}^{1-\rho} \kappa_{t}^{-1} \\
+#  &= \mathrm{u}(o_{t})\kappa_{t}^{-\rho}
+# \end{align}
+#
+# This means that the utility-inverse of the value function, ${\scriptsize \Lambda} \equiv \mathrm{u}^{-1}(\mathrm{v})$, is linear:
+#
+# \begin{align}
+# \scriptsize \Lambda_{t} & = o_{t} \kappa_{t}^{-\rho/(1-\rho)}
+# \end{align}
+#
+# When uncertainty or liquidity constraints are added to the problem, the ${\scriptsize \Lambda}$ function is no longer linear. But even in these cases, the utility-inverse of the value function is much better behaved (e.g., closer to linear; bounded over any feasible finite range of $m$) than the uninverted function (which, for example, approaches $-\infty$ as $m$ approaches its lower bound).
+#
+# Our procedure will therefore generically be to construct the inverse value function, and to obtain the value function from it by uninverting.  That is, we construct an interpolating approximation of $\scriptsize \Lambda_{t}$ and compute value on-the-fly from
+#
+# \begin{align}
+# \mathrm{v}_{t}(m) & = \mathrm{u}({\scriptsize \Lambda_{t}}(m))
+# \end{align}
+#
+# In this case, the interpolation is exact, not an approximation: We need only two points to construct a line, so we choose the minimum possible value of normalized market resources, $\texttt{mNrmMin}$, where $o_{t}=0$ so that $c_{t}=0$, and that minimum plus 1, where the inverted value function will have the value $\kappa_{t}^{-\rho/(1-\rho)}$.  From these we construct $vFuncNvrs$ as a linear interpolating function (which automatically extrapolates to the whole number line).
+#
+#
+
+# %% [markdown]
+# ## Checking Solution Conditions
+#
+# The code performs tests for whether the supplied parameter values meet various conditions that determine the properties of the solution.  Some conditions (like the Finite Human Wealth Condition) are required for the model to have a sensible solution, and if these conditions are violated the code generates a warning message.  Other conditions govern characteristics of the model like whether consumption is falling (whether the consumer is 'absolutely impatient').  All conditions can manually be performed using the syntax below.  The function returns "False" if none of the key conditions has been violated.
+
+# %%
+PFexample.checkConditions(verbose=True,public_call=True)
+
+# %% [markdown]
 # An element of $\texttt{solution}$ also includes the (normalized) marginal value function $\texttt{vPfunc}$, and the lower and upper bounds of the marginal propensity to consume (MPC) $\texttt{MPCmin}$ and $\texttt{MPCmax}$.  Note that with a linear consumption function, the MPC is constant, so its lower and upper bound are identical.
 
 # %% [markdown]
-# ## Simulating the perfect foresight consumer model
+# ## Simulating the model
 #
 # Suppose we wanted to simulate many consumers who share the parameter values that we passed to $\texttt{PerfForesightConsumerType}$-- an *ex ante* homogeneous *type* of consumers.  To do this, our instance would have to know *how many* agents there are of this type, as well as their initial levels of assets $a_t$ and permanent income $P_t$.
 #
-# ### Setting simulation parameters
+# ### Setting Parameters
 #
 # Let's fill in this information by passing another dictionary to $\texttt{PFexample}$ with simulation parameters.  The table below lists the parameters that an instance of $\texttt{PerfForesightConsumerType}$ needs in order to successfully simulate its model using the $\texttt{simulate}$ method.
 #
@@ -186,7 +241,8 @@ plotFuncs(PFexample.solution[0].vFunc,mMin+0.1,mMin+10.1)
 #
 # The cell below puts these parameters into a dictionary, then gives them to $\texttt{PFexample}$.  Note that all of these parameters *could* have been passed as part of the original dictionary; we omitted them above for simplicity.
 
-# %%
+# %% {"code_folding": [0]}
+# Create parameter values necessary for simulation
 SimulationParams = {
     "AgentCount" : 10000,                  # Number of agents of this type
     "T_sim" : 120,                         # Number of periods to simulate
@@ -211,7 +267,8 @@ PFexample(**SimulationParams) # This implicitly uses the assignParameters method
 #
 # Finally, the $\texttt{simulate}$ method can be called.
 
-# %%
+# %% {"code_folding": [0]}
+# Create PFexample object
 PFexample.track_vars = ['mNrmNow']
 PFexample.initializeSim()
 PFexample.simulate()
@@ -219,18 +276,20 @@ PFexample.simulate()
 # %% [markdown]
 # Each simulation variable $\texttt{X}$ named in $\texttt{track_vars}$ will have the *history* of that variable for each agent stored in the attribute $\texttt{X_hist}$ as an array of shape $(\texttt{T_sim},\texttt{AgentCount})$.  To see that the simulation worked as intended, we can plot the mean of $m_t$ in each simulated period:
 
-# %%
+# %% {"code_folding": [0]}
+# Plot market resources over time
 plt.plot(np.mean(PFexample.mNrmNow_hist,axis=1))
 plt.xlabel('Time')
 plt.ylabel('Mean normalized market resources')
 plt.show()
 
 # %% [markdown]
-# A perfect foresight consumer can borrow against the PDV of his future income-- his human wealth-- and thus as time goes on, our simulated agents approach the (very negative) steady state level of $m_t$ while being steadily replaced with consumers with roughly $m_t=1$.
+# A perfect foresight consumer can borrow against the PDV of his future income-- his human wealth-- and thus as time goes on, our simulated impatient agents approach the (very negative) steady state level of $m_t$ while being steadily replaced with consumers with roughly $m_t=1$.
 #
 # The slight wiggles in the plotted curve are due to consumers randomly dying and being replaced; their replacement will have an initial state drawn from the distributions specified by the user.  To see the current distribution of ages, we can look at the attribute $\texttt{t_age}$.
 
-# %%
+# %% {"code_folding": [0]}
+# Plot the CDF
 N = PFexample.AgentCount
 F = np.linspace(0.,1.,N)
 plt.plot(np.sort(PFexample.t_age),F)
@@ -247,7 +306,8 @@ plt.show()
 #
 # In the cell below, we simulate our perfect foresight consumers for 80 periods, then seize a bunch of their assets (dragging their wealth even more negative), then simulate for the reamining 40 periods.
 
-# %%
+# %% {"code_folding": [0]}
+# The final resulting distribution is reasonably coherent
 PFexample.initializeSim()
 PFexample.simulate(80)
 PFexample.aNrmNow += -5. # Adjust all simulated consumers' assets downward by 5
@@ -257,5 +317,3 @@ plt.plot(np.mean(PFexample.mNrmNow_hist,axis=1))
 plt.xlabel('Time')
 plt.ylabel('Mean normalized market resources')
 plt.show()
-
-# %%
