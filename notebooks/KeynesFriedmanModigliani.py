@@ -14,31 +14,11 @@
 #     name: python3
 # ---
 
-# %% {"code_folding": []}
-# Import some scripts
-from IPython.display import HTML
-
-# Let's eliminate the "toggle" option -- just use codefolding 
-HTML('''<script>
-code_show=true;
-function code_toggle() {
- if (code_show){
- $('div.input').hide();
- } else {
- $('div.input').show();
- }
- code_show = !code_show
-}
-$( document ).ready(code_toggle);
-</script>
-<form action="javascript:code_toggle()"><input type="submit" value="Click here to toggle on/off the raw code."></form>''')
-
 # %% [markdown]
 # ## Introduction: Keynes, Friedman, Modigliani
 
 # %%
 # Some initial setup
-
 import sys
 import os
 from matplotlib import pyplot as plt
@@ -46,18 +26,24 @@ import numpy as np
 plt.style.use('seaborn-darkgrid')
 palette = plt.get_cmap('Dark2')
 
-# !pip install pandas==0.24.2
 import pandas as pd
 pd.core.common.is_list_like = pd.api.types.is_list_like
-import pandas_datareader.data as web
 import datetime as dt
 import scipy.stats as stats
 import statsmodels.formula.api as sm
 from copy  import deepcopy
 
+#import pandas_datareader.data as web
+# As of 09/03/2019 the latest available version of pandas-datareader
+# has conflicts with the latest version of pandas. We temporarily fix
+# this by loading data from files.
+# This should not be necessary when pandas-datareader>0.7 becomes available.
+from io import StringIO
+
 from HARK.ConsumptionSaving.ConsIndShockModel import *
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.utilities import plotFuncsDer, plotFuncs
+
 
 # %% [markdown]
 # ### 1. The Keynesian consumption function
@@ -82,22 +68,45 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # %% [markdown]
 # #### The Keynesian Consumption Function
 
+# %%
+class KeynesianConsumer:
+    """
+    This class represents consumers that behave according to a
+    Keynesian consumption function, representing them as a
+    special case of HARK's PerfForesightConsumerType
+    
+    Methods:
+    - cFunc: computes consumption/permanent income 
+             given total income/permanent income.
+    """
+    
+    def __init__(self):
+        
+        PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight) # set up a consumer type and use default parameteres
+        PFexample.cycles = 0 # Make this type have an infinite horizon
+        PFexample.DiscFac = 0.05
+        PFexample.PermGroFac = [0.7]
+
+        PFexample.solve() # solve the consumer's problem
+        PFexample.unpackcFunc() # unpack the consumption function
+        
+        self.cFunc = PFexample.solution[0].cFunc
+        self.a0 = self.cFunc(0)
+        self.a1 = self.cFunc(1) - self.cFunc(0)
+
+
 # %% {"code_folding": []}
 # Plot cFunc(Y)=Y against the Keynesian consumption function
 # Deaton-Friedman consumption function is a special case of perfect foresight model
-PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight) # set up a consumer type and use default parameteres
-PFexample.cycles = 0 # Make this type have an infinite horizon
-PFexample.DiscFac = 0.05
-PFexample.PermGroFac = [0.7]
 
-PFexample.solve() # solve the consumer's problem
-PFexample.unpackcFunc() # unpack the consumption function
+# We first create a Keynesian consumer
+KeynesianExample = KeynesianConsumer()
 
-# Plot the perfect foresight consumption function
-income_PF = np.linspace(0, 30, 20) # pick some income points
+# and then plot its consumption function
+income = np.linspace(0, 30, 20) # pick some income points
 plt.figure(figsize=(9,6))
-plt.plot(income_PF, PFexample.solution[0].cFunc(income_PF), label = 'Consumption function') #plot income versus the consumption
-plt.plot(income_PF, income_PF, 'k--', label = 'C=Y')
+plt.plot(income, KeynesianExample.cFunc(income), label = 'Consumption function') #plot income versus the consumption
+plt.plot(income, income, 'k--', label = 'C=Y')
 plt.title('Consumption function')
 plt.xlabel('Income (y)')
 plt.ylabel('Normalized Consumption (c)')
@@ -111,9 +120,8 @@ plt.show()
 # prediction (given the right parameterisation).
 
 # We can even find a_0 and a_1
-
-a_0 = PFexample.solution[0].cFunc(0)
-a_1 = PFexample.solution[0].cFunc(1) - PFexample.solution[0].cFunc(0) # We could also simulate the model in HARK and use MPCnow
+a_0 = KeynesianExample.a0
+a_1 = KeynesianExample.a1
 print('a_0 is ' + str(a_0))
 print('a_1 is ' +  str(a_1))
 
@@ -127,13 +135,166 @@ print('a_1 is ' +  str(a_1))
 # Short-term aggregate time-series estimates of change in consumption on change in income find $a_1 << 1$.<br>
 # $c_t = a_0 + a_{1}y_t + a_{2}c_{t-1}$ finds significant $a_2$, near 1.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Lets have a look at some aggregate data
 
 sdt = dt.datetime(1980, 1, 1) #set startdate
 edt = dt.datetime (2017, 1, 1) #set end date
-df = web.DataReader(["PCECC96", "DPIC96"], "fred", sdt, edt) #import the data from Fred
+# df = web.DataReader(["PCECC96", "DPIC96"], "fred", sdt, edt) #import the data from Fred
+quarterly_data_string = """DATE,PCECC96,DPIC96
+1980-01-01,4277.851,4893.069
+1980-04-01,4181.51,4850.055
+1980-07-01,4227.379,4904.532
+1980-10-01,4284.494000000001,4972.057
+1981-01-01,4298.847,4965.1
+1981-04-01,4299.16,4970.894
+1981-07-01,4319.0470000000005,5078.088
+1981-10-01,4289.504,5083.669
+1982-01-01,4321.1,5095.938
+1982-04-01,4334.262,5126.682
+1982-07-01,4363.318,5151.281
+1982-10-01,4439.749,5167.46
+1983-01-01,4483.645,5216.222
+1983-04-01,4574.944,5252.3730000000005
+1983-07-01,4656.982,5331.188
+1983-10-01,4731.194,5449.929
+1984-01-01,4770.457,5558.7919999999995
+1984-04-01,4837.29,5651.1230000000005
+1984-07-01,4873.165,5725.728
+1984-10-01,4936.293,5772.469
+1985-01-01,5020.163,5757.403
+1985-04-01,5066.25,5869.535
+1985-07-01,5162.475,5851.143
+1985-10-01,5173.643,5913.044
+1986-01-01,5218.851,5990.8
+1986-04-01,5275.72,6067.419
+1986-07-01,5369.049,6106.1
+1986-10-01,5401.98,6115.403
+1987-01-01,5407.371999999999,6171.7480000000005
+1987-04-01,5481.166,6113.986999999999
+1987-07-01,5543.723000000001,6223.4259999999995
+1987-10-01,5555.451,6307.349
+1988-01-01,5653.588000000001,6399.868
+1988-04-01,5695.326,6465.76
+1988-07-01,5745.933000000001,6528.255
+1988-10-01,5811.264,6589.847
+1989-01-01,5838.225,6664.871999999999
+1989-04-01,5865.477,6645.224
+1989-07-01,5922.2609999999995,6689.365
+1989-10-01,5948.0,6745.986
+1990-01-01,5998.058000000001,6797.794
+1990-04-01,6016.329000000001,6845.103
+1990-07-01,6040.1630000000005,6842.681
+1990-10-01,5994.2119999999995,6784.328
+1991-01-01,5971.672,6801.283
+1991-04-01,6021.1630000000005,6851.0419999999995
+1991-07-01,6051.184,6879.012
+1991-10-01,6048.156,6936.2
+1992-01-01,6161.398,7075.791
+1992-04-01,6203.224,7145.956999999999
+1992-07-01,6269.718000000001,7179.108
+1992-10-01,6344.446,7211.805
+1993-01-01,6368.772,7238.786999999999
+1993-04-01,6426.703,7261.182
+1993-07-01,6498.229,7267.508000000001
+1993-10-01,6555.274,7318.014
+1994-01-01,6630.253000000001,7366.339
+1994-04-01,6681.840999999999,7440.526999999999
+1994-07-01,6732.791,7483.9169999999995
+1994-10-01,6805.581,7591.307
+1995-01-01,6822.519,7656.201
+1995-04-01,6882.33,7677.91
+1995-07-01,6944.7,7748.26
+1995-10-01,6993.144,7793.543000000001
+1996-01-01,7057.641,7867.34
+1996-04-01,7133.566,7939.476
+1996-07-01,7176.754,8003.765
+1996-10-01,7233.918000000001,8046.395
+1997-01-01,7310.17,8123.031999999999
+1997-04-01,7343.08,8195.02
+1997-07-01,7468.188,8291.452
+1997-10-01,7557.4490000000005,8413.567
+1998-01-01,7633.895,8590.692
+1998-04-01,7768.323,8708.815
+1998-07-01,7869.624,8796.546999999999
+1998-10-01,7983.316,8866.183
+1999-01-01,8060.776,8946.329
+1999-04-01,8178.302,8966.482
+1999-07-01,8270.609,9027.655999999999
+1999-10-01,8391.791,9163.245
+2000-01-01,8520.71,9338.678
+2000-04-01,8603.007,9441.952
+2000-07-01,8687.485,9551.595
+2000-10-01,8762.205,9585.735999999999
+2001-01-01,8797.28,9672.598
+2001-04-01,8818.079,9655.706
+2001-07-01,8848.3,9878.502
+2001-10-01,8980.61,9753.663
+2002-01-01,9008.096,9973.532
+2002-04-01,9054.348,10041.054
+2002-07-01,9119.949,10032.3
+2002-10-01,9172.360999999999,10091.868
+2003-01-01,9215.501,10115.601
+2003-04-01,9318.994,10238.895
+2003-07-01,9455.687,10411.905
+2003-10-01,9519.802,10439.34
+2004-01-01,9604.507,10487.421
+2004-04-01,9664.264000000001,10607.594
+2004-07-01,9771.136,10676.851999999999
+2004-10-01,9877.416,10811.704
+2005-01-01,9935.048,10684.945
+2005-04-01,10047.766,10786.45
+2005-07-01,10145.296999999999,10818.34
+2005-10-01,10175.424,10956.911
+2006-01-01,10288.892,11170.065
+2006-04-01,10341.016,11197.381000000001
+2006-07-01,10403.798,11226.35
+2006-10-01,10504.481000000002,11374.5
+2007-01-01,10563.261,11471.408000000001
+2007-04-01,10582.839,11500.783000000001
+2007-07-01,10642.483,11510.998
+2007-10-01,10672.794,11518.823999999999
+2008-01-01,10644.428999999998,11550.819
+2008-04-01,10661.688999999998,11762.205
+2008-07-01,10581.856000000002,11515.015
+2008-10-01,10483.376,11615.323999999999
+2009-01-01,10459.698,11565.491000000002
+2009-04-01,10417.334,11689.821000000002
+2009-07-01,10489.202,11557.64
+2009-10-01,10473.645,11554.792
+2010-01-01,10525.431999999999,11619.753999999999
+2010-04-01,10609.148000000001,11811.198999999999
+2010-07-01,10683.341999999999,11895.286
+2010-10-01,10753.999,11961.982
+2011-01-01,10799.741000000002,12083.876
+2011-04-01,10823.653999999999,12057.571000000002
+2011-07-01,10866.036,12110.213
+2011-10-01,10885.893,12147.876
+2012-01-01,10973.303,12375.275
+2012-04-01,10989.585,12487.781
+2012-07-01,11007.517,12398.39
+2012-10-01,11056.851999999999,12741.861
+2013-01-01,11114.186000000002,12231.915
+2013-04-01,11122.185,12323.044
+2013-07-01,11167.421999999999,12376.321000000002
+2013-10-01,11263.648000000001,12425.218
+2014-01-01,11308.018999999998,12598.293
+2014-04-01,11431.831,12769.896999999999
+2014-07-01,11554.841,12918.965
+2014-10-01,11694.969,13089.711000000001
+2015-01-01,11792.118999999999,13238.37
+2015-04-01,11885.98,13337.976
+2015-07-01,11976.589,13436.018
+2015-10-01,12030.223,13478.643999999998
+2016-01-01,12124.214,13568.73
+2016-04-01,12211.285,13554.275
+2016-07-01,12289.063,13615.035
+2016-10-01,12365.312,13696.702
+2017-01-01,12438.898000000001,13860.948"""
 
+df = pd.read_csv(StringIO(quarterly_data_string),
+                 parse_dates = ['DATE'],
+                 index_col = [0])
 # Plot the data
 plt.figure(figsize=(9,6))
 plt.plot(df.DPIC96, df.PCECC96, 'go', markersize=3.0, label='Data')
@@ -212,6 +373,7 @@ df_habit.dropna()
 result = sm.ols(formula = "cons ~ inc + cons_m1", data=df_habit.dropna()).fit()
 result.summary()
 
+
 # %%
 # This regression is clearly problematic for the usual non-stationary reasons.
 # Nevertheless we see that the coefficient on lagged consumption is very significant.
@@ -231,35 +393,52 @@ result.summary()
 
 # %% [markdown]
 # #### Friedman's Permanent Income Hypothesis: HARK
+#
+# We begin by creating a class that class implements the Friedman PIH consumption function as a special case of the [Perfect Foresight CRRA](http://econ.jhu.edu/people/ccarroll/courses/choice/lecturenotes/consumption/PerfForesightCRRA) model.
 
 # %%
-# We can get the PIH result with a specific parameterisation of our consumer that we used earlier
-# for the Keynesian consumption function
+class FriedmanPIHConsumer:
+    """
+    This class represents consumers that behave according to
+    Friedman's permanent income hypothesis, representing them as a
+    special case of HARK's PerfForesightConsumerType
+    
+    Methods:
+    - cFunc: computes consumption/permanent income 
+             given total income/permanent income.
+    """
+    
+    def __init__(self, Rfree=1.001, CRRA = 2):
+        
+        PFaux = PerfForesightConsumerType(**Params.init_perfect_foresight) # set up a consumer type and use default parameteres
+        PFaux.cycles = 0 # Make this type have an infinite horizon
+        PFaux.DiscFac = 1/Rfree
+        PFaux.Rfree = Rfree
+        PFaux.LivPrb = [1.0]
+        PFaux.PermGroFac = [1.0]
+        PFaux.CRRA = CRRA
+        PFaux.solve() # solve the consumer's problem
+        PFaux.unpackcFunc() # unpack the consumption function
+        
+        self.cFunc = PFaux.solution[0].cFunc
 
-PFexample_PIH = deepcopy(PFexample) #copy our last agent
 
-# Change some parameters...
-PFexample_PIH.DiscFac = 1.
-PFexample_PIH.Rfree = 1.
-PFexample_PIH.LivPrb = [1.0]
-PFexample_PIH.PermGroFac = [1.0]
-
-PFexample_PIH.solve() # solve the consumer's problem
-PFexample_PIH.unpackcFunc() # unpack the consumption function
+# %%
+# We can now create a PIH consumer
+PIHexample = FriedmanPIHConsumer()
 
 # Plot the perfect foresight consumption function
-income_PF = np.linspace(-50, 50, 20) # pick some income points
+income = np.linspace(0, 50, 20) # pick some income points
 plt.figure(figsize=(9,6))
-plt.plot(income_PF, PFexample_PIH.solution[0].cFunc(income_PF), label = 'Consumption function') #plot income versus the consumption
-plt.plot(income_PF, income_PF, 'k--', label = 'C=Y')
+plt.plot(income, PIHexample.cFunc(income), label = 'Consumption function') #plot income versus the consumption
+plt.plot(income, income, 'k--', label = 'C=Y')
 plt.title('Consumption function')
-plt.xlabel('Income (y)')
+plt.xlabel('Normalized Income (y)')
 plt.ylabel('Normalized Consumption (c)')
-plt.ylim(-20, 20)
 plt.legend()
 plt.show()
 
-# %%
+# %% {"code_folding": []}
 # We can see that regardless of the income our agent recieves, they consume their permanent income, normalised to 1
 
 # %% [markdown]
@@ -277,10 +456,10 @@ trans_inc = np.random.normal(0.5, 0.1, 50)
 
 total_inc = perm_inc + trans_inc
 
-slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PFexample_PIH.solution[0].cFunc(total_inc)*perm_inc)
+slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc)*perm_inc)
 
 plt.figure(figsize=(9,6))
-plt.plot(total_inc, PFexample_PIH.solution[0].cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
+plt.plot(total_inc, PIHexample.cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
 plt.plot(total_inc, intercept + slope*total_inc, 'k-', label='Line of best fit')
 plt.plot(np.linspace(1, 2, 5), np.linspace(1, 2, 5), 'k--', label='C=Y')
 plt.xlabel('Income (y)')
@@ -301,10 +480,10 @@ trans_inc = np.random.normal(0.5, 0.1, 50)
 
 total_inc = perm_inc + trans_inc
 
-slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PFexample_PIH.solution[0].cFunc(total_inc)*perm_inc)
+slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc)*perm_inc)
 
 plt.figure(figsize=(9,6))
-plt.plot(total_inc, PFexample_PIH.solution[0].cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
+plt.plot(total_inc, PIHexample.cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
 plt.plot(total_inc, intercept + slope*total_inc, 'k-', label='Line of best fit')
 plt.plot(np.linspace(0, 2, 5), np.linspace(0, 2, 5), 'k--', label='C=Y')
 plt.xlabel('Income (y)')
@@ -351,7 +530,50 @@ print('a_1 is ' +  str(slope))
 
 sdt = dt.datetime(1980, 1, 1) #set startdate
 edt = dt.datetime (2017, 1, 1) #set end date
-df_an = web.DataReader(["PCECCA", "A067RX1A020NBEA"], "fred", sdt, edt) #import the annual data from Fred
+#df_an = web.DataReader(["PCECCA", "A067RX1A020NBEA"], "fred", sdt, edt) #import the annual data from Fred
+annual_data_string = """DATE,PCECCA,A067RX1A020NBEA
+1980-01-01,4242.809,4905.562
+1981-01-01,4301.639,5025.39
+1982-01-01,4364.607,5135.005
+1983-01-01,4611.691,5312.201999999999
+1984-01-01,4854.3009999999995,5677.121
+1985-01-01,5105.633,5847.602
+1986-01-01,5316.4,6069.76
+1987-01-01,5496.928000000001,6204.052
+1988-01-01,5726.528,6495.991999999999
+1989-01-01,5893.491,6686.177
+1990-01-01,6012.19,6817.3859999999995
+1991-01-01,6023.043000000001,6867.004
+1992-01-01,6244.696,7152.945
+1993-01-01,6462.244000000001,7271.057
+1994-01-01,6712.616999999999,7470.578
+1995-01-01,6910.673000000001,7718.882
+1996-01-01,7150.47,7964.2119999999995
+1997-01-01,7419.722,8255.766
+1998-01-01,7813.79,8740.44
+1999-01-01,8225.37,9025.6
+2000-01-01,8643.351999999999,9479.463
+2001-01-01,8861.067,9740.106
+2002-01-01,9088.689,10034.51
+2003-01-01,9377.496,10301.426
+2004-01-01,9729.331,10645.921999999999
+2005-01-01,10075.884,10811.621000000001
+2006-01-01,10384.546999999999,11241.948999999999
+2007-01-01,10615.344,11500.252
+2008-01-01,10592.837,11610.77
+2009-01-01,10459.97,11591.659
+2010-01-01,10642.98,11822.12
+2011-01-01,10843.831,12099.788
+2012-01-01,11006.813999999998,12501.196000000002
+2013-01-01,11166.86,12339.128999999999
+2014-01-01,11497.415,12844.273000000001
+2015-01-01,11921.228000000001,13372.732
+2016-01-01,12247.469,13608.408000000001
+2017-01-01,12566.948,14002.78"""
+
+df_an = pd.read_csv(StringIO(annual_data_string),
+                    parse_dates = ['DATE'],
+                    index_col = [0])
 
 df_an_diff = df_an.diff()
 df_an_diff.columns = ['cons', 'inc']
