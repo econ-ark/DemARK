@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -428,7 +428,7 @@ class FriedmanPIHConsumer:
 PIHexample = FriedmanPIHConsumer()
 
 # Plot the perfect foresight consumption function
-income = np.linspace(0, 50, 20) # pick some income points
+income = np.linspace(0, 10, 20) # pick some income points
 plt.figure(figsize=(9,6))
 plt.plot(income, PIHexample.cFunc(income), label = 'Consumption function') #plot income versus the consumption
 plt.plot(income, income, 'k--', label = 'C=Y')
@@ -449,7 +449,8 @@ plt.show()
 # Lets simulate this using our HARK consumer.
 
 # %%
-# Permanent income has low variance
+# Permanent income has the same variance
+# as transitory income.
 
 perm_inc = np.random.normal(1., 0.1, 50)
 trans_inc = np.random.normal(0.5, 0.1, 50)
