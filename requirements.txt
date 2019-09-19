@@ -1,0 +1,15 @@
+numpy
+matplotlib
+Sphinx
+numpydoc
+future
+joblib
+dill
+scipy
+flake8
+jupyter
+funcsigs
+jupyter
+sphinx-rtd-theme
+nbsphinx
+nbval

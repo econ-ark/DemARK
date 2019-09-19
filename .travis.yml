@@ -1,0 +1,24 @@
+language: python
+python:
+  - "3.7"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install git+https://github.com/econ-ark/HARK.git@master
+# command to run tests
+script:
+  # - pytest --nbval-lax notebooks/
+#   - pytest --nbval-lax notebooks/Gentle-Intro-To-HARK.ipynb
+  - pytest --nbval-lax notebooks/IndShockConsumerType.ipynb
+  - pytest --nbval-lax notebooks/KinkedRconsumerType.ipynb
+  - pytest --nbval-lax notebooks/KrusellSmith.ipynb
+  - pytest --nbval-lax notebooks/LifecycleModelExample.ipynb
+  - pytest --nbval-lax notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income.ipynb
+  - pytest --nbval-lax notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb
+  - pytest --nbval-lax notebooks/Nondurables-During-Great-Recession.ipynb
+  - pytest --nbval-lax notebooks/PerfForesightConsumerType.ipynb
+  - pytest --nbval-lax notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
+  - pytest --nbval-lax notebooks/TractableBufferStockQuickDemo.ipynb
+  - pytest --nbval-lax notebooks/Uncertainty-and-the-Saving-Rate.ipynb
+
+
