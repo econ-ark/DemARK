@@ -1,13 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -50,6 +50,16 @@ from HARK.ConsumptionSaving.ConsIndShockModel import *
 from HARK.cstwMPC.SetupParamsCSTW import init_infinite
 
 # %% {"code_folding": [0]}
+# Set key problem-specific parameters
+
+TypeCount = 8    # Number of consumer types with heterogeneous discount factors
+AdjFactor = 1.0  # Factor by which to scale all of Fagereng's MPCs in Table 9
+T_kill = 100     # Don't let agents live past this age
+Splurge = 0.0    # Consumers automatically spend this amount of any lottery prize
+do_secant = True # If True, calculate MPC by secant, else point MPC
+drop_corner = False # If True, ignore upper left corner when calculating distance
+
+# %% {"code_folding": [0]}
 # Set standard HARK parameter values
 
 base_params = deepcopy(init_infinite)
@@ -61,16 +71,6 @@ base_params['T_age'] = T_kill # Kill off agents if they manage to achieve T_kill
 base_params['AgentCount'] = 10000
 base_params['pLvlInitMean'] = np.log(23.72) # From Table 1, in thousands of USD
 base_params['T_sim'] = T_kill  # No point simulating past when agents would be killed off
-
-# %% {"code_folding": [0]}
-# Set key problem-specific parameters
-
-TypeCount = 8    # Number of consumer types with heterogeneous discount factors
-AdjFactor = 1.0  # Factor by which to scale all of Fagereng's MPCs in Table 9
-T_kill = 100     # Don't let agents live past this age
-Splurge = 0.0    # Consumers automatically spend this amount of any lottery prize
-do_secant = True # If True, calculate MPC by secant, else point MPC
-drop_corner = False # If True, ignore upper left corner when calculating distance
 
 # %% {"code_folding": [0]}
 # Define the MPC targets from Fagereng et al Table 9; element i,j is lottery quartile i, deposit quartile j
