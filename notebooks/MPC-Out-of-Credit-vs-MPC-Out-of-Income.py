@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -28,23 +28,23 @@
 from __future__ import division, print_function
 # %matplotlib inline
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 ## Import the HARK ConsumerType we want
 ## Here, we bring in an agent making a consumption/savings decision every period, subject
 ## to transitory and permanent income shocks.
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 ## Import the default parameter values
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 ## Now, create an instance of the consumer type using the default parameter values
 ## We create the instance of the consumer type by calling IndShockConsumerType()
 ## We use the default parameter values by passing **Params.init_idiosyncratic_shocks as an argument
 BaselineExample = IndShockConsumerType(**Params.init_idiosyncratic_shocks)
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Note: we've created an instance of a very standard consumer type, and many assumptions go
 # into making this kind of consumer.  As with any structural model, these assumptions matter.
 # For example, this consumer pays the same interest rate on
@@ -53,7 +53,8 @@ BaselineExample = IndShockConsumerType(**Params.init_idiosyncratic_shocks)
 # since this is a model that is also solved in HARK.  All we would have to do is import that model
 # and instantiate an instance of that ConsumerType instead.  As a homework assignment, we leave it
 # to you to uncomment the two lines of code below, and see how the results change!
-from ConsIndShockModel import KinkedRconsumerType
+
+from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
 BaselineExample = KinkedRconsumerType(**Params.init_kinked_R)
 
 
