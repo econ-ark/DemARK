@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -134,11 +134,10 @@ plt.show()
 
 # %%
 # Version where you can choose your portfolio share only with some 0 < p < 1
-# Not working as of 2019-09-19; if you set AdjustPrb to anything other than 1, error
 
 init_portfolio_prb = copy.deepcopy(init_portfolio)
 
-init_portfolio_prb['AdjustPrb'] = 1.0
+init_portfolio_prb['AdjustPrb'] = 0.8
 init_portfolio_prb['PortfolioDomain'] = cpm.DiscreteDomain([0.0, 0.6, 1.0])
 pcct_prb = cpm.PortfolioConsumerType(**init_portfolio_prb)
 
