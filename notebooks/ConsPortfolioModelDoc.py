@@ -24,6 +24,30 @@ import numpy as np
 from HARK.ConsumptionSaving.ConsPortfolioModel import PortfolioSolution
 print(PortfolioSolution.__init__.__doc__)
 
+# %% [markdown]
+# We implement three different ways to allow portfolio choice.
+#            The agent can choose 
+#               * any portfolio share ('continuous choice')
+#               * only a specified set of portfolio shares ('discrete choice')
+#                 * With probability 1 (agent always gets to choose)
+#                 * With probability 0 < p < 1 (stochastic chance to choose)
+#         
+#            We allow two choices for the description of the 
+#            distribution of the stochastic variable:
+#            1. A generic discrete probability distribution
+#               * Nodes and their probabilities are specified
+#            2. A true lognormal distribution
+#               * The mean return and the standard deviation are specified
+#         
+#            In the discrete portfolio shares case, the user also must
+#            input a function that *draws* from the distribution in drawRiskyFunc
+#
+#            Other assumptions: 
+#               * distributions are time constant
+#               * probability of being allowed to reoptimize is time constant
+#                  * If p < 1, you must specify the PortfolioSet discretely
+#         
+
 # %% {"code_folding": []}
 # Set up the model and its parameters
 Avg = 1.08 # equity premium 
