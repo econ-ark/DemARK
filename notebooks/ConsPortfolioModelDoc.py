@@ -133,9 +133,9 @@ lnpcct.solve()
 lnpcct.MertSamCampVicShare = lnpcct.RiskyShareLimitFunc(RiskyDstnFunc(init_portfolio['RiskyCount']))
 
 plt.plot(eevalgrid, lnpcct.solution[0].RiskyShareFunc[0][0](eevalgrid))
-plt.axhline(MertSamCampVicShare, c='r')
+plt.axhline(lnpcct.MertSamCampVicShare, c='r')
 plt.ylim(0,1.05)
-plt.text((aMax-aMin)/4,MertSamCampVicShare-0.1,r'$\uparrow $ limit as  $m \uparrow \infty$',fontsize = 22,fontweight='bold')
+plt.text((aMax-aMin)/4,lnpcct.MertSamCampVicShare-0.1,r'$\uparrow $ limit as  $m \uparrow \infty$',fontsize = 22,fontweight='bold')
 plt.show()
 
 # %%
