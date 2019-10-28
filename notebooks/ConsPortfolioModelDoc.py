@@ -26,6 +26,8 @@ import HARK.ConsumptionSaving.ConsumerParameters as param
 import copy
 import matplotlib.pyplot as plt
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore')
 from HARK.ConsumptionSaving.ConsPortfolioModel import PortfolioSolution
 
 # %% [markdown]
