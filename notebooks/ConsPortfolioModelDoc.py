@@ -61,14 +61,14 @@ Avg = 1.08 # equity premium
 Std = 0.20 # standard deviation of rate-of-return shocks 
 
 RiskyDstnFunc = cpm.RiskyDstnFactory(RiskyAvg=Avg, RiskyStd=Std)       # Generates nodes for integration
-RiskyDrawFunc = cpm.LogNormalRiskyDstnDraw(RiskyAvg=Avg, RiskyStd=Std) # Generates draws from a lognormal distribution
+RiskyDrawFunc = cpm.LogNormalRiskyDstnDraw(RiskyAvg=Avg, RiskyStd=Std) # Function to generate draws from a lognormal distribution
 
-init_portfolio = copy.copy(param.init_idiosyncratic_shocks) # Default parameter values for inf horiz model
+init_portfolio = copy.copy(param.init_idiosyncratic_shocks) # Default parameter values for inf horiz model - including labor income with transitory and permanent shocks
 init_portfolio['approxRiskyDstn'] = RiskyDstnFunc
 init_portfolio['drawRiskyFunc']   = RiskyDrawFunc
 init_portfolio['RiskyCount']      = 2   # Number of points in the approximation; 2 points is minimum
-init_portfolio['RiskyShareCount'] = 25  # How many discrete points to allow in the share approximation
-init_portfolio['Rfree']           = 1.0 # Riskfree return factor is 1 (interest rate is zero)
+init_portfolio['RiskyShareCount'] = 25  # How many discrete points to allow for portfolio share
+init_portfolio['Rfree']           = 1.0 # Riskfree return factor (interest rate is zero)
 init_portfolio['CRRA']            = 6.0 # Relative risk aversion
 
 # Uninteresting technical parameters:
@@ -77,7 +77,8 @@ init_portfolio['aXtraCount']      = 50
 init_portfolio['BoroCnstArt']     = 0.0 # important for theoretical reasons
 # init_portfolio['vFuncBool'] = True # We do not need value function for purposes here
 
-init_portfolio['DiscFac'] = 0.90
+init_portfolio['DiscFac'] = 0.92 # Make them impatient even wrt a riskfree return of 1.08 
+
 # Create portfolio choice consumer type
 pcct = cpm.PortfolioConsumerType(**init_portfolio)
 
@@ -91,7 +92,11 @@ aPts = 100 # Number of points to plot
 
 # Campbell-Viceira (2002) approximation to optimal portfolio share in Merton-Samuelson (1969) model
 pcct.MertSamCampVicShare = pcct.RiskyShareLimitFunc(RiskyDstnFunc(init_portfolio['RiskyCount']))
+
+# Define grid of points on which to plot
 eevalgrid = np.linspace(0,aMax,aPts) # range of values of assets for the plot
+
+# Plot portfolio share by wealth-to-income ratio
 plt.plot(eevalgrid, pcct.solution[0].RiskyShareFunc[0][0](eevalgrid))
 plt.axhline(pcct.MertSamCampVicShare, c='r') # The Campbell-Viceira approximation
 plt.ylim(0,1.05)
@@ -99,7 +104,7 @@ plt.text((aMax-aMin)/4,0.45,r'$\uparrow $ limit as  $m \uparrow \infty$',fontsiz
 plt.show()
 
 # %% {"code_folding": [0]}
-# Simulate 20 years of behavior for a set of consumers 
+# Simulate 20 years of behavior for a set of consumers initially distributed widely
 SimPer = 20
 
 pcct.track_vars = ['aNrmNow', 't_age', 'RiskyShareNow']
@@ -115,13 +120,14 @@ ax.set_zlim(pcct.MertSamCampVicShare,1.0)
 ax.scatter(pcct.aNrmNow_hist, pcct.t_age_hist, pcct.RiskyShareNow_hist)
 plt.show()
 
-# The consumers are very impatient and so even if they start rich they end up as buffer stock savers
+# The consumers are impatient and so even if they start rich they end up as buffer stock savers
 # But with all of their buffer stock savings in the stock market
 
 # %%
-# Solve the specialized / simple version for which there is a good approximation
+# Solve the specialized / simple version for which Campbell-Viceira (2002) is a good approximation
+# (as wealth approaches infinity)
 # This is the version for which Campbell and Viceira provide an approximate formula
-# assuming log normally distributed shocks
+# assuming lognormally distributed shocks
 
 init_lognormportfolio = copy.deepcopy(init_portfolio) # Use same parameter values
 init_lognormportfolio['RiskyAvg']   = Avg
@@ -139,7 +145,7 @@ plt.text((aMax-aMin)/4,lnpcct.MertSamCampVicShare-0.1,r'$\uparrow $ limit as  $m
 plt.show()
 
 # %%
-# Again simulate a few periods 
+# Again simulate a few periods -- similar results (poor buffer stock savers put all their money in the stock market)
 lnpcct.track_vars = ['aNrmNow', 't_age', 'RiskyShareNow']
 lnpcct.T_sim = SimPer
 lnpcct.initializeSim()
