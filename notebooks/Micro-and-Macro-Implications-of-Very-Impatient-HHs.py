@@ -56,7 +56,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath('../lib'))
 
-from tdqm import tqdm
+from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
@@ -219,7 +219,7 @@ for nn in range(num_types):
 
 # %%
 # Progress bar keeps track interactively of how many have been made
-for ThisType in tdqm(MyTypes):
+for ThisType in tqdm(MyTypes):
     ThisType.solve()
     ThisType.initializeSim()
     ThisType.simulate()
