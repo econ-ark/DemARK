@@ -64,7 +64,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath('../lib'))
 
-from util import log_progress
+from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
@@ -122,7 +122,7 @@ cstwMPC_calibrated_parameters = {
 # In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initializeSim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
 
 # + {"collapsed": true}
-for ThisType in log_progress(MyTypes, every=1):
+for ThisType in tqdm(MyTypes):
     ThisType.solve()
     ThisType.initializeSim()
     ThisType.simulate()
