@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -16,15 +16,11 @@
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 # %matplotlib inline
-# The first step is to be able to bring things in from different directories
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
 
 import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
-from util import log_progress
+from tqdm import tqdm
 import HARK # Prevents import error from Demos repo
 
 # %% [markdown]
@@ -331,7 +327,7 @@ PermShkVarMultipliers = (1.,2.,4.,8.,11.)
 # following economic reforms, assuming that the variance of the permanent income shock
 # was multiplied by the given multiplier
 index = 0
-for PermShkVarMultiplier in log_progress(PermShkVarMultipliers, every=1):
+for PermShkVarMultiplier in tqdm(PermShkVarMultipliers):
     NatlSavingsRates.append(calcNatlSavingRate(PermShkVarMultiplier,RNG_seed = index)[-160 - quarters_before_reform_to_plot :])
     index +=1
 

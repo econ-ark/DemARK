@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -52,11 +52,7 @@
 # %% {"code_folding": [25]}
 # This cell does some setup and imports generic tools used to produce the figures
 
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
-
-from util import log_progress
+from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
@@ -219,7 +215,7 @@ for nn in range(num_types):
 
 # %%
 # Progress bar keeps track interactively of how many have been made
-for ThisType in log_progress(MyTypes, every=1):
+for ThisType in tqdm(MyTypes):
     ThisType.solve()
     ThisType.initializeSim()
     ThisType.simulate()

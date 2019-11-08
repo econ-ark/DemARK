@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -29,15 +29,7 @@
 #   If you do this, you can restart the kernel (see the "Kernel" menu above) and start over
 # %matplotlib inline
 import matplotlib.pyplot as plt
-
-# The first step is to be able to bring things in from different directories
-import sys 
-import os
-
-sys.path.insert(0, os.path.abspath('../lib'))
-
-from util import log_progress
-
+from tqdm import tqdm
 import numpy as np
 import HARK 
 from time import clock

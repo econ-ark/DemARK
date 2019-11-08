@@ -14,7 +14,7 @@
 #     name: python3
 # ---
 
-# <div class="cite2c-biblio"></div># Alternative Combinations of Parameter Values
+# # Alternative Combinations of Parameter Values
 #
 # Please write the names and email addresses of everyone who worked on this notebook on the line below.
 #
@@ -50,21 +50,12 @@
 # * Please accumulate the list of solved consumers' problems in a list called `MyTypes`
 #    * For compatibility with a further part of the assignment below
 
-import nbformat
-
-nbformat.read('Alternative-Combos-Of-Parameter-Values.ipynb', as_version=4)['metadata']['embed_data']
-
 # + {"code_folding": [0], "collapsed": true}
 # This cell merely imports and sets up some basic functions and packages 
 
 # %matplotlib inline
 import matplotlib.pyplot as plt
-
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
-
-from util import log_progress
+from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
@@ -122,7 +113,7 @@ cstwMPC_calibrated_parameters = {
 # In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initializeSim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
 
 # + {"collapsed": true}
-for ThisType in log_progress(MyTypes, every=1):
+for ThisType in tqdm(MyTypes):
     ThisType.solve()
     ThisType.initializeSim()
     ThisType.simulate()
