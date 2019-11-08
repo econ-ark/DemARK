@@ -94,6 +94,7 @@ plt.rc('text', usetex=iflatexExists)
 import warnings
 warnings.filterwarnings("ignore")
 
+import os
 from copy import copy, deepcopy
 
 # Define (and create, if necessary) the figures directory "Figures"
