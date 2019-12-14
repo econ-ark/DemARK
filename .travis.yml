@@ -22,3 +22,9 @@ script:
   - pytest --nbval-lax notebooks/Uncertainty-and-the-Saving-Rate.ipynb
   - pytest --nbval-lax notebooks/ConsPortfolioModelDoc.ipynb
   
+notifications:
+  email:
+    recipients:
+      - seth.mridul+travis@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
