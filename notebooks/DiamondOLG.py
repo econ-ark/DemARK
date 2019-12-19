@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,10 +21,6 @@
 
 # %%
 # Some initial setup
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
-
 
 from matplotlib import pyplot as plt
 import numpy as np

@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -94,12 +94,7 @@ plt.rc('text', usetex=iflatexExists)
 import warnings
 warnings.filterwarnings("ignore")
 
-# The tools for navigating the filesystem
-import sys
 import os
-
-sys.path.insert(0, os.path.abspath('../lib')) # directory is one down from root 
-
 from copy import copy, deepcopy
 
 # Define (and create, if necessary) the figures directory "Figures"

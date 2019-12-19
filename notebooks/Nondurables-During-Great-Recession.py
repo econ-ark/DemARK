@@ -24,13 +24,6 @@ import matplotlib.pyplot as plt
 
 ## Import some things from cstwMPC
 
-# The first step is to be able to bring things in from different directories
-import sys 
-import os
-
-# Let python find any useful library files
-sys.path.insert(0, os.path.abspath('../lib'))
-
 from tqdm import tqdm
 
 import numpy as np
@@ -150,6 +143,7 @@ for j in range(num_consumer_types):
 # The cell below does both of those tasks, looping through the consumer types. For each one, it solves that type's infinite horizon model, then simulates 1000 periods to generate an approximation to the long run distribution of wealth.
 
 # %% {"code_folding": [0]}
+# tqdm presents a pretty bar that interactively shows how far the calculations have gotten
 for ConsumerType in tqdm(ConsumerTypes):
     ## We configured their discount factor above.  Now solve
     ConsumerType.solve()

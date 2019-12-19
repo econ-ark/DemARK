@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -23,10 +23,6 @@
 # This cell has just a bit of initial setup. You can click the arrow to expand it.
 # %matplotlib inline
 import matplotlib.pyplot as plt
-
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
 
 import numpy as np
 import HARK 

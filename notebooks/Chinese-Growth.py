@@ -16,10 +16,6 @@
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 # %matplotlib inline
-# The first step is to be able to bring things in from different directories
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
 
 import matplotlib.pyplot as plt
 import numpy as np

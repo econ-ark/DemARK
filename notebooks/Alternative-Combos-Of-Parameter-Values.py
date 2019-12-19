@@ -14,7 +14,7 @@
 #     name: python3
 # ---
 
-# <div class="cite2c-biblio"></div># Alternative Combinations of Parameter Values
+# # Alternative Combinations of Parameter Values
 #
 # Please write the names and email addresses of everyone who worked on this notebook on the line below.
 #
@@ -50,20 +50,11 @@
 # * Please accumulate the list of solved consumers' problems in a list called `MyTypes`
 #    * For compatibility with a further part of the assignment below
 
-import nbformat
-
-nbformat.read('Alternative-Combos-Of-Parameter-Values.ipynb', as_version=4)['metadata']['embed_data']
-
 # + {"code_folding": [0], "collapsed": true}
 # This cell merely imports and sets up some basic functions and packages 
 
 # %matplotlib inline
 import matplotlib.pyplot as plt
-
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
-
 from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
