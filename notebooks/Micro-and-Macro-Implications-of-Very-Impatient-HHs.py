@@ -52,10 +52,6 @@
 # %% {"code_folding": [25]}
 # This cell does some setup and imports generic tools used to produce the figures
 
-import sys 
-import os
-sys.path.insert(0, os.path.abspath('../lib'))
-
 from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
