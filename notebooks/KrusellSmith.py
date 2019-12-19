@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -184,8 +184,6 @@ from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 # The folded dictionary below contains many parameters to the 
 # AggShockMarkovConsumerType agent that are not needed for the KS model
 KSAgentDictionary = { 
-    "CRRA": 1.0,                           # Coefficient of relative risk aversion
-    "DiscFac": 0.99,                       # Intertemporal discount factor
     "LivPrb" : [1.0],                      # Survival probability
     "AgentCount" : 10000,                  # Number of agents of this type (only matters for simulation)
     "aNrmInitMean" : 0.0,                  # Mean of log initial assets (only matters for simulation)
@@ -213,23 +211,19 @@ KSAgentDictionary = {
     "tax_rate" : 0.0,                      # Flat income tax rate
     "T_retire" : 0,                        # Period of retirement (0 --> no retirement)
     "BoroCnstArt" : 0.0,                   # Artificial borrowing constraint; imposed minimum level of end-of period assets   
-    "cycles": 0,                           # Consumer is infinitely lived
     "PermGroFac" : [1.0],                  # Permanent income growth factor
 # New Parameters that we need now    
     'MgridBase': np.array([0.1,0.3,0.6,
                            0.8,0.9,0.98,
                            1.0,1.02,1.1,
                            1.2,1.6,2.0,
-                           3.0]),          # Grid of capital-to-labor-ratios (factors)
-    'MrkvArray': np.array([[0.875,0.125],
-                           [0.125,0.875]]),  # Transition probabilities for macroecon. [i,j] is probability of being in state j next
-                                           # period conditional on being in state i this period. 
+                           3.0]),          # Grid of capital-to-labor-ratios (factors) 
     'PermShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate permanent shocks by state. No continous shocks in a state.
     'TranShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate transitory shocks by state. No continuous shocks in a state.
     'PermGroFacAgg' : 1.0
 }
 
-# Here we restate just the "interesting" parts of the consumer's specification
+# Here we state just the "interesting" parts of the consumer's specification
 
 KSAgentDictionary['CRRA']    = 1.0      # Relative risk aversion 
 KSAgentDictionary['DiscFac'] = 0.99     # Intertemporal discount factor
@@ -308,7 +302,6 @@ KSEconomyDictionary = {
     'PermShkAggStd': [0.0,0.0], 
     'TranShkAggStd': [0.0,0.0], 
     'DeprFac': 0.025, # Depreciation factor
-    'CapShare': 0.36, # Share of capital income in cobb-douglas production function
     'DiscFac': 0.99,
     'CRRA': 1.0,
     'PermGroFacAgg': [1.0,1.0],
@@ -316,8 +309,6 @@ KSEconomyDictionary = {
     'act_T':1200, # Number of periods for economy to run in simulation
     'intercept_prev': [0.0,0.0], # Make some initial guesses at linear savings rule intercepts for each state
     'slope_prev': [1.0,1.0], # Make some initial guesses at linear savings rule slopes for each state
-    'MrkvArray': np.array([[0.875,0.125],
-                           [0.125,0.875]]), # Transition probabilities
     'MrkvNow_init': 0   # Pick a state to start in (we pick the first state)
 }
 
