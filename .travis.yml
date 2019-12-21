@@ -26,5 +26,7 @@ notifications:
   email:
     recipients:
       - seth.mridul+travis@gmail.com
+      - shaunagm@gmail.com
+      - ccarroll@llorracc.org
     on_success: never # default: change
     on_failure: always # default: always
