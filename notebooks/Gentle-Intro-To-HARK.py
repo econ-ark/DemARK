@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -154,6 +154,7 @@ print("This agent's consumption function is defined (consumption is positive) do
 # %%
 # YOUR FIRST HANDS-ON EXERCISE!
 # Fill in the value for "mPlotBottom" to plot the consumption function from the point where it is zero.
+mPlotBottom = 0.0 # 0 is not the right number here - replace with the right answer (hint -- look at previous cell!)
 plotFuncs(PFexample.solution[0].cFunc,mPlotBottom,mPlotTop)
 
 # %% [markdown]
@@ -227,7 +228,7 @@ plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],0.,10.)
 # | $\mho$ | Unemployment probability | $\texttt{UnempPrb}$ | 0.05 |
 # | $\underset{\bar{}}{\theta}$ | Transitory shock when unemployed | $\texttt{IncUnemp}$ | 0.3 |
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # This cell defines a parameter dictionary for making an instance of IndShockConsumerType.
 
 IndShockDictionary = {
