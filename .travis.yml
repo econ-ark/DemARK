@@ -18,7 +18,7 @@ script:
   - pytest --nbval-lax notebooks/Nondurables-During-Great-Recession.ipynb
   - pytest --nbval-lax notebooks/PerfForesightConsumerType.ipynb
   - pytest --nbval-lax notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
-  - pytest --nbval-lax notebooks/TractableBufferStockQuickDemo.ipynb
+  - pytest --nbval-lax notebooks/TractableBufferStock-Interactive.ipynb
   - pytest --nbval-lax notebooks/Uncertainty-and-the-Saving-Rate.ipynb
   - pytest --nbval-lax notebooks/ConsPortfolioModelDoc.ipynb
   

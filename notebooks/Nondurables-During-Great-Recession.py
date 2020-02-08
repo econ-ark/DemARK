@@ -216,7 +216,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
     OldAvgC = calcAvgC(OriginalTypes)
 
     # Step 2 (the loop over counterfactual parameter values)
-    for NewVal in tqdm(NewVals, every=1):
+    for NewVal in tqdm(NewVals):
         if ParamToChange in ["PermShkStd","TranShkStd"]:
             ThisVal = [NewVal]
         else:
