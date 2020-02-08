@@ -1,13 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_filter: collapsed
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -24,7 +24,14 @@ import matplotlib.pyplot as plt
 
 ## Import some things from cstwMPC
 
-from tqdm import tqdm
+# The first step is to be able to bring things in from different directories
+import sys 
+import os
+
+# Let python find any useful library files
+sys.path.insert(0, os.path.abspath('../lib'))
+
+from util import log_progress
 
 import numpy as np
 from copy import deepcopy
@@ -58,7 +65,7 @@ from HARK.utilities import plotFuncs
 # With this basic setup, HARK's IndShockConsumerType is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [1]}
 # Import calibrated parameters from the cstwMPC project.
 init_infinite = {
     "CRRA":1.0,                    # Coefficient of relative risk aversion 
@@ -143,8 +150,8 @@ for j in range(num_consumer_types):
 # The cell below does both of those tasks, looping through the consumer types. For each one, it solves that type's infinite horizon model, then simulates 1000 periods to generate an approximation to the long run distribution of wealth.
 
 # %% {"code_folding": [0]}
-# tqdm presents a pretty bar that interactively shows how far the calculations have gotten
-for ConsumerType in tqdm(ConsumerTypes):
+# log_progress presents a pretty bar that interactively shows how far the calculations have gotten
+for ConsumerType in log_progress(ConsumerTypes, every=1):
     ## We configured their discount factor above.  Now solve
     ConsumerType.solve()
     
@@ -216,7 +223,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
     OldAvgC = calcAvgC(OriginalTypes)
 
     # Step 2 (the loop over counterfactual parameter values)
-    for NewVal in tqdm(NewVals):
+    for NewVal in log_progress(NewVals, every=1):
         if ParamToChange in ["PermShkStd","TranShkStd"]:
             ThisVal = [NewVal]
         else:
