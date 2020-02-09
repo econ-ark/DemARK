@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -47,6 +47,7 @@
 # This cell does some setup and imports generic tools used to produce the figures
 
 from tqdm import tqdm
+
 import numpy as np
 from copy import deepcopy
 

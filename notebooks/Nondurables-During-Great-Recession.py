@@ -1,13 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_filter: collapsed
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -19,7 +19,7 @@
 
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
-# %matplotlib inline
+
 import matplotlib.pyplot as plt
 
 ## Import some things from cstwMPC
@@ -153,7 +153,6 @@ for ConsumerType in tqdm(ConsumerTypes):
     ConsumerType.initializeSim()
     ConsumerType.simulate()
 
-
 # %% [markdown]
 # With all of that setup taken care of, let's write some functions to run our counterfactual exercise and extract the information we want.
 #
@@ -174,7 +173,6 @@ def calcAvgC(ConsumerTypes):
     # Calculate and return average consumption level in the economy
     avgC = np.mean(cNrm*pLvl) # c is the ratio to p, so C = c*p
     return avgC
-
 
 # %% [markdown]
 # Now let's create a function to run the experiment we want -- change income uncertainty, and see how consumption changes.
@@ -240,7 +238,6 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
 
     return ChangesInConsumption # Step 3, returning the output
 
-
 # %% [markdown]
 # Our counterfactual experiment function takes three inputs-- consumer types, counterfactual values, and the name of the parameter we want to change. For the sake of convenience, let's define small functions to run the experiment for each parameter with just a single input.
 
@@ -254,7 +251,6 @@ def calcConsChangeAfterTranShkChange(newVals):
 
 def calcConsChangeAfterUnempPrbChange(newVals):
     return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"UnempPrb")
-
 
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
@@ -279,7 +275,7 @@ plt.hlines(TargetChangeInC,perm_min,perm_max)
 # The expression below shows the power of python
 plotFuncs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
 
-# %% [markdown] {"collapsed": true}
+# %% [markdown]
 # The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.095, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  
 #
 # The question is whether this is a reasonable or an unreasonable magnitude for a change in uncertainty.  Some perspective on that question is offered by the large literature that attempts to estimate the magnitude of persistent or permanent shocks to household income.  The answer varies substantially across household types, countries, and time periods, but our sense of the literature is that the whole span of the territory between 0.04 and ranging nearly up to 0.20 is well populated (in the sense that substantial populations of people or countries have been estimated to experience shocks of this magnitude).
