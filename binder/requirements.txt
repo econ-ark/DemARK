@@ -8,3 +8,4 @@ econ-ark
 pandas
 pandas-datareader
 statsmodels
+tqdm
