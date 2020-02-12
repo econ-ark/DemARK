@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
@@ -15,7 +15,9 @@
 # ---
 
 # %% [markdown]
-# # Spending on Nondurables During the Great Recession
+# # Spending on Nondurables During the Great 
+#
+# <p style="text-align: center;"><small><small><small>Generator: QuARK-make/notebooks_byname</small></small></small></p>
 
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show

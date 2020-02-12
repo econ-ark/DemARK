@@ -16,6 +16,8 @@
 
 # %% [markdown]
 # # Micro- and Macroeconomic Implications of Very Impatient Households
+#
+# <p style="text-align: center;"><small><small><small>Generator: QuARK-make/notebooks_byname</small></small></small></p>
 
 # %% [markdown]
 # ## Introduction
