@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -16,31 +16,42 @@
 # %% [markdown]
 # # A Gentle Introduction to Buffer Stock Saving 
 #
-# This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in "A Gentle Introduction," except that now the model incorporates income uncertainty.
+# This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in [Gentle-Intro-To-HARK-PerfForesightCRRA](https://econ-ark.org/materials/Gentle-Intro-To-HARK-PerfForesightCRRA) except that now the model incorporates income uncertainty.
 #
-# Specifically, our new type of consumer receives two income shocks at the beginning of each period: a completely transitory shock $\theta_t$ and a completely permanent shock $\psi_t$.  Moreover, lenders will not let the agent borrow money such that his ratio of end-of-period assets $A_t$ to permanent income $P_t$ is less than $\underline{a}$. As with the perfect foresight problem, this model can be framed in terms of _normalized_ variables, e.g. $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for all the theory).
+# Specifically, our new type of consumer receives two income shocks at the beginning of each period: a completely transitory shock $\theta_t$ and a completely permanent shock $\psi_t$.  Moreover, lenders set a limit on borrowing: The ratio of end-of-period assets $A_t$ to permanent income $P_t$ must be less greater than $\underline{a} \leq 0$. As with the perfect foresight problem, this model can be framed in terms of _normalized_ variables, e.g. $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for all the theory).
 #
 # \begin{eqnarray*}
 # v_t(m_t) &=& \max_{c_t} U(c_t) + \beta (1 - \mathsf{D}_{t+1}) \mathbb{E} [(\Gamma_{t+1}\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ], \\
 # a_t &=& m_t - c_t, \\
 # a_t &\geq& \underline{a}, \\
 # m_{t+1} &=& R/(\Gamma_{t+1} \psi_{t+1}) a_t + \theta_{t+1}, \\
-# (\psi_t,\theta_t) \sim F_{t}, &\qquad& \mathbb{E} [F_{\psi t}] = 1, \\
+# (\psi_t,\theta_t) \sim F_{t}, &\qquad& \mathbb{E} [F_{\psi t}] = [F_{\theta t}] = 1, \\
 # U(c) &=& \frac{c^{1-\rho}}{1-\rho}.
 # \end{eqnarray*}
 #
-# HARK represents agents with this kind of problem as instances of the class $\texttt{IndShockConsumerType}$.  To create an $\texttt{IndShockConsumerType}$, we must specify the same set of parameters as for a $\texttt{PerfForesightConsumerType}$, as well as an artificial borrowing constraint $\underline{a}$ and a sequence of income shock distributions $\{F_t\}$. It's easy enough to pick a borrowing constraint-- say, zero-- but how would we specify $F_t$?  Can't the joint distribution of permanent and transitory shocks be just about anything?
+# HARK represents agents with this kind of problem as instances of the class $\texttt{IndShockConsumerType}$.  To create a $\texttt{IndShockConsumerType}$ instance, we must specify the same set of parameters as for a $\texttt{PerfForesightConsumerType}$, as well as an artificial borrowing constraint $\underline{a}$ and a sequence of income shock distributions $\{F_t\}$. It's easy enough to pick a borrowing constraint-- say, $\underline{a} = 0$ so that the consumer cannot borrow at all.
 #
-# _Yes_, and HARK can handle that.  However, the default behavior of $\texttt{IndShockConsumerType}$ is that the distribution of permanent income shocks is mean one lognormal, and the distribution of transitory shocks is mean one lognormal with a point mass representing unemployment.  The distributions are independent of each other by default, and are approximated with $N$ point equiprobable distributions.
+# Computers are discrete devices; even if somehow we knew with certainty that the distributions of the transitory and permanent shocks were, say, continuously lognormally distributed, in order to be represented on a computer those distributions would need to be approximated by a finite and discrete set of points.  A large literature in numerical computation explores ways to construct such approximations; probably the easiest example to understand is the equiprobable approximation, in which the continuous distribution is represented by a set of $N$ outcomes that are equally likely to occur. 
 #
-# Let's make an infinite horizon instance of $\texttt{IndShockConsumerType}$ with the same parameters as our original perfect foresight agent, plus the extra parameters to specify the income shock distribution and the artificial borrowing constraint. As before, we'll make a dictionary:
+# In the case of a single variable (say, the permanent shock $\psi$), and when the number of equiprobable points is, say, 5, the procedure is to construct a list: $psi_{0}$ is the mean value of the continuous $\psi$ given that the draw of $\psi$ is in the bottom 20 percent of the distribution of the continuous $\psi$.  $\\psi_{1}$ is the mean value of $\psi$ given that the draw is between the 20th and 40th percentiles, and so on.  The expectation of some expression $f(\psi)$ can be very quickly calculated by:
+#
+# $$ 
+# \mathbb{E}_{t}[f(\psi)] \approx (1/N) \sum_{i=0}^{N-1} f(\psi_{i})
+# $$
+
+# %% [markdown]
+# In principle, any smooth multivariate continuous distribution can be approximated to an arbitrary degree of accuracy with a fine enough matrix of points and their corresponding probailities.  This is, in fact, the fundamental way that HARK represents uncertainty: By a specifying a multidimensional array containing joint probabilities of the realizations of the shocks.
+#
+# The simplest assumption (and therefore the default choice in $\texttt{IndShockConsumerType}$) is that the transitory and permanent shocks are independent.  The permanent shock is assumed to be lognormal, while the transitory shock has two components: A probability $\wp$ that the consumer is unemployed, in which case $\theta=\underline{\theta}$, and a probability $(1-\wp)$ of a shock that is a lognormal with a mean chosen so that $\mathbb{E}_{t}[\theta_{t+n}]=1$.
+#
+# The $\texttt{IndShockConsumerType}$ inherits all of the parameters of the original $\texttt{PerfForesightConsumerType}$ class.  Given the assumptions above, we need to specify the extra parameters to specify the income shock distribution and the artificial borrowing constraint. As before, we'll make a dictionary:
 #
 #
 # | Param | Description | Code | Value |
 # | :---: | ---         | ---  | :---: |
 # | $\underline{a}$ | Artificial borrowing constraint | $\texttt{BoroCnstArt}$ | 0.0 |
 # | $\sigma_\psi$ | Underlying stdev of permanent income shocks | $\texttt{PermShkStd}$ | 0.1 |
-# | $\sigma_\theta$ | Underlying stdev of transitory income shocks | $\texttt{TranShkStd}$ | 0.1 |
+# | $\sigma_\theta^{e}$ | Underlying stdev of transitory income shocks | $\texttt{TranShkStd}$ | 0.1 |
 # | $N_\psi$ | Number of discrete permanent income shocks | $\texttt{PermShkCount}$ | 7 |
 # | $N_\theta$ | Number of discrete transitory income shocks | $\texttt{TranShkCount}$ | 7 |
 # | $\mho$ | Unemployment probability | $\texttt{UnempPrb}$ | 0.05 |
