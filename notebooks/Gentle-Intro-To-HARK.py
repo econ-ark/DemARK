@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -32,7 +32,6 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import numpy as np
 import HARK 
-from time import clock
 from copy import deepcopy
 mystr = lambda number : "{:.4f}".format(number)
 from HARK.utilities import plotFuncs
