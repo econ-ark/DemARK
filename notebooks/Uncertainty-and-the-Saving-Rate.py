@@ -107,7 +107,7 @@ if Generator:
 
 from copy import deepcopy
 from scipy.optimize import golden, brentq
-from time import clock
+from time import time
 import numpy as np
 import scipy as sp
 
@@ -211,13 +211,13 @@ if do_optimizing: # If you want to rerun the cstwMPC estimation, change do_optim
                                                         center_range = param_range,
                                                         spread = spread,
                                                         dist_type = Params.dist_type) # Distribution of DiscFac
-        t_start = clock()
+        t_start = time()
         
         spread_estimate = golden(paramDistObjective 
                                  ,brack=spread_range
                                  ,tol=1e-4) 
         center_estimate = EstimationEconomy.center_save
-        t_end = clock()
+        t_end = time()
     else: # Run the param-point estimation only
         paramPointObjective = lambda center : cstwMPC.getKYratioDifference(Economy = EstimationEconomy,
                                               param_name = Params.param_name,
@@ -225,12 +225,12 @@ if do_optimizing: # If you want to rerun the cstwMPC estimation, change do_optim
                                               center = center,
                                               spread = 0.0,
                                               dist_type = Params.dist_type)
-        t_start = clock()
+        t_start = time()
         center_estimate = brentq(paramPointObjective # Find best point estimate 
                                  ,param_range[0]
                                  ,param_range[1],xtol=1e-6)
         spread_estimate = 0.0
-        t_end = clock()
+        t_end = time()
         
         print(spread_estimate)
         print('****************')

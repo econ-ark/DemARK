@@ -38,7 +38,6 @@ import os
 
 import numpy as np
 from copy import deepcopy
-from time import clock
 
 # %% {"code_folding": [0]}
 # Import needed tools from HARK

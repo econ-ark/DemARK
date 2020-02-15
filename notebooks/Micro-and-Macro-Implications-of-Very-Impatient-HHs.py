@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -61,7 +61,6 @@ Generator=False # Is this notebook the master or is it generated?
 # Import related generic python packages
 
 # Set how many digits past the decimal point should be printed?
-from time import clock
 mystr   = lambda number : "{:.4f}".format(number)
 decfmt4 = lambda number : "{:.4f}".format(number)
 decfmt3 = lambda number : "{:.3f}".format(number)
