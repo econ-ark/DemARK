@@ -1,13 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -46,7 +46,6 @@ from HARK.ConsumptionSaving.ConsGenIncProcessModel import *
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
 from HARK.utilities import approxUniform, getLorenzShares, calcSubpopAvg
-from time import clock
 mystr = lambda number : "{:.4f}".format(number)
 
 # %% {"code_folding": [1]}
