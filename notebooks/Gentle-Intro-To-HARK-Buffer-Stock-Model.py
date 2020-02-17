@@ -77,6 +77,8 @@ IndShockDictionary = {
     'UnempPrb': 0.05,
     'IncUnemp': 0.3,
     'BoroCnstArt': 0.0,
+    
+    'cycles' : 0 # infinite time horizon -- see below
 }
         
 # Hey, there's a lot of parameters we didn't tell you about!  Yes, but you don't need to
@@ -87,7 +89,7 @@ IndShockDictionary = {
 #
 # You can see all the **attributes** of an object in Python by using the `dir()` command. You can see that many of the model variables are now attributes of this object, along with many other attributes that are outside the scope of this tutorial.
 
-# %% {"jupyter": {"outputs_hidden": true}}
+# %%
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 
 pfc = PerfForesightConsumerType()
@@ -132,6 +134,49 @@ plt.show()
 
 # %% [markdown]
 # Notice that this distribution was created when the `IndShockConsumerType` object was initialized, but it was not an attribute you gave it directly.
+
+# %% [markdown]
+# ## Backwards Induction
+#
+# HARK will solve this problem using _backwards induction_.
+#
+# It will derive a solution for each period ($t$) by choosing the optimal policy mapping from market resources $m$ to consumption $c$. This function will be stored in a variable named `cFunc`.
+#
+# Backwards induction requires a "terminal" (last, final) period to work backwards from. Our `IndShockExample` has been initialized with a terminal solution. There are many functions wrapped together in the solution object, which is of type `ConsumerSolution`.
+
+# %%
+IndShockExample.solution_terminal
+
+# %% [markdown]
+# The consumption function `cFunc` is define by _linear interpolation_.
+# It is defined by a series of $(x,y)$ points on a grid; the value of the function for any $x$ is the $y$ determined by the line between the nearest defined gridpoints.
+# You can see below that in the terminal period, $c = m$; the agent consumes all available resources.
+
+# %%
+plt.plot(IndShockExample.solution_terminal.cFunc.x_list,
+         IndShockExample.solution_terminal.cFunc.y_list,
+         color='k')
+plt.scatter(IndShockExample.solution_terminal.cFunc.x_list,
+            IndShockExample.solution_terminal.cFunc.y_list)
+
+# %% [markdown]
+# The solution also has a representation of a `value function`, the value `v(m)` as a function of available market resources. Because the agent consumes all their resources in the last period, the value function for the terminal solution looks just like the CRRA utility function.
+
+# %%
+x = np.linspace(0,1,20)
+plt.plot(x,
+        IndShockExample.solution_terminal.vFunc(x))
+
+# %% [markdown]
+# If these are the consumption and value functions for the _last_ period, what are the functions for the _first_ period?
+#
+# Recall that we are solving this problem on the _infinite time horizon_; in other words, there is no "first period".
+
+# %%
+IndShockExample.cycles
+
+# %% [markdown]
+# What we will do instead is perform backwards induction until the consumption and value functions _converge_. We will see that this derived consumption function looks quite different from the terminal solution.
 
 # %% [markdown]
 # ## Solving the problem
