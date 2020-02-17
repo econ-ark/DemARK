@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -32,7 +32,6 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 import HARK 
-from time import clock
 from copy import deepcopy
 mystr = lambda number : "{:.3f}".format(number)
 
