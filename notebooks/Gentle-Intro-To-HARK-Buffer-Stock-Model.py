@@ -209,8 +209,6 @@ IndShockExample.solve(verbose=True) # Verbose prints progress as solution procee
 # plotFuncs([list],min,max) takes a [list] of functions and plots their values over a range from min to max
 plotFuncs([IndShockExample.solution[0].cFunc,IndShockExample.solution_terminal.cFunc],0.,10.)
 
-# %%
-
 # %% [markdown]
 # ## Changing Constructed Attributes
 #
@@ -232,3 +230,19 @@ OtherExample.solve()
 # %% {"code_folding": []}
 # Use the remainder of this cell to plot the IndShockExample and OtherExample consumption functions against each other
 
+
+# %% [markdown]
+# ## Buffer Stock Saving?
+#
+# There are some combinations of parameter values under which problems of the kind specified above have "degenerate" solutions; for example, if consumers are so patient that they always prefer deferring consumption to the future, the limiting consumption rule can be $c(m)=0$.  
+#
+# The toolkit has built-in tests for a number of parametric conditions that can be shown to result in various characteristics in the optimal solution.
+#
+# Perhaps the most interesting such condition is the ["Growth Impatience Condition"](http://econ.jhu.edu/people/ccarroll/Papers/BufferStockTheory/#GIC): If this condition is satisfied, the consumer's optimal behavior is to aim to achieve a "target" value of $m$, to serve as a precautionary buffer against income shocks.
+#
+# The tests can be invoked using the `checkConditions()` method:
+
+# %%
+IndShockExample.checkConditions(verbose=True)
+
+# %%
