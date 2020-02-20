@@ -37,17 +37,17 @@ from HARK.utilities import plotFuncs
 # ## The Consumer's Problem with Transitory and Permanent Shocks
 # ### Mathematical Description
 #
-# Our new type of consumer receives two income shocks at the beginning of each period.  Permanent income would grow by a factor $\Gamma$ in the absence of any shock , but its growth is modified by a mean-one shock, $\psi_{t+1}$:
+# Our new type of consumer receives two income shocks at the beginning of each period.  Permanent income would grow by a factor $\Gamma$ in the absence of any shock , but its growth is modified by a shock, $\psi_{t+1}$:
 # \begin{align}
 #  P_{t+1} & = \Gamma P_{t}\psi_{t+1}
 # \end{align}
-# whose expected (mean) value is $\mathbb{E}_{t}[\psi_{t+1}]=1$, while realized income $Y$ is equal to permanent income $P$ multiplied by the mean-one transitory shock:
+# whose expected (mean) value is $\mathbb{E}_{t}[\psi_{t+1}]=1$.  Actual income received $Y$ is equal to permanent income $P$ multiplied by a transitory shock $\theta$:
 # \begin{align}
 #  Y_{t+1} & = \Gamma P_{t+1}\theta_{t+1}
 # \end{align}
 # where again $\mathbb{E}_{t}[\theta_{t+1}] = 1$.
 #
-# As with the perfect foresight problem, this model can be rewritten in terms of _normalized_ variables, e.g. the ratio of 'market resources' $M_{t}$ (wealth plus current income) to permanent income is $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for the theory).  In addition, lenders may set a limit on borrowing: The ratio $a_{t}$ of end-of-period assets $A_t$ to permanent income $P_t$ must be greater than $\underline{a} \leq 0$. (So, if $\underline{a}=-0.3$, the consumer cannot borrow more than 30 percent of their permanent income).  
+# As with the perfect foresight problem, this model can be rewritten in terms of _normalized_ variables, e.g. the ratio of 'market resources' $M_{t}$ (wealth plus current income) to permanent income is $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for the theory).  In addition, lenders may set a limit on borrowing: The ratio $a_{t}$ of end-of-period assets to permanent income $A_t/P_t$ must be greater than $\underline{a} \leq 0$. (So, if $\underline{a}=-0.3$, the consumer cannot borrow more than 30 percent of their permanent income).  
 #
 # The consumer's (normalized) problem turns out to be:
 # \begin{eqnarray*}
@@ -60,12 +60,12 @@ from HARK.utilities import plotFuncs
 #
 
 # %% [markdown]
-# For present purposes, we assume that the transitory and permanent shocks are independent.  The permanent shock is assumed to be (approximately) lognormal, while the transitory shock has two components: A probability $\mho$ that the consumer is unemployed, in which case $\theta^{u}=\underline{\theta}$, and a probability $(1-\mho)$ of a shock that is a lognormal with a mean chosen so that $\mathbb{E}_{t}[\theta_{t+n}]=1$.
+# For present purposes, we assume that the transitory and permanent shocks are independent.  The permanent shock is assumed to be (approximately) lognormal, while the transitory shock has two components: A probability $\wp$ that the consumer is unemployed, in which case $\theta^{u}=\underline{\theta}$, and a probability $(1-\wp)$ of a shock that is a lognormal with a mean chosen so that $\mathbb{E}_{t}[\theta_{t+n}]=1$.
 #
 #
 # ### Representing the Income Shocks
 #
-# Computers are discrete devices; even if somehow we knew with certainty that the transitory and permanent shocks were, say, continuously lognormally distributed, in order to be represented on a computer those distributions would need to be approximated by a finite and discrete set of points.  A large literature in numerical computation explores ways to construct such approximations; probably the easiest discretization to understand is the equiprobable approximation, in which the continuous distribution is represented by a set of $N$ outcomes that are equally likely to occur.  
+# Computers are discrete devices; even if somehow we knew with certainty that the transitory and permanent shocks were, say, continuously lognormally distributed, in order to be represented on a computer those distributions would need to be approximated by a finite set of points.  A large literature in numerical computation explores ways to construct such approximations; probably the easiest discretization to understand is the equiprobable approximation, in which the continuous distribution is represented by a set of $N$ outcomes that are equally likely to occur.  
 #
 # In the case of a single variable (say, the permanent shock $\psi$), and when the number of equiprobable points is, say, 5, the procedure is to construct a list: $\psi^{0}$ is the mean value of the continuous $\psi$ given that the draw of $\psi$ is in the bottom 20 percent of the distribution of the continuous $\psi$.  $\psi^{1}$ is the mean value of $\psi$ given that the draw is between the 20th and 40th percentiles, and so on.  Having constructed these, the approximation to the expectation of some expression $g(\psi)$ can be very quickly calculated by:
 #
@@ -86,7 +86,7 @@ from HARK.utilities import plotFuncs
 # | $\sigma_\theta^{e}$ | Underlying stdev of transitory income shocks | $\texttt{TranShkStd}$ | 0.1 |
 # | $N_\psi$ | Number of discrete permanent income shocks | $\texttt{PermShkCount}$ | 7 |
 # | $N_\theta$ | Number of discrete transitory income shocks | $\texttt{TranShkCount}$ | 7 |
-# | $\mho$ | Unemployment probability | $\texttt{UnempPrb}$ | 0.05 |
+# | $\wp$ | Unemployment probability | $\texttt{UnempPrb}$ | 0.05 |
 # | $\underline{\theta}$ | Transitory shock when unemployed | $\texttt{IncUnemp}$ | 0.3 |
 
 # %% [markdown]
@@ -196,10 +196,10 @@ help(IndShockExample.solve)
 # %% [markdown]
 # ### Finite or Infinite Horizon?
 #
-# $\texttt{ConsIndShockType}$ can solve either finite-horizon (e.g., life-cycle) problems, or infinite-horizon problems (where the problem is the same in every period).  Elsewhere you can find documentation about the finite horizon solution; here we are interested in the infinite-horizon solution which is obtained (by definition) when iterating one more period yields a solution that is essentially the same.  We signal to HARK that we want the infinite horizon solution by setting the "cycles" paramter to zero:
+# $\texttt{ConsIndShockType}$ can solve either finite-horizon (e.g., life-cycle) problems, or infinite-horizon problems (where the problem is the same in every period).  Elsewhere you can find documentation about the finite horizon solution; here we are interested in the infinite-horizon solution which is obtained (by definition) when iterating one more period yields a solution that is essentially the same.  In the dictionary above we signaled to HARK that we want the infinite horizon solution by setting the "cycles" paramter to zero:
 
 # %%
-IndShockExample.cycles = 0 # Infinite horizon solution
+IndShockExample.cycles # Infinite horizon solution is computed when cycles = 0
 
 # %%
 # Solve It
@@ -244,5 +244,3 @@ OtherExample.solve()
 
 # %%
 IndShockExample.checkConditions(verbose=True)
-
-# %%
