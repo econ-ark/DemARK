@@ -162,19 +162,17 @@ else:
 
 # Import the plot-figure library matplotlib
 
-# import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-# from copy import copy
+from copy import deepcopy
 from HARK.utilities import plotFuncs, plotFuncsDer
 
 # %% {"code_folding": [0]}
 # Import components of HARK needed for solving the KS model
-# from   HARK.ConsumptionSaving.ConsAggShockModel import *
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
-# Markov consumer type that allows aggregate shocks (redundant but instructive)
+# Markov consumer type that allows aggregate shocks
 from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 
 # %% {"code_folding": [0]}
