@@ -3,6 +3,7 @@
 # jupyter:
 #   jupytext:
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
@@ -12,6 +13,16 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
 # %% [markdown]
@@ -40,7 +51,7 @@ from copy  import deepcopy
 # This should not be necessary when pandas-datareader>0.7 becomes available.
 from io import StringIO
 
-from HARK.ConsumptionSaving.ConsIndShockModel import *
+from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.utilities import plotFuncsDer, plotFuncs
 

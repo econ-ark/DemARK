@@ -2,15 +2,26 @@
 # jupyter:
 #   jupytext:
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
 # %% [markdown]
@@ -138,6 +149,7 @@ lnpcct = cpm.LogNormalPortfolioConsumerType(**init_lognormportfolio)
 lnpcct.solve()
 lnpcct.MertSamCampVicShare = lnpcct.RiskyShareLimitFunc(RiskyDstnFunc(init_portfolio['RiskyCount']))
 
+fig = plt.figure()
 plt.plot(eevalgrid, lnpcct.solution[0].RiskyShareFunc[0][0](eevalgrid))
 plt.axhline(lnpcct.MertSamCampVicShare, c='r')
 plt.ylim(0,1.05)
