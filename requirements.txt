@@ -14,3 +14,4 @@ sphinx-rtd-theme
 nbsphinx
 tqdm
 nbval
+statsmodels
