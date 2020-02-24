@@ -3,6 +3,7 @@
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
@@ -12,6 +13,16 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
 # %% [markdown]
@@ -40,9 +51,9 @@ import matplotlib.pyplot as plt
 import sys
 import os
 from copy import copy
+import numpy as np
 
-
-from HARK.ConsumptionSaving.ConsGenIncProcessModel import *
+from HARK.ConsumptionSaving.ConsGenIncProcessModel import PersistentShockConsumerType
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
 from HARK.utilities import approxUniform, getLorenzShares, calcSubpopAvg
