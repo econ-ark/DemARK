@@ -3,6 +3,7 @@
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -12,14 +13,21 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
-# + {"code_folding": [0], "collapsed": true}
-# Initial imports and notebook setup, click arrow to show
-import sys 
-import os
-
-from HARK.ConsumptionSaving.ConsIndShockModel import *
+# + {"code_folding": [0]}
+from copy import deepcopy
+from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.utilities import plotFuncsDer, plotFuncs
 mystr = lambda number : "{:.4f}".format(number)
@@ -35,7 +43,7 @@ import matplotlib.pyplot as plt
 #
 # (Fuller discussion of the issues here can be found in [A Theory of the Consumption Function, With or Without Liquidity Constraints](http://econ.jhu.edu/people/ccarroll/ATheoryv3JEP.pdf))
 
-# + {"collapsed": true}
+# +
 # Create an instance of the type of consumer we are interested in
 KinkyExample = KinkedRconsumerType(**Params.init_kinked_R) 
 
@@ -67,7 +75,7 @@ plotFuncs([KinkyExample.solution[0].cFunc],KinkyExample.solution[0].mNrmMin,5)
 # We are now interested in the solution to the problem when the constraint is tighter; concretely, the maximum amount of borrowing allowed is now 0.2, rather than 0.4.
 #
 
-# + {"collapsed": true}
+# +
 # Make a copy of the example consumer
 KinkyExampleTighten = deepcopy(KinkyExample)
 

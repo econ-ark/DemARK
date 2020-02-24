@@ -1,35 +1,43 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
 # %% [markdown]
 # # Permanent versus Persistent Income Shocks
 #
 
-# %% {"code_folding": [0], "collapsed": true}
+# %% {"code_folding": [0]}
 # Initial imports and notebook setup
 # %matplotlib inline
 import matplotlib.pyplot as plt
-
-import sys
-import os
 from copy import copy
-from HARK.utilities import plotFuncs
+import numpy as np
 
-# %% {"collapsed": true}
-from HARK.ConsumptionSaving.ConsGenIncProcessModel import *
+from HARK.utilities import plotFuncs
+from HARK.ConsumptionSaving.ConsGenIncProcessModel import IndShockExplicitPermIncConsumerType, IndShockConsumerType, PersistentShockConsumerType
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
 # %% [markdown]
@@ -140,7 +148,7 @@ import HARK.ConsumptionSaving.ConsumerParameters as Params
 #
 #
 
-# %% {"code_folding": [0], "collapsed": true}
+# %% {"code_folding": [0]}
 # This cell defines a dictionary to make an instance of "explicit permanent income" consumer.
 GenIncDictionary = { 
     "CRRA": 2.0,                           # Coefficient of relative risk aversion
@@ -184,7 +192,7 @@ GenIncDictionary = {
 # %% [markdown]
 # Let's now create an instance of the type of consumer we are interested in and solve this agent's problem with an infinite horizon (cycles=0).
 
-# %% {"collapsed": true}
+# %%
 # Make and solve an example "explicit permanent income" consumer with idiosyncratic shocks
 ExplicitExample = IndShockExplicitPermIncConsumerType(**GenIncDictionary)
                                         
@@ -197,7 +205,7 @@ ExplicitExample.solve()
 # %% [markdown]
 # In the cell below, we generate a plot of the consumption function for explicit permanent income consumer at different income levels.
 
-# %% {"code_folding": [0], "collapsed": true}
+# %% {"code_folding": [0]}
 # Plot the consumption function at various permanent income levels.
 print('Consumption function by pLvl for explicit permanent income consumer:')
 pLvlGrid = ExplicitExample.pLvlGrid[0]
@@ -211,17 +219,17 @@ plt.xlabel('Market resource level mLvl')
 plt.ylabel('Consumption level cLvl')
 plt.show()
 
-# %% [markdown] {"collapsed": true}
+# %% [markdown]
 # ## Permanent income normalized
 #
 # An alternative model is to normalize it by dividing all variables by permanent income $p_t$ and solve the model again.
 
-# %% {"collapsed": true}
+# %%
 # Make and solve an example of normalized model
 NormalizedExample = IndShockConsumerType(**GenIncDictionary)
 NormalizedExample.solve()
 
-# %% {"collapsed": true}
+# %%
 # Compare the normalized problem with and without explicit permanent income and plot the consumption functions
 print('Normalized consumption function by pLvl for explicit permanent income consumer:')
 pLvlGrid = ExplicitExample.pLvlGrid[0]
@@ -240,13 +248,13 @@ print('Consumption function for normalized problem (without explicit permanent i
 mNrmMin = NormalizedExample.solution[0].mNrmMin
 plotFuncs(NormalizedExample.solution[0].cFunc,mNrmMin,mNrmMin+20.)
 
-# %% [markdown] {"collapsed": true}
+# %% [markdown]
 # The figures above show that the normalized consumption function for the "explicit permanent income" consumer is almost identical for every permanent income level (and the same as the normalized problem's $\texttt{cFunc}$), but is less accurate due to extrapolation outside the bounds of $\texttt{pLvlGrid}$. 
 #
 # The "explicit permanent income" solution deviates from the solution to the normalized problem because of errors from extrapolating beyond the bounds of the $\texttt{pLvlGrid}$. The error is largest for $\texttt{pLvl}$ values near the upper and lower bounds, and propagates toward the center of the distribution.
 #
 
-# %% {"collapsed": true}
+# %%
 # Plot the value function at various permanent income levels
 if ExplicitExample.vFuncBool:
     pGrid = np.linspace(0.1,3.0,24)
@@ -260,7 +268,7 @@ if ExplicitExample.vFuncBool:
     plt.ylabel('Value v')
     plt.show()
 
-# %% {"collapsed": true}
+# %%
 # Simulate many periods to get to the stationary distribution
 ExplicitExample.T_sim = 500
 ExplicitExample.track_vars = ['mLvlNow','cLvlNow','pLvlNow']
@@ -272,7 +280,7 @@ plt.ylabel('Average market resources mLvl')
 plt.show()
 
 
-# %% [markdown] {"collapsed": true}
+# %% [markdown]
 # ## 2. Persistent income shock consumer
 #
 #
@@ -302,7 +310,7 @@ plt.show()
 # * For this model, we overwrite the method $\texttt{updatepLvlNextFunc}$ to create the input $\texttt{pLvlNextFunc}$ as a sequence of AR1-style functions. The method uses now the attributes $\texttt{PermGroFac}$ and $\texttt{PrstIncCorr}$. If cycles=0, the product of $\texttt{PermGroFac}$ across all periods must be 1.0, otherwise this method is invalid.
 #
 
-# %% {"code_folding": [0], "collapsed": true}
+# %% {"code_folding": [0]}
 # Make a dictionary for the "persistent idiosyncratic shocks" model
 PrstIncCorr = 0.98       # Serial correlation coefficient for persistent income
 
@@ -310,15 +318,15 @@ persistent_shocks = copy(GenIncDictionary)
 persistent_shocks['PrstIncCorr'] = PrstIncCorr
 
 
-# %% [markdown] {"collapsed": true}
+# %% [markdown]
 # The $\texttt{PersistentShockConsumerType}$ class solves the problem of a consumer facing idiosyncratic shocks to his persistent and transitory income, and for which the (log) persistent income follows an AR1 process rather than random walk.
 
-# %% {"collapsed": true}
+# %%
 # Make and solve an example of "persistent idisyncratic shocks" consumer
 PersistentExample = PersistentShockConsumerType(**persistent_shocks)
 PersistentExample.solve()
 
-# %% {"collapsed": true}
+# %%
 # Plot the consumption function at various levels of persistent income pLvl
 print('Consumption function by persistent income level pLvl for a consumer with AR1 coefficient of ' + str(PersistentExample.PrstIncCorr) + ':')
 pLvlGrid = PersistentExample.pLvlGrid[0]
@@ -332,7 +340,7 @@ plt.xlabel('Market resource level mLvl')
 plt.ylabel('Consumption level cLvl')
 plt.show()
 
-# %% {"collapsed": true}
+# %%
 # Plot the value function at various persistent income levels
 if PersistentExample.vFuncBool:
     pGrid = PersistentExample.pLvlGrid[0]
@@ -346,7 +354,7 @@ if PersistentExample.vFuncBool:
     plt.ylabel('Value v')
     plt.show()
 
-# %% {"collapsed": true}
+# %%
 # Simulate some data
 PersistentExample.T_sim = 500
 PersistentExample.track_vars = ['mLvlNow','cLvlNow','pLvlNow']
