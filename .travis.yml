@@ -7,31 +7,7 @@ install:
   - pip install git+https://github.com/econ-ark/HARK.git@master
 # command to run tests
 script:
-  # all except Alternative-Combos-Of-Parameter-Values
-#   - pytest --nbval-lax notebooks/
-  - pytest --nbval-lax notebooks/ChangeLiqConstr.ipynb
-  - pytest --nbval-lax notebooks/Chinese-Growth.ipynb
-  - pytest --nbval-lax notebooks/ConsPortfolioModelDoc.ipynb
-  - pytest --nbval-lax notebooks/DCEGM-Upper-Envelope.ipynb
-  - pytest --nbval-lax notebooks/DiamondOLG.ipynb
-  - pytest --nbval-lax notebooks/FisherTwoPeriod.ipynb
-  - pytest --nbval-lax notebooks/GenIncProcessModel.ipynb
-  - pytest --nbval-lax notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb
-  - pytest --nbval-lax notebooks/Gentle-Intro-To-HARK-PerfForesightCRRA.ipynb
-  - pytest --nbval-lax notebooks/HoweWeSolveIndShockConsumerType.ipynb
-  - pytest --nbval-lax notebooks/IncExpectationExample.ipynb
-  - pytest --nbval-lax notebooks/IndShockConsumerType.ipynb
-  - pytest --nbval-lax notebooks/KeynesFriedmanModigliani.ipynb
-  - pytest --nbval-lax notebooks/KinkedRconsumerType.ipynb
-  - pytest --nbval-lax notebooks/KrusellSmith.ipynb
-  - pytest --nbval-lax notebooks/LifecycleModelExample.ipynb
-  - pytest --nbval-lax notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income.ipynb
-  - pytest --nbval-lax notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb
-  - pytest --nbval-lax notebooks/Nondurables-During-Great-Recession.ipynb
-  - pytest --nbval-lax notebooks/PerfForesightConsumerType.ipynb
-  - pytest --nbval-lax notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
-  - pytest --nbval-lax notebooks/TractableBufferStock-Interactive.ipynb
-  - pytest --nbval-lax notebooks/Uncertainty-and-the-Saving-Rate.ipynb
+  - pytest --nbval-lax notebooks/
   
 notifications:
   email:
