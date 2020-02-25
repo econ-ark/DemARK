@@ -3,6 +3,7 @@
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -12,6 +13,32 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 # ---
 
 # # Alternative Combinations of Parameter Values
@@ -50,7 +77,7 @@
 # * Please accumulate the list of solved consumers' problems in a list called `MyTypes`
 #    * For compatibility with a further part of the assignment below
 
-# + {"code_folding": [0], "collapsed": true}
+# + {"code_folding": []}
 # This cell merely imports and sets up some basic functions and packages 
 
 # %matplotlib inline
@@ -62,7 +89,7 @@ from copy import deepcopy
 import HARK # Prevents import error from Demos repo
 from HARK.utilities import plotFuncs
 
-# + {"code_folding": [0, 4], "collapsed": true}
+# + {"code_folding": [0, 4]}
 # Import IndShockConsumerType
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
@@ -104,6 +131,9 @@ cstwMPC_calibrated_parameters = {
 }
 # -
 
+# Construct a list of solved consumers' problems, IndShockConsumerType is just a place holder
+MyTypes = [IndShockConsumerType(**cstwMPC_calibrated_parameters)]
+
 # ## Simulating the Distribution of Wealth for Alternative Combinations
 #
 # You should now have constructed a list of consumer types all of whom have the same _target_ level of market resources $\check{m}$.  
@@ -112,16 +142,14 @@ cstwMPC_calibrated_parameters = {
 #
 # In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initializeSim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
 
-# + {"collapsed": true}
 for ThisType in tqdm(MyTypes):
     ThisType.solve()
     ThisType.initializeSim()
     ThisType.simulate()
-# -
 
 # Now that you have solved and simulated these consumers, make a plot that shows the relationship between your alternative values of $\rho$ and the mean level of assets 
 
-# + {"collapsed": true}
+# +
 # To help you out, we have given you the command needed to construct a list of the levels of assets for all consumers
 aLvl_all = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
 
@@ -136,7 +164,7 @@ aLvl_all = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
 #
 # Your next exercise is to show how the distribution of wealth differs for the different parameter  values 
 
-# + {"collapsed": true}
+# +
 from HARK.utilities import getLorenzShares, getPercentiles
 
 # Finish filling in this function to calculate the Euclidean distance between the simulated and actual Lorenz curves.
@@ -184,7 +212,7 @@ def calcLorenzDistance(SomeTypes):
 #
 # $\kappa_{Y} \approx 1.0 - (1.0 - \kappa_{Q})^4$
 
-# + {"collapsed": true}
+# +
 # Write a function to tell us about the distribution of the MPC in this code block, then test it!
 # You will almost surely find it useful to use a for loop in this function.
 def describeMPCdstn(SomeTypes,percentiles):
@@ -201,3 +229,5 @@ describeMPCdstn(MyTypes,np.linspace(0.05,0.95,19))
 # # If You Get Here ...
 #
 # If you have finished the above exercises quickly and have more time to spend on this assignment, for extra credit you can do the same exercise where, instead of exploring the consequences of alternative values of relative risk aversion $\rho$, you should test the consequences of different values of the growth factor $\Gamma$ that lead to the same $\check{m}$.
+
+
