@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
@@ -25,7 +25,7 @@
 #
 # This notebook is an example of how one could counstruct a life cycle model with the HARK toolkit that would make predictions about the model analogues of the raw data statistics that are available.  
 #
-# For example, the papers have shown information about the growth rate of assets at different ages over the life cycle.  Here, we show how (under a given parameterization) we could produce the life cycle model's prediction about the distribution of assets at age 65 and age 66, and the growth rate between 65 and 66. 
+# For example, the existing papers have tabulated information about the **growth rate** of assets at different ages over the life cycle.  Here, we show how (under a given parameterization) we could produce the life cycle model's prediction about the **distribution** of assets at age 65 and age 66, and the growth rate between 65 and 66. 
 #
 # The parameters of the model have not been optmized to match features of the Norwegian data; a first step in "structural" estimation would be to calibrate the inputs to the model (like the profile of income over the life cycle, and the magnitude of income shocks), and then to find the values of parameters like the time preference rate that allow the model to fit the data best.
 #
@@ -40,7 +40,7 @@
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 
-import HARK.ConsumptionSaving.ConsIndShockModel as Model        # The consumption-saving micro model
+import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl        # The consumption-saving micro model
 import HARK.SolvingMicroDSOPs.Calibration.EstimationParameters as Params    # Parameters for the consumer type and the estimation
 from HARK.utilities import plotFuncsDer, plotFuncs              # Some tools
 
@@ -60,7 +60,7 @@ Params.init_consumer_objects["pLvlInitStd"]= 0.0      # Standard deviation of lo
 
 # %%
 # Make a lifecycle consumer to be used for estimation
-LifeCyclePop = Model.IndShockConsumerType(**Params.init_consumer_objects)
+LifeCyclePop = cShksModl.IndShockConsumerType(**Params.init_consumer_objects)
 
 
 # %% {"code_folding": [0]}
@@ -69,7 +69,7 @@ LifeCyclePop.solve()                            # Obtain consumption rules by ag
 LifeCyclePop.unpackcFunc()                      # Expose the consumption rules
 
 # Which variables do we want to track
-LifeCyclePop.track_vars = ['aNrmNow','pLvlNow','mNrmNow','cNrmNow','TranShkNow']
+LifeCyclePop.track_vars = ['aNrmNow','pLvlNow','mNrmNow','cNrmNow','TranShkNow','pLvlNow','TranShkNow']
 
 LifeCyclePop.T_sim = 120                        # Nobody lives to be older than 145 years (=25+120)
 LifeCyclePop.initializeSim()                    # Construct the age-25 distribution of income and assets
@@ -86,7 +86,7 @@ plotFuncs(LifeCyclePop.cFunc[:LifeCyclePop.T_retire],mMin,5)
 
 # %% {"code_folding": [0]}
 # Define the saving rate function
-def savingRateFunc(SomeType, m):
+def savRteFunc(SomeType, m):
     """
     Parameters:
     ----------
@@ -96,23 +96,24 @@ def savingRateFunc(SomeType, m):
         
     Returns:
     --------
-        SavingRate: float
+        savRte: float
     
     """
-    inc = (SomeType.Rfree -1.)*(m-1.)+1.
-    cons = SomeType.solution[0].cFunc(m)
-    Saving = inc - cons
-    SavingRate = Saving / inc
-    return SavingRate  
+    inc = (SomeType.Rfree -1.)*(m-1.)+1. # Normalized by permanent labor income
+    cns = SomeType.solution[0].cFunc(m)  # Consumption (normalized)
+    sav = inc - cns                      # Flow of saving this period
+    savRte = sav / inc                   # Saving Rate
+    return savRte  
 
 
 # %% {"code_folding": [0]}
 # Create a Giant matrix gathering useful data:
-# 't_now', 'aNrmNow_hist', 'cNrmNow_hist', employment-status in date t, in date t-1, aLvlGro_hist, Saving rate
+# 't_now', 'aNrmNow_hist', 'cNrmNow_hist', employment-status in date t and date t-1,
+# aLvlGro_hist, Saving rate
 
 w, h = 1, LifeCyclePop.T_cycle
 giant_list = [[0 for x in range(w)] for y in range(h)]
-SavingRate_list = []
+savRte_list = []
 
 import warnings
 warnings.filterwarnings("ignore") # Suppress some disturbing but harmless warnings
@@ -122,9 +123,9 @@ for t in range(1,LifeCyclePop.T_cycle+1):
     aLvlGroNow = np.log(LifeCyclePop.aNrmNow_hist[t]/LifeCyclePop.aNrmNow_hist[t-1]) # (10000,)
 
     # Call the saving rate function with test value for 
-    SavingRate = savingRateFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] )
+    savRte = savRteFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] )
       
-    SavingRate_list.append(SavingRate)
+    savRte_list.append(savRte)
 
     # Create elements of matrix list
     matrix_list = [0 for number in range(7)]
@@ -134,12 +135,10 @@ for t in range(1,LifeCyclePop.T_cycle+1):
     matrix_list[3] = LifeCyclePop.TranShkNow_hist[t]
     matrix_list[4] = LifeCyclePop.TranShkNow_hist[t-1]
     matrix_list[5] = aLvlGroNow
-    matrix_list[6] = SavingRate
+    matrix_list[6] = savRte
     
     giant_list[t-1] = matrix_list
-    
-# Print command disabled to prevent giant print!
-#print giant_list
+
 
 
 # %% {"code_folding": [0]}

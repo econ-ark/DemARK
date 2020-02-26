@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -32,6 +32,7 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 import HARK 
+from time import clock
 from copy import deepcopy
 mystr = lambda number : "{:.3f}".format(number)
 
@@ -97,7 +98,7 @@ MyTBStype = TractableConsumerType(**TBS_dictionary)
 # \end{align}
 # so since $\mho > 0$, uncertainty makes it harder to be 'impatient.'  To understand this, think of someone who, in the perfect foresight model, was 'poised': Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of 'patience.'  So, in the presence of uncertainty, the conditions on parameters other than $\mho$ must be stronger in order to guarantee 'impatience' in the sense of wanting to spend enough for your wealth to decline _despite_ the extra precautionary motive.
 
-# %% {"code_folding": [0, 3]}
+# %% {"code_folding": [3]}
 # Define a function that plots the employed consumption function and sustainable consumption function 
 # for given parameter values
 
@@ -253,7 +254,9 @@ show_targ_widget = widgets.Checkbox(
 interact(makeTBSplot,
          DiscFac = DiscFac_widget,
          CRRA = CRRA_widget,
-         Rfree = Rfree_widget,
+         # We can fix a parameter using the fixed() operator
+         Rfree      = fixed(TBS_dictionary['Rfree']),
+#         Rfree = Rfree_widget,   # This is the line which, when uncommented, would make Rfree a slider
          PermGroFac = PermGroFac_widget,
          UnempPrb = UnempPrb_widget,
          mMin = mMin_widget,
