@@ -37,11 +37,13 @@ import numpy as np
 
 
 # %% {"code_folding": [0]}
-# Set up values for simulation parameters in the dictionary dictionary 
+# Set up default values for CRRA, DiscFac, and simulation variables in the dictionary 
+Params.init_consumer_objects["CRRA"]= 2.00            # Default coefficient of relative risk aversion (rho)
+Params.init_consumer_objects["DiscFac"]= 0.97         # Default intertemporal discount factor (beta)
 Params.init_consumer_objects["PermGroFacAgg"]= 1.0    # Aggregate permanent income growth factor 
-Params.init_consumer_objects["aNrmInitMean"]= -10.0   # Mean of log initial assets (\approx = 0)
+Params.init_consumer_objects["aNrmInitMean"]= -10.0   # Mean of log initial assets 
 Params.init_consumer_objects["aNrmInitStd"]= 1.0      # Standard deviation of log initial assets
-Params.init_consumer_objects["pLvlInitMean"]= 0.0     # Mean log initial permanent income (everyone starts with log(pLvl)=0)
+Params.init_consumer_objects["pLvlInitMean"]= 0.0     # Mean of log initial permanent income 
 Params.init_consumer_objects["pLvlInitStd"]= 0.0      # Standard deviation of log initial permanent income
 
 
@@ -56,7 +58,7 @@ LifeCyclePop.solve()                            # Obtain consumption rules by ag
 LifeCyclePop.unpackcFunc()                      # Expose the consumption rules
 
 # Which variables do we want to track
-LifeCyclePop.track_vars = ['aNrmNow','pLvlNow','mNrmNow','cNrmNow','TranShkNow','pLvlNow']
+LifeCyclePop.track_vars = ['aNrmNow','pLvlNow','mNrmNow','cNrmNow','TranShkNow']
 
 LifeCyclePop.T_sim = 120                        # Nobody lives to be older than 145 years (=25+120)
 LifeCyclePop.initializeSim()                    # Construct the age-25 distribution of income and assets
@@ -108,7 +110,7 @@ warnings.filterwarnings("ignore") # Suppress some disturbing but harmless warnin
 for t in range(1,LifeCyclePop.T_cycle+1):
     #aLvlGro_hist[0] = 0 # set the first growth rate to 0, since there is no data for period 0
     aLvlGroNow = np.log((LifeCyclePop.aNrmNow_hist[t]   *LifeCyclePop.pLvlNow_hist[t])/ \
-                         LifeCyclePop.aNrmNow_hist[t-1])* # (10000,)
+                         LifeCyclePop.aNrmNow_hist[t-1] *LifeCyclePop.pLvlNow_hist[t-1]) # (10000,)
 
     # Call the saving rate function defined above 
     savRte = savRteFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] )
@@ -149,6 +151,9 @@ n, bins, patches = plt.hist(aGro41NoU,50,density=True)
 
 # %%
 # put your answer here
+
+# %%
+# put your solution here
 
 # %%
 # put your solution here
