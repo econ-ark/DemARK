@@ -26,12 +26,13 @@
 #
 # The default parameters of the HARK life cycle model have not been optmized to match features of the Norwegian data; a first step in a real "structural" estimation would be to use Norwegian calibrate the inputs to the model (like the profile of income, and the magnitude of income shocks, over the life cycle), and then to find the values of parameters like the time preference rate that allow the model to fit the data best.  (See [SolvingMicroDSOPs](https://econ.jhu.edu/people/ccarroll/SolvingMicroDSOPs) for how this can be done, and search for the corresponding HARK content using [our documentation](https://hark.readthedocs.io)).
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 
 import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl        # The consumption-saving micro model
 import HARK.SolvingMicroDSOPs.Calibration.EstimationParameters as Params    # Parameters for the consumer type and the estimation
 from HARK.utilities import plotFuncsDer, plotFuncs              # Some tools
+import pandas as pd 
 
 import numpy as np
 
@@ -75,12 +76,16 @@ plotFuncs(LifeCyclePop.cFunc[:LifeCyclePop.T_retire],mMin,5)
 
 # %% {"code_folding": [0]}
 # Define the saving rate function
-def savRteFunc(SomeType, m):
+def savRteFunc(SomeType, m, t):
     """
     Parameters:
     ----------
         SomeType: 
              Agent type that has been solved and simulated.
+        m:
+            normalized market resources of agent
+        t:
+            age of agent (from starting in the workforce)
         
         
     Returns:
@@ -89,7 +94,7 @@ def savRteFunc(SomeType, m):
     
     """
     inc = (SomeType.Rfree -1.)*(m-1.)+1. # Normalized by permanent labor income
-    cns = SomeType.solution[0].cFunc(m)  # Consumption (normalized)
+    cns = SomeType.solution[t].cFunc(m)  # Consumption (normalized)
     sav = inc - cns                      # Flow of saving this period
     savRte = sav / inc                   # Saving Rate
     return savRte  
@@ -113,7 +118,7 @@ for t in range(1,LifeCyclePop.T_cycle+1):
                          LifeCyclePop.aNrmNow_hist[t-1] *LifeCyclePop.pLvlNow_hist[t-1]) # (10000,)
 
     # Call the saving rate function defined above 
-    savRte = savRteFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] )
+    savRte = savRteFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] , t)
       
     savRte_list.append(savRte) # Add this period's saving rate to the list 
 
@@ -157,3 +162,41 @@ n, bins, patches = plt.hist(aGro41NoU,50,density=True)
 
 # %%
 # put your solution here
+
+# %% [markdown]
+# # Saving Rates and Lifetime Income Growth
+#
+# We are interested in how income growth over the lifetime of the agent affects their saving rate and asset ratio $a=A/P$.
+#
+
+# %%
+cumulative_income_first_half = np.sum(LifeCyclePop.pLvlNow_hist[0:20,:]*LifeCyclePop.TranShkNow_hist[0:20,:],0)
+cumulative_income_second_half = np.sum(LifeCyclePop.pLvlNow_hist[20:40,:]*LifeCyclePop.TranShkNow_hist[20:40,:],0)
+lifetime_growth = cumulative_income_second_half/cumulative_income_first_half
+
+t=39
+vigntiles = qcut(lifetime_growth,20,labels=False)
+savRte = savRteFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] , t)
+savRtgueseByVigtile = np.zeros(20)
+assetsByVigtile = np.zeros(20)
+assetsNrmByVigtile = np.zeros(20)
+for i in range(20):
+    savRteByVigtile[i] = np.mean(savRte[vigntiles==i])
+    assetsByVigtile[i] = np.mean(LifeCyclePop.aLvlNow_hist[t][vigntiles==i])
+    assetsNrmByVigtile[i] = np.mean(LifeCyclePop.aNrmNow_hist[t][vigntiles==i])
+plt.plot(np.array(range(20)), savRteByVigtile)
+plt.title("Saving Rate at age 65, by Vigntile of Lifetime Income Growth")
+plt.xlabel("Vigntile of Lifetime Income Growth")
+plt.ylabel("Savings Rate")
+
+plt.figure()
+plt.plot(np.array(range(20)), assetsByVigtile)
+plt.title("Assets at age 65, by Vigntile of Lifetime Income Growth")
+plt.xlabel("Vigntile of Lifetime Income Growth")
+plt.ylabel("Assets")
+
+plt.figure()
+plt.plot(np.array(range(20)), assetsNrmByVigtile)
+plt.title("Normalized Assets at age 65, by Vigntile of Lifetime Income Growth")
+plt.xlabel("Vigntile of Lifetime Income Growth")
+plt.ylabel("Normalized Assets")
