@@ -16,17 +16,17 @@
 
 # %% [markdown]
 #
-# # A Life Cycle Model: Data and Theory
+# # The Life Cycle Model: Theory and Data
 #
 # National registry data on income and wealth from Scandinavian countries (esp. Norway) have recently become available (with a lot of security) to some (lucky!) researchers.   These data offer a uniquely powerful tool for testing (and improving) our models of consumption and saving behavior over the life cycle.
 #
-# This notebook is an example of how to construct a life cycle model with the HARK toolkit that makes predictions that can be compared to the raw registry statistics that now are becoming available.
+# This notebook is an example of how to construct a life cycle model with the HARK toolkit that makes predictions that can be compared to the raw registry statistics.
 #
 # For example, existing papers have tabulated information about the **growth rate** of assets at different ages over the life cycle. 
 #
 # The default parameters of the HARK life cycle model have not been optmized to match features of the Norwegian data; a first step in a real "structural" estimation would be to use Norwegian calibrate the inputs to the model (like the profile of income, and the magnitude of income shocks, over the life cycle), and then to find the values of parameters like the time preference rate that allow the model to fit the data best.  (See [SolvingMicroDSOPs](https://econ.jhu.edu/people/ccarroll/SolvingMicroDSOPs) for how this can be done, and search for the corresponding HARK content using [our documentation](https://hark.readthedocs.io)).
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 
 import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl        # The consumption-saving micro model
@@ -104,8 +104,8 @@ def savRteFunc(SomeType, m, t):
     return savRte  
 
 
-# %% {"code_folding": []}
-# Create a giant matrix gathering useful data:
+# %% {"code_folding": [0]}
+# Create a matrix gathering useful data:
 # 't_now', 'aNrmNow_hist', 'cNrmNow_hist', employment-status in date t and date t-1,
 # aLvlGro_hist, Saving rate
 
@@ -179,7 +179,7 @@ cumulative_income_second_half = np.sum(LifeCyclePop.pLvlNow_hist[20:40,:]*LifeCy
 lifetime_growth = cumulative_income_second_half/cumulative_income_first_half
 
 t=39
-vgntiles = qcut(lifetime_growth,20,labels=False)
+vgntiles = pd.qcut(lifetime_growth,20,labels=False)
 savRte = savRteFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] , t)
 savRteByBin = np.zeros(20)
 aLevByBin = np.zeros(20)

@@ -3,6 +3,7 @@
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
@@ -12,17 +13,43 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.6.9
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: false
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 # ---
 
 # %% [markdown]
 #
-# # A Life Cycle Model: Data and Theory
+# # The Life Cycle Model: Theory vs Data
 #
 # National registry data on income and wealth from Scandinavian countries (esp. Norway) have recently become available (with a lot of security) to some (lucky!) researchers.   These data offer a uniquely powerful tool for testing (and improving) our models of consumption and saving behavior over the life cycle.
 #
-# This notebook is an example of how to construct a life cycle model with the HARK toolkit that makes predictions that can be compared to the raw registry statistics that now are becoming available.
+# This notebook is an example of how to construct a life cycle model with the HARK toolkit that makes predictions that can be compared to the raw data statistics=.
 #
-# For example, existing papers have tabulated information about the **growth rate** of assets at different ages over the life cycle. 
+# For example, some papers have tabulated information about the **growth rate** of assets at different ages over the life cycle. 
 #
 # The default parameters of the HARK life cycle model have not been optmized to match features of the Norwegian data; a first step in a real "structural" estimation would be to use Norwegian calibrate the inputs to the model (like the profile of income, and the magnitude of income shocks, over the life cycle), and then to find the values of parameters like the time preference rate that allow the model to fit the data best.  (See [SolvingMicroDSOPs](https://econ.jhu.edu/people/ccarroll/SolvingMicroDSOPs) for how this can be done, and search for the corresponding HARK content using [our documentation](https://hark.readthedocs.io)).
 
@@ -35,8 +62,6 @@ from HARK.utilities import plotFuncsDer, plotFuncs              # Some tools
 import pandas as pd 
 
 import numpy as np
-
-# Execution of this cell may produce a "Note" that can be ignored
 
 
 # %% {"code_folding": [0]}
@@ -66,8 +91,6 @@ LifeCyclePop.track_vars = ['aNrmNow','pLvlNow','mNrmNow','cNrmNow','TranShkNow']
 LifeCyclePop.T_sim = 120                        # Nobody lives to be older than 145 years (=25+120)
 LifeCyclePop.initializeSim()                    # Construct the age-25 distribution of income and assets
 LifeCyclePop.simulate()                         # Simulate a population behaving according to this model
-
-# Execution of this cell may produce a "warning" that can be ignored
 
 
 # %% {"code_folding": [0]}
@@ -105,7 +128,7 @@ def savRteFunc(SomeType, m, t):
 
 
 # %% {"code_folding": []}
-# Create a giant matrix gathering useful data:
+# Create a matrix gathering useful data:
 # 't_now', 'aNrmNow_hist', 'cNrmNow_hist', employment-status in date t and date t-1,
 # aLvlGro_hist, Saving rate
 
@@ -179,28 +202,29 @@ cumulative_income_second_half = np.sum(LifeCyclePop.pLvlNow_hist[20:40,:]*LifeCy
 lifetime_growth = cumulative_income_second_half/cumulative_income_first_half
 
 t=39
-vgntiles = qcut(lifetime_growth,20,labels=False)
+vigntiles = pd.qcut(lifetime_growth,20,labels=False)
 savRte = savRteFunc(LifeCyclePop, LifeCyclePop.mNrmNow_hist[t] , t)
-savRteByBin = np.zeros(20)
-aLevByBin = np.zeros(20)
-aNrmByBin = np.zeros(20)
+savRtgueseByVigtile = np.zeros(20)
+assetsByVigtile = np.zeros(20)
+assetsNrmByVigtile = np.zeros(20)
+savRteByVigtile = np.zeros(20)
 for i in range(20):
-    savRteByBin[i] = np.mean(savRte[vgntiles==i])
-    aLevByBin[i] = np.mean(LifeCyclePop.aLvlNow_hist[t][vgntiles==i])
-    aNrmByBin[i] = np.mean(LifeCyclePop.aNrmNow_hist[t][vgntiles==i])
-plt.plot(np.array(range(20)), savRteByBin)
-plt.title("Saving Rate at age 65, by Vigintile of Lifetime Income Growth")
-plt.xlabel("Vigintile of Lifetime Income Growth")
+    savRteByVigtile[i] = np.mean(savRte[vigntiles==i])
+    assetsByVigtile[i] = np.mean(LifeCyclePop.aLvlNow_hist[t][vigntiles==i])
+    assetsNrmByVigtile[i] = np.mean(LifeCyclePop.aNrmNow_hist[t][vigntiles==i])
+plt.plot(np.array(range(20)), savRteByVigtile)
+plt.title("Saving Rate at age 65, by Vigntile of Lifetime Income Growth")
+plt.xlabel("Vigntile of Lifetime Income Growth")
 plt.ylabel("Savings Rate")
 
 plt.figure()
-plt.plot(np.array(range(20)), aLevByBin)
-plt.title("Assets at age 65, by Vigintile of Lifetime Income Growth")
-plt.xlabel("Vigintile of Lifetime Income Growth")
+plt.plot(np.array(range(20)), assetsByVigtile)
+plt.title("Assets at age 65, by Vigntile of Lifetime Income Growth")
+plt.xlabel("Vigntile of Lifetime Income Growth")
 plt.ylabel("Assets")
 
 plt.figure()
-plt.plot(np.array(range(20)), aNrmByBin)
-plt.title("Normalized Assets at age 65, by Vigintile of Lifetime Income Growth")
-plt.xlabel("Vigintile of Lifetime Income Growth")
+plt.plot(np.array(range(20)), assetsNrmByVigtile)
+plt.title("Normalized Assets at age 65, by Vigntile of Lifetime Income Growth")
+plt.xlabel("Vigntile of Lifetime Income Growth")
 plt.ylabel("Normalized Assets")
