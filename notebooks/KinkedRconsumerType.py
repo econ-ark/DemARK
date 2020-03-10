@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -53,8 +53,9 @@ mystr = lambda number : "{:.4f}".format(number)
 #
 # \begin{eqnarray*}
 # v_t(m_t) &=& \max_{c_t} {~} U(c_t) + \DiscFac (1-\DiePrb_{t+1})  \mathbb{E}_{t} \left[ (\PermGroFac_{t+1}\psi_{t+1})^{1-\CRRA} v_{t+1}(m_{t+1}) \right], \\
+# & s.t. & \\
 # a_t &=& m_t - c_t, \\
-# a_t &\geq& \underline{a}, \\
+# a_t &\geq& \underset{\bar{}}{a}, \\
 # m_{t+1} &=& \Rfree_t/(\PermGroFac_{t+1} \psi_{t+1}) a_t + \theta_{t+1}, \\
 # \Rfree_t &=& \cases{\Rfree_{boro} \texttt{ if } a_t < 0 \\
 #                     \Rfree_{save} \texttt{ if } a_t \geq 0},\\
@@ -80,27 +81,27 @@ mystr = lambda number : "{:.4f}".format(number)
 # | Parameter | Description | Code | Example value | Time-varying? |
 # | :---: | --- | --- | --- | --- |
 # | $\DiscFac$ |Intertemporal discount factor  | $\texttt{DiscFac}$ | $0.96$ |  |
-# | $\CRRA $ |Coefficient of relative risk aversion | $\texttt{CRRA}$ | $2.0$ | |
+# | $\CRRA$ |Coefficient of relative risk aversion | $\texttt{CRRA}$ | $2.0$ | |
 # | $\Rfree_{boro}$ | Risk free interest factor for borrowing | $\texttt{Rboro}$ | $1.20$ | |
 # | $\Rfree_{save}$ | Risk free interest factor for saving | $\texttt{Rsave}$ | $1.01$ | |
 # | $1 - \DiePrb_{t+1}$ |Survival probability | $\texttt{LivPrb}$ | $[0.98]$ | $\surd$ |
 # |$\PermGroFac_{t+1}$|Permanent income growth factor|$\texttt{PermGroFac}$| $[1.01]$ | $\surd$ |
-# | $\sigma_\psi $ | Standard deviation of log permanent income shocks | $\texttt{PermShkStd}$ | $[0.1]$ |$\surd$ |
-# | $N_\psi $ | Number of discrete permanent income shocks | $\texttt{PermShkCount}$ | $7$ | |
-# | $\sigma_\theta $ | Standard deviation of log transitory income shocks | $\texttt{TranShkStd}$ | $[0.2]$ | $\surd$ |
-# | $N_\theta $ | Number of discrete transitory income shocks | $\texttt{TranShkCount}$ | $7$ |  |
+# | $\sigma_\psi$ | Standard deviation of log permanent income shocks | $\texttt{PermShkStd}$ | $[0.1]$ |$\surd$ |
+# | $N_\psi$ | Number of discrete permanent income shocks | $\texttt{PermShkCount}$ | $7$ | |
+# | $\sigma_\theta$ | Standard deviation of log transitory income shocks | $\texttt{TranShkStd}$ | $[0.2]$ | $\surd$ |
+# | $N_\theta$ | Number of discrete transitory income shocks | $\texttt{TranShkCount}$ | $7$ |  |
 # | $\mho$ | Probability of being unemployed and getting $\theta=\underline{\theta}$ | $\texttt{UnempPrb}$ | $0.05$ |  |
-# | $\underline{\theta} $ | Transitory shock when unemployed | $\texttt{IncUnemp}$ | $0.3$ |  |
+# | $\underline{\theta}$ | Transitory shock when unemployed | $\texttt{IncUnemp}$ | $0.3$ |  |
 # | $\mho^{Ret}$ | Probability of being "unemployed" when retired | $\texttt{UnempPrb}$ | $0.0005$ |  |
-# | $\underline{\theta}^{Ret} $ | Transitory shock when "unemployed" and retired | $\texttt{IncUnemp}$ | $0.0$ |  |
+# | $\underline{\theta}^{Ret}$ | Transitory shock when "unemployed" and retired | $\texttt{IncUnemp}$ | $0.0$ |  |
 # | $(none)$ | Period of the lifecycle model when retirement begins | $\texttt{T_retire}$ | $0$ | |
 # | $(none)$ | Minimum value in assets-above-minimum grid | $\texttt{aXtraMin}$ | $0.001$ | |
 # | $(none)$ | Maximum value in assets-above-minimum grid | $\texttt{aXtraMax}$ | $20.0$ | |
 # | $(none)$ | Number of points in base assets-above-minimum grid | $\texttt{aXtraCount}$ | $48$ | |
 # | $(none)$ | Exponential nesting factor for base assets-above-minimum grid | $\texttt{aXtraNestFac}$ | $3$ | |
 # | $(none)$ | Additional values to add to assets-above-minimum grid | $\texttt{aXtraExtra}$ | $None$ | |
-# | $\underline{a} $ | Artificial borrowing constraint (normalized) | $\texttt{BoroCnstArt}$ | $None$ | |
-# | $(none) $ |Indicator for whether $\texttt{vFunc}$ should be computed | $\texttt{vFuncBool}$ | $True$ | |
+# | $\underline{a}$ | Artificial borrowing constraint (normalized) | $\texttt{BoroCnstArt}$ | $None$ | |
+# | $(none)$ |Indicator for whether $\texttt{vFunc}$ should be computed | $\texttt{vFuncBool}$ | $True$ | |
 # | $(none)$ |Indicator for whether $\texttt{cFunc}$ should use cubic splines | $\texttt{CubicBool}$ | $False$ |  |
 # |$T$| Number of periods in this type's "cycle" |$\texttt{T_cycle}$| $1$ | |
 # |(none)| Number of times the "cycle" occurs |$\texttt{cycles}$| $0$ | |
