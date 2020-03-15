@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -52,7 +52,7 @@ from HARK.cstwMPC.SetupParamsCSTW import init_infinite
 # Set key problem-specific parameters
 
 TypeCount = 8    # Number of consumer types with heterogeneous discount factors
-AdjFactor = 1.0  # Factor by which to scale all of Fagereng's MPCs in Table 9
+AdjFactor = 1.0  # Factor by which to scale all of MPCs in Table 9
 T_kill = 100     # Don't let agents live past this age
 Splurge = 0.0    # Consumers automatically spend this amount of any lottery prize
 do_secant = True # If True, calculate MPC by secant, else point MPC
@@ -193,3 +193,9 @@ print('Finished estimating for scaling factor of ' + str(AdjFactor) + ' and "spl
 print('Optimal (beta,nabla) is ' + str(opt_params) + ', simulated MPCs are:')
 dist = FagerengObjFunc(opt_params[0],opt_params[1],True)
 print('Distance from Fagereng et al Table 9 is ' + str(dist))
+
+# %%
+# Put your solution here
+
+# %%
+# Put your solution here

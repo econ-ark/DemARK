@@ -61,17 +61,17 @@ from HARK.utilities import plotFuncs
 #
 
 # %% {"code_folding": [1]}
-# Import calibrated parameters from the cstwMPC project.
+# Choose some calibrated parameters that roughly match steady state 
 init_infinite = {
     "CRRA":1.0,                    # Coefficient of relative risk aversion 
-    "Rfree":1.01/(1.0 - 1.0/160.0), # Survival probability,
+    "Rfree":1.01/(1.0 - 1.0/240.0), # Survival probability,
     "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
     "PermGroFacAgg":1.0,
     "BoroCnstArt":0.0,
     "CubicBool":False,
     "vFuncBool":False,
     "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
-    "PermShkCount":5,  # Number of points in permanent income shock grid
+    "PermShkCount":7,  # Number of points in permanent income shock grid
     "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
     "TranShkCount":5,  # Number of points in transitory income shock grid
     "UnempPrb":0.07,  # Probability of unemployment while working
@@ -83,13 +83,13 @@ init_infinite = {
     "aXtraCount":20,  # Number of points in assets grid,
     "aXtraExtra":[None],
     "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
-    "LivPrb":[1.0 - 1.0/160.0],  # Survival probability
+    "LivPrb":[1.0 - 1.0/240.0],  # Survival probability
     "DiscFac":0.97,             # Default intertemporal discount factor, # dummy value, will be overwritten
     "cycles":0,
     "T_cycle":1,
     "T_retire":0,
-    'T_sim':1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
-    'T_age': 400,
+    'T_sim':2000,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    'T_age':1000,
     'IndL': 10.0/9.0,  # Labor supply per individual (constant),
     'aNrmInitMean':np.log(0.00001),
     'aNrmInitStd':0.0,
@@ -122,7 +122,7 @@ for nn in range(num_consumer_types):
     ConsumerTypes.append(NewType)
 
 # %% [markdown]
-# Now we can give each of the consumer types their own discount factor. (This distribution of parameters was estimated in the paper ["The Distribution of Wealth and the Marginal Propensity to Consume" by Carroll, Slacalek, Tokuoka, and White (2017) (cstwMPC)](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC).  
+# Now we can give each of the consumer types their own discount factor. (This approximates the distribution of parameters estimated in ["The Distribution of Wealth and the Marginal Propensity to Consume"](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC)). 
 
 # %% {"code_folding": [0]}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
@@ -130,12 +130,13 @@ from HARK.utilities import approxUniform
 
 # Calibrations from cstwMPC
 bottomDiscFac  = 0.9800
-topDiscFac     = 0.9934 
+topDiscFac     = 0.9934
 DiscFac_list   = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac)[1]
 
 # Now, assign the discount factors
 for j in range(num_consumer_types):
     ConsumerTypes[j].DiscFac = DiscFac_list[j]
+    ConsumerTypes[j].quiet   = True # Turn off some output
 
 # %% [markdown]
 # Our agents now exist and have a concept of the problem they face, but we still need them to solve that problem.
@@ -148,10 +149,10 @@ for j in range(num_consumer_types):
 # tqdm presents a pretty bar that interactively shows how far the calculations have gotten
 for ConsumerType in tqdm(ConsumerTypes):
     ## We configured their discount factor above.  Now solve
-    ConsumerType.solve()
+    ConsumerType.solve(verbose=False)
     
     # Now simulate many periods to get to the stationary distribution
-    ConsumerType.T_sim = 1000
+    ConsumerType.T_sim = 2000
     ConsumerType.initializeSim()
     ConsumerType.simulate()
 
@@ -226,7 +227,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
         for index,ConsumerTypeNew in enumerate(ConsumerTypesNew):
             setattr(ConsumerTypeNew,ParamToChange,ThisVal) # Step 2A   
             ConsumerTypeNew.updateIncomeProcess()
-            ConsumerTypeNew.solve() # Step 2B
+            ConsumerTypeNew.solve(verbose=False) # Step 2B
             
             ConsumerTypeNew.initializeSim() # Step 2C
             ConsumerTypeNew.aNrmNow = OriginalTypes[index].aNrmNow
@@ -264,7 +265,7 @@ TargetChangeInC = -6.3 # Source: FRED
 num_points = 10 # number of parameter values to plot in graphs. More=slower
 
 # First change the variance of the permanent income shock
-perm_ratio_max = 2.0 # Put whatever value in you want!  maximum number to multiply std of perm income shock by
+perm_ratio_max = 2.5 # Put whatever value in you want!  maximum number to multiply var of perm income shock by
 
 perm_min = BaselineType.PermShkStd[0] * ratio_min
 perm_max = BaselineType.PermShkStd[0] * perm_ratio_max
@@ -278,7 +279,7 @@ plt.hlines(TargetChangeInC,perm_min,perm_max)
 plotFuncs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
 
 # %% [markdown]
-# The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.095, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  
+# The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.012, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  
 #
 # The question is whether this is a reasonable or an unreasonable magnitude for a change in uncertainty.  Some perspective on that question is offered by the large literature that attempts to estimate the magnitude of persistent or permanent shocks to household income.  The answer varies substantially across household types, countries, and time periods, but our sense of the literature is that the whole span of the territory between 0.04 and ranging nearly up to 0.20 is well populated (in the sense that substantial populations of people or countries have been estimated to experience shocks of this magnitude).
 #
