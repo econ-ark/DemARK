@@ -4,7 +4,7 @@ ipywidgets
 scipy
 jupyter
 cite2c
-econ-ark
+econ-ark==0.10.4
 pandas
 pandas-datareader
 statsmodels
