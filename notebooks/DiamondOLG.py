@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -32,7 +32,6 @@ from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 
 from HARK.ConsumptionSaving.ConsIndShockModel import *
-import HARK.ConsumptionSaving.ConsumerParameters as Params
 
 
 # %%
@@ -51,7 +50,7 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     kBar = Q**(1/(1-Epsilon))
     
     # Create an agent that will solve the consumption problem
-    PFagent = PerfForesightConsumerType(**Params.init_perfect_foresight)
+    PFagent = PerfForesightConsumerType(init_perfect_foresight)
     PFagent.cycles = 1 # let the agent live the cycle of periods just once
     PFagent.T_cycle = 2 # Number of periods in the cycle
     PFagent.PermGroFac = [0.] # Income only in the first period

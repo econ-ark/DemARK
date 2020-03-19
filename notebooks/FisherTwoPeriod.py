@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,7 +21,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.6.9
 # ---
 
 # %% [markdown]
@@ -36,7 +36,6 @@ from copy  import deepcopy
 import numpy as np
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.utilities import plotFuncsDer, plotFuncs
 mystr = lambda number : "{:.3f}".format(number)
 
@@ -64,7 +63,7 @@ def FisherPlot(Y1, Y2, B1, R, c1Max, c2Max):
     
     # We first create an instance of the class
     # PerfForesightConsumerType, with its standard parameters.
-    PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight) 
+    PFexample = PerfForesightConsumerType() 
     
     PFexample.cycles = 1 # let the agent live the cycle of periods just once
     PFexample.T_cycle = 2 # Number of periods in the cycle
@@ -204,7 +203,7 @@ interact(FisherPlot,
 def FisherPlot1(Y1, Y2, B1, RHi, RLo, c1Max, c2Max):
     
     # Basic setup of perfect foresight consumer
-    PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight) # set up a consumer type and use default parameteres  
+    PFexample = PerfForesightConsumerType() # set up a consumer type and use default parameteres  
     PFexample.cycles = 1 # let the agent live the cycle of periods just once
     PFexample.T_cycle = 2 # Number of periods in the cycle
     PFexample.PermGroFac = [1.] # No automatic growth in income across periods
@@ -377,7 +376,7 @@ interact(FisherPlot1,
 def FisherPlot2(Y1, Y2, B1, RHi, RLo, c1Max, c2Max):
     
     # Basic setup of perfect foresight consumer
-    PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight) # set up a consumer type and use default parameteres  
+    PFexample = PerfForesightConsumerType() # set up a consumer type and use default parameteres  
     PFexample.cycles = 1 # let the agent live the cycle of periods just once
     PFexample.T_cycle = 2 # Number of periods in the cycle
     PFexample.PermGroFac = [1.] # No automatic growth in income across periods
