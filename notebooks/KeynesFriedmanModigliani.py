@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.6.9
 # ---
 
 # %% [markdown]
@@ -52,7 +52,6 @@ from copy  import deepcopy
 from io import StringIO
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.utilities import plotFuncsDer, plotFuncs
 
 
@@ -93,7 +92,7 @@ class KeynesianConsumer:
     
     def __init__(self):
         
-        PFexample = PerfForesightConsumerType(**Params.init_perfect_foresight) # set up a consumer type and use default parameteres
+        PFexample = PerfForesightConsumerType() # set up a consumer type and use default parameteres
         PFexample.cycles = 0 # Make this type have an infinite horizon
         PFexample.DiscFac = 0.05
         PFexample.PermGroFac = [0.7]
@@ -421,7 +420,7 @@ class FriedmanPIHConsumer:
     
     def __init__(self, Rfree=1.001, CRRA = 2):
         
-        PFaux = PerfForesightConsumerType(**Params.init_perfect_foresight) # set up a consumer type and use default parameteres
+        PFaux = PerfForesightConsumerType() # set up a consumer type and use default parameteres
         PFaux.cycles = 0 # Make this type have an infinite horizon
         PFaux.DiscFac = 1/Rfree
         PFaux.Rfree = Rfree

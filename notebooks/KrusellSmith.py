@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -169,9 +169,6 @@ from copy import deepcopy
 from HARK.utilities import plotFuncs, plotFuncsDer
 
 # %% {"code_folding": [0]}
-# Import components of HARK needed for solving the KS model
-import HARK.ConsumptionSaving.ConsumerParameters as Params
-
 # Markov consumer type that allows aggregate shocks
 from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 
