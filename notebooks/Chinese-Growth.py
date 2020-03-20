@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,7 +21,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.6.9
 # ---
 
 # %% {"code_folding": [0]}
@@ -193,13 +193,13 @@ for j in range(num_consumer_types):
 
 # %% {"code_folding": []}
 # First create the income distribution in the low-growth state, which we will not change
-from HARK.ConsumptionSaving.ConsIndShockModel import constructLognormalIncomeProcessUnemployment
-import HARK.ConsumptionSaving.ConsumerParameters as IncomeParams
+from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType, constructLognormalIncomeProcessUnemployment
 
-LowGrowthIncomeDstn  = constructLognormalIncomeProcessUnemployment(IncomeParams)[0][0]
+low_growth_model = IndShockConsumerType()
+LowGrowthIncomeDstn  = constructLognormalIncomeProcessUnemployment(low_growth_model)[0][0]
 
 # Remember the standard deviation of the permanent income shock in the low-growth state for later
-LowGrowth_PermShkStd = IncomeParams.PermShkStd
+LowGrowth_PermShkStd = low_growth_model.PermShkStd
 
 
 
@@ -230,10 +230,10 @@ def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
     # Set the uncertainty in the high-growth state to the desired amount, keeping in mind
     # that PermShkStd is a list of length 1
     PrmShkStd_multiplier    = PrmShkVar_multiplier ** .5
-    IncomeParams.PermShkStd = [LowGrowth_PermShkStd[0] * PrmShkStd_multiplier] 
+    low_growth_model.PermShkStd = [LowGrowth_PermShkStd[0] * PrmShkStd_multiplier] 
 
     # Construct the appropriate income distributions
-    HighGrowthIncomeDstn = constructLognormalIncomeProcessUnemployment(IncomeParams)[0][0]
+    HighGrowthIncomeDstn = constructLognormalIncomeProcessUnemployment(low_growth_model)[0][0]
 
     # To calculate the national saving rate, we need national income and national consumption
     # To get those, we are going to start national income and consumption at 0, and then
