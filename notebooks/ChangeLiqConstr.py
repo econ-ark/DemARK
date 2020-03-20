@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.4'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,13 +22,12 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.6.9
 # ---
 
 # + {"code_folding": [0]}
 from copy import deepcopy
 from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
-import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.utilities import plotFuncsDer, plotFuncs
 mystr = lambda number : "{:.4f}".format(number)
 
@@ -45,7 +44,7 @@ import matplotlib.pyplot as plt
 
 # +
 # Create an instance of the type of consumer we are interested in
-KinkyExample = KinkedRconsumerType(**Params.init_kinked_R) 
+KinkyExample = KinkedRconsumerType() 
 
 # Make the example infinite horizon (not a life cycle model)
 KinkyExample.cycles = 0 
