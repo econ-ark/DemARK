@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -58,15 +58,12 @@ palette = plt.get_cmap('Dark2')
 # %%
 # Set up a HARK Perfect Foresight Consumer called PFagent
 
-from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType # Import the consumer type
+from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType, init_perfect_foresight # Import the consumer type
 
 # Now we need to give our consumer parameter values that allow us to solve the consumer's problem
 
-# We begin by importing a module that can be invoked to cough up default parameter values
-import HARK.ConsumptionSaving.ConsumerParameters as Params
-
 # Invoke it to create a dictionary called Paramod (Params that we will modify)
-Paramod = deepcopy(Params.init_perfect_foresight) # deepcopy prevents later overwriting
+Paramod = deepcopy(init_perfect_foresight) # deepcopy prevents later overwriting
 
 # Extract the parameters from the dictionary to make them easy to reference
 CRRA       = Paramod['CRRA']                # Coefficient of relative risk aversion

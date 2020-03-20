@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.6.9
 # ---
 
 # %% [markdown]
@@ -54,7 +54,6 @@ from copy import copy
 import numpy as np
 
 from HARK.ConsumptionSaving.ConsGenIncProcessModel import PersistentShockConsumerType
-import HARK.ConsumptionSaving.ConsumerParameters as Params
 
 from HARK.utilities import approxUniform, getLorenzShares, calcSubpopAvg
 mystr = lambda number : "{:.4f}".format(number)

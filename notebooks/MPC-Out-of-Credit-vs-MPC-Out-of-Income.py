@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -35,14 +35,10 @@ from __future__ import division, print_function
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 # %% {"code_folding": []}
-## Import the default parameter values
-import HARK.ConsumptionSaving.ConsumerParameters as Params
-
-# %% {"code_folding": []}
 ## Now, create an instance of the consumer type using the default parameter values
 ## We create the instance of the consumer type by calling IndShockConsumerType()
 ## We use the default parameter values by passing **Params.init_idiosyncratic_shocks as an argument
-BaselineExample = IndShockConsumerType(**Params.init_idiosyncratic_shocks)
+BaselineExample = IndShockConsumerType()
 
 # %% {"code_folding": []}
 # Note: we've created an instance of a very standard consumer type, and many assumptions go
@@ -55,7 +51,7 @@ BaselineExample = IndShockConsumerType(**Params.init_idiosyncratic_shocks)
 # to you to uncomment the two lines of code below, and see how the results change!
 
 from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
-BaselineExample = KinkedRconsumerType(**Params.init_kinked_R)
+BaselineExample = KinkedRconsumerType()
 
 
 # %% [markdown]
