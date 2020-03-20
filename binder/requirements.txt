@@ -4,8 +4,8 @@ ipywidgets
 scipy
 jupyter
 cite2c
-econ-ark
 pandas
 pandas-datareader
 statsmodels
 tqdm
+git+git://github.com/econ-ark/hark@master
