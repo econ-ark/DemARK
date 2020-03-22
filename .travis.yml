@@ -3,8 +3,7 @@ python:
   - "3.7"
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
-  - pip install git+https://github.com/econ-ark/HARK.git@master
+  - pip install -r binder/requirements.txt
 # command to run tests
 script:
   - pytest --nbval-lax notebooks/
