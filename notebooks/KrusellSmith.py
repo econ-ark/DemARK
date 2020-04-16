@@ -465,13 +465,13 @@ print("The Euclidean distance between simulated wealth distribution and the esti
 
 # %% {"code_folding": []}
 # Construct the distribution of types
-from HARK.utilities import approxUniform
+from HARK.distribution import approxUniform
 
 # Specify the distribution of the discount factor
 num_types = 3              # number of types we want;
 DiscFac_mean   = 0.9858    # center of beta distribution 
 DiscFac_spread = 0.0085    # spread of beta distribution
-DiscFac_dstn = approxUniform(num_types, DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread)[1]
+DiscFac_dstn = approxUniform(num_types, DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread).X
 BaselineType = deepcopy(KSAgent)
 
 MyTypes = [] # initialize an empty list to hold our consumer types

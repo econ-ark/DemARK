@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -186,14 +186,14 @@ cstwMPC_calibrated_parameters = {
 
 # %%
 # This cell constructs seven instances of IndShockConsumerType with different discount factors
-from HARK.utilities import approxUniform
+from HARK.distribution import approxUniform
 BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 
 # Specify the distribution of the discount factor
 num_types = 7              # number of types we want
 DiscFac_mean   = 0.9855583 # center of beta distribution 
 DiscFac_spread = 0.0085    # spread of beta distribution
-DiscFac_dstn = approxUniform(num_types, DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread)[1]
+DiscFac_dstn = approxUniform(num_types, DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread).X
 
 MyTypes = [] # initialize an empty list to hold our consumer types
 for nn in range(num_types):

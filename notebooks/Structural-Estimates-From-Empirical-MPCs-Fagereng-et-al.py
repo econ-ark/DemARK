@@ -120,7 +120,7 @@ def FagerengObjFunc(center,spread,verbose=False):
         Euclidean distance between simulated MPCs and (adjusted) Table 9 MPCs.
     '''
     # Give our consumer types the requested discount factor distribution
-    beta_set = approxUniform(N=TypeCount,bot=center-spread,top=center+spread)[1]
+    beta_set = approxUniform(N=TypeCount,bot=center-spread,top=center+spread).X
     for j in range(TypeCount):
         EstTypeList[j](DiscFac = beta_set[j])
 

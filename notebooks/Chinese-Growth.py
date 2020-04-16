@@ -174,7 +174,7 @@ from HARK.distribution import approxUniform
 
 bottomDiscFac = 0.9800
 topDiscFac    = 0.9934 
-DiscFac_list  = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac)[1]
+DiscFac_list  = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac).X
 
 # Now, assign the discount factors we want to the ChineseConsumerTypes
 for j in range(num_consumer_types):

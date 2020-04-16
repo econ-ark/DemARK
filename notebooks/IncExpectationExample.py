@@ -149,7 +149,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     ThisDict['PrstIncCorr'] = CorrAct
     
     # Make a 7 point approximation to a uniform distribution of DiscFac
-    DiscFac_list = approxUniform(N=7,bot=DiscFac_center-DiscFac_spread,top=DiscFac_center+DiscFac_spread)[1]
+    DiscFac_list = approxUniform(N=7,bot=DiscFac_center-DiscFac_spread,top=DiscFac_center+DiscFac_spread).X
     
     type_list = []
     # Make a PersistentShockConsumerTypeX for each value of beta saved in DiscFac_list
