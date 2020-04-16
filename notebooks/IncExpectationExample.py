@@ -54,8 +54,8 @@ from copy import copy
 import numpy as np
 
 from HARK.ConsumptionSaving.ConsGenIncProcessModel import PersistentShockConsumerType
-
-from HARK.utilities import approxUniform, getLorenzShares, calcSubpopAvg
+from HARK.distribution import approxUniform
+from HARK.utilities import getLorenzShares, calcSubpopAvg
 mystr = lambda number : "{:.4f}".format(number)
 
 # %% {"code_folding": [1]}

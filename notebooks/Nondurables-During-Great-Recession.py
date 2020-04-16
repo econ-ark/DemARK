@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -126,7 +126,7 @@ for nn in range(num_consumer_types):
 
 # %% {"code_folding": [0]}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
-from HARK.utilities import approxUniform
+from HARK.distribution import approxUniform
 
 # Calibrations from cstwMPC
 bottomDiscFac  = 0.9800

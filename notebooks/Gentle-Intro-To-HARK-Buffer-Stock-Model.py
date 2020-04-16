@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -142,8 +142,8 @@ IndShockExample = IndShockConsumerType(**IndShockDictionary)
 # %%
 # Plot values for equiprobable distribution of permanent shocks
 
-plt.scatter(IndShockExample.PermShkDstn[0][1],
-            IndShockExample.PermShkDstn[0][0])
+plt.scatter(IndShockExample.PermShkDstn[0].X,
+            IndShockExample.PermShkDstn[0].pmf)
 plt.xlabel("Value")
 plt.ylabel("Probability Mass")
 plt.show()

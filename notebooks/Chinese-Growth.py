@@ -170,7 +170,7 @@ for nn in range(num_consumer_types):
 # First, decide the discount factors to assign:
 
 # %%
-from HARK.utilities import approxUniform
+from HARK.distribution import approxUniform
 
 bottomDiscFac = 0.9800
 topDiscFac    = 0.9934 
