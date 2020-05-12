@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -115,8 +115,15 @@ import scipy as sp
 # Import HARK tools and cstwMPC parameter values
 from HARK.utilities import plotFuncsDer, plotFuncs
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-import HARK.cstwMPC.cstwMPC as cstwMPC
-import HARK.cstwMPC.SetupParamsCSTW as Params
+from HARK.ConsumptionSaving.ConsAggShockModel import AggShockConsumerType, CobbDouglasEconomy
+from HARK.datasets import load_SCF_wealth_weights
+from HARK.utilities import getLorenzShares
+
+#import HARK.cstwMPC.cstwMPC as cstwMPC
+
+SCF_wealth, SCF_weights = load_SCF_wealth_weights()
+# Which points of the Lorenz curve to match in beta-dist (must be in (0,1))
+percentiles_to_match = [0.2, 0.4, 0.6, 0.8]    
 
 # Double the default value of variance
 # Params.init_infinite['PermShkStd'] = [i*2 for i in Params.init_infinite['PermShkStd']]
@@ -125,50 +132,101 @@ import HARK.cstwMPC.SetupParamsCSTW as Params
 # Setup stuff for general equilibrium version
 
 # Set targets for K/Y and the Lorenz curve
-lorenz_target = cstwMPC.getLorenzShares(Params.SCF_wealth,weights=
-                                        Params.SCF_weights,percentiles=
-                                        Params.percentiles_to_match)
+lorenz_target = getLorenzShares(SCF_wealth,
+                                weights= SCF_weights,
+                                percentiles= percentiles_to_match)
 
 lorenz_long_data = np.hstack((np.array(0.0),\
-                              cstwMPC.getLorenzShares(Params.SCF_wealth,weights=\
-                                                      Params.SCF_weights,percentiles=\
-                                                      np.arange(0.01,1.0,0.01).tolist()),np.array(1.0)))
+                              getLorenzShares(SCF_wealth,
+                                              weights=SCF_weights,
+                                              percentiles=np.arange(0.01,1.0,0.01).tolist()),np.array(1.0)))
 KY_target = 10.26
 
 # %% {"code_folding": [0]}
 # Setup and calibration of the agent types
 
+# Define a dictionary with calibrated parameters
+cstwMPC_init_infinite = {
+    "CRRA":1.0,                    # Coefficient of relative risk aversion 
+    "Rfree":1.01/(1.0 - 1.0/160.0), # Survival probability,
+    "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
+    "PermGroFacAgg":1.0,
+    "BoroCnstArt":0.0,
+    "CubicBool":False,
+    "vFuncBool":False,
+    "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
+    "PermShkCount":5,  # Number of points in permanent income shock grid
+    "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
+    "TranShkCount":5,  # Number of points in transitory income shock grid
+    "UnempPrb":0.07,  # Probability of unemployment while working
+    "IncUnemp":0.15,  # Unemployment benefit replacement rate
+    "UnempPrbRet":None,
+    "IncUnempRet":None,
+    "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
+    "aXtraMax":40,  # Maximum end-of-period assets in grid
+    "aXtraCount":32,  # Number of points in assets grid
+    "aXtraExtra":[None],
+    "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
+    "LivPrb":[1.0 - 1.0/160.0],  # Survival probability
+    "DiscFac":0.97,             # Default intertemporal discount factor; dummy value, will be overwritten
+    "cycles":0,
+    "T_cycle":1,
+    "T_retire":0,
+    'T_sim':1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    'T_age': 400,
+    'IndL': 10.0/9.0,  # Labor supply per individual (constant),
+    'aNrmInitMean':np.log(0.00001),
+    'aNrmInitStd':0.0,
+    'pLvlInitMean':0.0,
+    'pLvlInitStd':0.0,
+    'AgentCount':10000,
+}
+
 # The parameter values below are taken from
 # http://econ.jhu.edu/people/ccarroll/papers/cjSOE/#calibration
 
-Params.init_cjSOE                  = Params.init_infinite # Get default values of all parameters
+init_cjSOE                  = cstwMPC_init_infinite # Get default values of all parameters
 # Now change some of the parameters for the individual's problem to those of cjSOE
-Params.init_cjSOE['CRRA']          = 2
-Params.init_cjSOE['Rfree']         = 1.04**0.25
-Params.init_cjSOE['PermGroFac']    = [1.01**0.25] # Indiviual-specific income growth (from experience, e.g.)
-Params.init_cjSOE['PermGroFacAgg'] = 1.04**0.25   # Aggregate productivity growth 
-Params.init_cjSOE['LivPrb']        = [0.95**0.25] # Matches a short working life 
+init_cjSOE['CRRA']          = 2
+init_cjSOE['Rfree']         = 1.04**0.25
+init_cjSOE['PermGroFac']    = [1.01**0.25] # Indiviual-specific income growth (from experience, e.g.)
+init_cjSOE['PermGroFacAgg'] = 1.04**0.25   # Aggregate productivity growth 
+init_cjSOE['LivPrb']        = [0.95**0.25] # Matches a short working life 
 
 PopGroFac_cjSOE = [1.01**0.25] # Irrelevant to the individual's choice; attach later to "market" economy object
 
 # Instantiate the baseline agent type with the parameters defined above
-BaselineType = cstwMPC.cstwMPCagent(**Params.init_cjSOE)
+BaselineType = AggShockConsumerType(**init_cjSOE)
 BaselineType.AgeDstn = np.array(1.0) # Fix the age distribution of agents
 
 # Make desired number of agent types (to capture ex-ante heterogeneity)
 EstimationAgentList = []
-for n in range(Params.pref_type_count):
+for n in range(1):
     EstimationAgentList.append(deepcopy(BaselineType))
     EstimationAgentList[n].seed = n  # Give every instance a different seed
 
 # %% {"code_folding": [0]}
 # Make an economy for the consumers to live in
 
-EstimationEconomy                = cstwMPC.cstwMPCmarket(**Params.init_market)
+init_market = {'LorenzBool': False,
+               'ManyStatsBool': False,
+               'ignore_periods':0,    # Will get overwritten
+               'PopGroFac':0.0,       # Will get overwritten
+               'T_retire':0,          # Will get overwritten
+               'TypeWeights':[],      # Will get overwritten
+               'Population': 10000,
+               'act_T':0,             # Will get overwritten
+               'IncUnemp':0.15,
+               'cutoffs':[(0.99,1),(0.9,1),(0.8,1),(0.6,0.8),(0.4,0.6),(0.2,0.4),(0.0,0.2)],
+               'LorenzPercentiles':percentiles_to_match,
+               'AggShockBool':False
+               }
+
+EstimationEconomy                = CobbDouglasEconomy(init_market)
 EstimationEconomy.print_parallel_error_once = True  # Avoids a bug in the code
 
 EstimationEconomy.agents         = EstimationAgentList
-EstimationEconomy.act_T          = Params.T_sim_PY # How many periods of history are good enough for "steady state"
+EstimationEconomy.act_T          = 1200  # How many periods of history are good enough for "steady state"
 
 # %% {"code_folding": [0]}
 # Uninteresting parameters that also need to be set 
@@ -176,76 +234,63 @@ EstimationEconomy.KYratioTarget  = KY_target
 EstimationEconomy.LorenzTarget   = lorenz_target
 EstimationEconomy.LorenzData     = lorenz_long_data
 EstimationEconomy.PopGroFac      = PopGroFac_cjSOE # Population growth characterizes the entire economy
-EstimationEconomy.ignore_periods = Params.ignore_periods_PY # Presample periods
+EstimationEconomy.ignore_periods = 400 # Presample periods
 
 #Display statistics about the estimated model (or not)
 EstimationEconomy.LorenzBool     = False
 EstimationEconomy.ManyStatsBool  = False
 EstimationEconomy.TypeWeight     = [1.0]
 
-# %% {"code_folding": [0]}
-# construct spread_estimate and center_estimate if true, otherwise use the default values
-Params.do_param_dist=True  # Whether to use a distribution of ex-ante heterogeneity
 
-# Discount factors assumed to be uniformly distributed around center_pre for spread_pre on either side
+# %%
+def distributeParams(self,param_name,param_count,center,spread,dist_type):
+        '''
+        Distributes heterogeneous values of one parameter to the AgentTypes in self.agents.
+        Parameters
+        ----------
+        param_name : string
+            Name of the parameter to be assigned.
+        param_count : int
+            Number of different values the parameter will take on.
+        center : float
+            A measure of centrality for the distribution of the parameter.
+        spread : float
+            A measure of spread or diffusion for the distribution of the parameter.
+        dist_type : string
+            The type of distribution to be used.  Can be "lognormal" or "uniform" (can expand).
+        Returns
+        -------
+        None
+        '''
+        # Get a list of discrete values for the parameter
+        if dist_type == 'uniform':
+            # If uniform, center is middle of distribution, spread is distance to either edge
+            param_dist = approxUniform(N=param_count,bot=center-spread,top=center+spread)
+        elif dist_type == 'lognormal':
+            # If lognormal, center is the mean and spread is the standard deviation (in log)
+            tail_N = 3
+            param_dist = approxLognormal(N=param_count-tail_N,mu=np.log(center)-0.5*spread**2,sigma=spread,tail_N=tail_N,tail_bound=[0.0,0.9], tail_order=np.e)
 
-spread_pre=0.0019501105739768 #result under the default calibration of cjSOE
-center_pre=1.0065863855906343    #result under the default calibration of cjSOE
-
-do_optimizing=False # Set to True to reestimate the distribution of time preference rates
-
-if do_optimizing: # If you want to rerun the cstwMPC estimation, change do_optimizing to True
-    # Finite value requires discount factor from combined pure and mortality-induced
-    # discounting to be less than one, so maximum DiscFac is 1/LivPrb
-    DiscFacMax   = 1/Params.init_cjSOE['LivPrb'][0] # 
-    param_range  = [0.995,-0.0001+DiscFacMax] 
-    spread_range = [0.00195,0.0205] # 
-
-    if Params.do_param_dist: # If configured to estimate the distribution
-        LorenzBool = True
-        # Run the param-dist estimation
-        paramDistObjective = lambda spread : cstwMPC.findLorenzDistanceAtTargetKY(
-                                                        Economy = EstimationEconomy,
-                                                        param_name = Params.param_name,
-                                                        param_count = Params.pref_type_count,
-                                                        center_range = param_range,
-                                                        spread = spread,
-                                                        dist_type = Params.dist_type) # Distribution of DiscFac
-        t_start = time()
-        
-        spread_estimate = golden(paramDistObjective 
-                                 ,brack=spread_range
-                                 ,tol=1e-4) 
-        center_estimate = EstimationEconomy.center_save
-        t_end = time()
-    else: # Run the param-point estimation only
-        paramPointObjective = lambda center : cstwMPC.getKYratioDifference(Economy = EstimationEconomy,
-                                              param_name = Params.param_name,
-                                              param_count = Params.pref_type_count,
-                                              center = center,
-                                              spread = 0.0,
-                                              dist_type = Params.dist_type)
-        t_start = time()
-        center_estimate = brentq(paramPointObjective # Find best point estimate 
-                                 ,param_range[0]
-                                 ,param_range[1],xtol=1e-6)
-        spread_estimate = 0.0
-        t_end = time()
-        
-        print(spread_estimate)
-        print('****************')
-        print(center_estimate)
-        print('****************')
-else: # Just use the hard-wired numbers from cstwMPC
-    center_estimate=center_pre
-    spread_estimate=spread_pre
-
+        # Distribute the parameters to the various types, assigning consecutive types the same
+        # value if there are more types than values
+        replication_factor = len(self.agents) // param_count 
+            # Note: the double division is intenger division in Python 3 and 2.7, this makes it explicit
+        j = 0
+        b = 0
+        while j < len(self.agents):
+            for n in range(replication_factor):
+                self.agents[j](AgentCount = int(self.Population*param_dist[0][b]*self.TypeWeight[n]))
+                exec('self.agents[j](' + param_name + '= param_dist[1][b])')
+                j += 1
+            b += 1
+            
+EstimationEconomy.distributeParams = distributeParams
 
 # %% {"code_folding": [0]}
 # Construct the economy at date 0
 EstimationEconomy.distributeParams( # Construct consumer types whose heterogeneity is in the given parameter
     'DiscFac',
-    Params.pref_type_count,# How many different types of consumer are there 
+     7,# How many different types of consumer are there 
     center_estimate,       # Increase patience slightly vs cstwMPC so that maximum saving rate is higher
     spread_estimate,       # How much difference is there across consumers
     Params.dist_type)      # Default is for a uniform distribution
