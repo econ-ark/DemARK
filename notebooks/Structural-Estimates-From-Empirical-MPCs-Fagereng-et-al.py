@@ -42,12 +42,48 @@ from copy import deepcopy
 # %% {"code_folding": [0]}
 # Import needed tools from HARK
 
-from HARK.distribution import approxUniform
+from HARK.distribution import Uniform
 from HARK.utilities import getPercentiles
 from HARK.parallel import multiThreadCommands
 from HARK.estimation import minimizeNelderMead
 from HARK.ConsumptionSaving.ConsIndShockModel import *
-from HARK.cstwMPC.SetupParamsCSTW import init_infinite
+
+
+init_infinite = {
+    "CRRA":1.0,                    # Coefficient of relative risk aversion 
+    "Rfree":1.01/(1.0 - 1.0/160.0), # Survival probability,
+    "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
+    "PermGroFacAgg":1.0,
+    "BoroCnstArt":0.0,
+    "CubicBool":False,
+    "vFuncBool":False,
+    "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
+    "PermShkCount":5,  # Number of points in permanent income shock grid
+    "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
+    "TranShkCount":5,  # Number of points in transitory income shock grid
+    "UnempPrb":0.07,  # Probability of unemployment while working
+    "IncUnemp":0.15,  # Unemployment benefit replacement rate
+    "UnempPrbRet":None,
+    "IncUnempRet":None,
+    "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
+    "aXtraMax":40,  # Maximum end-of-period assets in grid
+    "aXtraCount":32,  # Number of points in assets grid
+    "aXtraExtra":[None],
+    "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
+    "LivPrb":[1.0 - 1.0/160.0],  # Survival probability
+    "DiscFac":0.97,             # Default intertemporal discount factor; dummy value, will be overwritten
+    "cycles":0,
+    "T_cycle":1,
+    "T_retire":0,
+    'T_sim':1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    'T_age': 400,
+    'IndL': 10.0/9.0,  # Labor supply per individual (constant),
+    'aNrmInitMean':np.log(0.00001),
+    'aNrmInitStd':0.0,
+    'pLvlInitMean':0.0,
+    'pLvlInitStd':0.0,
+    'AgentCount':10000,
+}
 
 # %% {"code_folding": [0]}
 # Set key problem-specific parameters
@@ -120,7 +156,7 @@ def FagerengObjFunc(center,spread,verbose=False):
         Euclidean distance between simulated MPCs and (adjusted) Table 9 MPCs.
     '''
     # Give our consumer types the requested discount factor distribution
-    beta_set = approxUniform(N=TypeCount,bot=center-spread,top=center+spread).X
+    beta_set = Uniform(bot=center-spread,top=center+spread).approx(N=TypeCount).X
     for j in range(TypeCount):
         EstTypeList[j](DiscFac = beta_set[j])
 
