@@ -126,12 +126,12 @@ for nn in range(num_consumer_types):
 
 # %% {"code_folding": [0]}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
-from HARK.distribution import approxUniform
+from HARK.distribution import Uniform
 
 # Calibrations from cstwMPC
 bottomDiscFac  = 0.9800
 topDiscFac     = 0.9934
-DiscFac_list   = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac).X
+DiscFac_list   = Uniform(bot=bottomDiscFac,top=topDiscFac).approx(N=num_consumer_types).X
 
 # Now, assign the discount factors
 for j in range(num_consumer_types):
