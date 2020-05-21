@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -186,14 +186,14 @@ cstwMPC_calibrated_parameters = {
 
 # %%
 # This cell constructs seven instances of IndShockConsumerType with different discount factors
-from HARK.utilities import approxUniform
+from HARK.distribution import Uniform
 BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 
 # Specify the distribution of the discount factor
 num_types = 7              # number of types we want
 DiscFac_mean   = 0.9855583 # center of beta distribution 
 DiscFac_spread = 0.0085    # spread of beta distribution
-DiscFac_dstn = approxUniform(num_types, DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread)[1]
+DiscFac_dstn = Uniform(DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread).approx(num_types).X
 
 MyTypes = [] # initialize an empty list to hold our consumer types
 for nn in range(num_types):
@@ -231,8 +231,10 @@ print('The ratio of aggregate capital to permanent income is ' + decfmt2(np.mean
 
 # %%
 # Plot Lorenz curves for model with uniform distribution of time preference
-from HARK.cstwMPC.SetupParamsCSTW import SCF_wealth, SCF_weights
+from HARK.datasets import load_SCF_wealth_weights
 from HARK.utilities import getLorenzShares, getPercentiles
+
+SCF_wealth, SCF_weights = load_SCF_wealth_weights()
 
 pctiles = np.linspace(0.001,0.999,200)
 sim_wealth = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
@@ -297,3 +299,5 @@ MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
 print('The MPC at the 10th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[0])))
 print('The MPC at the 50th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[4])))
 print('The MPC at the 90th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[-1])))
+
+# %%

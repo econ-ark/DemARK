@@ -170,11 +170,11 @@ for nn in range(num_consumer_types):
 # First, decide the discount factors to assign:
 
 # %%
-from HARK.utilities import approxUniform
+from HARK.distribution import Uniform
 
 bottomDiscFac = 0.9800
 topDiscFac    = 0.9934 
-DiscFac_list  = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac)[1]
+DiscFac_list  = Uniform(bot=bottomDiscFac,top=topDiscFac).approx(N=num_consumer_types).X
 
 # Now, assign the discount factors we want to the ChineseConsumerTypes
 for j in range(num_consumer_types):
@@ -193,10 +193,10 @@ for j in range(num_consumer_types):
 
 # %% {"code_folding": []}
 # First create the income distribution in the low-growth state, which we will not change
-from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType, constructLognormalIncomeProcessUnemployment
+from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 low_growth_model = IndShockConsumerType()
-LowGrowthIncomeDstn  = constructLognormalIncomeProcessUnemployment(low_growth_model)[0][0]
+LowGrowthIncomeDstn  = low_growth_model.constructLognormalIncomeProcessUnemployment()[0][0]
 
 # Remember the standard deviation of the permanent income shock in the low-growth state for later
 LowGrowth_PermShkStd = low_growth_model.PermShkStd
@@ -233,7 +233,7 @@ def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
     low_growth_model.PermShkStd = [LowGrowth_PermShkStd[0] * PrmShkStd_multiplier] 
 
     # Construct the appropriate income distributions
-    HighGrowthIncomeDstn = constructLognormalIncomeProcessUnemployment(low_growth_model)[0][0]
+    HighGrowthIncomeDstn = low_growth_model.constructLognormalIncomeProcessUnemployment()[0][0]
 
     # To calculate the national saving rate, we need national income and national consumption
     # To get those, we are going to start national income and consumption at 0, and then

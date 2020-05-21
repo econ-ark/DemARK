@@ -54,8 +54,8 @@ from copy import copy
 import numpy as np
 
 from HARK.ConsumptionSaving.ConsGenIncProcessModel import PersistentShockConsumerType
-
-from HARK.utilities import approxUniform, getLorenzShares, calcSubpopAvg
+from HARK.distribution import Uniform
+from HARK.utilities import getLorenzShares, calcSubpopAvg
 mystr = lambda number : "{:.4f}".format(number)
 
 # %% {"code_folding": [1]}
@@ -149,7 +149,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     ThisDict['PrstIncCorr'] = CorrAct
     
     # Make a 7 point approximation to a uniform distribution of DiscFac
-    DiscFac_list = approxUniform(N=7,bot=DiscFac_center-DiscFac_spread,top=DiscFac_center+DiscFac_spread)[1]
+    DiscFac_list = Uniform(bot=DiscFac_center-DiscFac_spread,top=DiscFac_center+DiscFac_spread).approx(N=7).X
     
     type_list = []
     # Make a PersistentShockConsumerTypeX for each value of beta saved in DiscFac_list
