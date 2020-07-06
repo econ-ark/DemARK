@@ -6,7 +6,7 @@ install:
   - pip install -r binder/requirements.txt
 # command to run tests
 script:
-  - pytest --nbval-lax notebooks/
+  - travis_wait 40 pytest --nbval-lax notebooks/
   
 notifications:
   email:
