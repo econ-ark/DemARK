@@ -212,7 +212,7 @@ v3_grid_no = u(c3_grid_no)
 
 # Create functions
 c3_no = LinearInterp(np.insert(m3_grid_no,0,0), np.insert(c3_grid_no,0,0))
-v3_no = LinearInterp(m3_grid_no, v3_grid_no)
+v3_no = LinearInterp(m3_grid_no, v3_grid_no, lower_extrap = True)
 
 # Agent with a will
 
@@ -238,7 +238,7 @@ v3_grid_wi = np.concatenate([u(mGrid[inds_below]),
 
 # Create functions
 c3_wi = LinearInterp(np.insert(m3_grid_wi,0,0), np.insert(c3_grid_wi,0,0))
-v3_wi = LinearInterp(m3_grid_wi, v3_grid_wi)
+v3_wi = LinearInterp(m3_grid_wi, v3_grid_wi, lower_extrap = True)
 
 plt.figure()
 
@@ -296,7 +296,7 @@ m2_cond_no_g = aGrid + c2_cond_no_g
 v2_cond_no_g = u(c2_cond_no_g) + beta*v3_no(m3_cond_nowi_g)
 
 # Create interpolating value and consumption functions
-v2_cond_no = LinearInterp(m2_cond_no_g, v2_cond_no_g)
+v2_cond_no = LinearInterp(m2_cond_no_g, v2_cond_no_g, lower_extrap = True)
 c2_cond_no = LinearInterp(np.insert(m2_cond_no_g,0,0), np.insert(c2_cond_no_g,0,0))
 
 # %% [markdown]
@@ -330,7 +330,7 @@ m2_cond_wi_g = aGrid + c2_cond_wi_g
 v2_cond_wi_g = u(c2_cond_wi_g) + beta*v3_wi(m3_cond_will_g)
 
 # Create interpolating value and consumption functions
-v2_cond_wi = LinearInterp(m2_cond_wi_g, v2_cond_wi_g)
+v2_cond_wi = LinearInterp(m2_cond_wi_g, v2_cond_wi_g, lower_extrap = True)
 c2_cond_wi = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0,0))
 
 # %% [markdown]
