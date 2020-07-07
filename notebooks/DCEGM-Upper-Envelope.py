@@ -2,7 +2,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,title
 #     formats: ipynb,py:percent
 #     rst2md: false
 #     text_representation:
@@ -79,7 +79,7 @@ plt.ylabel("transformed values")
 plt.plot(m_egm, c_egm)
 plt.xlabel("resources")
 plt.ylabel("consumption")
-
+plt.show()
 # %% [markdown]
 # The point of DCEGM is to realize, that the segments on the `(m, vt)` curve that are decreasing, cannot be optimal. This leaves us with a set of increasing line segments, as seen below (`dcegmSegments` is the function in HARK that calculates the breaks where the curve goes from increasing to decreasing).
 
@@ -109,7 +109,7 @@ for j in range(len(fall)):
     plt.plot(m_egm[idx], vt_egm[idx])
 plt.xlabel("resources")
 plt.ylabel("transformed values")
-
+plt.show()
 # %% [markdown]
 # Let us now use the `calcMultilineEnvelope` function to do the full DCEGM step: find segments and calculate upper envelope in one sweep.
 
@@ -123,25 +123,63 @@ for j in range(len(fall)):
 plt.plot(m_upper, v_upper, 'k')
 plt.xlabel("resources")
 plt.ylabel("transformed values")
-
+plt.show()
 # %% [markdown]
 # And there we have it! These functions are the building blocks for univariate discrete choice modeling in HARK, so hopefully this little demo helped better understand what goes on under the hood, or it was a help if you're extending some existing class with a discrete choice.
 
 # %% [markdown]
-# # AN EXAMPLE
+# # An example: writing a will?
+#
+# We now present a basic example to illustrate the use of the previous tools in solving dynamic optimization problems with discrete and continuous decisions.
+#
+# The model represents an agent that lives for three periods and decides how much of his resources to consume in each of them. On the second period, he must additionally decide whether to hire a lawyer to write a will. Having a will has the upside of allowing the agent to leave a bequest in his third and last period of life, which gives him utility, but has the downside that the lawyer will charge a fraction of his period 3 resources.
+#
+# I now present the model formally.
+#
+# # The third (last) period of life
+#
+# In the last period of life, the agent's problem is determined by his total amount of resources $m_3$ and a state variable $W$ that indicates whether he wrote a will ($W=1$) or not ($W=0$).
+#
+# ### The agent without a will
+#
+# An agent who does not have a will simply consumes all of his available resources. Therefore, his value and consumption functions will be:
+#
+# \begin{equation}
+# V_3(m_3,W=0) = u(m_3)
+# \end{equation}
+#
+# \begin{equation}
+# c_3(m_3, W=0) = m_3
+# \end{equation}
+#
+# Where $u(\cdot)$ gives the utility from consumption. We assume a CRRA specification $u(c) = \frac{c^{1-\rho}}{1-\rho}$.
+#
+# ### The agent with a will
+#
+# An agent who wrote a will decides how to allocate his available resources $m_3$ between his consumption and a bequest. We assume an additive specification for the utility of a given consumption-bequest combination that follows a particular case in [Carroll (2000)](http://www.econ2.jhu.edu/people/ccarroll/Why.pdf). The component of utility from leaving a bequest $x$ is assumed to be $\ln (x+1)$. Therefore, the agent's value function is
+#
+# \begin{equation}
+# V_3(m_3, W=1) = \max_{0\leq c_3 \leq m_3} u(c_3) + \ln(m_3 - c_3 + 1)
+# \end{equation}
+#
+# For ease of exposition we consider the case $\rho = 2$, where [Carroll (2000)](http://www.econ2.jhu.edu/people/ccarroll/Why.pdf) shows that the optimal consumption level is given by
+#
+# \begin{equation}
+# c_3(m_3, W=1) = \min \left[m_3, \frac{-1 + \sqrt{1 + 4(m_3+1)}}{2} \right].
+# \end{equation}
+#
+# The consumption shows that $m_3=1$ is the level of resources at which an important change of behavior occurs: agents leave bequests only for $m_3 > 1$. Since an important change of behavior happens at this point, we call it a 'kink-point' and add it to our grids.
 
 # %%
-
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp, calcLogSumChoiceProbs
 
 # Params
 y = 1
-rra = 2
-alpha = 0.1
-tau = 0.2
+rra = 2 # This is fixed at 2! do not touch!
+tau = 0.35
 beta = 0.9
-aGrid = np.linspace(0,15,100)
+aGrid = np.linspace(0,8,100)
 
 # Function defs
 def crra(x, rra):
@@ -159,26 +197,30 @@ u     = lambda x: crra(x,rra)
 uP    = lambda x: crraP(x, rra)
 uPinv = lambda x: crraPInv(x, rra)
 
+# Create a grid for market resources
+mGrid = (aGrid-aGrid[0])*1.5
+mGrid = mGrid[2:]
+
 # %% [markdown]
 # # The last period
 
 # %%
-# Create a grid for market resources
-mGrid = (aGrid-aGrid[0])*1.5
-
 # Agent without a will
 m3_grid_no = mGrid
 c3_grid_no = mGrid
 v3_grid_no = u(c3_grid_no)
 
 # Create functions
-c3_no = LinearInterp(m3_grid_no, c3_grid_no)
+c3_no = LinearInterp(np.insert(m3_grid_no,0,0), np.insert(c3_grid_no,0,0))
 v3_no = LinearInterp(m3_grid_no, v3_grid_no)
 
 # Agent with a will
 
+# Define an auxiliary function with the analytical consumption expression
+c3will = lambda m: np.minimum(m, -0.5 + 0.5*np.sqrt(1+4*(m+1)))
+
 # Find the kink point
-kink_m = uPinv(alpha)
+kink_m = 1.0
 inds_below = mGrid < kink_m
 inds_above = mGrid > kink_m
 
@@ -186,78 +228,162 @@ m3_grid_wi = np.concatenate([mGrid[inds_below],
                              np.array([kink_m]),
                              mGrid[inds_above]])
 
-c3_grid_wi = np.concatenate([mGrid[inds_below],
-                             np.array([kink_m]),
-                             np.ones_like(mGrid[inds_above])*kink_m])
+c3_grid_wi = c3will(m3_grid_wi)
 
+c_above = c3will(mGrid[inds_above])
+beq_above = mGrid[inds_above] - c3will(mGrid[inds_above])
 v3_grid_wi = np.concatenate([u(mGrid[inds_below]),
                              u(np.array([kink_m])),
-                             u(kink_m) + alpha*(mGrid[inds_above] - kink_m)])
+                             u(c_above) + np.log(1+beq_above)])
 
 # Create functions
-c3_wi = LinearInterp(m3_grid_wi, c3_grid_wi)
+c3_wi = LinearInterp(np.insert(m3_grid_wi,0,0), np.insert(c3_grid_wi,0,0))
 v3_wi = LinearInterp(m3_grid_wi, v3_grid_wi)
 
 plt.figure()
 
-plt.plot(m3_grid_wi, v3_grid_wi)
-plt.plot(m3_grid_no, v3_grid_no)
+plt.plot(m3_grid_wi, v3_grid_wi, label = 'Will')
+plt.plot(m3_grid_no, v3_grid_no, label = 'No Will')
+plt.title('Period 3: Value functions')
+plt.xlabel('Market resources')
+plt.legend()
 plt.show()
 
-plt.plot(m3_grid_wi, c3_grid_wi)
-plt.plot(m3_grid_no, c3_grid_no)
+plt.plot(m3_grid_wi, c3_grid_wi, label = 'Will')
+plt.plot(m3_grid_no, c3_grid_no, label = 'No Will')
+plt.title('Period 3: Consumption Functions')
+plt.xlabel('Market resources')
+plt.legend()
 plt.show()
+
+# %% [markdown]
+# # The second period
+#
+# On the second period, the agent takes his resources as given (the only state variable) and makes two decisions:
+# - Whether to write a will or not.
+# - What fraction of his resources to consume.
+#
+# These decisions can be seen as happening sequentially: the agent first decides whether to write a will or not, and then consumes optimally and taking his decision into account. Since we solve the model backwards in time, we first explore the consumption decision, conditional on the choice of writing a will or not.
+#
+# ## An agent who decides not to write a will
+#
+# After deciding not to write a will, an agent solves the optimization problem expressed in the following conditional value function
+#
+# \begin{equation}
+# \begin{split}
+# \nu (m_2|w=0) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=0)\\
+# s.t.&\\
+# m_3 &= m_2 - c + y
+# \end{split} 
+# \end{equation}
+#
+# We can approximate a solution to this problem through the method of endogenous gridpoints. This yields approximations to $\nu(\cdot|w=0)$ and $c_2(\cdot|w=0)$
 
 # %%
-
-# Second period
+# Second period, not writing a will
 
 # Compute market resources at 3 with and without a will
-m3_cond_will_g = (1-tau)*(aGrid + y)
 m3_cond_nowi_g = aGrid + y
-
 # Compute marginal value of assets in period 3 for each ammount of savings in 2
-v3prime_wi_g = uP(c3_wi(m3_cond_will_g))
 v3prime_no_g = uP(c3_no(m3_cond_nowi_g))
-
-# Get consumptions through EGM inversion of the euler equations
-c2_cond_wi_g = uPinv(beta*(1-tau)*v3prime_wi_g)
+# Get consumption through EGM inversion of the euler equation
 c2_cond_no_g = uPinv(beta*v3prime_no_g)
 
 # Get beginning-of-period market resources
-m2_cond_wi_g = aGrid + c2_cond_wi_g
 m2_cond_no_g = aGrid + c2_cond_no_g
 
-# Compute value functions
-v2_cond_wi_g = u(c2_cond_wi_g) + beta*v3_wi(m3_cond_will_g)
+# Compute value function
 v2_cond_no_g = u(c2_cond_no_g) + beta*v3_no(m3_cond_nowi_g)
 
-# We need to have the value and consumption functions for each choice over a
-# common grid to figure out what choice is optimal at each point.
-# So first create interpolating functions
-v2_cond_wi = LinearInterp(m2_cond_wi_g, v2_cond_wi_g)
-c2_cond_wi = LinearInterp(m2_cond_wi_g, c2_cond_wi_g)
+# Create interpolating value and consumption functions
 v2_cond_no = LinearInterp(m2_cond_no_g, v2_cond_no_g)
-c2_cond_no = LinearInterp(m2_cond_no_g, c2_cond_no_g)
+c2_cond_no = LinearInterp(np.insert(m2_cond_no_g,0,0), np.insert(c2_cond_no_g,0,0))
 
+# %% [markdown]
+# ## An agent who decides to write a will
+#
+# An agent who decides to write a will also solves for his consumption dinamically. We assume that the lawyer that helps the agent write his will takes some fraction $\tau$ of his total resources in period 3. Therefore, the evolution of resources is given by $m_3 = (1-\tau)(m_2 - c_2 + y)$. The conditional value function of the agent is therefore:
+#
+# \begin{equation}
+# \begin{split}
+# \nu (m_2|w=1) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=1)\\
+# s.t.&\\
+# m_3 &= (1-\tau)(m_2 - c + y)
+# \end{split} 
+# \end{equation}
+#
+# We also approximate a solution to this problem using the EGM. This yields approximations to $\nu(\cdot|w=1)$ and $c_2(\cdot|w=1)$.
+
+# %%
+# Second period, writing a will
+
+# Compute market resources at 3 with and without a will
+m3_cond_will_g = (1-tau)*(aGrid + y)
+# Compute marginal value of assets in period 3 for each ammount of savings in 2
+v3prime_wi_g = uP(c3_wi(m3_cond_will_g))
+# Get consumption through EGM inversion of the euler equation
+c2_cond_wi_g = uPinv(beta*(1-tau)*v3prime_wi_g)
+# Get beginning-of-period market resources
+m2_cond_wi_g = aGrid + c2_cond_wi_g
+
+# Compute value function
+v2_cond_wi_g = u(c2_cond_wi_g) + beta*v3_wi(m3_cond_will_g)
+
+# Create interpolating value and consumption functions
+v2_cond_wi = LinearInterp(m2_cond_wi_g, v2_cond_wi_g)
+c2_cond_wi = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0,0))
+
+# %% [markdown]
+# ## The decision whether to write a will or not
+#
+# With the conditional value functions at hand, we can now express and solve the decision of whether to write a will or not, and obtain the unconditional value and consumption functions.
+#
+# \begin{equation}
+# V_2(m_2) = \max \{ \nu (m_2|w=0), \nu (m_2|w=1) \}
+# \end{equation}
+#
+# \begin{equation}
+# w^*(m_2) = \arg \max_{w \in \{0,1\}} \{ \nu (m_2|w=w) \}
+# \end{equation}
+#
+# \begin{equation}
+# c_2(m_2) = c_2(m_2|w=w^*(m_2))
+# \end{equation}
+#
+# We now construct these objects.
+
+# %%
+# We use HARK's 'calcLogSumchoiceProbs' to compute the optimal
+# will decision over our grid of market resources
 v2_grid, choices_2 = calcLogSumChoiceProbs(np.stack((v2_cond_wi(mGrid),
                                                      v2_cond_no(mGrid))),
                                            sigma = 0)
+
+# Plot the optimal decision rule
+plt.plot(mGrid, choices_2[0])
+plt.title('$w^*(m)$')
+plt.ylabel('Write will (1) or not (0)')
+plt.xlabel('Market resources: m')
+plt.show()
 
 c2_grid = (choices_2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
 
 v2 = LinearInterp(mGrid, v2_grid)
 c2 = LinearInterp(mGrid, c2_grid)
 
-plt.plot(mGrid, c2_cond_wi(mGrid), label = 'Will')
-plt.plot(mGrid, c2_cond_no(mGrid), label = 'No will')
-plt.plot(mGrid, c2(mGrid), 'k--',label = 'Uncond.')
+plt.plot(mGrid, v2_cond_wi(mGrid), label = 'Cond. Will')
+plt.plot(mGrid, v2_cond_no(mGrid), label = 'Cond. No will')
+plt.plot(mGrid, v2(mGrid), 'k--',label = 'Uncond.')
+plt.title('Period 2: Value Function')
+plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-plt.plot(mGrid, v2_cond_wi(mGrid), label = 'Will')
-plt.plot(mGrid, v2_cond_no(mGrid), label = 'No will')
-plt.plot(mGrid, v2(mGrid), 'k--',label = 'Uncond.')
+plt.plot(mGrid, c2_cond_wi(mGrid), label = 'Cond. Will')
+plt.plot(mGrid, c2_cond_no(mGrid), label = 'Cond. No will')
+plt.plot(mGrid, c2(mGrid), 'k--',label = 'Uncond.')
+plt.title('Period 2: Consumption Functions')
+plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
@@ -271,15 +397,19 @@ m1_g = aGrid + c1_g
 v1_g = u(c1_g) + beta*v2(m2_g)
 
 # Get the envelope
-m_up_g, c_up_g, v_up_g = calcMultilineEnvelope(m1_g[2:], c1_g[2:], v1_g[2:], mGrid)
+m_up_g, c_up_g, v_up_g = calcMultilineEnvelope(m1_g, c1_g, v1_g, mGrid)
 
 # Show that there is a non-monothonicity and that the upper envelope fixes it
-plt.plot(m1_g,v1_g)
-plt.plot(m_up_g, v_up_g, 'k--')
+plt.plot(m1_g,v1_g, label = 'EGM Points')
+plt.plot(m_up_g, v_up_g, 'k--', label = 'Upper Envelope')
+plt.title('Period 1: Value function')
+plt.legend()
 plt.show()
 
-plt.plot(m1_g,c1_g)
-plt.plot(m_up_g,c_up_g,'k--')
+plt.plot(m1_g,c1_g, label = 'EGM Points')
+plt.plot(m_up_g,c_up_g,'k--', label = 'Upper Envelope')
+plt.title('Period 1: Consumption function')
+plt.legend()
 plt.show()
 
 
