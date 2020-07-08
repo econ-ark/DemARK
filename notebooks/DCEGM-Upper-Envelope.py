@@ -179,7 +179,7 @@ y = 1
 rra = 2 # This is fixed at 2! do not touch!
 tau = 0.35
 beta = 0.9
-aGrid = np.linspace(0,8,100)
+aGrid = np.linspace(0,8,200)
 
 # Function defs
 def crra(x, rra):
@@ -199,7 +199,7 @@ uPinv = lambda x: crraPInv(x, rra)
 
 # Create a grid for market resources
 mGrid = (aGrid-aGrid[0])*1.5
-mGrid = mGrid[2:]
+m_plts = mGrid[1:]
 
 # %% [markdown]
 # # The last period
@@ -211,8 +211,9 @@ c3_grid_no = mGrid
 v3_grid_no = u(c3_grid_no)
 
 # Create functions
-c3_no = LinearInterp(np.insert(m3_grid_no,0,0), np.insert(c3_grid_no,0,0))
-v3_no = LinearInterp(m3_grid_no, v3_grid_no, lower_extrap = True)
+c3_no  = LinearInterp(np.insert(m3_grid_no,0,0), np.insert(c3_grid_no,0,0))
+v3T_no = LinearInterp(m3_grid_no, np.divide(-1,v3_grid_no), lower_extrap = True)
+v3_no  = lambda x: np.divide(-1,v3T_no(x))
 
 # Agent with a will
 
@@ -237,20 +238,21 @@ v3_grid_wi = np.concatenate([u(mGrid[inds_below]),
                              u(c_above) + np.log(1+beq_above)])
 
 # Create functions
-c3_wi = LinearInterp(np.insert(m3_grid_wi,0,0), np.insert(c3_grid_wi,0,0))
-v3_wi = LinearInterp(m3_grid_wi, v3_grid_wi, lower_extrap = True)
+c3_wi  = LinearInterp(np.insert(m3_grid_wi,0,0), np.insert(c3_grid_wi,0,0))
+v3T_wi = LinearInterp(m3_grid_wi, np.divide(-1, v3_grid_wi), lower_extrap = True)
+v3_wi  = lambda x: np.divide(-1,v3T_wi(x))
 
 plt.figure()
 
-plt.plot(m3_grid_wi, v3_grid_wi, label = 'Will')
-plt.plot(m3_grid_no, v3_grid_no, label = 'No Will')
+plt.plot(m_plts, v3_wi(m_plts), label = 'Will')
+plt.plot(m_plts, v3_no(m_plts), label = 'No Will')
 plt.title('Period 3: Value functions')
 plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-plt.plot(m3_grid_wi, c3_grid_wi, label = 'Will')
-plt.plot(m3_grid_no, c3_grid_no, label = 'No Will')
+plt.plot(m_plts, c3_wi(m_plts), label = 'Will')
+plt.plot(m_plts, c3_no(m_plts), label = 'No Will')
 plt.title('Period 3: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -296,8 +298,10 @@ m2_cond_no_g = aGrid + c2_cond_no_g
 v2_cond_no_g = u(c2_cond_no_g) + beta*v3_no(m3_cond_nowi_g)
 
 # Create interpolating value and consumption functions
-v2_cond_no = LinearInterp(m2_cond_no_g, v2_cond_no_g, lower_extrap = True)
-c2_cond_no = LinearInterp(np.insert(m2_cond_no_g,0,0), np.insert(c2_cond_no_g,0,0))
+v2T_cond_no = LinearInterp(m2_cond_no_g, np.divide(-1,v2_cond_no_g), lower_extrap = True)
+v2_cond_no  = lambda x: np.divide(-1, v2T_cond_no(x))
+c2_cond_no  = LinearInterp(np.insert(m2_cond_no_g,0,0), np.insert(c2_cond_no_g,0,0))
+
 
 # %% [markdown]
 # ## An agent who decides to write a will
@@ -330,8 +334,9 @@ m2_cond_wi_g = aGrid + c2_cond_wi_g
 v2_cond_wi_g = u(c2_cond_wi_g) + beta*v3_wi(m3_cond_will_g)
 
 # Create interpolating value and consumption functions
-v2_cond_wi = LinearInterp(m2_cond_wi_g, v2_cond_wi_g, lower_extrap = True)
-c2_cond_wi = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0,0))
+v2T_cond_wi = LinearInterp(m2_cond_wi_g, np.divide(-1,v2_cond_wi_g), lower_extrap = True)
+v2_cond_wi  = lambda x: np.divide(-1, v2T_cond_wi(x))
+c2_cond_wi  = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0,0))
 
 # %% [markdown]
 # ## The decision whether to write a will or not
@@ -370,13 +375,14 @@ plt.show()
 # With the decision rule we can get the unconditional consumption function
 c2_grid = (choices_2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
 
-v2 = LinearInterp(mGrid, v2_grid, lower_extrap = True)
-c2 = LinearInterp(mGrid, c2_grid)
+v2T = LinearInterp(mGrid, np.divide(-1,v2_grid), lower_extrap = True)
+v2  = lambda x: np.divide(-1,v2T(x))
+c2  = LinearInterp(mGrid, c2_grid)
 
 # Plot the conditional and unconditional value functions
-plt.plot(mGrid, v2_cond_wi(mGrid), label = 'Cond. Will')
-plt.plot(mGrid, v2_cond_no(mGrid), label = 'Cond. No will')
-plt.plot(mGrid, v2(mGrid), 'k--',label = 'Uncond.')
+plt.plot(m_plts, v2_cond_wi(m_plts), label = 'Cond. Will')
+plt.plot(m_plts, v2_cond_no(m_plts), label = 'Cond. No will')
+plt.plot(m_plts, v2(m_plts), 'k--',label = 'Uncond.')
 plt.title('Period 2: Value Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -384,9 +390,9 @@ plt.show()
 
 # Plot the conditional and unconditiional consumption
 # functions
-plt.plot(mGrid, c2_cond_wi(mGrid), label = 'Cond. Will')
-plt.plot(mGrid, c2_cond_no(mGrid), label = 'Cond. No will')
-plt.plot(mGrid, c2(mGrid), 'k--',label = 'Uncond.')
+plt.plot(m_plts, c2_cond_wi(m_plts), label = 'Cond. Will')
+plt.plot(m_plts, c2_cond_no(m_plts), label = 'Cond. No will')
+plt.plot(m_plts, c2(m_plts), 'k--',label = 'Uncond.')
 plt.title('Period 2: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -440,17 +446,23 @@ plt.show()
 
 # %%
 # Get the envelope
-m_up_g, c_up_g, v_up_g = calcMultilineEnvelope(m1_g, c1_g, v1_g, mGrid)
+v1T_g = np.divide(-1,v1_g)
+m_up_g, c_up_g, vT_up_g = calcMultilineEnvelope(m1_g, c1_g, v1T_g, mGrid)
+
+# Create functions
+c1_up  = LinearInterp(m_up_g, c_up_g)
+v1T_up = LinearInterp(m_up_g, vT_up_g)
+v1_up  = lambda x: np.divide(-1,v1T_up(x))
 
 # Show that there is a non-monothonicity and that the upper envelope fixes it
 plt.plot(m1_g,v1_g, label = 'EGM Points')
-plt.plot(m_up_g, v_up_g, 'k--', label = 'Upper Envelope')
+plt.plot(m_plts, v1_up(m_plts), 'k--', label = 'Upper Envelope')
 plt.title('Period 1: Value function')
 plt.legend()
 plt.show()
 
 plt.plot(m1_g,c1_g, label = 'EGM Points')
-plt.plot(m_up_g,c_up_g,'k--', label = 'Upper Envelope')
+plt.plot(m_plts,c1_up(m_plts),'k--', label = 'Upper Envelope')
 plt.title('Period 1: Consumption function')
 plt.legend()
 plt.show()
