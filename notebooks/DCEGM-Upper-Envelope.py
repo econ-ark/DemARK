@@ -128,14 +128,50 @@ plt.show()
 # And there we have it! These functions are the building blocks for univariate discrete choice modeling in HARK, so hopefully this little demo helped better understand what goes on under the hood, or it was a help if you're extending some existing class with a discrete choice.
 
 # %% [markdown]
-# # An example: writing a will?
+# # An example: writing a will
 #
 # We now present a basic example to illustrate the use of the previous tools in solving dynamic optimization problems with discrete and continuous decisions.
 #
 # The model represents an agent that lives for three periods and decides how much of his resources to consume in each of them. On the second period, he must additionally decide whether to hire a lawyer to write a will. Having a will has the upside of allowing the agent to leave a bequest in his third and last period of life, which gives him utility, but has the downside that the lawyer will charge a fraction of his period 3 resources.
 #
-# I now present the model formally.
+# On each period, the agent receives a deterministic amount of resources $y$. The problem, therefore, is fully deterministic.
 #
+# I now present the model formally, solving it backwards.
+#
+# But first, some setup and calibration:
+
+# %%
+# from HARK import discontools or whatever name is chosen
+from HARK.interpolation import LinearInterp, calcLogSumChoiceProbs
+
+# Params
+y = 1
+rra = 2 # This is fixed at 2! do not touch!
+tau = 0.35
+beta = 0.9
+aGrid = np.linspace(0,8,400)
+
+# Function defs
+def crra(x, rra):
+    if rra == 1:
+        return np.log(x)
+    return x**(1-rra)/(1-rra)
+
+def crraP(x, rra):
+    return x**(-rra)
+
+def crraPInv(x, rra):
+    return x**(-1/rra)
+
+u     = lambda x: crra(x,rra)
+uP    = lambda x: crraP(x, rra)
+uPinv = lambda x: crraPInv(x, rra)
+
+# Create a grid for market resources
+mGrid = (aGrid-aGrid[0])*1.5
+m_plts = mGrid[1:]
+
+# %% [markdown]
 # # The third (last) period of life
 #
 # In the last period of life, the agent's problem is determined by his total amount of resources $m_3$ and a state variable $W$ that indicates whether he wrote a will ($W=1$) or not ($W=0$).
@@ -168,41 +204,7 @@ plt.show()
 # c_3(m_3, W=1) = \min \left[m_3, \frac{-1 + \sqrt{1 + 4(m_3+1)}}{2} \right].
 # \end{equation}
 #
-# The consumption shows that $m_3=1$ is the level of resources at which an important change of behavior occurs: agents leave bequests only for $m_3 > 1$. Since an important change of behavior happens at this point, we call it a 'kink-point' and add it to our grids.
-
-# %%
-# from HARK import discontools or whatever name is chosen
-from HARK.interpolation import LinearInterp, calcLogSumChoiceProbs
-
-# Params
-y = 1
-rra = 2 # This is fixed at 2! do not touch!
-tau = 0.35
-beta = 0.9
-aGrid = np.linspace(0,8,200)
-
-# Function defs
-def crra(x, rra):
-    if rra == 1:
-        return np.log(x)
-    return x**(1-rra)/(1-rra)
-
-def crraP(x, rra):
-    return x**(-rra)
-
-def crraPInv(x, rra):
-    return x**(-1/rra)
-
-u     = lambda x: crra(x,rra)
-uP    = lambda x: crraP(x, rra)
-uPinv = lambda x: crraPInv(x, rra)
-
-# Create a grid for market resources
-mGrid = (aGrid-aGrid[0])*1.5
-m_plts = mGrid[1:]
-
-# %% [markdown]
-# # The last period
+# The consumption function shows that $m_3=1$ is the level of resources at which an important change of behavior occurs: agents leave bequests only for $m_3 > 1$. Since an important change of behavior happens at this point, we call it a 'kink-point' and add it to our grids.
 
 # %%
 # Agent without a will
@@ -265,7 +267,7 @@ plt.show()
 # - Whether to write a will or not.
 # - What fraction of his resources to consume.
 #
-# These decisions can be seen as happening sequentially: the agent first decides whether to write a will or not, and then consumes optimally and taking his decision into account. Since we solve the model backwards in time, we first explore the consumption decision, conditional on the choice of writing a will or not.
+# These decisions can be seen as happening sequentially: the agent first decides whether to write a will or not, and then consumes optimally in accordance with his previous decision. Since we solve the model backwards in time, we first explore the consumption decision, conditional on the choice of writing a will or not.
 #
 # ## An agent who decides not to write a will
 #
@@ -401,7 +403,7 @@ plt.show()
 # %% [markdown]
 # # The first period
 #
-# In the first period, an agent simply observes his market resources and decides what fraction of them to consume. His problem is represented by the following value function
+# In the first period, the agent simply observes his market resources and decides what fraction of them to consume. His problem is represented by the following value function
 #
 # \begin{equation}
 # \begin{split}
@@ -411,7 +413,7 @@ plt.show()
 # \end{split} 
 # \end{equation}
 #
-# Although this looks like a simple problem, there are complications introduced by the kink in $V_2(\cdot)$, which is clearly visible in the plot from the previous block. Particularly, note that $V_2'(\cdot)$ and $c_2(\cdot)$ are not monotonic: there are now multiple points $m$ for which the slope of $V'_2(m)$ is equal. Thus, the Euler equation becomes a necessary but not sufficient condition for optimality and the traditional EGM inversion step can generate non-monotonic endogenous $m$ gridpoints.
+# Although this looks like a simple problem, there are complications introduced by the kink in $V_2(\cdot)$, which is clearly visible in the plot from the previous block. Particularly, note that $V_2'(\cdot)$ and $c_2(\cdot)$ are not monotonic: there are now multiple points $m$ for which the slope of $V_2(m)$ is equal. Thus, the Euler equation becomes a necessary but not sufficient condition for optimality and the traditional EGM inversion step can generate non-monotonic endogenous $m$ gridpoints.
 #
 # We now illustrate this phenomenon.
 
@@ -443,10 +445,12 @@ plt.show()
 
 # %% [markdown]
 # The previous cell applies the endogenous gridpoints method to the first period problem. The plots illustrate that the sequence of resulting endogenous gridpoints $\{m_i\}_{i=1}^N$ is not monotonic. This results in intervals of market resources over which we have multiple candidate values for the value function. This is the point where we must apply the upper envelope function illustrated above.
+#
+# We finally use the resulting consumption and value grid points to create the first period value and consumption functions. 
 
 # %%
-# Get the envelope
-v1T_g = np.divide(-1,v1_g)
+# Calculate envelope
+v1T_g = np.divide(-1,v1_g) # The function operates with *transformed* value grids
 m_up_g, c_up_g, vT_up_g = calcMultilineEnvelope(m1_g, c1_g, v1T_g, mGrid)
 
 # Create functions
