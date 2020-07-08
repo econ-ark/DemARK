@@ -354,7 +354,8 @@ c2_cond_wi = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0,
 
 # %%
 # We use HARK's 'calcLogSumchoiceProbs' to compute the optimal
-# will decision over our grid of market resources
+# will decision over our grid of market resources.
+# The function also returns the unconditional value function
 v2_grid, choices_2 = calcLogSumChoiceProbs(np.stack((v2_cond_wi(mGrid),
                                                      v2_cond_no(mGrid))),
                                            sigma = 0)
@@ -366,19 +367,23 @@ plt.ylabel('Write will (1) or not (0)')
 plt.xlabel('Market resources: m')
 plt.show()
 
+# With the decision rule we can get the unconditional consumption function
 c2_grid = (choices_2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
 
-v2 = LinearInterp(mGrid, v2_grid)
+v2 = LinearInterp(mGrid, v2_grid, lower_extrap = True)
 c2 = LinearInterp(mGrid, c2_grid)
 
+# Plot the conditional and unconditional value functions
 plt.plot(mGrid, v2_cond_wi(mGrid), label = 'Cond. Will')
 plt.plot(mGrid, v2_cond_no(mGrid), label = 'Cond. No will')
 plt.plot(mGrid, v2(mGrid), 'k--',label = 'Uncond.')
-plt.title('Period 2: Value Function')
+plt.title('Period 2: Value Functions')
 plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
+# Plot the conditional and unconditiional consumption
+# functions
 plt.plot(mGrid, c2_cond_wi(mGrid), label = 'Cond. Will')
 plt.plot(mGrid, c2_cond_no(mGrid), label = 'Cond. No will')
 plt.plot(mGrid, c2(mGrid), 'k--',label = 'Uncond.')
@@ -387,15 +392,53 @@ plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-# %% Solve the first period
+# %% [markdown]
+# # The first period
+#
+# In the first period, an agent simply observes his market resources and decides what fraction of them to consume. His problem is represented by the following value function
+#
+# \begin{equation}
+# \begin{split}
+# V (m_1) &= \max_{0\leq c \leq m_1} u(c) + \beta V_2(m_2)\\
+# s.t.&\\
+# m_2 &= m_1 - c + y.
+# \end{split} 
+# \end{equation}
+#
+# Although this looks like a simple problem, there are complications introduced by the kink in $V_2(\cdot)$, which is clearly visible in the plot from the previous block. Particularly, note that $V_2'(\cdot)$ and $c_2(\cdot)$ are not monotonic: there are now multiple points $m$ for which the slope of $V'_2(m)$ is equal. Thus, the Euler equation becomes a necessary but not sufficient condition for optimality and the traditional EGM inversion step can generate non-monotonic endogenous $m$ gridpoints.
+#
+# We now illustrate this phenomenon.
 
+# %% Solve the first period
 # EGM step
+
+# Period 2 resources implied by the exogenous savings grid
 m2_g = aGrid + y
+# Envelope condition
 v2prime_g = uP(c2(m2_g))
+# Inversion of the euler equation
 c1_g = uPinv(beta*v2prime_g)
+# Endogenous gridpoints
 m1_g = aGrid + c1_g
 v1_g = u(c1_g) + beta*v2(m2_g)
 
+plt.plot(m1_g)
+plt.title('Endogenous gridpoints')
+plt.xlabel('Position: i')
+plt.ylabel('Endogenous grid point: $m_i$')
+plt.show()
+
+
+plt.plot(m1_g,v1_g)
+plt.title('Value function at grid points')
+plt.xlabel('Market resources: m')
+plt.ylabel('Value function')
+plt.show()
+
+# %% [markdown]
+# The previous cell applies the endogenous gridpoints method to the first period problem. The plots illustrate that the sequence of resulting endogenous gridpoints $\{m_i\}_{i=1}^N$ is not monotonic. This results in intervals of market resources over which we have multiple candidate values for the value function. This is the point where we must apply the upper envelope function illustrated above.
+
+# %%
 # Get the envelope
 m_up_g, c_up_g, v_up_g = calcMultilineEnvelope(m1_g, c1_g, v1_g, mGrid)
 
@@ -411,8 +454,6 @@ plt.plot(m_up_g,c_up_g,'k--', label = 'Upper Envelope')
 plt.title('Period 1: Consumption function')
 plt.legend()
 plt.show()
-
-
 
 # %% [markdown]
 # # References
