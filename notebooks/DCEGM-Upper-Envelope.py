@@ -141,17 +141,26 @@ plt.show()
 # But first, some setup and calibration:
 
 # %%
-# from HARK import discontools or whatever name is chosen
+# Import tools for linear interpolation and finding optimal
+# discrete choices.
 from HARK.interpolation import LinearInterp, calcLogSumChoiceProbs
 
-# Params
-y = 1
-rra = 2 # This is fixed at 2! do not touch!
-tau = 0.35
-beta = 0.9
-aGrid = np.linspace(0,8,400)
+# Solution method parameters
+aGrid = np.linspace(0,8,400) # Savings grid for EGM.
 
-# Function defs
+# Model parameters
+
+# Parameters that need to be fixed
+# Relative risk aversion. This is fixed at 2 in order to mantain
+# the analytical solution that we use.
+rra   = 2 
+
+# Parameters that can be changed.
+y     = 1    # Deterministic income per period.
+tau   = 0.35 # Fraction of resources charged by lawyer.
+beta  = 0.98 # Time-discount factor.
+
+# Function definitions
 def crra(x, rra):
     if rra == 1:
         return np.log(x)
