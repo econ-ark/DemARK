@@ -145,6 +145,9 @@ plt.show()
 # discrete choices.
 from HARK.interpolation import LinearInterp, calcLogSumChoiceProbs
 
+# Import CRRA utility (and related) functions from HARK 
+from HARK.utilities import CRRAutility, CRRAutilityP, CRRAutilityP_inv
+
 # Solution method parameters
 aGrid = np.linspace(0,8,400) # Savings grid for EGM.
 
@@ -152,7 +155,7 @@ aGrid = np.linspace(0,8,400) # Savings grid for EGM.
 
 # Parameters that need to be fixed
 # Relative risk aversion. This is fixed at 2 in order to mantain
-# the analytical solution that we use.
+# the analytical solution that we use, from Carroll (2000)
 rra   = 2 
 
 # Parameters that can be changed.
@@ -160,21 +163,10 @@ y     = 1    # Deterministic income per period.
 tau   = 0.35 # Fraction of resources charged by lawyer.
 beta  = 0.98 # Time-discount factor.
 
-# Function definitions
-def crra(x, rra):
-    if rra == 1:
-        return np.log(x)
-    return x**(1-rra)/(1-rra)
-
-def crraP(x, rra):
-    return x**(-rra)
-
-def crraPInv(x, rra):
-    return x**(-1/rra)
-
-u     = lambda x: crra(x,rra)
-uP    = lambda x: crraP(x, rra)
-uPinv = lambda x: crraPInv(x, rra)
+# Define utility (and related) functions
+u     = lambda x: CRRAutility(x,rra)
+uP    = lambda x: CRRAutilityP(x, rra)
+uPinv = lambda x: CRRAutilityP_inv(x, rra)
 
 # Create a grid for market resources
 mGrid = (aGrid-aGrid[0])*1.5
