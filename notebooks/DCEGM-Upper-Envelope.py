@@ -134,7 +134,7 @@ plt.show()
 #
 # The model represents an agent that lives for three periods and decides how much of his resources to consume in each of them. On the second period, he must additionally decide whether to hire a lawyer to write a will. Having a will has the upside of allowing the agent to leave a bequest in his third and last period of life, which gives him utility, but has the downside that the lawyer will charge a fraction of his period 3 resources.
 #
-# On each period, the agent receives a deterministic amount of resources $y$. The problem, therefore, is fully deterministic.
+# On each period, the agent receives a deterministic amount of resources $w$. The problem, therefore, is fully deterministic.
 #
 # I now present the model formally, solving it backwards.
 #
@@ -156,26 +156,26 @@ aGrid = np.linspace(0,8,400) # Savings grid for EGM.
 # Parameters that need to be fixed
 # Relative risk aversion. This is fixed at 2 in order to mantain
 # the analytical solution that we use, from Carroll (2000)
-rra   = 2 
+CRRA   = 2 
 
 # Parameters that can be changed.
-y     = 1    # Deterministic income per period.
-tau   = 0.35 # Fraction of resources charged by lawyer.
-beta  = 0.98 # Time-discount factor.
+w          = 1    # Deterministic wage per period.
+willCstFac = 0.35 # Fraction of resources charged by lawyer for writing a will.
+DiscFac    = 0.98 # Time-discount factor.
 
 # Define utility (and related) functions
-u     = lambda x: CRRAutility(x,rra)
-uP    = lambda x: CRRAutilityP(x, rra)
-uPinv = lambda x: CRRAutilityP_inv(x, rra)
+u     = lambda x: CRRAutility(x,CRRA)
+uP    = lambda x: CRRAutilityP(x, CRRA)
+uPinv = lambda x: CRRAutilityP_inv(x, CRRA)
 
 # Create a grid for market resources
-mGrid = (aGrid-aGrid[0])*1.5
-m_plts = np.linspace(y,10*y,100)
-m_plts_c = np.insert(m_plts,0,0)
+mGrid       = (aGrid-aGrid[0])*1.5
+mGridPlots  = np.linspace(w,10*w,100)
+mGridPlotsC = np.insert(mGridPlots,0,0)
 
 # Transformations for value funtion interpolation
-transform = lambda x: np.exp(x)
-untransform = lambda x: np.log(x)
+vTransf   = lambda x: np.exp(x)
+vUntransf = lambda x: np.log(x)
 
 # %% [markdown]
 # # The third (last) period of life
@@ -214,14 +214,14 @@ untransform = lambda x: np.log(x)
 
 # %%
 # Agent without a will
-m3_grid_no = mGrid
-c3_grid_no = mGrid
-v3_grid_no = u(c3_grid_no)
+mGrid3_no = mGrid
+cGrid3_no = mGrid
+vGrid3_no = u(cGrid3_no)
 
 # Create functions
-c3_no  = LinearInterp(m3_grid_no, c3_grid_no) # (0,0) is already here.
-v3T_no = LinearInterp(m3_grid_no, transform(v3_grid_no), lower_extrap = True)
-v3_no  = lambda x: untransform(v3T_no(x))
+c3_no  = LinearInterp(mGrid3_no, cGrid3_no) # (0,0) is already here.
+vT3_no = LinearInterp(mGrid3_no, vTransf(vGrid3_no), lower_extrap = True)
+v3_no  = lambda x: vUntransf(vT3_no(x))
 
 # Agent with a will
 
@@ -229,38 +229,38 @@ v3_no  = lambda x: untransform(v3T_no(x))
 c3will = lambda m: np.minimum(m, -0.5 + 0.5*np.sqrt(1+4*(m+1)))
 
 # Find the kink point
-kink_m = 1.0
-inds_below = mGrid < kink_m
-inds_above = mGrid > kink_m
+mKink = 1.0
+indBelw = mGrid < mKink
+indAbve = mGrid > mKink
 
-m3_grid_wi = np.concatenate([mGrid[inds_below],
-                             np.array([kink_m]),
-                             mGrid[inds_above]])
+mGrid3_wi = np.concatenate([mGrid[indBelw],
+                            np.array([mKink]),
+                            mGrid[indAbve]])
 
-c3_grid_wi = c3will(m3_grid_wi)
+cGrid3_wi = c3will(mGrid3_wi)
 
-c_above = c3will(mGrid[inds_above])
-beq_above = mGrid[inds_above] - c3will(mGrid[inds_above])
-v3_grid_wi = np.concatenate([u(mGrid[inds_below]),
-                             u(np.array([kink_m])),
-                             u(c_above) + np.log(1+beq_above)])
+cAbve = c3will(mGrid[indAbve])
+beqAbve = mGrid[indAbve] - c3will(mGrid[indAbve])
+vGrid3_wi = np.concatenate([u(mGrid[indBelw]),
+                             u(np.array([mKink])),
+                             u(cAbve) + np.log(1+beqAbve)])
 
 # Create functions
-c3_wi  = LinearInterp(m3_grid_wi, c3_grid_wi) # (0,0) is already here
-v3T_wi = LinearInterp(m3_grid_wi, transform(v3_grid_wi), lower_extrap = True)
-v3_wi  = lambda x: untransform(v3T_wi(x))
+c3_wi  = LinearInterp(mGrid3_wi, cGrid3_wi) # (0,0) is already here
+vT3_wi = LinearInterp(mGrid3_wi, vTransf(vGrid3_wi), lower_extrap = True)
+v3_wi  = lambda x: vUntransf(vT3_wi(x))
 
 plt.figure()
 
-plt.plot(m_plts, v3_wi(m_plts), label = 'Will')
-plt.plot(m_plts, v3_no(m_plts), label = 'No Will')
+plt.plot(mGridPlots, v3_wi(mGridPlots), label = 'Will')
+plt.plot(mGridPlots, v3_no(mGridPlots), label = 'No Will')
 plt.title('Period 3: Value functions')
 plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-plt.plot(m_plts_c, c3_wi(m_plts_c), label = 'Will')
-plt.plot(m_plts_c, c3_no(m_plts_c), label = 'No Will')
+plt.plot(mGridPlotsC, c3_wi(mGridPlotsC), label = 'Will')
+plt.plot(mGridPlotsC, c3_no(mGridPlotsC), label = 'No Will')
 plt.title('Period 3: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -283,7 +283,7 @@ plt.show()
 # \begin{split}
 # \nu (m_2|w=0) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=0)\\
 # s.t.&\\
-# m_3 &= m_2 - c + y
+# m_3 &= m_2 - c + w
 # \end{split} 
 # \end{equation}
 #
@@ -293,34 +293,34 @@ plt.show()
 # Second period, not writing a will
 
 # Compute market resources at 3 with and without a will
-m3_cond_nowi_g = aGrid + y
+mGrid3_cond_nowi = aGrid + w
 # Compute marginal value of assets in period 3 for each ammount of savings in 2
-v3prime_no_g = uP(c3_no(m3_cond_nowi_g))
+vPGrid3_no = uP(c3_no(mGrid3_cond_nowi))
 # Get consumption through EGM inversion of the euler equation
-c2_cond_no_g = uPinv(beta*v3prime_no_g)
+cGrid2_cond_no = uPinv(DiscFac*vPGrid3_no)
 
 # Get beginning-of-period market resources
-m2_cond_no_g = aGrid + c2_cond_no_g
+mGrid2_cond_no = aGrid + cGrid2_cond_no
 
 # Compute value function
-v2_cond_no_g = u(c2_cond_no_g) + beta*v3_no(m3_cond_nowi_g)
+vGrid2_cond_no = u(cGrid2_cond_no) + DiscFac*v3_no(mGrid3_cond_nowi)
 
 # Create interpolating value and consumption functions
-v2T_cond_no = LinearInterp(m2_cond_no_g, transform(v2_cond_no_g), lower_extrap = True)
-v2_cond_no  = lambda x: untransform(v2T_cond_no(x))
-c2_cond_no  = LinearInterp(np.insert(m2_cond_no_g,0,0), np.insert(c2_cond_no_g,0,0))
+vT2_cond_no = LinearInterp(mGrid2_cond_no, vTransf(vGrid2_cond_no), lower_extrap = True)
+v2_cond_no  = lambda x: vUntransf(vT2_cond_no(x))
+c2_cond_no  = LinearInterp(np.insert(mGrid2_cond_no,0,0), np.insert(cGrid2_cond_no,0,0))
 
 
 # %% [markdown]
 # ## An agent who decides to write a will
 #
-# An agent who decides to write a will also solves for his consumption dinamically. We assume that the lawyer that helps the agent write his will takes some fraction $\tau$ of his total resources in period 3. Therefore, the evolution of resources is given by $m_3 = (1-\tau)(m_2 - c_2 + y)$. The conditional value function of the agent is therefore:
+# An agent who decides to write a will also solves for his consumption dinamically. We assume that the lawyer that helps the agent write his will takes some fraction $\tau$ of his total resources in period 3. Therefore, the evolution of resources is given by $m_3 = (1-\tau)(m_2 - c_2 + w)$. The conditional value function of the agent is therefore:
 #
 # \begin{equation}
 # \begin{split}
 # \nu (m_2|w=1) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=1)\\
 # s.t.&\\
-# m_3 &= (1-\tau)(m_2 - c + y)
+# m_3 &= (1-\tau)(m_2 - c + w)
 # \end{split} 
 # \end{equation}
 #
@@ -330,21 +330,21 @@ c2_cond_no  = LinearInterp(np.insert(m2_cond_no_g,0,0), np.insert(c2_cond_no_g,0
 # Second period, writing a will
 
 # Compute market resources at 3 with and without a will
-m3_cond_will_g = (1-tau)*(aGrid + y)
+mGrid3_cond_will = (1-willCstFac)*(aGrid + w)
 # Compute marginal value of assets in period 3 for each ammount of savings in 2
-v3prime_wi_g = uP(c3_wi(m3_cond_will_g))
+vPGrid3_wi = uP(c3_wi(mGrid3_cond_will))
 # Get consumption through EGM inversion of the euler equation
-c2_cond_wi_g = uPinv(beta*(1-tau)*v3prime_wi_g)
+cGrid2_cond_wi = uPinv(DiscFac*(1-willCstFac)*vPGrid3_wi)
 # Get beginning-of-period market resources
-m2_cond_wi_g = aGrid + c2_cond_wi_g
+mGrid2_cond_wi = aGrid + cGrid2_cond_wi
 
 # Compute value function
-v2_cond_wi_g = u(c2_cond_wi_g) + beta*v3_wi(m3_cond_will_g)
+vGrid2_cond_wi = u(cGrid2_cond_wi) + DiscFac*v3_wi(mGrid3_cond_will)
 
 # Create interpolating value and consumption functions
-v2T_cond_wi = LinearInterp(m2_cond_wi_g, transform(v2_cond_wi_g), lower_extrap = True)
-v2_cond_wi  = lambda x: untransform(v2T_cond_wi(x))
-c2_cond_wi  = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0,0))
+vT2_cond_wi = LinearInterp(mGrid2_cond_wi, vTransf(vGrid2_cond_wi), lower_extrap = True)
+v2_cond_wi  = lambda x: vUntransf(vT2_cond_wi(x))
+c2_cond_wi  = LinearInterp(np.insert(mGrid2_cond_wi,0,0), np.insert(cGrid2_cond_wi,0,0))
 
 # %% [markdown]
 # ## The decision whether to write a will or not
@@ -371,29 +371,29 @@ c2_cond_wi  = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0
 # The function also returns the unconditional value function
 # Use transformed values since -given sigma=0- magnitudes are unimportant. This
 # avoids NaNs at m \approx 0.
-v2T_grid, choices_2 = calcLogSumChoiceProbs(np.stack((v2T_cond_wi(mGrid),
-                                                     v2T_cond_no(mGrid))),
+vTGrid2, willChoice2 = calcLogSumChoiceProbs(np.stack((vT2_cond_wi(mGrid),
+                                                     vT2_cond_no(mGrid))),
                                            sigma = 0)
-v2_grid = untransform(v2T_grid)
+vGrid2 = vUntransf(vTGrid2)
 
 # Plot the optimal decision rule
-plt.plot(mGrid, choices_2[0])
+plt.plot(mGrid, willChoice2[0])
 plt.title('$w^*(m)$')
 plt.ylabel('Write will (1) or not (0)')
 plt.xlabel('Market resources: m')
 plt.show()
 
 # With the decision rule we can get the unconditional consumption function
-c2_grid = (choices_2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
+cGrid2 = (willChoice2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
 
-v2T = LinearInterp(mGrid, transform(v2_grid), lower_extrap = True)
-v2  = lambda x: untransform(v2T(x))
-c2  = LinearInterp(mGrid, c2_grid)
+vT2 = LinearInterp(mGrid, vTransf(vGrid2), lower_extrap = True)
+v2  = lambda x: vUntransf(vT2(x))
+c2  = LinearInterp(mGrid, cGrid2)
 
 # Plot the conditional and unconditional value functions
-plt.plot(m_plts, v2_cond_wi(m_plts), label = 'Cond. Will')
-plt.plot(m_plts, v2_cond_no(m_plts), label = 'Cond. No will')
-plt.plot(m_plts, v2(m_plts), 'k--',label = 'Uncond.')
+plt.plot(mGridPlots, v2_cond_wi(mGridPlots), label = 'Cond. Will')
+plt.plot(mGridPlots, v2_cond_no(mGridPlots), label = 'Cond. No will')
+plt.plot(mGridPlots, v2(mGridPlots), 'k--',label = 'Uncond.')
 plt.title('Period 2: Value Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -401,9 +401,9 @@ plt.show()
 
 # Plot the conditional and unconditiional consumption
 # functions
-plt.plot(m_plts_c, c2_cond_wi(m_plts_c), label = 'Cond. Will')
-plt.plot(m_plts_c, c2_cond_no(m_plts_c), label = 'Cond. No will')
-plt.plot(m_plts_c, c2(m_plts_c), 'k--',label = 'Uncond.')
+plt.plot(mGridPlotsC, c2_cond_wi(mGridPlotsC), label = 'Cond. Will')
+plt.plot(mGridPlotsC, c2_cond_no(mGridPlotsC), label = 'Cond. No will')
+plt.plot(mGridPlotsC, c2(mGridPlotsC), 'k--',label = 'Uncond.')
 plt.title('Period 2: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -418,7 +418,7 @@ plt.show()
 # \begin{split}
 # V (m_1) &= \max_{0\leq c \leq m_1} u(c) + \beta V_2(m_2)\\
 # s.t.&\\
-# m_2 &= m_1 - c + y.
+# m_2 &= m_1 - c + w.
 # \end{split} 
 # \end{equation}
 #
@@ -430,23 +430,23 @@ plt.show()
 # EGM step
 
 # Period 2 resources implied by the exogenous savings grid
-m2_g = aGrid + y
+mGrid2 = aGrid + w
 # Envelope condition
-v2prime_g = uP(c2(m2_g))
+vPGrid2 = uP(c2(mGrid2))
 # Inversion of the euler equation
-c1_g = uPinv(beta*v2prime_g)
+cGrid1 = uPinv(DiscFac*vPGrid2)
 # Endogenous gridpoints
-m1_g = aGrid + c1_g
-v1_g = u(c1_g) + beta*v2(m2_g)
+mGrid1 = aGrid + cGrid1
+vGrid1 = u(cGrid1) + DiscFac*v2(mGrid2)
 
-plt.plot(m1_g)
+plt.plot(mGrid1)
 plt.title('Endogenous gridpoints')
 plt.xlabel('Position: i')
 plt.ylabel('Endogenous grid point: $m_i$')
 plt.show()
 
 
-plt.plot(m1_g,v1_g)
+plt.plot(mGrid1,vGrid1)
 plt.title('Value function at grid points')
 plt.xlabel('Market resources: m')
 plt.ylabel('Value function')
@@ -459,25 +459,26 @@ plt.show()
 
 # %%
 # Calculate envelope
-v1T_g = transform(v1_g) # The function operates with *transformed* value grids
+vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
-rise, fall = calcSegments(m1_g, v1T_g)
-m_up_g, c_up_g, vT_up_g = calcMultilineEnvelope(m1_g, c1_g, v1T_g, mGrid)
+rise, fall = calcSegments(mGrid1, vTGrid1)
+mGrid1_up, cGrid1_up, vTGrid1_up = calcMultilineEnvelope(mGrid1, cGrid1,
+                                                         vTGrid1, mGrid)
 
 # Create functions
-c1_up  = LinearInterp(m_up_g, c_up_g)
-v1T_up = LinearInterp(m_up_g, vT_up_g)
-v1_up  = lambda x: untransform(v1T_up(x))
+c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
+v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)
+v1_up  = lambda x: vUntransf(v1T_up(x))
 
 # Show that there is a non-monothonicity and that the upper envelope fixes it
-plt.plot(m1_g,v1_g, label = 'EGM Points')
-plt.plot(m_plts, v1_up(m_plts), 'k--', label = 'Upper Envelope')
+plt.plot(mGrid1,vGrid1, label = 'EGM Points')
+plt.plot(mGridPlots, v1_up(mGridPlots), 'k--', label = 'Upper Envelope')
 plt.title('Period 1: Value function')
 plt.legend()
 plt.show()
 
-plt.plot(m1_g,c1_g, label = 'EGM Points')
-plt.plot(m_plts_c,c1_up(m_plts_c),'k--', label = 'Upper Envelope')
+plt.plot(mGrid1,cGrid1, label = 'EGM Points')
+plt.plot(mGridPlotsC,c1_up(mGridPlotsC),'k--', label = 'Upper Envelope')
 plt.title('Period 1: Consumption function')
 plt.legend()
 plt.show()
