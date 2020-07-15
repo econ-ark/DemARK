@@ -170,7 +170,8 @@ uPinv = lambda x: CRRAutilityP_inv(x, rra)
 
 # Create a grid for market resources
 mGrid = (aGrid-aGrid[0])*1.5
-m_plts = mGrid[1:]
+m_plts = np.linspace(y,10*y,100)
+m_plts_c = np.insert(m_plts,0,0)
 
 # %% [markdown]
 # # The third (last) period of life
@@ -214,7 +215,7 @@ c3_grid_no = mGrid
 v3_grid_no = u(c3_grid_no)
 
 # Create functions
-c3_no  = LinearInterp(np.insert(m3_grid_no,0,0), np.insert(c3_grid_no,0,0))
+c3_no  = LinearInterp(m3_grid_no, c3_grid_no) # (0,0) is already here.
 v3T_no = LinearInterp(m3_grid_no, np.divide(-1,v3_grid_no), lower_extrap = True)
 v3_no  = lambda x: np.divide(-1,v3T_no(x))
 
@@ -254,8 +255,8 @@ plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-plt.plot(m_plts, c3_wi(m_plts), label = 'Will')
-plt.plot(m_plts, c3_no(m_plts), label = 'No Will')
+plt.plot(m_plts_c, c3_wi(m_plts_c), label = 'Will')
+plt.plot(m_plts_c, c3_no(m_plts_c), label = 'No Will')
 plt.title('Period 3: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -393,9 +394,9 @@ plt.show()
 
 # Plot the conditional and unconditiional consumption
 # functions
-plt.plot(m_plts, c2_cond_wi(m_plts), label = 'Cond. Will')
-plt.plot(m_plts, c2_cond_no(m_plts), label = 'Cond. No will')
-plt.plot(m_plts, c2(m_plts), 'k--',label = 'Uncond.')
+plt.plot(m_plts_c, c2_cond_wi(m_plts_c), label = 'Cond. Will')
+plt.plot(m_plts_c, c2_cond_no(m_plts_c), label = 'Cond. No will')
+plt.plot(m_plts_c, c2(m_plts_c), 'k--',label = 'Uncond.')
 plt.title('Period 2: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -452,6 +453,15 @@ plt.show()
 # %%
 # Calculate envelope
 v1T_g = np.divide(-1,v1_g) # The function operates with *transformed* value grids
+
+rise, fall = calcSegments(m1_g, v1T_g)
+for j in range(len(fall)):
+    idx = range(rise[j],fall[j]+1)
+    plt.plot(m1_g[idx], v1T_g[idx])
+plt.xlabel("resources")
+plt.ylabel("transformed values")
+plt.show()
+
 m_up_g, c_up_g, vT_up_g = calcMultilineEnvelope(m1_g, c1_g, v1T_g, mGrid)
 
 # Create functions
@@ -467,7 +477,7 @@ plt.legend()
 plt.show()
 
 plt.plot(m1_g,c1_g, label = 'EGM Points')
-plt.plot(m_plts,c1_up(m_plts),'k--', label = 'Upper Envelope')
+plt.plot(m_plts_c,c1_up(m_plts_c),'k--', label = 'Upper Envelope')
 plt.title('Period 1: Consumption function')
 plt.legend()
 plt.show()
