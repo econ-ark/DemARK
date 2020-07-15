@@ -173,6 +173,10 @@ mGrid = (aGrid-aGrid[0])*1.5
 m_plts = np.linspace(y,10*y,100)
 m_plts_c = np.insert(m_plts,0,0)
 
+# Transformations for value funtion interpolation
+transform = lambda x: np.divide(-1,x)
+untransform = lambda x: np.divide(-1,x)
+
 # %% [markdown]
 # # The third (last) period of life
 #
@@ -216,8 +220,8 @@ v3_grid_no = u(c3_grid_no)
 
 # Create functions
 c3_no  = LinearInterp(m3_grid_no, c3_grid_no) # (0,0) is already here.
-v3T_no = LinearInterp(m3_grid_no, np.divide(-1,v3_grid_no), lower_extrap = True)
-v3_no  = lambda x: np.divide(-1,v3T_no(x))
+v3T_no = LinearInterp(m3_grid_no, transform(v3_grid_no), lower_extrap = True)
+v3_no  = lambda x: untransform(v3T_no(x))
 
 # Agent with a will
 
@@ -243,8 +247,8 @@ v3_grid_wi = np.concatenate([u(mGrid[inds_below]),
 
 # Create functions
 c3_wi  = LinearInterp(np.insert(m3_grid_wi,0,0), np.insert(c3_grid_wi,0,0))
-v3T_wi = LinearInterp(m3_grid_wi, np.divide(-1, v3_grid_wi), lower_extrap = True)
-v3_wi  = lambda x: np.divide(-1,v3T_wi(x))
+v3T_wi = LinearInterp(m3_grid_wi, transform(v3_grid_wi), lower_extrap = True)
+v3_wi  = lambda x: untransform(v3T_wi(x))
 
 plt.figure()
 
@@ -302,8 +306,8 @@ m2_cond_no_g = aGrid + c2_cond_no_g
 v2_cond_no_g = u(c2_cond_no_g) + beta*v3_no(m3_cond_nowi_g)
 
 # Create interpolating value and consumption functions
-v2T_cond_no = LinearInterp(m2_cond_no_g, np.divide(-1,v2_cond_no_g), lower_extrap = True)
-v2_cond_no  = lambda x: np.divide(-1, v2T_cond_no(x))
+v2T_cond_no = LinearInterp(m2_cond_no_g, transform(v2_cond_no_g), lower_extrap = True)
+v2_cond_no  = lambda x: untransform(v2T_cond_no(x))
 c2_cond_no  = LinearInterp(np.insert(m2_cond_no_g,0,0), np.insert(c2_cond_no_g,0,0))
 
 
@@ -338,8 +342,8 @@ m2_cond_wi_g = aGrid + c2_cond_wi_g
 v2_cond_wi_g = u(c2_cond_wi_g) + beta*v3_wi(m3_cond_will_g)
 
 # Create interpolating value and consumption functions
-v2T_cond_wi = LinearInterp(m2_cond_wi_g, np.divide(-1,v2_cond_wi_g), lower_extrap = True)
-v2_cond_wi  = lambda x: np.divide(-1, v2T_cond_wi(x))
+v2T_cond_wi = LinearInterp(m2_cond_wi_g, transform(v2_cond_wi_g), lower_extrap = True)
+v2_cond_wi  = lambda x: untransform(v2T_cond_wi(x))
 c2_cond_wi  = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0,0))
 
 # %% [markdown]
@@ -379,8 +383,8 @@ plt.show()
 # With the decision rule we can get the unconditional consumption function
 c2_grid = (choices_2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
 
-v2T = LinearInterp(mGrid, np.divide(-1,v2_grid), lower_extrap = True)
-v2  = lambda x: np.divide(-1,v2T(x))
+v2T = LinearInterp(mGrid, transform(v2_grid), lower_extrap = True)
+v2  = lambda x: untransform(v2T(x))
 c2  = LinearInterp(mGrid, c2_grid)
 
 # Plot the conditional and unconditional value functions
@@ -452,7 +456,7 @@ plt.show()
 
 # %%
 # Calculate envelope
-v1T_g = np.divide(-1,v1_g) # The function operates with *transformed* value grids
+v1T_g = transform(v1_g) # The function operates with *transformed* value grids
 
 rise, fall = calcSegments(m1_g, v1T_g)
 for j in range(len(fall)):
@@ -467,7 +471,7 @@ m_up_g, c_up_g, vT_up_g = calcMultilineEnvelope(m1_g, c1_g, v1T_g, mGrid)
 # Create functions
 c1_up  = LinearInterp(m_up_g, c_up_g)
 v1T_up = LinearInterp(m_up_g, vT_up_g)
-v1_up  = lambda x: np.divide(-1,v1T_up(x))
+v1_up  = lambda x: untransform(v1T_up(x))
 
 # Show that there is a non-monothonicity and that the upper envelope fixes it
 plt.plot(m1_g,v1_g, label = 'EGM Points')
