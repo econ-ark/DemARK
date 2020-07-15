@@ -143,7 +143,7 @@ plt.show()
 # %%
 # Import tools for linear interpolation and finding optimal
 # discrete choices.
-from HARK.interpolation import LinearInterp, calcLogSumChoiceProbs
+from HARK.interpolation import calcLogSumChoiceProbs
 
 # Import CRRA utility (and related) functions from HARK 
 from HARK.utilities import CRRAutility, CRRAutilityP, CRRAutilityP_inv
@@ -174,8 +174,8 @@ m_plts = np.linspace(y,10*y,100)
 m_plts_c = np.insert(m_plts,0,0)
 
 # Transformations for value funtion interpolation
-transform = lambda x: np.divide(-1,x)
-untransform = lambda x: np.divide(-1,x)
+transform = lambda x: np.exp(x)
+untransform = lambda x: np.log(x)
 
 # %% [markdown]
 # # The third (last) period of life
@@ -246,7 +246,7 @@ v3_grid_wi = np.concatenate([u(mGrid[inds_below]),
                              u(c_above) + np.log(1+beq_above)])
 
 # Create functions
-c3_wi  = LinearInterp(np.insert(m3_grid_wi,0,0), np.insert(c3_grid_wi,0,0))
+c3_wi  = LinearInterp(m3_grid_wi, c3_grid_wi) # (0,0) is already here
 v3T_wi = LinearInterp(m3_grid_wi, transform(v3_grid_wi), lower_extrap = True)
 v3_wi  = lambda x: untransform(v3T_wi(x))
 
@@ -369,9 +369,12 @@ c2_cond_wi  = LinearInterp(np.insert(m2_cond_wi_g,0,0), np.insert(c2_cond_wi_g,0
 # We use HARK's 'calcLogSumchoiceProbs' to compute the optimal
 # will decision over our grid of market resources.
 # The function also returns the unconditional value function
-v2_grid, choices_2 = calcLogSumChoiceProbs(np.stack((v2_cond_wi(mGrid),
-                                                     v2_cond_no(mGrid))),
+# Use transformed values since -given sigma=0- magnitudes are unimportant. This
+# avoids NaNs at m \approx 0.
+v2T_grid, choices_2 = calcLogSumChoiceProbs(np.stack((v2T_cond_wi(mGrid),
+                                                     v2T_cond_no(mGrid))),
                                            sigma = 0)
+v2_grid = untransform(v2T_grid)
 
 # Plot the optimal decision rule
 plt.plot(mGrid, choices_2[0])
@@ -459,13 +462,6 @@ plt.show()
 v1T_g = transform(v1_g) # The function operates with *transformed* value grids
 
 rise, fall = calcSegments(m1_g, v1T_g)
-for j in range(len(fall)):
-    idx = range(rise[j],fall[j]+1)
-    plt.plot(m1_g[idx], v1T_g[idx])
-plt.xlabel("resources")
-plt.ylabel("transformed values")
-plt.show()
-
 m_up_g, c_up_g, vT_up_g = calcMultilineEnvelope(m1_g, c1_g, v1T_g, mGrid)
 
 # Create functions
