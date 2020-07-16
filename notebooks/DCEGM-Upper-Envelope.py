@@ -462,37 +462,23 @@ plt.show()
 vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
 rise, fall = calcSegments(mGrid1, vTGrid1)
-mGrid1_up, cGrid1_up, vTGrid1_up, xings = calcMultilineEnvelope(mGrid1, cGrid1,
-                                                                vTGrid1, mGrid,
-                                                                findXings = True)
+mGrid1_up, cGrid1_up, vTGrid1_up = calcMultilineEnvelope(mGrid1, cGrid1,
+                                                         vTGrid1, mGrid)
+
 # Create functions
 c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
 v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)
 v1_up  = lambda x: vUntransf(v1T_up(x))
 
-# Extract crossing points
-xing_m = np.array(xings)
-xing_v = v1_up(xings)
-
 # Show that there is a non-monothonicity and that the upper envelope fixes it
 plt.plot(mGrid1,vGrid1, label = 'EGM Points')
 plt.plot(mGridPlots, v1_up(mGridPlots), 'k--', label = 'Upper Envelope')
-plt.plot(xing_m, xing_v, 'rX', label = 'Crossings')
-plt.plot()
 plt.title('Period 1: Value function')
 plt.legend()
 plt.show()
 
-# For the consumption function, we want to highlight the sharp discontinuity,
-# so we'll add points to the grid that make it evident.
-add_m_points = np.concatenate([xing_m, np.nextafter(xing_m, np.inf)])
-mGridPlotsC_disc = np.concatenate([mGridPlotsC, add_m_points])
-mGridPlotsC_disc.sort()
-
-# Plot consumption
 plt.plot(mGrid1,cGrid1, label = 'EGM Points')
-plt.plot(mGridPlotsC_disc,c1_up(mGridPlotsC_disc),'k--', label = 'Upper Envelope')
-plt.plot(add_m_points, c1_up(add_m_points),'rX', label = 'Secondary Kink')
+plt.plot(mGridPlotsC,c1_up(mGridPlotsC),'k--', label = 'Upper Envelope')
 plt.title('Period 1: Consumption function')
 plt.legend()
 plt.show()
