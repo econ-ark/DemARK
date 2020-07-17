@@ -7,9 +7,9 @@
 #       format_version: '1.2'
 #       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python 2
+#     display_name: Python 3.7 econ-ark
 #     language: python
-#     name: python2
+#     name: econ-ark
 # ---
 
 # %% {"jupyter": {"outputs_hidden": false}}
@@ -21,8 +21,8 @@ import os
 from copy import copy
 import numpy as np
 
-from HARK.ConsumptionSaving.ConsGenIncProcessModel import *
-from HARK.ConsumptionSaving.ConsIndShockModel import *
+from HARK.ConsumptionSaving.ConsGenIncProcessModel import IndShockExplicitPermIncConsumerType
+from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 from HARK.utilities import plotFuncs
 

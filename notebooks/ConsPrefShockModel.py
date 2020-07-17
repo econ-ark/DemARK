@@ -7,9 +7,9 @@
 #       format_version: '1.2'
 #       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python 2
+#     display_name: Python 3.7 econ-ark
 #     language: python
-#     name: python2
+#     name: econ-ark
 # ---
 
 # %%
@@ -18,7 +18,7 @@ import sys
 import os
 import numpy as np
 
-from HARK.ConsumptionSaving.ConsPrefShockModel import *
+from HARK.ConsumptionSaving.ConsPrefShockModel import KinkyPrefConsumerType, PrefShockConsumerType
 
 import matplotlib.pyplot as plt
 
