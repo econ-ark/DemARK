@@ -62,7 +62,7 @@ import matplotlib.pyplot as plt
 # here for now, should be
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp
-from HARK.dcegm import calcSegments, calcMultilineEnvelope
+from HARK.dcegm import calcSegments, calcMultilineEnvelope, calcPrimKink
 
 # %%
 m_common = np.linspace(0,1.0,100)
@@ -373,8 +373,7 @@ c2_cond_wi  = LinearInterp(np.insert(mGrid2_cond_wi,0,0), np.insert(cGrid2_cond_
 # avoids NaNs at m \approx 0.
 vTGrid2, willChoice2 = calcLogSumChoiceProbs(np.stack((vT2_cond_wi(mGrid),
                                                      vT2_cond_no(mGrid))),
-                                           sigma = 0)
-vGrid2 = vUntransf(vTGrid2)
+                                             sigma = 0)
 
 # Plot the optimal decision rule
 plt.plot(mGrid, willChoice2[0])
@@ -383,27 +382,68 @@ plt.ylabel('Write will (1) or not (0)')
 plt.xlabel('Market resources: m')
 plt.show()
 
-# With the decision rule we can get the unconditional consumption function
+# With the decision rule we can get the unconditional consumption grid
 cGrid2 = (willChoice2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
 
-vT2 = LinearInterp(mGrid, vTransf(vGrid2), lower_extrap = True)
+# Now find the primary kink point (the point at which the optimal discrete
+# decision changes)
+pKink, segments = calcPrimKink(mGrid, np.stack((vT2_cond_wi(mGrid),
+                                                vT2_cond_no(mGrid))),
+                               willChoice2)
+
+m_kink = np.array([x[0] for x in pKink])
+v_kink = np.array([x[1] for x in pKink])
+
+# Insert the kink point into the value function grid and create the function.
+idx = np.searchsorted(mGrid, m_kink)
+mGrid_k = np.insert(mGrid, idx, m_kink)
+vTGrid2_k = np.insert(vTGrid2, idx, v_kink)
+
+vT2 = LinearInterp(mGrid_k, vTGrid2_k, lower_extrap = True)
 v2  = lambda x: vUntransf(vT2(x))
-c2  = LinearInterp(mGrid, cGrid2)
 
 # Plot the conditional and unconditional value functions
-plt.plot(mGridPlots, v2_cond_wi(mGridPlots), label = 'Cond. Will')
-plt.plot(mGridPlots, v2_cond_no(mGridPlots), label = 'Cond. No will')
-plt.plot(mGridPlots, v2(mGridPlots), 'k--',label = 'Uncond.')
+mGridPlots_k = np.concatenate([mGridPlots,m_kink])
+mGridPlots_k.sort()
+plt.plot(mGridPlots_k, v2_cond_wi(mGridPlots_k), label = 'Cond. Will')
+plt.plot(mGridPlots_k, v2_cond_no(mGridPlots_k), label = 'Cond. No will')
+plt.plot(mGridPlots_k, v2(mGridPlots_k), 'k--',label = 'Uncond.')
+plt.plot(m_kink, v2(m_kink), 'rX', label = 'Primary kink')
 plt.title('Period 2: Value Functions')
 plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-# Plot the conditional and unconditiional consumption
+# Add kink points to consumption function. Make the discontinuity evident
+add_c = []
+add_m = []
+cond_cfuncs = [c2_cond_wi, c2_cond_no]
+for i in range(len(m_kink)):
+    ml = m_kink[i]
+    mr = np.nextafter(ml, np.inf)
+    # Point to the left of the discontinuity
+    add_m.append(ml)
+    add_c.append(cond_cfuncs[segments[i,0]](ml))
+    # Point to the right of the discontinuitiy
+    add_m.append(mr)
+    add_c.append(cond_cfuncs[segments[i,1]](mr))
+   
+# Add to grids    
+idx = np.searchsorted(mGrid, add_m)
+mGrid_k = np.insert(mGrid, idx, add_m)
+cGrid2_k = np.insert(cGrid2, idx, add_c)
+
+# Create function
+c2  = LinearInterp(mGrid_k, cGrid2_k)
+
+# Plot the conditional and unconditional consumption
 # functions
-plt.plot(mGridPlotsC, c2_cond_wi(mGridPlotsC), label = 'Cond. Will')
-plt.plot(mGridPlotsC, c2_cond_no(mGridPlotsC), label = 'Cond. No will')
-plt.plot(mGridPlotsC, c2(mGridPlotsC), 'k--',label = 'Uncond.')
+mGridPlotsC_k = np.concatenate([mGridPlotsC,add_m])
+mGridPlotsC_k.sort()
+plt.plot(mGridPlotsC_k, c2_cond_wi(mGridPlotsC_k), label = 'Cond. Will')
+plt.plot(mGridPlotsC_k, c2_cond_no(mGridPlotsC_k), label = 'Cond. No will')
+plt.plot(mGridPlotsC_k, c2(mGridPlotsC_k), 'k--',label = 'Uncond.')
+plt.plot(add_m, c2(add_m), 'rX', label = 'Primary kink')
 plt.title('Period 2: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -462,24 +502,40 @@ plt.show()
 vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
 rise, fall = calcSegments(mGrid1, vTGrid1)
-mGrid1_up, cGrid1_up, vTGrid1_up = calcMultilineEnvelope(mGrid1, cGrid1,
-                                                         vTGrid1, mGrid)
-
+mGrid1_up, cGrid1_up, vTGrid1_up, xings = calcMultilineEnvelope(mGrid1, cGrid1,
+                                                                vTGrid1, mGrid,
+                                                                findXings = True)
 # Create functions
 c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
 v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)
 v1_up  = lambda x: vUntransf(v1T_up(x))
 
+# Extract crossing points
+xing_m = np.array(xings)
+xing_v = v1_up(xings)
+
 # Show that there is a non-monothonicity and that the upper envelope fixes it
 plt.plot(mGrid1,vGrid1, label = 'EGM Points')
 plt.plot(mGridPlots, v1_up(mGridPlots), 'k--', label = 'Upper Envelope')
+plt.plot(xing_m, xing_v, 'rX', label = 'Crossings')
+plt.plot()
 plt.title('Period 1: Value function')
+plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
+# For the consumption function, we want to highlight the sharp discontinuity,
+# so we'll add points to the grid that make it evident.
+add_m_points = np.concatenate([xing_m, np.nextafter(xing_m, np.inf)])
+mGridPlotsC_disc = np.concatenate([mGridPlotsC, add_m_points])
+mGridPlotsC_disc.sort()
+
+# Plot consumption
 plt.plot(mGrid1,cGrid1, label = 'EGM Points')
-plt.plot(mGridPlotsC,c1_up(mGridPlotsC),'k--', label = 'Upper Envelope')
+plt.plot(mGridPlotsC_disc,c1_up(mGridPlotsC_disc),'k--', label = 'Upper Envelope')
+plt.plot(add_m_points, c1_up(add_m_points),'rX', label = 'Secondary Kink')
 plt.title('Period 1: Consumption function')
+plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
