@@ -3,15 +3,26 @@
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
 # %% [markdown]
@@ -61,7 +72,6 @@ Generator=False # Is this notebook the master or is it generated?
 # Import related generic python packages
 
 # Set how many digits past the decimal point should be printed?
-from time import clock
 mystr   = lambda number : "{:.4f}".format(number)
 decfmt4 = lambda number : "{:.4f}".format(number)
 decfmt3 = lambda number : "{:.3f}".format(number)
