@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,11 +22,11 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.7
+#     version: 3.6.9
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
-#     autocomplete: true
+#     autocomplete: false
 #     bibliofile: biblio.bib
 #     cite_by: apalike
 #     current_citInitial: 1
@@ -44,7 +44,7 @@
 # %% [markdown]
 # ## Introduction: Keynes, Friedman, Modigliani
 
-# %%
+# %% {"code_folding": [0]}
 # Some initial setup
 import sys
 import os
@@ -94,7 +94,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # %% [markdown]
 # #### The Keynesian Consumption Function
 
-# %%
+# %% {"code_folding": []}
 class KeynesianConsumer:
     """
     This class represents consumers that behave according to a
@@ -121,7 +121,7 @@ class KeynesianConsumer:
         self.a1 = self.cFunc(1) - self.cFunc(0)
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Plot cFunc(Y)=Y against the Keynesian consumption function
 # Deaton-Friedman consumption function is a special case of perfect foresight model
 
@@ -225,7 +225,7 @@ print('a_1 is ' +  str(slope))
 # %% [markdown]
 # Habit formation may explain why $c_{t-1}$ affects $c_t$.<br>
 # Relative Income Hypothesis suggests that you compare your consumption to consumption of ‘peers’.<br>
-# May explain high saving rates of black HHs.<br>
+# May explain high saving rates of Black HHs.<br>
 #
 # Problems with Duesenberry: <br>
 # No budget constraint<br>
@@ -247,8 +247,8 @@ result.summary()
 
 
 # %%
-# This regression is clearly problematic for the usual non-stationary reasons.
-# Nevertheless we see that the coefficient on lagged consumption is very significant.
+# The coefficient on lagged consumption is very significant.
+# But regression may be statistically problematic for the usual [non-stationarity](https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322) reasons.
 
 # %% [markdown]
 # ### 3. Friedman's Permanent Income Hypothesis
@@ -268,7 +268,7 @@ result.summary()
 #
 # We begin by creating a class that class implements the Friedman PIH consumption function as a special case of the [Perfect Foresight CRRA](http://econ.jhu.edu/people/ccarroll/courses/choice/lecturenotes/consumption/PerfForesightCRRA) model.
 
-# %%
+# %% {"code_folding": [0]}
 class FriedmanPIHConsumer:
     """
     This class represents consumers that behave according to
@@ -381,7 +381,7 @@ print('a_1 is ' +  str(slope))
 #
 # If we take higher frequency time series (or cross sectional data), transitory shocks should dominate, and our estimate of a_1 should be lower.
 
-# %%
+# %% {"code_folding": [0]}
 # Lets use the data from FRED that we used before.
 
 # Using quarterly data (copying from above), we had:
@@ -398,7 +398,7 @@ plt.show()
 
 print('a_1 is ' +  str(slope))
 
-# %%
+# %% {"code_folding": [0]}
 # Using annual data
 
 sdt = dt.datetime(1980, 1, 1) #set startdate
