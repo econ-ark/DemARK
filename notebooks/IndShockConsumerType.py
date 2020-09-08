@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -18,7 +18,7 @@
 # # IndShockConsumerType Documentation
 # ## Consumption-Saving model with Idiosyncratic Income Shocks
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 from HARK.utilities import plotFuncsDer, plotFuncs
@@ -115,7 +115,7 @@ mystr = lambda number : "{:.4f}".format(number)
 # |$T$| Number of periods in this type's "cycle" |$\texttt{T_cycle}$| $1$ | |
 # |(none)| Number of times the "cycle" occurs |$\texttt{cycles}$| $0$ | |
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 IdiosyncDict={
     # Parameters shared with the perfect foresight model
     "CRRA": 2.0,                           # Coefficient of relative risk aversion
@@ -171,55 +171,55 @@ IdiosyncDict={
 #
 # It is not necessary to compute the value function in this model, and it is not computationally free to do so.  You can choose whether the value function should be calculated and returned as part of the solution of the model with $\texttt{vFuncBool}$.  The consumption function will be constructed as a piecewise linear interpolation when $\texttt{CubicBool}$ is \texttt{False}, and will be a piecewise cubic spline interpolator if $\texttt{True}$.
 
-# %% [markdown] {"heading_collapsed": true}
+# %% [markdown]
 # ## Solving and examining the solution of the idiosyncratic income shocks model
 #
 # The cell below creates an infinite horizon instance of $\texttt{IndShockConsumerType}$ and solves its model by calling its $\texttt{solve}$ method.
 
-# %% {"hidden": true}
+# %%
 IndShockExample = IndShockConsumerType(**IdiosyncDict)
 IndShockExample.cycles = 0 # Make this type have an infinite horizon
 IndShockExample.solve()
 
 
-# %% [markdown] {"hidden": true}
+# %% [markdown]
 # After solving the model, we can examine an element of this type's $\texttt{solution}$:
 
-# %% {"hidden": true}
+# %%
 print(vars(IndShockExample.solution[0]))
 
-# %% [markdown] {"hidden": true}
+# %% [markdown]
 # The single-period solution to an idiosyncratic shocks consumer's problem has all of the same attributes as in the perfect foresight model, with a couple additions.  The solution can include the marginal marginal value of market resources function $\texttt{vPPfunc}$, but this is only constructed if $\texttt{CubicBool}$ is $\texttt{True}$, so that the MPC can be accurately computed; when it is $\texttt{False}$, then $\texttt{vPPfunc}$ merely returns $\texttt{NaN}$ everywhere.
 #
 # The $\texttt{solveConsIndShock}$ function calculates steady state market resources and stores it in the attribute $\texttt{mNrmSS}$.  This represents the steady state level of $m_t$ if *this period* were to occur indefinitely, but with income shocks turned off.  This is relevant in a "one period infinite horizon" model like we've specified here, but is less useful in a lifecycle model.
 #
 # Let's take a look at the consumption function by plotting it, along with its derivative (the MPC):
 
-# %% {"hidden": true}
+# %%
 print('Consumption function for an idiosyncratic shocks consumer type:')
 plotFuncs(IndShockExample.solution[0].cFunc,IndShockExample.solution[0].mNrmMin,5)
 print('Marginal propensity to consume for an idiosyncratic shocks consumer type:')
 plotFuncsDer(IndShockExample.solution[0].cFunc,IndShockExample.solution[0].mNrmMin,5)
 
-# %% [markdown] {"hidden": true}
+# %% [markdown]
 # The lower part of the consumption function is linear with a slope of 1, representing the *constrained* part of the consumption function where the consumer *would like* to consume more by borrowing-- his marginal utility of consumption exceeds the marginal value of assets-- but he is prevented from doing so by the artificial borrowing constraint.
 #
 # The MPC is a step function, as the $\texttt{cFunc}$ itself is a piecewise linear function; note the large jump in the MPC where the borrowing constraint begins to bind.
 #
 # If you want to look at the interpolation nodes for the consumption function, these can be found by "digging into" attributes of $\texttt{cFunc}$:
 
-# %% {"hidden": true}
+# %%
 print('mNrmGrid for unconstrained cFunc is ',IndShockExample.solution[0].cFunc.functions[0].x_list)
 print('cNrmGrid for unconstrained cFunc is ',IndShockExample.solution[0].cFunc.functions[0].y_list)
 print('mNrmGrid for borrowing constrained cFunc is ',IndShockExample.solution[0].cFunc.functions[1].x_list)
 print('cNrmGrid for borrowing constrained cFunc is ',IndShockExample.solution[0].cFunc.functions[1].y_list)
 
-# %% [markdown] {"hidden": true}
+# %% [markdown]
 # The consumption function in this model is an instance of $\texttt{LowerEnvelope1D}$, a class that takes an arbitrary number of 1D interpolants as arguments to its initialization method.  When called, a $\texttt{LowerEnvelope1D}$ evaluates each of its component functions and returns the lowest value.  Here, the two component functions are the *unconstrained* consumption function-- how the agent would consume if the artificial borrowing constraint did not exist for *just this period*-- and the *borrowing constrained* consumption function-- how much he would consume if the artificial borrowing constraint is binding.  
 #
 # The *actual* consumption function is the lower of these two functions, pointwise.  We can see this by plotting the component functions on the same figure:
 
-# %% {"hidden": true}
+# %%
 plotFuncs(IndShockExample.solution[0].cFunc.functions,-0.25,5.)
 
 # %% [markdown]
@@ -251,12 +251,12 @@ IndShockExample.simulate()
 # We can now look at the simulated data in aggregate or at the individual consumer level.  Like in the perfect foresight model, we can plot average (normalized) market resources over time, as well as average consumption:
 
 # %%
-plt.plot(np.mean(IndShockExample.mNrmNow_hist,axis=1))
+plt.plot(np.mean(IndShockExample.history['mNrmNow'],axis=1))
 plt.xlabel('Time')
 plt.ylabel('Mean market resources')
 plt.show()
 
-plt.plot(np.mean(IndShockExample.cNrmNow_hist,axis=1))
+plt.plot(np.mean(IndShockExample.history['cNrmNow'],axis=1))
 plt.xlabel('Time')
 plt.ylabel('Mean consumption')
 plt.show()
@@ -265,7 +265,7 @@ plt.show()
 # We could also plot individual consumption paths for some of the consumers-- say, the first five:
 
 # %%
-plt.plot(IndShockExample.cNrmNow_hist[:,0:5])
+plt.plot(IndShockExample.history['cNrmNow'][:,0:5])
 plt.xlabel('Time')
 plt.ylabel('Individual consumption paths')
 plt.show()
@@ -281,7 +281,7 @@ plt.show()
 #
 # In the cell below, we define a parameter dictionary for a rather short ten period lifecycle, with arbitrarily chosen parameters.  For a more realistically calibrated (and much longer) lifecycle model, see the [SolvingMicroDSOPs REMARK](https://github.com/econ-ark/REMARK/blob/master/REMARKs/SolvingMicroDSOPs.md).
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 LifecycleDict={ # Click arrow to expand this fairly large parameter dictionary
     # Parameters shared with the perfect foresight model
     "CRRA": 2.0,                           # Coefficient of relative risk aversion
@@ -354,7 +354,7 @@ plotFuncs(LifecycleExample.cFunc,mMin,5)
 #
 # We can represent this type of individual as a four period, infinite horizon model in which expected "permanent" income growth varies greatly across seasons.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 CyclicalDict = { # Click the arrow to expand this parameter dictionary
     # Parameters shared with the perfect foresight model
     "CRRA": 2.0,                           # Coefficient of relative risk aversion
@@ -416,3 +416,5 @@ plotFuncs(CyclicalExample.cFunc,mMin,5)
 
 # %% [markdown]
 # The very low green consumption function corresponds to the quarter in which the ski instructors make most of their income.  They know that they are about to experience a 70% drop in "permanent" income, so they do not consume much *relative to their income this quarter*.  In the other three quarters, *normalized* consumption is much higher, as current "permanent" income is low relative to future expectations.  In *level*, the consumption chosen in each quarter is much more similar
+
+# %%

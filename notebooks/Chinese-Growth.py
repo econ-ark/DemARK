@@ -21,10 +21,38 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.5
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: true
+#     sideBar: true
+#     skip_h1_title: false
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: false
+#     toc_position: {}
+#     toc_section_display: true
+#     toc_window_display: false
 # ---
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 # %matplotlib inline
 
@@ -66,7 +94,7 @@ from tqdm import tqdm
 #
 # HARK's $\texttt{MarkovConsumerType}$ is the right tool for this experiment.  So we need to prepare the parameters to create that ConsumerType, and then create it.
 
-# %% {"code_folding": [1]}
+# %% {"code_folding": []}
 # Initialize the cstwMPC parameters
 init_China_parameters = {
     "CRRA":1.0,                    # Coefficient of relative risk aversion   
@@ -170,11 +198,11 @@ for nn in range(num_consumer_types):
 # First, decide the discount factors to assign:
 
 # %%
-from HARK.utilities import approxUniform
+from HARK.distribution import Uniform
 
 bottomDiscFac = 0.9800
 topDiscFac    = 0.9934 
-DiscFac_list  = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac)[1]
+DiscFac_list  = Uniform(bot=bottomDiscFac,top=topDiscFac).approx(N=num_consumer_types).X
 
 # Now, assign the discount factors we want to the ChineseConsumerTypes
 for j in range(num_consumer_types):
@@ -193,10 +221,10 @@ for j in range(num_consumer_types):
 
 # %% {"code_folding": []}
 # First create the income distribution in the low-growth state, which we will not change
-from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType, constructLognormalIncomeProcessUnemployment
+from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 low_growth_model = IndShockConsumerType()
-LowGrowthIncomeDstn  = constructLognormalIncomeProcessUnemployment(low_growth_model)[0][0]
+LowGrowthIncomeDstn  = low_growth_model.constructLognormalIncomeProcessUnemployment()[0][0]
 
 # Remember the standard deviation of the permanent income shock in the low-growth state for later
 LowGrowth_PermShkStd = low_growth_model.PermShkStd
@@ -233,7 +261,7 @@ def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
     low_growth_model.PermShkStd = [LowGrowth_PermShkStd[0] * PrmShkStd_multiplier] 
 
     # Construct the appropriate income distributions
-    HighGrowthIncomeDstn = constructLognormalIncomeProcessUnemployment(low_growth_model)[0][0]
+    HighGrowthIncomeDstn = low_growth_model.constructLognormalIncomeProcessUnemployment()[0][0]
 
     # To calculate the national saving rate, we need national income and national consumption
     # To get those, we are going to start national income and consumption at 0, and then
@@ -298,11 +326,11 @@ def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
         ChineseConsumerTypeNew.simulate(160)   # Simulate 160 quarders of data
     
         # Now, get the aggregate income and consumption of this ConsumerType over time
-        IncomeOfThisConsumerType = np.sum((ChineseConsumerTypeNew.aNrmNow_hist*ChineseConsumerTypeNew.pLvlNow_hist*
+        IncomeOfThisConsumerType = np.sum((ChineseConsumerTypeNew.history['aNrmNow']*ChineseConsumerTypeNew.history['pLvlNow']*
                                           (ChineseConsumerTypeNew.Rfree[0] - 1.)) +
-                                           ChineseConsumerTypeNew.pLvlNow_hist, axis=1)
+                                           ChineseConsumerTypeNew.history['pLvlNow'], axis=1)
         
-        ConsOfThisConsumerType = np.sum(ChineseConsumerTypeNew.cNrmNow_hist*ChineseConsumerTypeNew.pLvlNow_hist,axis=1)
+        ConsOfThisConsumerType = np.sum(ChineseConsumerTypeNew.history['cNrmNow']*ChineseConsumerTypeNew.history['pLvlNow'],axis=1)
         
         # Add the income and consumption of this ConsumerType to national income and consumption
         NatlIncome     += IncomeOfThisConsumerType

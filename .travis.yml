@@ -1,6 +1,8 @@
 language: python
 python:
   - "3.7"
+  - "3.8"
+
 # command to install dependencies
 install:
   - pip install -r binder/requirements.txt
@@ -14,5 +16,6 @@ notifications:
       - seth.mridul+travis@gmail.com
       - shaunagm@gmail.com
       - ccarroll@llorracc.org
+      - spb413@nyu.edu
     on_success: never # default: change
     on_failure: always # default: always

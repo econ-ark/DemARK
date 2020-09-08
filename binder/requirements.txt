@@ -9,4 +9,4 @@ pandas-datareader
 statsmodels
 tqdm
 nbval
-econ-ark==0.10.5
+git+git://github.com/econ-ark/hark@master

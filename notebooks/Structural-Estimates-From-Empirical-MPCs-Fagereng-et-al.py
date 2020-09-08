@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -30,7 +30,7 @@
 # 5. do_secant : Boolean indicator for whether to use "secant MPC", which is average MPC over the range of the prize.  MNW believes authors' regressions are estimating this rather than point MPC.  When False, structural estimation uses point MPC after receiving prize.  NB: This is incompatible with Splurge > 0.
 # 6. drop_corner : Boolean for whether to include target MPC in the top left corner, which is greater than 1.  Authors discuss reasons why the MPC from a transitory shock *could* exceed 1.  Option is included here because this target tends to push the estimate around a bit.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Import python tools
 
 import sys
@@ -39,16 +39,53 @@ import os
 import numpy as np
 from copy import deepcopy
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Import needed tools from HARK
 
-from HARK.utilities import approxUniform, getPercentiles
+from HARK.distribution import Uniform
+from HARK.utilities import getPercentiles
 from HARK.parallel import multiThreadCommands
 from HARK.estimation import minimizeNelderMead
 from HARK.ConsumptionSaving.ConsIndShockModel import *
-from HARK.cstwMPC.SetupParamsCSTW import init_infinite
 
-# %% {"code_folding": [0]}
+
+init_infinite = {
+    "CRRA":1.0,                    # Coefficient of relative risk aversion 
+    "Rfree":1.01/(1.0 - 1.0/160.0), # Survival probability,
+    "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
+    "PermGroFacAgg":1.0,
+    "BoroCnstArt":0.0,
+    "CubicBool":False,
+    "vFuncBool":False,
+    "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
+    "PermShkCount":5,  # Number of points in permanent income shock grid
+    "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
+    "TranShkCount":5,  # Number of points in transitory income shock grid
+    "UnempPrb":0.07,  # Probability of unemployment while working
+    "IncUnemp":0.15,  # Unemployment benefit replacement rate
+    "UnempPrbRet":None,
+    "IncUnempRet":None,
+    "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
+    "aXtraMax":40,  # Maximum end-of-period assets in grid
+    "aXtraCount":32,  # Number of points in assets grid
+    "aXtraExtra":[None],
+    "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
+    "LivPrb":[1.0 - 1.0/160.0],  # Survival probability
+    "DiscFac":0.97,             # Default intertemporal discount factor; dummy value, will be overwritten
+    "cycles":0,
+    "T_cycle":1,
+    "T_retire":0,
+    'T_sim':1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    'T_age': 400,
+    'IndL': 10.0/9.0,  # Labor supply per individual (constant),
+    'aNrmInitMean':np.log(0.00001),
+    'aNrmInitStd':0.0,
+    'pLvlInitMean':0.0,
+    'pLvlInitStd':0.0,
+    'AgentCount':10000,
+}
+
+# %% {"code_folding": []}
 # Set key problem-specific parameters
 
 TypeCount = 8    # Number of consumer types with heterogeneous discount factors
@@ -58,7 +95,7 @@ Splurge = 0.0    # Consumers automatically spend this amount of any lottery priz
 do_secant = True # If True, calculate MPC by secant, else point MPC
 drop_corner = False # If True, ignore upper left corner when calculating distance
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Set standard HARK parameter values
 
 base_params = deepcopy(init_infinite)
@@ -71,7 +108,7 @@ base_params['AgentCount'] = 10000
 base_params['pLvlInitMean'] = np.log(23.72) # From Table 1, in thousands of USD
 base_params['T_sim'] = T_kill  # No point simulating past when agents would be killed off
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define the MPC targets from Fagereng et al Table 9; element i,j is lottery quartile i, deposit quartile j
 
 MPC_target_base = np.array([[1.047, 0.745, 0.720, 0.490],
@@ -80,12 +117,12 @@ MPC_target_base = np.array([[1.047, 0.745, 0.720, 0.490],
                             [0.354, 0.325, 0.242, 0.216]])
 MPC_target = AdjFactor*MPC_target_base
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define the four lottery sizes, in thousands of USD; these are eyeballed centers/averages
 
 lottery_size = np.array([1.625, 3.3741, 7.129, 40.0])
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Make several consumer types to be used during estimation
 
 BaseType = IndShockConsumerType(**base_params)
@@ -94,7 +131,7 @@ for j in range(TypeCount):
     EstTypeList.append(deepcopy(BaseType))
     EstTypeList[-1](seed = j)
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define the objective function
 
 def FagerengObjFunc(center,spread,verbose=False):
@@ -119,7 +156,7 @@ def FagerengObjFunc(center,spread,verbose=False):
         Euclidean distance between simulated MPCs and (adjusted) Table 9 MPCs.
     '''
     # Give our consumer types the requested discount factor distribution
-    beta_set = approxUniform(N=TypeCount,bot=center-spread,top=center+spread)[1]
+    beta_set = Uniform(bot=center-spread,top=center+spread).approx(N=TypeCount).X
     for j in range(TypeCount):
         EstTypeList[j](DiscFac = beta_set[j])
 
@@ -183,7 +220,7 @@ def FagerengObjFunc(center,spread,verbose=False):
     return distance
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Conduct the estimation
 
 guess = [0.92,0.03]
