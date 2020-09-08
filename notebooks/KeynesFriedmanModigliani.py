@@ -76,7 +76,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 #
 # Keynes:
 # 1. "The amount of aggregate consumption mainly depends on the amount of aggregate income."
-# 1. "It is a "fundamental psychological rule ... that when ... real income increases ... consumption [will increase], but by less than the increase in income."
+# 1. It is a "fundamental psychological rule ... that when ... real income increases ... consumption [will increase], but by less than the increase in income."
 # 1. More generally, "as a rule, a greater proportion of income ... is saved as real income increases."
 #
 # This can be formalized as:
@@ -94,7 +94,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # %% [markdown]
 # #### The Keynesian Consumption Function
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 class KeynesianConsumer:
     """
     This class represents consumers that behave according to a
@@ -140,7 +140,7 @@ plt.ylim(0, 20)
 plt.legend()
 plt.show()
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # This looks like the first of the three equations, consumption as a linear function of income!
 # This means that even in a microfounded model (that HARK provides), the consumption function can match Keynes reduced form
 # prediction (given the right parameterisation).
@@ -335,7 +335,7 @@ plt.show()
 print('a_0 is ' + str(intercept))
 print('a_1 is ' +  str(slope))
 # %%
-# However, our consumption data is non-stationary and this drives the previous
+# However, our consumption data is [non-stationary](https://www.reed.edu/economics/parker/312/tschapters/S13_Ch_4.pdf) and this drives the previous
 # estimate.
 df.DPIC96.plot()
 plt.xlabel('Date')
