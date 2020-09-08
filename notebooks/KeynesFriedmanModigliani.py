@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.9
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -380,6 +380,8 @@ print('a_1 is ' +  str(slope))
 # If we take a long time series, then the differences in permanent income should be the main driver of the variance in total income. This implies that a_1 should be high.
 #
 # If we take higher frequency time series (or cross sectional data), transitory shocks should dominate, and our estimate of a_1 should be lower.
+#
+# Consider quarterly differences first:
 
 # %% {"code_folding": [0]}
 # Lets use the data from FRED that we used before.
@@ -398,21 +400,19 @@ plt.show()
 
 print('a_1 is ' +  str(slope))
 
+# %% [markdown]
+# And now consider longer time differences, 20 quarters for instance, where the changes in permanent income should dominate transitory effects
+
 # %% {"code_folding": [0]}
-# Using annual data
-
-sdt = dt.datetime(1980, 1, 1) #set startdate
-edt = dt.datetime (2017, 1, 1) #set end date
-df_an = web.DataReader(["PCECCA", "A067RX1A020NBEA"], "fred", sdt, edt) #import the annual data from Fred
-
-df_an_diff = df_an.diff()
-df_an_diff.columns = ['cons', 'inc']
+# Using longer differences
+df_diff_long = df.diff(periods = 20) #create dataframe of differenced values
+df_diff_long.columns = ['cons', 'inc']
 
 plt.figure(figsize=(9,6))
-plt.plot(df_an_diff.inc, df_an_diff.cons, 'go', label='Data')
-slope, intercept, r_value, p_value, std_err = stats.linregress(df_an_diff.inc[1:], df_an_diff.cons[1:]) # find line of best fit
-plt.plot(df_an_diff.inc[1:], intercept+slope*df_an_diff.inc[1:], 'k-', label='Line of best fit')
-plt.plot(np.linspace(-100, 500, 3), np.linspace(-100, 500, 3), 'k--', label='C=Y')
+plt.plot(df_diff_long.inc, df_diff_long.cons, 'go', label='Data')
+slope, intercept, r_value, p_value, std_err = stats.linregress(df_diff_long.inc[20:], df_diff_long.cons[20:]) # find line of best fit
+plt.plot(df_diff_long.inc[1:], intercept+slope*df_diff_long.inc[1:], 'k-', label='Line of best fit')
+plt.plot(np.linspace(-100, 2000, 3), np.linspace(-100, 2000, 3), 'k--', label='C=Y')
 plt.legend()
 plt.xlabel('Change in income (dy)')
 plt.ylabel('Change in consumption (dc)')
@@ -422,4 +422,4 @@ print('a_0 is ' + str(intercept))
 print('a_1 is ' +  str(slope))
 
 # %% [markdown]
-# The estimate of $a_1$ using the annual data is much higher because permanent income is playing a much more important role in explaining the variation in consumption.
+# The estimate of $a_1$ using the longer differences is much higher because permanent income is playing a much more important role in explaining the variation in consumption.
