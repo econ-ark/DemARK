@@ -568,6 +568,8 @@ interact(FisherPlot2,
 
 # %% [markdown]
 # # Fourth plot: the effects of changes in the coefficient of risk aversion
+#
+# For this exercise, we assume that no income is received in the second period. The relevant parameter is therefore $M_1$, the total market resources before consumption in period 1.
 
 # %%
 # Create plotting function
