@@ -21,7 +21,23 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.7
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 # ---
 
 # %% [markdown]
@@ -109,8 +125,8 @@ def FisherPlot(Y1, Y2, B1, R, c1Max, c2Max):
     
     # Plot the indifference curve
     V = C1**(1-CRRA)/(1-CRRA) + Beta*C2**(1-CRRA)/(1-CRRA) # Get max utility
-    C1_V = np.linspace(((1-CRRA)*V)**(1/1-CRRA)+0.5, c1Max, 1000)
-    C2_V = (((1-CRRA)*V - C1_V**(1-CRRA))/Beta)**(1/1-CRRA)
+    C1_V = np.linspace(((1-CRRA)*V)**(1/(1-CRRA))+0.5, c1Max, 1000)
+    C2_V = (((1-CRRA)*V - C1_V**(1-CRRA))/Beta)**(1/(1-CRRA))
     plt.plot(C1_V, C2_V, 'b-', label='Indiferrence Curve')
     
     # Add a legend and display the plot
@@ -547,4 +563,152 @@ interact(FisherPlot2,
          RLo = RLo_widget2,
          c1Max = c1Max_widget2,
          c2Max = c2Max_widget2
+        );
+
+
+# %% [markdown]
+# # Fourth plot: the effects of changes in the coefficient of risk aversion
+#
+# For this exercise, we assume that no income is received in the second period. The relevant parameter is therefore $M_1$, the total market resources before consumption in period 1.
+
+# %%
+# Create plotting function
+def FisherPlot3(M1, R, Beta, CRRA, c1Max, c2Max):
+    
+    # Basic setup of perfect foresight consumer
+    
+    # We first create an instance of the class
+    # PerfForesightConsumerType, with its standard parameters.
+    PFexample = PerfForesightConsumerType() 
+    
+    PFexample.cycles = 1 # let the agent live the cycle of periods just once
+    PFexample.T_cycle = 1 # One single non-terminal period
+    PFexample.PermGroFac = [0] # No income in the second period
+    PFexample.LivPrb = [1.] # No chance of dying before the second period
+    
+    # Set interest rate and bank balances from input.
+    PFexample.Rfree = R
+    PFexample.CRRA = CRRA
+    PFexample.DiscFac = Beta
+    
+    # Solve the model: this generates the optimal consumption function.
+    
+    # Try-except blocks "try" to execute the code in the try block. If an
+    # error occurs, the except block is executed and the application does
+    # not halt
+    try:
+        PFexample.solve()
+    except:
+        print('Those parameter values violate a condition required for solution!')
+        
+    # Create the figure
+    c1Min = 0.
+    c2Min = 0.
+    plt.figure(figsize=(8,8))
+    plt.xlabel('Period 1 Consumption $C_1$')
+    plt.ylabel('Period 2 Consumption $C_2$')
+    plt.ylim([c2Min,c2Max])
+    plt.xlim([c1Min,c1Max])
+    
+    # Plot the budget constraint
+    C1_bc = np.linspace(c1Min, M1, 10, endpoint=True)
+    C2_bc = (M1 - C1_bc)*R
+    plt.plot(C1_bc, C2_bc, 'k-', label='Budget Constraint')
+    
+    # Plot the optimal consumption bundle
+    C1 = PFexample.solution[0].cFunc(M1)
+    C2 = PFexample.solution[1].cFunc((M1 - C1)*R)
+    plt.plot(C1, C2, 'ro', label='Optimal Consumption')
+    
+    # Plot the indifference curve
+    V = C1**(1-CRRA)/(1-CRRA) + Beta*C2**(1-CRRA)/(1-CRRA) # Get max utility
+    C1_V = np.linspace(((1-CRRA)*V)**(1/(1-CRRA))+0.1, c1Max, 1000)
+    C2_V = (((1-CRRA)*V - C1_V**(1-CRRA))/Beta)**(1/(1-CRRA))
+    plt.plot(C1_V, C2_V, 'b-', label='Indiferrence Curve')
+    
+    # Add a legend and display the plot
+    plt.legend()
+    plt.show()
+    
+    return None
+
+
+# %%
+# We now define the controls that will receive and transmit the
+# user's input.
+# These are sliders for which the range, step, display, and
+# behavior are defined.
+
+# Define a slider for the interest rate
+Rfree_widget = widgets.FloatSlider(
+    min=1.,
+    max=2.,
+    step=0.001,
+    value=1.05,
+    continuous_update=True,
+    readout_format='.4f',
+    description='$R$')
+
+# Define a slider for the discount factor
+Beta_widget = widgets.FloatSlider(
+    min=0.5,
+    max=1.0,
+    step=0.001,
+    value=0.9,
+    continuous_update=True,
+    readout_format='.4f',
+    description='$\Beta$')
+
+# Define a slider for the interest rate
+Beta_widget = widgets.FloatSlider(
+    min=0.5,
+    max=1.0,
+    step=0.001,
+    value=0.9,
+    continuous_update=True,
+    readout_format='.4f',
+    description='$\\beta$')
+
+# Define a slider for the CRRA
+CRRA_widget = widgets.FloatSlider(
+    min=1.1,
+    max=4.0,
+    step=0.1,
+    value=2,
+    continuous_update=True,
+    readout_format='.4f',
+    description='$\\rho$')
+
+# Define a slider for M1
+M1_widget = widgets.FloatSlider(
+    min=0.,
+    max=10.,
+    step=0.1,
+    value=50.,
+    continuous_update=True,
+    readout_format='4f',
+    description='$M_1$')
+
+# Define a textbox for C1 max
+c1Max_widget = widgets.FloatText(
+    value=20,
+    step=1.,
+    description='$C1$ max',
+    disabled=False)
+
+# Define a textbox for C2 max
+c2Max_widget = widgets.FloatText(
+    value=20,
+    step=1.,
+    description='$C2$ max',
+    disabled=False)
+
+# Make the widget
+interact(FisherPlot3,
+         M1 = M1_widget,
+         R = Rfree_widget,
+         Beta = Beta_widget,
+         CRRA = CRRA_widget,
+         c1Max = c1Max_widget,
+         c2Max = c2Max_widget
         );
