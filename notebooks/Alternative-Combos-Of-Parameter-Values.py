@@ -2,13 +2,14 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_json: true
 #     formats: ipynb,py
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: light
-#       format_version: '1.4'
-#       jupytext_version: 1.2.3
+#       format_version: '1.5'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.7.4
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -42,6 +43,8 @@
 # ---
 
 # # Alternative Combinations of Parameter Values
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/alternative-combos-of-parameter-values#launch)
 #
 # Please write the names and email addresses of everyone who worked on this notebook on the line below.
 #
@@ -132,7 +135,7 @@ cstwMPC_calibrated_parameters = {
 # -
 
 # Construct a list of solved consumers' problems, IndShockConsumerType is just a place holder
-MyTypes = [IndShockConsumerType(**cstwMPC_calibrated_parameters)]
+MyTypes = [IndShockConsumerType(verbose=0, **cstwMPC_calibrated_parameters)]
 
 # ## Simulating the Distribution of Wealth for Alternative Combinations
 #
@@ -229,5 +232,3 @@ describeMPCdstn(MyTypes,np.linspace(0.05,0.95,19))
 # # If You Get Here ...
 #
 # If you have finished the above exercises quickly and have more time to spend on this assignment, for extra credit you can do the same exercise where, instead of exploring the consequences of alternative values of relative risk aversion $\rho$, you should test the consequences of different values of the growth factor $\Gamma$ that lead to the same $\check{m}$.
-
-

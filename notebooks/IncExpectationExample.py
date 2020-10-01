@@ -2,13 +2,14 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,12 +23,13 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.4
 # ---
 
 # %% [markdown]
 # ## The Persistent Shock Model and Income Expectations
 #
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/incexpectationexample#launch)
 
 # %% [markdown]
 # This module creates an example application extending $\texttt{PersistentShockConsumerType}$ from $\texttt{ConsGenIndShockModel}$. It uses the HARK tool $\texttt{GenIncProcessModel}$ (whose documentation you can find [here](https://github.com/econ-ark/DemARK/blob/master/notebooks/IncExpectationExample.ipynb).)

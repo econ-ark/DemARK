@@ -1,20 +1,34 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.4
 # ---
 
 # %% [markdown]
 # # The MPC out of Credit vs the MPC Out of Income
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/mpc-out-of-credit-vs-mpc-out-of-income#launch)
 #
 # This notebook compares the Marginal Propensity to Consume (MPC) out of an increase in a credit limit, and the MPC out of transitory shock to income.
 #
@@ -23,10 +37,6 @@
 # The notebook illustrates one simple way to use HARK: import and solve a model for different parameter values, to see how parameters affect the solution.
 #
 # The first step is to create the ConsumerType we want to solve the model for.
-
-# %%
-from __future__ import division, print_function
-# %matplotlib inline
 
 # %% {"code_folding": []}
 ## Import the HARK ConsumerType we want
@@ -55,12 +65,14 @@ BaselineExample = KinkedRconsumerType()
 
 
 # %% [markdown]
-# The next step is to change the values of parameters as we want.
-#
-# To see all the parameters used in the model, along with their default values, see $\texttt{ConsumerParameters.py}$
-#
-# Parameter values are stored as attributes of the $\texttt{ConsumerType}$ the values are used for. For example, the risk-free interest rate $\texttt{Rfree}$ is stored as $\texttt{BaselineExample.Rfree}$. Because we created $\texttt{BaselineExample}$ using the default parameters values at the moment $\texttt{BaselineExample.Rfree}$ is set to the default value of $\texttt{Rfree}$ (which, at the time this demo was written, was 1.03).  Therefore, to change the risk-free interest rate used in $\texttt{BaselineExample}$ to (say) 1.02, all we need to do is:
-#
+"""
+The next step is to change the values of parameters as we want.
+
+To see all the parameters used in the model, along with their default values, see $\texttt{ConsumerParameters.py}$
+
+Parameter values are stored as attributes of the $\texttt{ConsumerType}$ the values are used for. For example, the risk-free interest rate $\texttt{Rfree}$ is stored as $\texttt{BaselineExample.Rfree}$. Because we created $\texttt{BaselineExample}$ using the default parameters values at the moment $\texttt{BaselineExample.Rfree}$ is set to the default value of $\texttt{Rfree}$ (which, at the time this demo was written, was 1.03).  Therefore, to change the risk-free interest rate used in $\texttt{BaselineExample}$ to (say) 1.02, all we need to do is:
+
+"""
 
 # %% {"code_folding": [0]}
 # Change the Default Riskfree Interest Rate
@@ -112,8 +124,10 @@ credit_change =  .0001
 XtraCreditExample.BoroCnstArt = BaselineExample.BoroCnstArt - credit_change
 
 # %% [markdown]
-# Now we are ready to solve the consumers' problems.
-# In HARK, this is done by calling the solve() method of the ConsumerType.
+"""
+Now we are ready to solve the consumers' problems.
+In HARK, this is done by calling the solve() method of the ConsumerType.
+"""
 
 # %% {"code_folding": [0]}
 ### First solve the baseline example.
@@ -122,19 +136,21 @@ BaselineExample.solve()
 ### Now solve the comparison example of the consumer with a bit more credit
 XtraCreditExample.solve()
 
-
 # %% [markdown]
-# Now that we have the solutions to the 2 different problems, we can compare them.
-#
-# We are going to compare the consumption functions for the two different consumers.
-# Policy functions (including consumption functions) in HARK are stored as attributes
-# of the *solution* of the ConsumerType.  The solution, in turn, is a list, indexed by the time
-# period the solution is for.  Since in this demo we are working with infinite-horizon models
-# where every period is the same, there is only one time period and hence only one solution.
-# e.g. BaselineExample.solution[0] is the solution for the BaselineExample.  If BaselineExample
-# had 10 time periods, we could access the 5th with BaselineExample.solution[4] (remember, Python
-# counts from 0!)  Therefore, the consumption function cFunc from the solution to the
-# BaselineExample is $\texttt{BaselineExample.solution[0].cFunc}$
+"""
+Now that we have the solutions to the 2 different problems, we can compare them.
+
+We are going to compare the consumption functions for the two different consumers.
+Policy functions (including consumption functions) in HARK are stored as attributes
+of the *solution* of the ConsumerType.  The solution, in turn, is a list, indexed by the time
+period the solution is for.  Since in this demo we are working with infinite-horizon models
+where every period is the same, there is only one time period and hence only one solution.
+e.g. BaselineExample.solution[0] is the solution for the BaselineExample.  If BaselineExample
+had 10 time periods, we could access the 5th with BaselineExample.solution[4] (remember, Python
+counts from 0!)  Therefore, the consumption function cFunc from the solution to the
+BaselineExample is $\texttt{BaselineExample.solution[0].cFunc}$
+"""
+
 
 # %% {"code_folding": [0]}
 ## First, declare useful functions to plot later
@@ -161,7 +177,7 @@ def FirstDiffMPC_Credit(x):
 
 # %% {"code_folding": [0]}
 ## Now, plot the functions we want
-
+# %matplotlib inline
 # Import a useful plotting function from HARK.utilities
 from HARK.utilities import plotFuncs
 import pylab as plt # We need this module to change the y-axis on the graphs

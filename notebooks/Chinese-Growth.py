@@ -1,13 +1,14 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.5
+#     version: 3.7.4
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -52,17 +53,10 @@
 #     toc_window_display: false
 # ---
 
-# %% {"code_folding": []}
-# Initial imports and notebook setup, click arrow to show
-# %matplotlib inline
-
-import matplotlib.pyplot as plt
-import numpy as np
-from copy import deepcopy
-from tqdm import tqdm
-
 # %% [markdown]
 # # Do Precautionary Motives Explain China's High Saving Rate?
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/chinese-growth#launch)
 #
 # The notebook [Nondurables-During-Great-Recession](http://econ-ark.org/notebooks/) shows that the collapse in consumer spending in the U.S. during the Great Recession could easily have been caused by a moderate and plausible increase in the degree of uncertainty.
 #
@@ -93,6 +87,15 @@ from tqdm import tqdm
 # - A Markov state that represents the state of the Chinese economy (to be detailed later)
 #
 # HARK's $\texttt{MarkovConsumerType}$ is the right tool for this experiment.  So we need to prepare the parameters to create that ConsumerType, and then create it.
+
+# %% {"code_folding": []}
+# Initial imports and notebook setup, click arrow to show
+# %matplotlib inline
+
+import matplotlib.pyplot as plt
+import numpy as np
+from copy import deepcopy
+from tqdm import tqdm
 
 # %% {"code_folding": []}
 # Initialize the cstwMPC parameters

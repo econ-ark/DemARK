@@ -6,8 +6,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,7 +21,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.7
+#     version: 3.7.4
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -42,6 +42,8 @@
 
 # %% [markdown]
 # # The Fisher Two-Period Optimal Consumption Problem
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/fishertwoperiod#launch)
 
 # %%
 # Some initial setup
