@@ -2,13 +2,14 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_json: true
 #     formats: ipynb,py
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: light
-#       format_version: '1.4'
-#       jupytext_version: 1.2.4
+#       format_version: '1.5'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,8 +23,18 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.4
 # ---
+
+# ## What Happens To the Consumption Function When A Liquidity Constraint is Tightened?
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/changeliqconstr#launch)
+#
+# (This example builds on the ConsIndShockModel notebook; digest that before proceeding)
+#
+# The $\texttt{KinkedRconsumerType}$ class solves the problem of a consumer for whom the interest rate on borrowing is higher than the rate that the consumer will receive on any positive saving they do.  The default calibration is meant to capture a case where the borrowing occurs at an interest rate typical of credit cards.
+#
+# (Fuller discussion of the issues here can be found in [A Theory of the Consumption Function, With or Without Liquidity Constraints](http://econ.jhu.edu/people/ccarroll/ATheoryv3JEP.pdf))
 
 # + {"code_folding": [0]}
 from copy import deepcopy
@@ -32,15 +43,6 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 mystr = lambda number : "{:.4f}".format(number)
 
 import matplotlib.pyplot as plt
-# -
-
-# ## What Happens To the Consumption Function When A Liquidity Constraint is Tightened?
-#
-# (This example builds on the ConsIndShockModel notebook; digest that before proceeding)
-#
-# The $\texttt{KinkedRconsumerType}$ class solves the problem of a consumer for whom the interest rate on borrowing is higher than the rate that the consumer will receive on any positive saving they do.  The default calibration is meant to capture a case where the borrowing occurs at an interest rate typical of credit cards.
-#
-# (Fuller discussion of the issues here can be found in [A Theory of the Consumption Function, With or Without Liquidity Constraints](http://econ.jhu.edu/people/ccarroll/ATheoryv3JEP.pdf))
 
 # +
 # Create an instance of the type of consumer we are interested in

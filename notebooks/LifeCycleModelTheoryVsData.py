@@ -2,13 +2,14 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.5
+#     version: 3.7.4
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -54,8 +55,9 @@
 # ---
 
 # %% [markdown]
-#
 # # The Life Cycle Model: Theory vs Data
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/lifecyclemodeltheoryvsdata#launch)
 #
 # National registry data on income and wealth from Scandinavian countries (esp. Norway) have recently become available (with a lot of security) to some (lucky!) researchers.   These data offer a uniquely powerful tool for testing (and improving) our models of consumption and saving behavior over the life cycle.
 #
@@ -376,5 +378,3 @@ plt.plot(np.array(range(20)), assetsNrmByVigtile)
 plt.title("Normalized Assets at age 65, by Vigntile of Lifetime Income Growth")
 plt.xlabel("Vigntile of Lifetime Income Growth")
 plt.ylabel("Normalized Assets")
-
-# %%

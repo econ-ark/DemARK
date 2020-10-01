@@ -1,13 +1,14 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_json: true
 #     formats: py,ipynb
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: light
-#       format_version: '1.4'
-#       jupytext_version: 1.2.3
+#       format_version: '1.5'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,21 +22,18 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.7.4
 # ---
 
 # # Perfect Foresight CRRA Model - Approximation
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/perfforesightcrra-approximation#launch)
+#
 
 # + {"code_folding": []}
 # Initial notebook set up
-
 # %matplotlib inline
 import matplotlib.pyplot as plt
-# The first step is to be able to bring things in from different directories
-import sys 
-import os
-
-sys.path.insert(0, os.path.abspath('../lib'))
 
 import numpy as np
 import HARK 
@@ -196,5 +194,3 @@ plt.show()
 # -
 
 # So, when the return factor gets to roughly 1.4, the error in the approximation is almost 80 percent.  It looks like the value for $R$ where the approximation almost exactly matches the truth is about 1.035.
-
-

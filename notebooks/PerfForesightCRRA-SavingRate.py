@@ -6,8 +6,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: light
-#       format_version: '1.4'
-#       jupytext_version: 1.2.3
+#       format_version: '1.5'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,19 +21,17 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.7.4
 # ---
 
 # # Perfect Foresight CRRA Model - Savings Rate
+#
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/perfforesightcrra-savingrate#launch)
+#
 
 # +
 # %matplotlib inline
 import matplotlib.pyplot as plt
-# The first step is to be able to bring things in from different directories
-import sys 
-import os
-
-sys.path.insert(0, os.path.abspath('../lib'))
 
 import numpy as np
 import HARK 
@@ -84,5 +82,3 @@ PFwealth = PerfForesightConsumerType(**dict_wealth)
 # -
 
 # We can see that consumption is higher for all market resources when R is low, owing to the human wealth effect. And that the saving rate is very sensitive to changes in R (look at when m=1, the savings rate goes from -0.1 to- 0.5 when R moves from 1.06 to 1.03.
-
-
