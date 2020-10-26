@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.6.9
 # ---
 
 # %% [markdown]
@@ -236,7 +236,7 @@ for ThisType in tqdm(MyTypes):
 # NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0. 
 
 # %%
-aLvl_all = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
+aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes])
 print('The ratio of aggregate capital to permanent income is ' + decfmt2(np.mean(aLvl_all)))
 
 # %% [markdown]
@@ -250,7 +250,7 @@ from HARK.utilities import getLorenzShares, getPercentiles
 SCF_wealth, SCF_weights = load_SCF_wealth_weights()
 
 pctiles = np.linspace(0.001,0.999,200)
-sim_wealth = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
+sim_wealth = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes])
 SCF_Lorenz_points = getLorenzShares(SCF_wealth,weights=SCF_weights,percentiles=pctiles)
 sim_Lorenz_points = getLorenzShares(sim_wealth,percentiles=pctiles)
 plt.plot(pctiles,SCF_Lorenz_points,'--k')

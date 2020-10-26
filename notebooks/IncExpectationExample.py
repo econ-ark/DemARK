@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.6.9
 # ---
 
 # %% [markdown]
@@ -68,8 +68,8 @@ class PersistentShockConsumerTypeX(PersistentShockConsumerType):
         MPCnow = np.zeros(self.AgentCount) + np.nan
         for t in range(self.T_cycle):
             these = t == self.t_cycle
-            cLvlNow[these] = self.solution[t].cFunc(self.mLvlNow[these],self.pLvlNow[these])
-            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.mLvlNow[these],self.pLvlNow[these])
+            cLvlNow[these] = self.solution[t].cFunc(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
+            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
         self.cLvlNow = cLvlNow
         self.MPCnow  = MPCnow
 
@@ -179,9 +179,9 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     
     # Get the most recent simulated values of X = cLvlNow, MPCnow, aLvlNow, pLvlNow for all types   
     cLvl_all = np.concatenate([ThisType.cLvlNow for ThisType in type_list])
-    aLvl_all = np.concatenate([ThisType.aLvlNow for ThisType in type_list])
+    aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in type_list])
     MPC_all = np.concatenate([ThisType.MPCnow for ThisType in type_list])
-    pLvl_all = np.concatenate([ThisType.pLvlNow for ThisType in type_list])
+    pLvl_all = np.concatenate([ThisType.state_now["pLvlNow"] for ThisType in type_list])
     
     # The ratio of aggregate assets over the income
     AggWealthRatio = np.mean(aLvl_all) / np.mean(pLvl_all)

@@ -3,13 +3,13 @@
 #   jupytext:
 #     cell_metadata_filter: collapsed,code_folding
 #     cell_metadata_json: true
-#     formats: ipynb,py
+#     formats: ipynb,py:percent
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.6.0
+#       format_name: percent
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.6.9
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -42,6 +42,7 @@
 #     user_envs_cfg: false
 # ---
 
+# %% [markdown]
 # # Alternative Combinations of Parameter Values
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/alternative-combos-of-parameter-values#launch)
@@ -80,7 +81,7 @@
 # * Please accumulate the list of solved consumers' problems in a list called `MyTypes`
 #    * For compatibility with a further part of the assignment below
 
-# + {"code_folding": []}
+# %% {"code_folding": []}
 # This cell merely imports and sets up some basic functions and packages 
 
 # %matplotlib inline
@@ -92,7 +93,7 @@ from copy import deepcopy
 import HARK # Prevents import error from Demos repo
 from HARK.utilities import plotFuncs
 
-# + {"code_folding": [0, 4]}
+# %% {"code_folding": [0, 4]}
 # Import IndShockConsumerType
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
@@ -132,11 +133,12 @@ cstwMPC_calibrated_parameters = {
     'pLvlInitStd':0.0,
     'AgentCount':10000,
 }
-# -
 
+# %%
 # Construct a list of solved consumers' problems, IndShockConsumerType is just a place holder
 MyTypes = [IndShockConsumerType(verbose=0, **cstwMPC_calibrated_parameters)]
 
+# %% [markdown]
 # ## Simulating the Distribution of Wealth for Alternative Combinations
 #
 # You should now have constructed a list of consumer types all of whom have the same _target_ level of market resources $\check{m}$.  
@@ -145,29 +147,32 @@ MyTypes = [IndShockConsumerType(verbose=0, **cstwMPC_calibrated_parameters)]
 #
 # In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initializeSim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
 
+# %%
 for ThisType in tqdm(MyTypes):
     ThisType.solve()
     ThisType.initializeSim()
     ThisType.simulate()
 
+# %% [markdown]
 # Now that you have solved and simulated these consumers, make a plot that shows the relationship between your alternative values of $\rho$ and the mean level of assets 
 
-# +
+# %%
 # To help you out, we have given you the command needed to construct a list of the levels of assets for all consumers
-aLvl_all = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
+aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes])
 
 # You should take the mean of aLvl for each consumer in MyTypes, divide it by the mean across all simulations
 # and then plot the ratio of the values of mean(aLvl) for each group against the value of $\rho$ 
-# -
 
+# %% [markdown]
 # # Interpret
 # Here, you should attempt to give an intiutive explanation of the results you see in the figure you just constructed
 
+# %% [markdown]
 # ## The Distribution of Wealth...
 #
 # Your next exercise is to show how the distribution of wealth differs for the different parameter  values 
 
-# +
+# %%
 from HARK.utilities import getLorenzShares, getPercentiles
 
 # Finish filling in this function to calculate the Euclidean distance between the simulated and actual Lorenz curves.
@@ -203,8 +208,7 @@ def calcLorenzDistance(SomeTypes):
     return lorenz_distance
 
 
-# -
-
+# %% [markdown]
 # ## ...and the Marginal Propensity to Consume
 #
 # Now let's look at the aggregate MPC.  In the code block below, write a function that produces text output of the following form:
@@ -215,7 +219,7 @@ def calcLorenzDistance(SomeTypes):
 #
 # $\kappa_{Y} \approx 1.0 - (1.0 - \kappa_{Q})^4$
 
-# +
+# %%
 # Write a function to tell us about the distribution of the MPC in this code block, then test it!
 # You will almost surely find it useful to use a for loop in this function.
 def describeMPCdstn(SomeTypes,percentiles):
@@ -227,8 +231,8 @@ def describeMPCdstn(SomeTypes,percentiles):
         print('The ' + str(100*percentiles[j]) + 'th percentile of the MPC is ' + str(MPCpercentiles_annual[j]))
         
 describeMPCdstn(MyTypes,np.linspace(0.05,0.95,19))
-# -
 
+# %% [markdown]
 # # If You Get Here ...
 #
 # If you have finished the above exercises quickly and have more time to spend on this assignment, for extra credit you can do the same exercise where, instead of exploring the consequences of alternative values of relative risk aversion $\rho$, you should test the consequences of different values of the growth factor $\Gamma$ that lead to the same $\check{m}$.
