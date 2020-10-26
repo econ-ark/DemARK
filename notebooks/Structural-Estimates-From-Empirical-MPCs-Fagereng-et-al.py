@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,35 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.7.5
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: true
+#     sideBar: true
+#     skip_h1_title: false
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: false
+#     toc_position: {}
+#     toc_section_display: true
+#     toc_window_display: false
 # ---
 
 # %% [markdown]
@@ -176,14 +204,14 @@ def FagerengObjFunc(center,spread,verbose=False):
 
     # Solve and simulate all consumer types, then gather their wealth levels
     multiThreadCommands(EstTypeList,['solve()','initializeSim()','simulate()','unpackcFunc()'])
-    WealthNow = np.concatenate([ThisType.aLvlNow for ThisType in EstTypeList])
+    WealthNow = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in EstTypeList])
 
     # Get wealth quartile cutoffs and distribute them to each consumer type
     quartile_cuts = getPercentiles(WealthNow,percentiles=[0.25,0.50,0.75])
     for ThisType in EstTypeList:
         WealthQ = np.zeros(ThisType.AgentCount,dtype=int)
         for n in range(3):
-            WealthQ[ThisType.aLvlNow > quartile_cuts[n]] += 1
+            WealthQ[ThisType.state_now["aLvlNow"] > quartile_cuts[n]] += 1
         ThisType(WealthQ = WealthQ)
 
     # Keep track of MPC sets in lists of lists of arrays
@@ -199,14 +227,14 @@ def FagerengObjFunc(center,spread,verbose=False):
         MPC_this_type = np.zeros((ThisType.AgentCount,4))
         for k in range(4): # Get MPC for all agents of this type
             Llvl = lottery_size[k]
-            Lnrm = Llvl/ThisType.pLvlNow
+            Lnrm = Llvl/ThisType.state_now["pLvlNow"]
             if do_secant:
-                SplurgeNrm = Splurge/ThisType.pLvlNow
-                mAdj = ThisType.mNrmNow + Lnrm - SplurgeNrm
+                SplurgeNrm = Splurge/ThisType.state_now["pLvlNow"]
+                mAdj = ThisType.state_now["mNrmNow"] + Lnrm - SplurgeNrm
                 cAdj = ThisType.cFunc[0](mAdj) + SplurgeNrm
                 MPC_this_type[:,k] = (cAdj - c_base)/Lnrm
             else:
-                mAdj = ThisType.mNrmNow + Lnrm
+                mAdj = ThisType.state_now["mNrmNow"] + Lnrm
                 MPC_this_type[:,k] = cAdj = ThisType.cFunc[0].derivative(mAdj)
 
         # Sort the MPCs into the proper MPC sets
