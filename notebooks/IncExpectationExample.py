@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,35 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.5
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: true
+#     sideBar: true
+#     skip_h1_title: false
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: false
+#     toc_position: {}
+#     toc_section_display: true
+#     toc_window_display: false
 # ---
 
 # %% [markdown]
@@ -60,7 +88,7 @@ from HARK.distribution import Uniform
 from HARK.utilities import getLorenzShares, calcSubpopAvg
 mystr = lambda number : "{:.4f}".format(number)
 
-# %% {"code_folding": [1]}
+# %% {"code_folding": []}
 # This cell makes a subclass of PersistentShockConsumerType including the MPC 
 class PersistentShockConsumerTypeX(PersistentShockConsumerType):
     def getControls(self):
@@ -70,10 +98,10 @@ class PersistentShockConsumerTypeX(PersistentShockConsumerType):
             these = t == self.t_cycle
             cLvlNow[these] = self.solution[t].cFunc(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
             MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
-        self.cLvlNow = cLvlNow
+        self.controls["cLvlNow"] = cLvlNow
         self.MPCnow  = MPCnow
 
-# %% {"code_folding": [1]}
+# %% {"code_folding": []}
 # This cell defines a dictionary to make an instance of "persistent shocks" consumer for the infinite horizon model
 BaselineDict = {
         "CRRA": 2.0,                           # Coefficient of relative risk aversion
@@ -114,7 +142,7 @@ BaselineDict = {
         "PrstIncCorr": 0.99,                   # Serial correlation coefficient for persistence of income
     }
 
-# %% {"code_folding": [1]}
+# %% {"code_folding": []}
 # This cell defines a function to solve and simulate a consumer misperceiving the correlation of persistent income shocks
 def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_spread):
     '''
@@ -178,7 +206,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
         type_list.append(ThisType)
     
     # Get the most recent simulated values of X = cLvlNow, MPCnow, aLvlNow, pLvlNow for all types   
-    cLvl_all = np.concatenate([ThisType.cLvlNow for ThisType in type_list])
+    cLvl_all = np.concatenate([ThisType.controls["cLvlNow"] for ThisType in type_list])
     aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in type_list])
     MPC_all = np.concatenate([ThisType.MPCnow for ThisType in type_list])
     pLvl_all = np.concatenate([ThisType.state_now["pLvlNow"] for ThisType in type_list])

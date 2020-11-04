@@ -223,7 +223,7 @@ def FagerengObjFunc(center,spread,verbose=False):
     # Calculate the MPC for each of the four lottery sizes for all agents
     for ThisType in EstTypeList:
         ThisType.simulate(1)
-        c_base = ThisType.cNrmNow
+        c_base = ThisType.controls["cNrmNow"]
         MPC_this_type = np.zeros((ThisType.AgentCount,4))
         for k in range(4): # Get MPC for all agents of this type
             Llvl = lottery_size[k]
