@@ -7,8 +7,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,23 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.6.9
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: false
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 # ---
 
 # %% [markdown]
@@ -56,24 +72,25 @@ from HARK.utilities import plotFuncs
 # \end{align}
 # whose expected (mean) value is $\mathbb{E}_{t}[\psi_{t+1}]=1$.  Actual income received $Y$ is equal to permanent income $P$ multiplied by a transitory shock $\theta$:
 # \begin{align}
-#  Y_{t+1} & = \Gamma P_{t+1}\theta_{t+1}
+#  Y_{t+1} & = P_{t+1}\theta_{t+1}
 # \end{align}
 # where again $\mathbb{E}_{t}[\theta_{t+1}] = 1$.
 #
 # As with the perfect foresight problem, this model can be rewritten in terms of _normalized_ variables, e.g. the ratio of 'market resources' $M_{t}$ (wealth plus current income) to permanent income is $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for the theory).  In addition, lenders may set a limit on borrowing: The ratio $a_{t}$ of end-of-period assets to permanent income $A_t/P_t$ must be greater than $\underline{a} \leq 0$. (So, if $\underline{a}=-0.3$, the consumer cannot borrow more than 30 percent of their permanent income).  
 #
 # The consumer's (normalized) problem turns out to be:
+#
 # \begin{eqnarray*}
-# v_t(m_t) &=& \max_{c_t} ~~u(c_t) + \beta  \mathbb{E} [(\Gamma_{t+1}\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ], \\
+# v_t(m_t) &=& \max_{c_t} u(c_t) + \beta  \mathbb{E} [(\Gamma_{t+1}\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ], \\
 #  & \text{s.t.} & \\
-# a_t &=& m_t - c_t, \\
-# a_t &\geq& \underline{a}, \\
+#  a_t &=& m_t - c_t, \\
+#  a_t &\geq & {a}lowest, \\
 # m_{t+1} &=& a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 # \end{eqnarray*}
 #
 
 # %% [markdown]
-# For present purposes, we assume that the transitory and permanent shocks are independent.  The permanent shock is assumed to be (approximately) lognormal, while the transitory shock has two components: A probability $\wp$ that the consumer is unemployed, in which case $\theta^{u}=\underline{\theta}$, and a probability $(1-\wp)$ of a shock that is a lognormal with a mean chosen so that $\mathbb{E}_{t}[\theta_{t+n}]=1$.
+# For present purposes, we assume that the transitory and permanent shocks are independent.  The permanent shock is assumed to be (approximately) lognormal, while the transitory shock has two components: A probability $\wp$ that the consumer is unemployed, in which case $\theta^{u}=$\underline{$\theta$}, and a probability $(1-\wp)$ of a shock that is a lognormal with a mean chosen so that $\mathbb{E}_{t}[\theta_{t+n}]=1$.
 #
 #
 # ### Representing the Income Shocks
@@ -94,20 +111,20 @@ from HARK.utilities import plotFuncs
 #
 # | Param | Description | Code | Value |
 # | :---: | ---         | ---  | :---: |
-# | $\underline{a}$ | Artificial borrowing constraint | $\texttt{BoroCnstArt}$ | 0.0 |
+# | \underline{a} | Artificial borrowing constraint | $\texttt{BoroCnstArt}$ | 0.0 |
 # | $\sigma_\psi$ | Underlying stdev of permanent income shocks | $\texttt{PermShkStd}$ | 0.1 |
 # | $\sigma_\theta^{e}$ | Underlying stdev of transitory income shocks | $\texttt{TranShkStd}$ | 0.1 |
 # | $N_\psi$ | Number of discrete permanent income shocks | $\texttt{PermShkCount}$ | 7 |
 # | $N_\theta$ | Number of discrete transitory income shocks | $\texttt{TranShkCount}$ | 7 |
 # | $\wp$ | Unemployment probability | $\texttt{UnempPrb}$ | 0.05 |
-# | $\underline{\theta}$ | Transitory shock when unemployed | $\texttt{IncUnemp}$ | 0.3 |
+# | \underline{$\theta$} | Transitory shock when unemployed | $\texttt{IncUnemp}$ | 0.3 |
 
 # %% [markdown]
 # ## Representation in HARK
 #
 # HARK agents with this kind of problem are instances of the class $\texttt{IndShockConsumerType}$, which is constructed by "inheriting" the properties of the $\texttt{PerfForesightConsumerType}$ and then adding only the _new_ information required:
 
-# %% {"code_folding": [0, 2]}
+# %% {"code_folding": []}
 # This cell defines a parameter dictionary for making an instance of IndShockConsumerType.
 
 IndShockDictionary = {
@@ -257,3 +274,5 @@ OtherExample.solve()
 
 # %%
 IndShockExample.checkConditions(verbose=True)
+
+# %%
