@@ -46,10 +46,50 @@
 #
 # | Shock Process | CRRA | Solution for Pricing Kernel | 
 # | --- | --- | --- |
-# | bounded | 1 (log) | $P^*(d) = \frac{d}{\theta}$ |
-# | lognormal, mean 1 | $\rho$ | $P^*(d) \approx \frac{d^\rho}{\theta-\rho(\rho-1)\sigma^{2}/2}$ |
+# | bounded | 1 (log) | $P^*(d) = \frac{d}{\vartheta}$ |
+# | lognormal, mean 1 | $\rho$ | $P^*(d) \approx \frac{d^\rho}{\vartheta-\rho(\rho-1)\sigma^{2}/2}$ |
 #
-# However, under less special circumstances, the only way to obtain the pricing function $P^{*}$ is by solving for it numerically, as below.
+# However, under less special circumstances, the only way to obtain the pricing function $P^{*}$ is by solving for it numerically, as outlined below.
+
+# %% [markdown]
+# # Finding the equilibrium pricing function.
+#
+# We know that the equilibrium pricing function must satisfy the equation above. Let's define an operator that allows us to evaluate whether any candidate pricing function satisfies this requirement.
+#
+# Let $T$ be an operator which takes as argument a function and returns another function (these are usually called [functionals or higher-order functions](https://en.wikipedia.org/wiki/Functional_(mathematics))). For some function $f$, denote with $T[f]$ the function that results from applying $T$ to $f$. Then, for any real number $x$, $T[f](x)$ will be the real number that one obtains when the function $T[f]$ is given $x$ as an input.
+#
+# We define our particular operator as follows. For any function $g:\mathbb{R}\rightarrow\mathbb{R}$, $T[g]$ is obtained as
+#
+# \begin{equation*}
+# \forall d_t \in \mathbb{R},\,\,\,\, T[g](d_t) := \beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right].
+# \end{equation*}
+#
+#
+# We can use $T$ to re-express our pricing equation. If $P^*(\cdot)$ is our equilibrium pricing funtion, it must satisfy
+#
+# \begin{equation*}
+# \forall d_t,\,\,\,\,P^*(d_t) = \beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right] = T[P^*](d_t).
+# \end{equation*}
+# or, expressed differently,
+# \begin{equation*}
+# P^* = T[P^*].
+# \end{equation*}
+#
+# Our equilibrium pricing function is therefore a *fixed point* of the operator $T$.
+#
+# It turns out that $T$ is a [contraction mapping](https://en.wikipedia.org/wiki/Contraction_mapping). This is useful because it implies, through [Banach's fixed-point theorem](https://en.wikipedia.org/wiki/Contraction_mapping), that:
+# - $T$ has **exactly one** fixed point.
+# - Starting from an arbitrary function $f$, the sequence $\{T^n[f]\}_{n=1}^{\infty}$ converges to such fixed point.
+#
+# For our purposes, this translates to:
+# - Our equilibrium pricing function not only exists, but it is unique.
+# - We can get arbitrarily close to the equilibrium pricing function by making some initial guess $f$ and applying the operator $T$ to it repeatedly. 
+#
+# The code below creates a representation of our model and implements a solution routine to find $P^*$. The main components of this routine are:
+#
+# - `priceOnePeriod`: this is operator $T$ from above. It takes a function $f$, computes $\beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right]$ for a grid of $d_t$ values, and uses the result to construct a linear interpolator that approximates $T[f]$.
+#
+# - `solve`: this is our iterative solution procedure. It generates an initial guess $f$ and applies `priceOnePeriod` to it iteratively. At each application, it constructs a measure of how much the candidate pricing function changed. Once changes between successive iterations are small enough, it declares that the solution has converged.
 
 # %% [markdown]
 # # A computational representation of the problem and its solution.
@@ -89,7 +129,10 @@ class DivProcess:
         
 # A class representing economies with Lucas' trees.
 class LucasEconomy:
-    
+    '''
+    A representation of an economy in which there are Lucas trees
+    whose dividends' logarithm follows an AR1 process.
+    '''
     def __init__(self, CRRA, DiscFac, DivProcess):
         
         self.CRRA = CRRA
