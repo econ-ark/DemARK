@@ -15,7 +15,7 @@
 # ---
 
 # %% [markdown]
-# # Lucas Pricing of AR1 trees
+# # Lucas Asset Pricing Model
 #
 # ## A notebook by [Christopher D. Carroll](http://www.econ2.jhu.edu/people/ccarroll/) and [Mateo Velásquez-Giraldo](https://mv77.github.io/)
 # ### Inspired by its [Quantecon counterpart](https://julia.quantecon.org/multi_agent_models/lucas_model.html)
@@ -32,22 +32,22 @@
 #
 # \begin{equation*}
 # P_{t} = 
-# \overbrace{\left(\frac{1}{1+\theta}\right)}
+# \overbrace{\left(\frac{1}{1+\vartheta}\right)}
 # ^{\beta}\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P_{t+1} + d_{t+1}) \right]
 # \end{equation*}
 #
 # The equilibrium pricing equation is a relationship between prices and dividend (a "pricing kernel") $P^{*}(d)$ such that, if everyone _believes_ that to be the pricing kernel, everyone's Euler equation will be satisfied:
 #
 # \begin{equation*}
-# P^*(d_t) = \left(\frac{1}{1+\theta}\right)\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right]
+# P^*(d_t) = \left(\frac{1}{1+\vartheta}\right)\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right]
 # \end{equation*}
 #
 # As noted in the handout, there are some special circumstances in which it is possible to solve for $P^{*}$ analytically:
 #
-# | Process | CRRA | Solution for Pricing Kernel | 
+# | Shock Process | CRRA | Solution for Pricing Kernel | 
 # | --- | --- | --- |
-# | IID | 1 (log) | $P^*(d) = \frac{d}{\theta}$ |
-# | IID | $\rho$ | $P^*(d) \approx \frac{d^\rho}{\theta-\rho(\rho-1)\sigma^{2}/2}$ |
+# | bounded | 1 (log) | $P^*(d) = \frac{d}{\theta}$ |
+# | lognormal, mean 1 | $\rho$ | $P^*(d) \approx \frac{d^\rho}{\theta-\rho(\rho-1)\sigma^{2}/2}$ |
 #
 # However, under less special circumstances, the only way to obtain the pricing function $P^{*}$ is by solving for it numerically, as below.
 
@@ -64,7 +64,7 @@ from HARK.utilities import CRRAutilityP
 from HARK.distribution import Normal
 from HARK.interpolation import LinearInterp, ConstantFunction
 
-# %% Definitions {"code_folding": [0]}
+# %% Definitions {"code_folding": []}
 # A class representing log-AR1 dividend processes.
 class DivProcess:
     
@@ -78,13 +78,13 @@ class DivProcess:
         # Create a discrete approximation to the random shock
         self.ShkAppDstn = Normal(mu = shock_mean, sigma = shock_sd).approx(N = nApprox)
         
-    def getLogdGrid(self):
+    def getLogdGrid(self, n = 100):
         '''
         A method for creating a reasonable grid for log-dividends.
         '''
         uncond_sd = self.shock_sd / np.sqrt(1 - self.alpha**2)
         uncond_mean = self.shock_mean/(1-self.alpha)
-        logDGrid = np.linspace(-5*uncond_sd, 5*uncond_sd, 100) + uncond_mean
+        logDGrid = np.linspace(-5*uncond_sd, 5*uncond_sd, n) + uncond_mean
         return(logDGrid)
         
 # A class representing economies with Lucas' trees.
@@ -268,7 +268,7 @@ plt.ylabel('$P^*(d_t)$')
 #  We now test this approximation.
 
 # %%
-# Create an i.i.d dividend process
+# Create an i.i.d. dividend process
 shock_sd = 0.1
 iidDivs = DivProcess(alpha = 0.0, shock_mean = -shock_sd**2/2, shock_sd = shock_sd)
 
