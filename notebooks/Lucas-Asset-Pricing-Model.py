@@ -47,7 +47,7 @@
 # | Shock Process | CRRA | Solution for Pricing Kernel | 
 # | --- | --- | --- |
 # | bounded | 1 (log) | $P^*(d) = \frac{d}{\vartheta}$ |
-# | lognormal, mean 1 | $\rho$ | $P^*(d) \approx \frac{d^\rho}{\vartheta-\rho(\rho-1)\sigma^{2}/2}$ |
+# | lognormal, mean 1 | $\rho$ | $P^*(d) = d_t^\rho\ e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}$ |
 #
 # However, under less special circumstances, the only way to obtain the pricing function $P^{*}$ is by solving for it numerically, as outlined below.
 
@@ -104,7 +104,7 @@ from HARK.utilities import CRRAutilityP
 from HARK.distribution import Normal
 from HARK.interpolation import LinearInterp, ConstantFunction
 
-# %% Definitions {"code_folding": []}
+# %% Definitions {"code_folding": [0]}
 # A class representing log-AR1 dividend processes.
 class DivProcess:
     
@@ -228,7 +228,7 @@ class LucasEconomy:
 # - **The coefficient of relative risk aversion (CRRA).**
 # - **The time-discount factor ($\beta$).**
 
-# %% Example
+# %% Example {"code_folding": [0]}
 # Create a log-AR1 process for dividends
 DivProc = DivProcess(alpha = 0.90, shock_sd = 0.1)
 
@@ -239,7 +239,7 @@ economy = LucasEconomy(CRRA = 2, DiscFac = 0.95, DivProcess = DivProc)
 # %% [markdown]
 # Once created, the economy can be 'solved', which means finding the equilibrium price kernel. The distribution of dividends at period $t+1$ depends on the value of dividends at $t$, which also determines the resources agents have available to buy trees. Thus, $d_t$ is a state variable for the economy. The pricing function gives the price of trees that equates their demand and supply at every level of current dividends $d_t$.
 
-# %% Solution
+# %% Solution {"code_folding": [0]}
 # Solve the economy
 economy.solve(disp = True)
 
@@ -253,7 +253,7 @@ print('P({}) = {}'.format(d, economy.EqPfun(d)))
 #
 # [The notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/) discuss the surprising implication that an increase in the coefficient of relative risk aversion $\rho$ leads to higher prices for the risky trees! This is demonstrated below.
 
-# %%
+# %% {"code_folding": [0]}
 # Create two economies with different risk aversion
 Disc = 0.95
 LowCrraEcon  = LucasEconomy(CRRA = 2, DiscFac = Disc, DivProcess = DivProc)
@@ -281,7 +281,7 @@ plt.ylabel('$P_t$')
 #
 # We now compare our numerical solution with this analytical expression.
 
-# %%
+# %% {"code_folding": [0]}
 # Create an economy with log utility and the same dividend process from before
 logUtilEcon = LucasEconomy(CRRA = 1, DiscFac = Disc, DivProcess = DivProc)
 # Solve it
@@ -304,13 +304,14 @@ plt.ylabel('$P^*(d_t)$')
 # %% [markdown]
 #  ## 2. I.I.D dividends
 #  
-#  We also found that, if $\ln d_{t+n}\sim \mathcal{N}(-\sigma^2/2, \sigma^2)$ for all $n$, the pricing kernel can me approximated by
+#  We also found that, if $\ln d_{t+n}\sim \mathcal{N}(-\sigma^2/2, \sigma^2)$ for all $n$, the pricing kernel is exactly
 #  \begin{equation*}
-#  P^*(d_t)\approx \frac{d_t^\rho}{\vartheta - \rho(\rho-1)\sigma^2/2}.
+#  P^*(d_t) = d_t^\rho\times e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}.
 #  \end{equation*}
-#  We now test this approximation.
+#  
+#  We now our numerical solution for this case.
 
-# %%
+# %% {"code_folding": [0]}
 # Create an i.i.d. dividend process
 shock_sd = 0.1
 iidDivs = DivProcess(alpha = 0.0, shock_mean = -shock_sd**2/2, shock_sd = shock_sd)
@@ -323,8 +324,8 @@ iidEcon = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = iidDivs)
 iidEcon.solve()
 
 # Generate a function with our analytical solution
-theta = 1/Disc - 1
-aSolIID = lambda d: d**CRRA/(theta - CRRA*(CRRA-1)*shock_sd**2/2)
+dTil = np.exp((shock_sd**2)/2*CRRA*(CRRA-1))
+aSolIID = lambda d: d**CRRA * dTil * Disc/(1 - Disc)
 
 # Get a grid for d over which to compare them
 dGrid = np.exp(iidDivs.getLogdGrid())
@@ -332,6 +333,38 @@ dGrid = np.exp(iidDivs.getLogdGrid())
 # Plot both
 plt.plot(dGrid, aSolIID(dGrid), '*',label = 'Analytical solution')
 plt.plot(dGrid, iidEcon.EqPfun(dGrid), label = 'Numerical solution')
+plt.legend()
+plt.xlabel('$d_t$')
+plt.ylabel('$P^*(d_t)$')
+
+# %% [markdown]
+# # Testing our approximation of the dividend process
+#
+# Hidden in the solution method implemented above is the fact that, in order to make expectations easy to compute, we discretize the random shock $\varepsilon_t$, which is to say, we create a discrete variable $\tilde{\varepsilon}$ that approximates the behavior of $\varepsilon_t$. This is done using a [Gauss-Hermite quadrature](https://en.wikipedia.org/wiki/Gauss%E2%80%93Hermite_quadrature).
+#
+# A parameter for the numerical solution is the number of different values that we allow our discrete approximation $\tilde{\varepsilon}$ to take, $n^{\#}$. We would expect a higher $n^#$ to improve our solution, as the discrete approximation of $\varepsilon_t$ improves. We test this below.
+
+# %% {"code_folding": [0]}
+# Increase CRRA to make the effect of uncertainty more evident.
+CRRA = 10
+Disc = 0.9
+shock_sd = 0.1
+ns = [1,2,10]
+
+# 
+dTil = np.exp((shock_sd**2)/2*CRRA*(CRRA-1))
+fact = dTil*Disc
+aSolIID = lambda d: d**CRRA * dTil * Disc/(1 - Disc)
+
+plt.figure()
+for n in ns:
+    iidDivs = DivProcess(alpha = 0.0, shock_mean = -shock_sd**2/2, shock_sd = shock_sd, nApprox = n)
+    iidEcon = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = iidDivs)
+    iidEcon.solve()
+    plt.plot(dGrid, iidEcon.EqPfun(dGrid), label = 'Num.Sol. $n^\#$ = {}'.format(n))
+
+# Plot both
+plt.plot(dGrid, aSolIID(dGrid), '*',label = 'Analytical solution')
 plt.legend()
 plt.xlabel('$d_t$')
 plt.ylabel('$P^*(d_t)$')
