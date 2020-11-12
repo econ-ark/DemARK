@@ -3,7 +3,7 @@
 Demonstrations of how to use material in the [Econ-ARK](https://github.com/econ-ark/HARK).
 
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/master)
-[![Build Status](https://travis-ci.org/econ-ark/DemARK.svg?branch=master)](https://travis-ci.org/econ-ark/DemARK)
+![Build Status](https://github.com/econ-ark/DemARK/workflows/DemARK%20build%20on%20MacOS%2C%20Ubuntu%20and%20Windows/badge.svg)
 
 ## Local installation
 
