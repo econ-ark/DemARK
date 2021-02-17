@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,35 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.12
+#     version: 3.7.5
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: true
+#     sideBar: true
+#     skip_h1_title: false
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: false
+#     toc_position: {}
+#     toc_section_display: true
+#     toc_window_display: false
 # ---
 
 # %% [markdown]
@@ -33,7 +61,7 @@
 #
 # <p style="text-align: center;"><small><small><small>Generator: QuARK-make/notebooks_byname</small></small></small></p>
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 
 import matplotlib.pyplot as plt
@@ -74,7 +102,7 @@ from HARK.utilities import plotFuncs
 # With this basic setup, HARK's IndShockConsumerType is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
 #
 
-# %% {"code_folding": [1]}
+# %% {"code_folding": []}
 # Choose some calibrated parameters that roughly match steady state 
 init_infinite = {
     "CRRA":1.0,                    # Coefficient of relative risk aversion 
@@ -124,7 +152,7 @@ BaselineType = IndShockConsumerType(**init_infinite)
 #
 # First, let's create a list with seven copies of our baseline type.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # A list in python can contain anything -- including consumers
 num_consumer_types   = 7 # declare the number of types we want
 ConsumerTypes = [] # initialize an empty list
@@ -138,7 +166,7 @@ for nn in range(num_consumer_types):
 # %% [markdown]
 # Now we can give each of the consumer types their own discount factor. (This approximates the distribution of parameters estimated in ["The Distribution of Wealth and the Marginal Propensity to Consume"](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC)). 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
 from HARK.distribution import Uniform
 
@@ -159,7 +187,7 @@ for j in range(num_consumer_types):
 #
 # The cell below does both of those tasks, looping through the consumer types. For each one, it solves that type's infinite horizon model, then simulates 1000 periods to generate an approximation to the long run distribution of wealth.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # tqdm presents a pretty bar that interactively shows how far the calculations have gotten
 for ConsumerType in tqdm(ConsumerTypes):
     ## We configured their discount factor above.  Now solve
@@ -175,7 +203,7 @@ for ConsumerType in tqdm(ConsumerTypes):
 #
 # First, let's define a simple function that merely calculates the average consumption level across the entire population in the most recent simulated period.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # We just merge the cNrm and pNrm lists already constructed for each ConsumerType
 def calcAvgC(ConsumerTypes):
     """
@@ -205,7 +233,7 @@ def calcAvgC(ConsumerTypes):
 #  6. Calculate the new average consumption level as percentage change vs the prior level.
 # 3. Return the list of percentage changes
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Whenever you define a function, you should describe it (with a "docstring")
 def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
     '''
@@ -258,7 +286,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
 # %% [markdown]
 # Our counterfactual experiment function takes three inputs-- consumer types, counterfactual values, and the name of the parameter we want to change. For the sake of convenience, let's define small functions to run the experiment for each parameter with just a single input.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Trivial functions can be useful in making the logic of your program clear
 def calcConsChangeAfterPermShkChange(newVals):
     return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"PermShkStd")
@@ -272,7 +300,7 @@ def calcConsChangeAfterUnempPrbChange(newVals):
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Calculate the consequences of an "MIT shock" to the standard deviation of permanent shocks
 ratio_min = 0.8 # minimum number to multiply uncertainty parameter by
 TargetChangeInC = -6.3 # Source: FRED
