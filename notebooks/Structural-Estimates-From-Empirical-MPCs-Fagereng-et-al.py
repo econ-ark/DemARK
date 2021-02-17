@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.5
+#     version: 3.6.12
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -204,14 +204,14 @@ def FagerengObjFunc(center,spread,verbose=False):
 
     # Solve and simulate all consumer types, then gather their wealth levels
     multiThreadCommands(EstTypeList,['solve()','initializeSim()','simulate()','unpackcFunc()'])
-    WealthNow = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in EstTypeList])
+    WealthNow = np.concatenate([ThisType.state_now["aLvl"] for ThisType in EstTypeList])
 
     # Get wealth quartile cutoffs and distribute them to each consumer type
     quartile_cuts = getPercentiles(WealthNow,percentiles=[0.25,0.50,0.75])
     for ThisType in EstTypeList:
         WealthQ = np.zeros(ThisType.AgentCount,dtype=int)
         for n in range(3):
-            WealthQ[ThisType.state_now["aLvlNow"] > quartile_cuts[n]] += 1
+            WealthQ[ThisType.state_now["aLvl"] > quartile_cuts[n]] += 1
         ThisType(WealthQ = WealthQ)
 
     # Keep track of MPC sets in lists of lists of arrays
@@ -223,18 +223,18 @@ def FagerengObjFunc(center,spread,verbose=False):
     # Calculate the MPC for each of the four lottery sizes for all agents
     for ThisType in EstTypeList:
         ThisType.simulate(1)
-        c_base = ThisType.cNrmNow
+        c_base = ThisType.controls['cNrm']
         MPC_this_type = np.zeros((ThisType.AgentCount,4))
         for k in range(4): # Get MPC for all agents of this type
             Llvl = lottery_size[k]
-            Lnrm = Llvl/ThisType.state_now["pLvlNow"]
+            Lnrm = Llvl/ThisType.state_now["pLvl"]
             if do_secant:
-                SplurgeNrm = Splurge/ThisType.state_now["pLvlNow"]
-                mAdj = ThisType.state_now["mNrmNow"] + Lnrm - SplurgeNrm
+                SplurgeNrm = Splurge/ThisType.state_now["pLvl"]
+                mAdj = ThisType.state_now["mNrm"] + Lnrm - SplurgeNrm
                 cAdj = ThisType.cFunc[0](mAdj) + SplurgeNrm
                 MPC_this_type[:,k] = (cAdj - c_base)/Lnrm
             else:
-                mAdj = ThisType.state_now["mNrmNow"] + Lnrm
+                mAdj = ThisType.state_now["mNrm"] + Lnrm
                 MPC_this_type[:,k] = cAdj = ThisType.cFunc[0].derivative(mAdj)
 
         # Sort the MPCs into the proper MPC sets

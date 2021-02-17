@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.6.12
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -158,7 +158,7 @@ for ThisType in tqdm(MyTypes):
 
 # %%
 # To help you out, we have given you the command needed to construct a list of the levels of assets for all consumers
-aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes])
+aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
 
 # You should take the mean of aLvl for each consumer in MyTypes, divide it by the mean across all simulations
 # and then plot the ratio of the values of mean(aLvl) for each group against the value of $\rho$ 
@@ -185,7 +185,7 @@ def calcLorenzDistance(SomeTypes):
     ----------
     SomeTypes : [AgentType]
         List of AgentTypes that have been solved and simulated.  Current levels of individual assets should
-        be stored in the attribute aLvlNow.
+        be stored in the state aLvl.
         
     Returns
     -------
@@ -196,7 +196,7 @@ def calcLorenzDistance(SomeTypes):
     lorenz_SCF = np.array([-0.00183091,  0.0104425 ,  0.0552605 ,  0.1751907 ])
     
     # Extract asset holdings from all consumer types
-    aLvl_sim = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
+    aLvl_sim = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
     
     # Calculate simulated Lorenz curve points
     lorenz_sim = getLorenzShares(aLvl_sim,percentiles=[0.2,0.4,0.6,0.8])

@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.6.12
 # ---
 
 # %% [markdown]
@@ -184,8 +184,8 @@ def calcAvgC(ConsumerTypes):
     """
     # Make arrays with all types' (normalized) consumption and permanent income level
     # The brackets indicate that the contents will be a list (in this case, of lists)
-    cNrm = np.concatenate([ThisType.cNrmNow for ThisType in ConsumerTypes])
-    pLvl = np.concatenate([ThisType.state_now["pLvlNow"] for ThisType in ConsumerTypes])
+    cNrm = np.concatenate([ThisType.controls['cNrm'] for ThisType in ConsumerTypes])
+    pLvl = np.concatenate([ThisType.state_now["pLvl"] for ThisType in ConsumerTypes])
     
     # Calculate and return average consumption level in the economy
     avgC = np.mean(cNrm*pLvl) # c is the ratio to p, so C = c*p
@@ -244,8 +244,8 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
             ConsumerTypeNew.solve(verbose=False) # Step 2B
             
             ConsumerTypeNew.initializeSim() # Step 2C
-            ConsumerTypeNew.aNrmNow = OriginalTypes[index].state_now["aNrmNow"]
-            ConsumerTypeNew.pLvlNow = OriginalTypes[index].state_now["pLvlNow"]
+            ConsumerTypeNew.state_now['aNrm'] = OriginalTypes[index].state_now["aNrm"]
+            ConsumerTypeNew.state_now['pLvl'] = OriginalTypes[index].state_now["pLvl"]
             
             ConsumerTypeNew.simOnePeriod() # Step 2D
 

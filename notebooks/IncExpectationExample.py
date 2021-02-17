@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.6.12
 # ---
 
 # %% [markdown]
@@ -68,9 +68,9 @@ class PersistentShockConsumerTypeX(PersistentShockConsumerType):
         MPCnow = np.zeros(self.AgentCount) + np.nan
         for t in range(self.T_cycle):
             these = t == self.t_cycle
-            cLvlNow[these] = self.solution[t].cFunc(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
-            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
-        self.cLvlNow = cLvlNow
+            cLvlNow[these] = self.solution[t].cFunc(self.state_now["mLvl"][these],self.state_now["pLvl"][these])
+            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvl"][these],self.state_now["pLvl"][these])
+        self.controls['cLvl'] = cLvlNow
         self.MPCnow  = MPCnow
 
 # %% {"code_folding": [1]}
@@ -172,16 +172,16 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     
         # Simulate the agents for many periods
         ThisType.T_sim = 100
-        #ThisType.track_vars = ['cLvlNow','aLvlNow','pLvlNow','MPCnow']
+        #ThisType.track_vars = ['cLvl','aLvl','pLvl','MPCnow']
         ThisType.initializeSim()
         ThisType.simulate()
         type_list.append(ThisType)
     
-    # Get the most recent simulated values of X = cLvlNow, MPCnow, aLvlNow, pLvlNow for all types   
-    cLvl_all = np.concatenate([ThisType.cLvlNow for ThisType in type_list])
-    aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in type_list])
+    # Get the most recent simulated values of X = cLvl, MPCnow, aLvl, pLvl for all types   
+    cLvl_all = np.concatenate([ThisType.controls['cLvl'] for ThisType in type_list])
+    aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in type_list])
     MPC_all = np.concatenate([ThisType.MPCnow for ThisType in type_list])
-    pLvl_all = np.concatenate([ThisType.state_now["pLvlNow"] for ThisType in type_list])
+    pLvl_all = np.concatenate([ThisType.state_now["pLvl"] for ThisType in type_list])
     
     # The ratio of aggregate assets over the income
     AggWealthRatio = np.mean(aLvl_all) / np.mean(pLvl_all)

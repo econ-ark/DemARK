@@ -7,12 +7,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: econ-ark-3.8
 #     language: python
-#     name: python3
+#     name: econ-ark-3.8
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.7
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -177,7 +177,7 @@ ChinaExample.assignParameters(PermGroFac = [np.array([GrowthSlowAnn,GrowthFastAn
                               LivPrb     = [np.array(StateCount*[init_China_parameters['LivPrb']][0])], #needs to be a list, with 0th element of shape of shape (StateCount,)
                               cycles     = 0)
 
-ChinaExample.track_vars = ['aNrmNow','cNrmNow','pLvlNow'] # Names of variables to be tracked
+ChinaExample.track_vars = ['aNrm','cNrm','pLvl'] # Names of variables to be tracked
 
 # %% [markdown]
 # Now, add in ex-ante heterogeneity in consumers' discount factors.
@@ -281,7 +281,7 @@ def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
         ChineseConsumerTypeNew.seed  = RNG_seed
         
         # Set the income distribution in each Markov state appropriately        
-        ChineseConsumerTypeNew.IncomeDstn = [[LowGrowthIncomeDstn,HighGrowthIncomeDstn]]
+        ChineseConsumerTypeNew.IncShkDstn = [[LowGrowthIncomeDstn,HighGrowthIncomeDstn]]
 
         # Solve the problem for this ChineseConsumerTypeNew
         ChineseConsumerTypeNew.solve()
@@ -329,11 +329,11 @@ def calcNatlSavingRate(PrmShkVar_multiplier,RNG_seed = 0):
         ChineseConsumerTypeNew.simulate(160)   # Simulate 160 quarders of data
     
         # Now, get the aggregate income and consumption of this ConsumerType over time
-        IncomeOfThisConsumerType = np.sum((ChineseConsumerTypeNew.history['aNrmNow']*ChineseConsumerTypeNew.history['pLvlNow']*
+        IncomeOfThisConsumerType = np.sum((ChineseConsumerTypeNew.history['aNrm']*ChineseConsumerTypeNew.history['pLvl']*
                                           (ChineseConsumerTypeNew.Rfree[0] - 1.)) +
-                                           ChineseConsumerTypeNew.history['pLvlNow'], axis=1)
+                                           ChineseConsumerTypeNew.history['pLvl'], axis=1)
         
-        ConsOfThisConsumerType = np.sum(ChineseConsumerTypeNew.history['cNrmNow']*ChineseConsumerTypeNew.history['pLvlNow'],axis=1)
+        ConsOfThisConsumerType = np.sum(ChineseConsumerTypeNew.history['cNrm']*ChineseConsumerTypeNew.history['pLvl'],axis=1)
         
         # Add the income and consumption of this ConsumerType to national income and consumption
         NatlIncome     += IncomeOfThisConsumerType
