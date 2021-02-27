@@ -44,7 +44,7 @@ import numpy as np
 import HARK 
 from copy import deepcopy
 mystr = lambda number : "{:.4f}".format(number)
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% [markdown]
 # ## The Consumer's Problem with Transitory and Permanent Shocks
@@ -219,8 +219,8 @@ IndShockExample.cycles # Infinite horizon solution is computed when cycles = 0
 IndShockExample.solve(verbose=True) # Verbose prints progress as solution proceeds
 
 # %%
-# plotFuncs([list],min,max) takes a [list] of functions and plots their values over a range from min to max
-plotFuncs([IndShockExample.solution[0].cFunc,IndShockExample.solution_terminal.cFunc],0.,10.)
+# plot_funcs([list],min,max) takes a [list] of functions and plots their values over a range from min to max
+plot_funcs([IndShockExample.solution[0].cFunc,IndShockExample.solution_terminal.cFunc],0.,10.)
 
 # %% [markdown]
 # ## Changing Constructed Attributes
@@ -253,7 +253,7 @@ OtherExample.solve()
 #
 # Perhaps the most interesting such condition is the ["Growth Impatience Condition"](http://econ.jhu.edu/people/ccarroll/Papers/BufferStockTheory/#GIC): If this condition is satisfied, the consumer's optimal behavior is to aim to achieve a "target" value of $m$, to serve as a precautionary buffer against income shocks.
 #
-# The tests can be invoked using the `checkConditions()` method:
+# The tests can be invoked using the `check_conditions()` method:
 
 # %%
-IndShockExample.checkConditions(verbose=True)
+IndShockExample.check_conditions(verbose=True)

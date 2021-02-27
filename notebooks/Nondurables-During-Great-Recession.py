@@ -74,7 +74,7 @@ import numpy as np
 from copy import deepcopy
 
 import HARK # Prevents import error from Demos repo
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% [markdown]
 # ### There Was a Big Drop in Consumption ... 
@@ -318,7 +318,7 @@ plt.title('Change in Cons. Following Increase in Perm. Income Uncertainty')
 plt.ylim(-20.,5.)
 plt.hlines(TargetChangeInC,perm_min,perm_max)
 # The expression below shows the power of python
-plotFuncs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
+plot_funcs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
 
 # %% [markdown]
 # The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.012, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  

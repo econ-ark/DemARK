@@ -71,7 +71,7 @@
 # Initial imports and notebook setup, click arrow to show
 
 import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl        # The consumption-saving micro model
-from HARK.utilities import plotFuncsDer, plotFuncs              # Some tools
+from HARK.utilities import plot_funcs_der, plot_funcs              # Some tools
 import pandas as pd 
 
 import numpy as np
@@ -248,7 +248,7 @@ LifeCyclePop.simulate()                         # Simulate a population behaving
 
 print('Consumption as a function of market resources while working:')
 mMin = min([LifeCyclePop.solution[t].mNrmMin for t in range(LifeCyclePop.T_cycle)])
-plotFuncs(LifeCyclePop.cFunc[:LifeCyclePop.T_retire],mMin,5)
+plot_funcs(LifeCyclePop.cFunc[:LifeCyclePop.T_retire],mMin,5)
 
 
 # %% {"code_folding": []}

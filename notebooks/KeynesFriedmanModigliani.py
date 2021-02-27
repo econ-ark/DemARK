@@ -78,7 +78,7 @@ from copy  import deepcopy
 import pandas_datareader.data as web
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-from HARK.utilities import plotFuncsDer, plotFuncs
+from HARK.utilities import plot_funcs_der, plot_funcs
 
 
 # %% [markdown]

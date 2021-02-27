@@ -91,7 +91,7 @@ import numpy as np
 from copy import deepcopy
 
 import HARK # Prevents import error from Demos repo
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% {"code_folding": [0, 4]}
 # Import IndShockConsumerType

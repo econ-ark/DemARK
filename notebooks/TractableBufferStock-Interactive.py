@@ -52,7 +52,7 @@ mystr = lambda number : "{:.3f}".format(number)
 
 from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% {"code_folding": [0]}
 # Import the model from the toolkit

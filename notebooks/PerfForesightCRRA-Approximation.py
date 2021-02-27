@@ -39,7 +39,7 @@ import numpy as np
 import HARK 
 from copy import deepcopy
 mystr = lambda number : "{:.4f}".format(number)
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # These last two will make our charts look nice
 plt.style.use('seaborn-darkgrid')

@@ -54,7 +54,7 @@ from copy  import deepcopy
 import numpy as np
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-from HARK.utilities import plotFuncsDer, plotFuncs
+from HARK.utilities import plot_funcs_der, plot_funcs
 mystr = lambda number : "{:.3f}".format(number)
 
 from ipywidgets import interact, interactive, fixed, interact_manual

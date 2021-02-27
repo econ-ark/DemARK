@@ -68,7 +68,7 @@ import numpy as np
 from copy import deepcopy
 
 import HARK # Prevents import error from Demos repo
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 
 Generator=False # Is this notebook the master or is it generated?
