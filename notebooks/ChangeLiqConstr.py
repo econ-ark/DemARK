@@ -39,7 +39,7 @@
 # + {"code_folding": [0]}
 from copy import deepcopy
 from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
-from HARK.utilities import plotFuncsDer, plotFuncs
+from HARK.utilities import plot_funcs_der, plot_funcs
 mystr = lambda number : "{:.4f}".format(number)
 
 import matplotlib.pyplot as plt
@@ -60,7 +60,7 @@ KinkyExample.solve()
 # Plot the results 
 plt.ylabel('Consumption c')
 plt.xlabel('Market Resources m')
-plotFuncs([KinkyExample.solution[0].cFunc],KinkyExample.solution[0].mNrmMin,5)
+plot_funcs([KinkyExample.solution[0].cFunc],KinkyExample.solution[0].mNrmMin,5)
 # -
 
 # 'Market Resources' $M$ is the total amount of money (assets plus current income) available to the consumer when the consumption decision is made.  Lower case $m = M/P$ is the ratio of $M$ to permanent income.  Likewise, $c = C/P$ is the ratio of consumption to permanent income.
@@ -87,7 +87,7 @@ KinkyExampleTighten.BoroCnstArt = -0.2
 KinkyExampleTighten.solve()
 
 # Compare the two functions
-plotFuncs([KinkyExample.solution[0].cFunc,KinkyExampleTighten.solution[0].cFunc],KinkyExampleTighten.solution[0].mNrmMin,5)
+plot_funcs([KinkyExample.solution[0].cFunc,KinkyExampleTighten.solution[0].cFunc],KinkyExampleTighten.solution[0].mNrmMin,5)
 # -
 
 # ### Discussion
