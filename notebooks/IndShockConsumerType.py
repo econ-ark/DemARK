@@ -36,7 +36,7 @@
 # %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
-from HARK.utilities import plotFuncsDer, plotFuncs
+from HARK.utilities import plot_funcs_der, plot_funcs
 import matplotlib.pyplot as plt
 import numpy as np
 mystr = lambda number : "{:.4f}".format(number)
@@ -212,9 +212,9 @@ print(vars(IndShockExample.solution[0]))
 
 # %%
 print('Consumption function for an idiosyncratic shocks consumer type:')
-plotFuncs(IndShockExample.solution[0].cFunc,IndShockExample.solution[0].mNrmMin,5)
+plot_funcs(IndShockExample.solution[0].cFunc,IndShockExample.solution[0].mNrmMin,5)
 print('Marginal propensity to consume for an idiosyncratic shocks consumer type:')
-plotFuncsDer(IndShockExample.solution[0].cFunc,IndShockExample.solution[0].mNrmMin,5)
+plot_funcs_der(IndShockExample.solution[0].cFunc,IndShockExample.solution[0].mNrmMin,5)
 
 # %% [markdown]
 # The lower part of the consumption function is linear with a slope of 1, representing the *constrained* part of the consumption function where the consumer *would like* to consume more by borrowing-- his marginal utility of consumption exceeds the marginal value of assets-- but he is prevented from doing so by the artificial borrowing constraint.
@@ -235,7 +235,7 @@ print('cNrmGrid for borrowing constrained cFunc is ',IndShockExample.solution[0]
 # The *actual* consumption function is the lower of these two functions, pointwise.  We can see this by plotting the component functions on the same figure:
 
 # %%
-plotFuncs(IndShockExample.solution[0].cFunc.functions,-0.25,5.)
+plot_funcs(IndShockExample.solution[0].cFunc.functions,-0.25,5.)
 
 # %% [markdown]
 # ## Simulating the idiosyncratic income shocks model
@@ -258,20 +258,20 @@ plotFuncs(IndShockExample.solution[0].cFunc.functions,-0.25,5.)
 # These example parameter values were already passed as part of the parameter dictionary that we used to create $\texttt{IndShockExample}$, so it is ready to simulate.  We need to set the $\texttt{track_vars}$ attribute to indicate the variables for which we want to record a *history*.
 
 # %%
-IndShockExample.track_vars = ['aNrmNow','mNrmNow','cNrmNow','pLvlNow']
-IndShockExample.initializeSim()
+IndShockExample.track_vars = ['aNrm','mNrm','cNrm','pLvl']
+IndShockExample.initialize_sim()
 IndShockExample.simulate()
 
 # %% [markdown]
 # We can now look at the simulated data in aggregate or at the individual consumer level.  Like in the perfect foresight model, we can plot average (normalized) market resources over time, as well as average consumption:
 
 # %%
-plt.plot(np.mean(IndShockExample.history['mNrmNow'],axis=1))
+plt.plot(np.mean(IndShockExample.history['mNrm'],axis=1))
 plt.xlabel('Time')
 plt.ylabel('Mean market resources')
 plt.show()
 
-plt.plot(np.mean(IndShockExample.history['cNrmNow'],axis=1))
+plt.plot(np.mean(IndShockExample.history['cNrm'],axis=1))
 plt.xlabel('Time')
 plt.ylabel('Mean consumption')
 plt.show()
@@ -280,7 +280,7 @@ plt.show()
 # We could also plot individual consumption paths for some of the consumers-- say, the first five:
 
 # %%
-plt.plot(IndShockExample.history['cNrmNow'][:,0:5])
+plt.plot(IndShockExample.history['cNrm'][:,0:5])
 plt.xlabel('Time')
 plt.ylabel('Individual consumption paths')
 plt.show()
@@ -359,8 +359,8 @@ print('Solution has', len(LifecycleExample.solution),'elements.')
 # %%
 print('Consumption functions across the lifecycle:')
 mMin = np.min([LifecycleExample.solution[t].mNrmMin for t in range(LifecycleExample.T_cycle)])
-LifecycleExample.unpackcFunc() # This makes all of the cFuncs accessible in the attribute cFunc
-plotFuncs(LifecycleExample.cFunc,mMin,5)
+LifecycleExample.unpack_cFunc() # This makes all of the cFuncs accessible in the attribute cFunc
+plot_funcs(LifecycleExample.cFunc,mMin,5)
 
 # %% [markdown]
 # ### "Cyclical" example
@@ -424,10 +424,10 @@ CyclicalExample = IndShockConsumerType(**CyclicalDict)
 CyclicalExample.cycles = 0 # Make this consumer type have an infinite horizon
 CyclicalExample.solve()
 
-CyclicalExample.unpackcFunc()
+CyclicalExample.unpack_cFunc()
 print('Quarterly consumption functions:')
 mMin = min([X.mNrmMin for X in CyclicalExample.solution])
-plotFuncs(CyclicalExample.cFunc,mMin,5)
+plot_funcs(CyclicalExample.cFunc,mMin,5)
 
 # %% [markdown]
 # The very low green consumption function corresponds to the quarter in which the ski instructors make most of their income.  They know that they are about to experience a 70% drop in "permanent" income, so they do not consume much *relative to their income this quarter*.  In the other three quarters, *normalized* consumption is much higher, as current "permanent" income is low relative to future expectations.  In *level*, the consumption chosen in each quarter is much more similar

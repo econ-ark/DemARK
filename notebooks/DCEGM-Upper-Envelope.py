@@ -9,12 +9,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: econ-ark-3.8
 #     language: python
-#     name: python3
+#     name: econ-ark-3.8
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -24,7 +24,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.7
 # ---
 
 # %% [markdown]
@@ -71,7 +71,7 @@ import matplotlib.pyplot as plt
 # here for now, should be
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp
-from HARK.dcegm import calcSegments, calcMultilineEnvelope, calcPrimKink
+from HARK.dcegm import calc_segments, calc_multiline_envelope, calc_prim_kink
 
 # %%
 m_common = np.linspace(0,1.0,100)
@@ -93,7 +93,7 @@ plt.show()
 # The point of DCEGM is to realize, that the segments on the `(m, vt)` curve that are decreasing, cannot be optimal. This leaves us with a set of increasing line segments, as seen below (`dcegmSegments` is the function in HARK that calculates the breaks where the curve goes from increasing to decreasing).
 
 # %%
-rise, fall = calcSegments(m_egm, vt_egm)
+rise, fall = calc_segments(m_egm, vt_egm)
 
 # %% [markdown]
 # In `rise` we have all the starting indices for the segments that are "good", that is `(m, vt)` draws an increasing curve.
@@ -123,7 +123,7 @@ plt.show()
 # Let us now use the `calcMultilineEnvelope` function to do the full DCEGM step: find segments and calculate upper envelope in one sweep.
 
 # %%
-m_upper, c_upper, v_upper = calcMultilineEnvelope(m_egm, c_egm, vt_egm, m_common)
+m_upper, c_upper, v_upper = calc_multiline_envelope(m_egm, c_egm, vt_egm, m_common)
 
 # %%
 for j in range(len(fall)):
@@ -152,7 +152,7 @@ plt.show()
 # %%
 # Import tools for linear interpolation and finding optimal
 # discrete choices.
-from HARK.interpolation import calcLogSumChoiceProbs
+from HARK.interpolation import calc_log_sum_choice_probs
 
 # Import CRRA utility (and related) functions from HARK 
 from HARK.utilities import CRRAutility, CRRAutilityP, CRRAutilityP_inv
@@ -380,9 +380,9 @@ c2_cond_wi  = LinearInterp(np.insert(mGrid2_cond_wi,0,0), np.insert(cGrid2_cond_
 # The function also returns the unconditional value function
 # Use transformed values since -given sigma=0- magnitudes are unimportant. This
 # avoids NaNs at m \approx 0.
-vTGrid2, willChoice2 = calcLogSumChoiceProbs(np.stack((vT2_cond_wi(mGrid),
-                                                     vT2_cond_no(mGrid))),
-                                             sigma = 0)
+vTGrid2, willChoice2 = calc_log_sum_choice_probs(np.stack((vT2_cond_wi(mGrid),
+                                                           vT2_cond_no(mGrid))),
+                                                 sigma = 0)
 
 # Plot the optimal decision rule
 plt.plot(mGrid, willChoice2[0])
@@ -396,9 +396,9 @@ cGrid2 = (willChoice2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=
 
 # Now find the primary kink point (the point at which the optimal discrete
 # decision changes)
-pKink, segments = calcPrimKink(mGrid, np.stack((vT2_cond_wi(mGrid),
-                                                vT2_cond_no(mGrid))),
-                               willChoice2)
+pKink, segments = calc_prim_kink(mGrid, np.stack((vT2_cond_wi(mGrid),
+                                                  vT2_cond_no(mGrid))),
+                                 willChoice2)
 
 m_kink = np.array([x[0] for x in pKink])
 v_kink = np.array([x[1] for x in pKink])
@@ -510,10 +510,10 @@ plt.show()
 # Calculate envelope
 vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
-rise, fall = calcSegments(mGrid1, vTGrid1)
-mGrid1_up, cGrid1_up, vTGrid1_up, xings = calcMultilineEnvelope(mGrid1, cGrid1,
-                                                                vTGrid1, mGrid,
-                                                                findXings = True)
+rise, fall = calc_segments(mGrid1, vTGrid1)
+mGrid1_up, cGrid1_up, vTGrid1_up, xings = calc_multiline_envelope(mGrid1, cGrid1,
+                                                                  vTGrid1, mGrid,
+                                                                  findXings = True)
 # Create functions
 c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
 v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)

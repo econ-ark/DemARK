@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.5
+#     version: 3.6.12
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -85,9 +85,9 @@ from copy import deepcopy
 # Import needed tools from HARK
 
 from HARK.distribution import Uniform
-from HARK.utilities import getPercentiles
-from HARK.parallel import multiThreadCommands
-from HARK.estimation import minimizeNelderMead
+from HARK.utilities import get_percentiles
+from HARK.parallel import multi_thread_commands
+from HARK.estimation import minimize_nelder_mead
 from HARK.ConsumptionSaving.ConsIndShockModel import *
 
 
@@ -171,7 +171,7 @@ BaseType = IndShockConsumerType(**base_params)
 EstTypeList = []
 for j in range(TypeCount):
     EstTypeList.append(deepcopy(BaseType))
-    EstTypeList[-1](seed = j)
+    EstTypeList[-1].assign_parameters(seed = j)
 
 # %% {"code_folding": []}
 # Define the objective function
@@ -200,19 +200,19 @@ def FagerengObjFunc(center,spread,verbose=False):
     # Give our consumer types the requested discount factor distribution
     beta_set = Uniform(bot=center-spread,top=center+spread).approx(N=TypeCount).X
     for j in range(TypeCount):
-        EstTypeList[j](DiscFac = beta_set[j])
+        EstTypeList[j].assign_parameters(DiscFac = beta_set[j])
 
     # Solve and simulate all consumer types, then gather their wealth levels
-    multiThreadCommands(EstTypeList,['solve()','initializeSim()','simulate()','unpackcFunc()'])
-    WealthNow = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in EstTypeList])
+    multi_thread_commands(EstTypeList,['solve()','initialize_sim()','simulate()','unpack_cFunc()'])
+    WealthNow = np.concatenate([ThisType.state_now["aLvl"] for ThisType in EstTypeList])
 
     # Get wealth quartile cutoffs and distribute them to each consumer type
-    quartile_cuts = getPercentiles(WealthNow,percentiles=[0.25,0.50,0.75])
+    quartile_cuts = get_percentiles(WealthNow,percentiles=[0.25,0.50,0.75])
     for ThisType in EstTypeList:
         WealthQ = np.zeros(ThisType.AgentCount,dtype=int)
         for n in range(3):
-            WealthQ[ThisType.state_now["aLvlNow"] > quartile_cuts[n]] += 1
-        ThisType(WealthQ = WealthQ)
+            WealthQ[ThisType.state_now["aLvl"] > quartile_cuts[n]] += 1
+        ThisType.assign_parameters(WealthQ = WealthQ)
 
     # Keep track of MPC sets in lists of lists of arrays
     MPC_set_list = [ [[],[],[],[]],
@@ -223,18 +223,18 @@ def FagerengObjFunc(center,spread,verbose=False):
     # Calculate the MPC for each of the four lottery sizes for all agents
     for ThisType in EstTypeList:
         ThisType.simulate(1)
-        c_base = ThisType.cNrmNow
+        c_base = ThisType.controls['cNrm']
         MPC_this_type = np.zeros((ThisType.AgentCount,4))
         for k in range(4): # Get MPC for all agents of this type
             Llvl = lottery_size[k]
-            Lnrm = Llvl/ThisType.state_now["pLvlNow"]
+            Lnrm = Llvl/ThisType.state_now["pLvl"]
             if do_secant:
-                SplurgeNrm = Splurge/ThisType.state_now["pLvlNow"]
-                mAdj = ThisType.state_now["mNrmNow"] + Lnrm - SplurgeNrm
+                SplurgeNrm = Splurge/ThisType.state_now["pLvl"]
+                mAdj = ThisType.state_now["mNrm"] + Lnrm - SplurgeNrm
                 cAdj = ThisType.cFunc[0](mAdj) + SplurgeNrm
                 MPC_this_type[:,k] = (cAdj - c_base)/Lnrm
             else:
-                mAdj = ThisType.state_now["mNrmNow"] + Lnrm
+                mAdj = ThisType.state_now["mNrm"] + Lnrm
                 MPC_this_type[:,k] = cAdj = ThisType.cFunc[0].derivative(mAdj)
 
         # Sort the MPCs into the proper MPC sets
@@ -267,7 +267,7 @@ def FagerengObjFunc(center,spread,verbose=False):
 
 guess = [0.92,0.03]
 f_temp = lambda x : FagerengObjFunc(x[0],x[1])
-opt_params = minimizeNelderMead(f_temp, guess, verbose=True)
+opt_params = minimize_nelder_mead(f_temp, guess, verbose=True)
 print('Finished estimating for scaling factor of ' + str(AdjFactor) + ' and "splurge amount" of $' + str(1000*Splurge))
 print('Optimal (beta,nabla) is ' + str(opt_params) + ', simulated MPCs are:')
 dist = FagerengObjFunc(opt_params[0],opt_params[1],True)

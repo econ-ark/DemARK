@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.6.12
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -71,7 +71,7 @@ import pandas_datareader.data as web
 from io import StringIO
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-from HARK.utilities import plotFuncsDer, plotFuncs
+from HARK.utilities import plot_funcs_der, plot_funcs
 
 
 # %% [markdown]

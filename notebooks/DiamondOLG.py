@@ -9,9 +9,9 @@
 #       format_version: '1.2'
 #       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: econ-ark-3.8
 #     language: python
-#     name: python3
+#     name: econ-ark-3.8
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -21,7 +21,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.12
+#     version: 3.8.7
 # ---
 
 # %% [markdown]
@@ -66,7 +66,7 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     PFagent = PerfForesightConsumerType(init_perfect_foresight)
     PFagent.cycles = 1 # let the agent live the cycle of periods just once
     PFagent.T_cycle = 2 # Number of periods in the cycle
-    PFagent.PermGroFac = [0.] # Income only in the first period
+    PFagent.assign_parameters(PermGroFac = [0.]) # Income only in the first period
     PFagent.LivPrb = [1.]
     
     PFagent.DiscFac = Beta

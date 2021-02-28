@@ -11,9 +11,9 @@
 #       format_version: '1.2'
 #       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: econ-ark-3.8
 #     language: python
-#     name: python3
+#     name: econ-ark-3.8
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.8.7
 # ---
 
 # %% [markdown]
@@ -32,7 +32,7 @@
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/incexpectationexample#launch)
 
 # %% [markdown]
-# This module creates an example application extending $\texttt{PersistentShockConsumerType}$ from $\texttt{ConsGenIndShockModel}$. It uses the HARK tool $\texttt{GenIncProcessModel}$ (whose documentation you can find [here](https://github.com/econ-ark/DemARK/blob/master/notebooks/IncExpectationExample.ipynb).)
+# This module creates an example application extending `PersistentShockConsumerType` from `ConsGenIndShockModel`. It uses the HARK tool `GenIncProcessModel` (whose documentation you can find [here](https://github.com/econ-ark/DemARK/blob/master/notebooks/IncExpectationExample.ipynb).)
 #
 # Most simply, it solves a consumption-saving model with shocks that are neither necessarily fully transitory nor fully permanent. Persistent income is tracked as a state variable and follows an AR(1) process.
 
@@ -41,7 +41,7 @@
 #
 # What if the consumer has beliefs about the persistence of his/her income process which differ from the *actual* persistence?
 #
-# We can use the class $\texttt{PersistentShockConsumerType}$ to solve the problem of a consumer with a given set of beliefs, but then simulate a population of consumers for whom that actual persistence differs from what they believe.
+# We can use the class `PersistentShockConsumerType` to solve the problem of a consumer with a given set of beliefs, but then simulate a population of consumers for whom that actual persistence differs from what they believe.
 #
 # (This thought experiment is motivated by an interesting recennt paper presented at the NBER Summer Institute's _Behavioral Macroeconomics Conference_ <cite data-cite="undefined"></cite>
 
@@ -57,7 +57,7 @@ import numpy as np
 
 from HARK.ConsumptionSaving.ConsGenIncProcessModel import PersistentShockConsumerType
 from HARK.distribution import Uniform
-from HARK.utilities import getLorenzShares, calcSubpopAvg
+from HARK.utilities import get_lorenz_shares, calc_subpop_avg
 mystr = lambda number : "{:.4f}".format(number)
 
 # %% {"code_folding": [1]}
@@ -68,9 +68,9 @@ class PersistentShockConsumerTypeX(PersistentShockConsumerType):
         MPCnow = np.zeros(self.AgentCount) + np.nan
         for t in range(self.T_cycle):
             these = t == self.t_cycle
-            cLvlNow[these] = self.solution[t].cFunc(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
-            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
-        self.cLvlNow = cLvlNow
+            cLvlNow[these] = self.solution[t].cFunc(self.state_now["mLvl"][these],self.state_now["pLvl"][these])
+            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvl"][these],self.state_now["pLvl"][these])
+        self.controls['cLvl'] = cLvlNow
         self.MPCnow  = MPCnow
 
 # %% {"code_folding": [1]}
@@ -161,27 +161,27 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
               
         # Make the consumer type *believe* he will face a different level of persistence
         ThisType.PrstIncCorr = CorrPcvd
-        ThisType.updatepLvlNextFunc() # Now he *thinks* E[p_{t+1}] as a function of p_t is different than it is
+        ThisType.update_pLvlNextFunc() # Now he *thinks* E[p_{t+1}] as a function of p_t is different than it is
     
         # Solve the consumer's problem with *perceived* persistence 
         ThisType.solve()
     
         # Make the consumer type experience the true level of persistence during simulation
         ThisType.PrstIncCorr = CorrAct
-        ThisType.updatepLvlNextFunc()
+        ThisType.update_pLvlNextFunc()
     
         # Simulate the agents for many periods
         ThisType.T_sim = 100
-        #ThisType.track_vars = ['cLvlNow','aLvlNow','pLvlNow','MPCnow']
-        ThisType.initializeSim()
+        #ThisType.track_vars = ['cLvlNow','aLvlNow','pLvl,'MPCnow']
+        ThisType.initialize_sim()
         ThisType.simulate()
         type_list.append(ThisType)
     
     # Get the most recent simulated values of X = cLvlNow, MPCnow, aLvlNow, pLvlNow for all types   
-    cLvl_all = np.concatenate([ThisType.cLvlNow for ThisType in type_list])
-    aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in type_list])
+    cLvl_all = np.concatenate([ThisType.controls['cLvl'] for ThisType in type_list])
+    aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in type_list])
     MPC_all = np.concatenate([ThisType.MPCnow for ThisType in type_list])
-    pLvl_all = np.concatenate([ThisType.state_now["pLvlNow"] for ThisType in type_list])
+    pLvl_all = np.concatenate([ThisType.state_now["pLvl"] for ThisType in type_list])
     
     # The ratio of aggregate assets over the income
     AggWealthRatio = np.mean(aLvl_all) / np.mean(pLvl_all)
@@ -190,7 +190,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     wealth_percentile = np.linspace(0.001,0.999,201)
 
     # second 1D array: Compute Lorenz shares for the created points
-    Lorenz_init = getLorenzShares(aLvl_all, percentiles=wealth_percentile)
+    Lorenz_init = get_lorenz_shares(aLvl_all, percentiles=wealth_percentile)
 
     # Stick 0 and 1 at the boundaries of both arrays to make it inclusive on the range [0,1]
     Lorenz_init = np.concatenate([[0],Lorenz_init,[1]])
@@ -203,7 +203,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     Gini = 1.0 - 2.0*np.mean(Lorenz_init[1])
     
     # Compute the average MPC by income quintile in the latest simulated period
-    Avg_MPC = calcSubpopAvg(MPC_all, pLvl_all, cutoffs=[(0.0,0.2), (0.2,0.4),  (0.4,0.6), (0.6,0.8), (0.8,1.0)])
+    Avg_MPC = calc_subpop_avg(MPC_all, pLvl_all, cutoffs=[(0.0,0.2), (0.2,0.4),  (0.4,0.6), (0.6,0.8), (0.8,1.0)])
     
     return AggWealthRatio, Lorenz, Gini, Avg_MPC
 
