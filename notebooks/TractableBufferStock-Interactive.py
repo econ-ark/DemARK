@@ -9,8 +9,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -26,7 +26,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.6.12
 # ---
 
 # %% [markdown]
@@ -52,7 +52,7 @@ mystr = lambda number : "{:.3f}".format(number)
 
 from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% {"code_folding": [0]}
 # Import the model from the toolkit
@@ -284,3 +284,5 @@ interact(makeTBSplot,
         );
 
 
+
+# %%

@@ -7,12 +7,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: econ-ark-3.8
 #     language: python
-#     name: python3
+#     name: econ-ark-3.8
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.7
 # ---
 
 # %% [markdown]
@@ -44,7 +44,7 @@ import numpy as np
 import HARK 
 from copy import deepcopy
 mystr = lambda number : "{:.4f}".format(number)
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% [markdown]
 # ## The Consumer's Problem with Transitory and Permanent Shocks
@@ -219,8 +219,8 @@ IndShockExample.cycles # Infinite horizon solution is computed when cycles = 0
 IndShockExample.solve(verbose=True) # Verbose prints progress as solution proceeds
 
 # %%
-# plotFuncs([list],min,max) takes a [list] of functions and plots their values over a range from min to max
-plotFuncs([IndShockExample.solution[0].cFunc,IndShockExample.solution_terminal.cFunc],0.,10.)
+# plot_funcs([list],min,max) takes a [list] of functions and plots their values over a range from min to max
+plot_funcs([IndShockExample.solution[0].cFunc,IndShockExample.solution_terminal.cFunc],0.,10.)
 
 # %% [markdown]
 # ## Changing Constructed Attributes
