@@ -60,7 +60,7 @@
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/structural-estimates-from-empirical-mpcs-fagereng-et-al#launch)
 #
 # This notebook conducts a quick and dirty structural estimation based on Table 9 of "MPC Heterogeneity and Household Balance Sheets" by Fagereng, Holm, and Natvik <cite data-cite="6202365/SUE56C4B"></cite>, who use Norweigian administrative data on income, household assets, and lottery winnings to examine the MPC from transitory income shocks (lottery prizes).  Their Table 9 reports an estimated MPC broken down by quartiles of bank deposits and
-# prize size; this table is reproduced here as $\texttt{MPC_target_base}$.  In this demo, we use the Table 9 estimates as targets in a simple structural estimation, seeking to minimize the sum of squared differences between simulated and estimated MPCs by changing the (uniform) distribution of discount factors.  The essential question is how well their results be rationalized by a simple one-asset consumption-saving model.  
+# prize size; this table is reproduced here as $\texttt{MPC_target_base}$.  In this demo, we use the Table 9 estimates as targets in a simple structural estimation, seeking to minimize the sum of squared differences between simulated and estimated MPCs by changing the (uniform) distribution of discount factors.  The essential question is how well their results be rationalized by a simple one-asset consumption-saving model.
 #
 #
 # The function that estimates discount factors includes several options for estimating different specifications:
@@ -92,7 +92,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import *
 
 
 init_infinite = {
-    "CRRA":1.0,                    # Coefficient of relative risk aversion 
+    "CRRA":1.0,                    # Coefficient of relative risk aversion
     "Rfree":1.01/(1.0 - 1.0/160.0), # Survival probability,
     "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
     "PermGroFacAgg":1.0,

@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -40,6 +40,18 @@
 #     latex_user_defs: false
 #     report_style_numbering: false
 #     user_envs_cfg: false
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: true
+#     sideBar: true
+#     skip_h1_title: false
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: false
+#     toc_position: {}
+#     toc_section_display: true
+#     toc_window_display: false
 # ---
 
 # %% [markdown]
@@ -47,7 +59,7 @@
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/keynesfriedmanmodigliani#launch)
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Some initial setup
 import sys
 import os
@@ -64,11 +76,6 @@ import statsmodels.formula.api as sm
 from copy  import deepcopy
 
 import pandas_datareader.data as web
-# As of 09/03/2019 the latest available version of pandas-datareader
-# has conflicts with the latest version of pandas. We temporarily fix
-# this by loading data from files.
-# This should not be necessary when pandas-datareader>0.7 becomes available.
-from io import StringIO
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 from HARK.utilities import plot_funcs_der, plot_funcs
@@ -97,20 +104,20 @@ from HARK.utilities import plot_funcs_der, plot_funcs
 # %% [markdown]
 # #### The Keynesian Consumption Function
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 class KeynesianConsumer:
     """
     This class represents consumers that behave according to a
     Keynesian consumption function, representing them as a
     special case of HARK's PerfForesightConsumerType
-    
+
     Methods:
-    - cFunc: computes consumption/permanent income 
+    - cFunc: computes consumption/permanent income
              given total income/permanent income.
     """
-    
+
     def __init__(self):
-        
+
         PFexample = PerfForesightConsumerType() # set up a consumer type and use default parameteres
         PFexample.cycles = 0 # Make this type have an infinite horizon
         PFexample.DiscFac = 0.05
@@ -118,13 +125,13 @@ class KeynesianConsumer:
 
         PFexample.solve() # solve the consumer's problem
         PFexample.unpack('cFunc') # unpack the consumption function
-        
+
         self.cFunc = PFexample.solution[0].cFunc
         self.a0 = self.cFunc(0)
         self.a1 = self.cFunc(1) - self.cFunc(0)
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot cFunc(Y)=Y against the Keynesian consumption function
 # Deaton-Friedman consumption function is a special case of perfect foresight model
 
@@ -143,7 +150,7 @@ plt.ylim(0, 20)
 plt.legend()
 plt.show()
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # This looks like the first of the three equations, consumption as a linear function of income!
 # This means that even in a microfounded model (that HARK provides), the consumption function can match Keynes reduced form
 # prediction (given the right parameterization).
@@ -271,20 +278,20 @@ result.summary()
 #
 # We begin by creating a class that class implements the Friedman PIH consumption function as a special case of the [Perfect Foresight CRRA](http://econ.jhu.edu/people/ccarroll/courses/choice/lecturenotes/consumption/PerfForesightCRRA) model.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 class FriedmanPIHConsumer:
     """
     This class represents consumers that behave according to
     Friedman's permanent income hypothesis, representing them as a
     special case of HARK's PerfForesightConsumerType
-    
+
     Methods:
-    - cFunc: computes consumption/permanent income 
+    - cFunc: computes consumption/permanent income
              given total income/permanent income.
     """
-    
+
     def __init__(self, Rfree=1.001, CRRA = 2):
-        
+
         PFaux = PerfForesightConsumerType() # set up a consumer type and use default parameteres
         PFaux.cycles = 0 # Make this type have an infinite horizon
         PFaux.DiscFac = 1/Rfree
@@ -294,7 +301,7 @@ class FriedmanPIHConsumer:
         PFaux.CRRA = CRRA
         PFaux.solve() # solve the consumer's problem
         PFaux.unpack('cFunc') # unpack the consumption function
-        
+
         self.cFunc = PFaux.solution[0].cFunc
 
 
@@ -386,7 +393,7 @@ print('a_1 is ' +  str(slope))
 #
 # Consider quarterly differences first:
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Lets use the data from FRED that we used before.
 
 # Using quarterly data (copying from above), we had:
@@ -406,7 +413,7 @@ print('a_1 is ' +  str(slope))
 # %% [markdown]
 # And now consider longer time differences, 20 quarters for instance, where the changes in permanent income should dominate transitory effects
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Using longer differences
 df_diff_long = df.diff(periods = 20) #create dataframe of differenced values
 df_diff_long.columns = ['cons', 'inc']

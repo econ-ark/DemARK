@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: econ-ark-3.8
 #     language: python
@@ -27,13 +27,13 @@
 # ---
 
 # %% [markdown]
-# # Spending on Nondurables During the Great 
+# # Spending on Nondurables During the Great
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/nondurables-during-great-recession#launch)
 #
 # <p style="text-align: center;"><small><small><small>Generator: QuARK-make/notebooks_byname</small></small></small></p>
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 
 import matplotlib.pyplot as plt
@@ -49,18 +49,18 @@ import HARK # Prevents import error from Demos repo
 from HARK.utilities import plot_funcs
 
 # %% [markdown]
-# ### There Was a Big Drop in Consumption ... 
-# Between the second and fourth quarters of 2018, nondurables consumption spending in the U.S. dropped by an unprecedented 6.4 percent.  High frequency data show a drop in retail sales of something like 10 percent between the weekend before the Lehmann collapse and the weekend after Lehmann.  
+# ### There Was a Big Drop in Consumption ...
+# Between the second and fourth quarters of 2018, nondurables consumption spending in the U.S. dropped by an unprecedented 6.4 percent.  High frequency data show a drop in retail sales of something like 10 percent between the weekend before the Lehmann collapse and the weekend after Lehmann.
 
 # %% [markdown]
-# ### ... and Uncertainty Could Induce A Drop In Consumption ...  
+# ### ... and Uncertainty Could Induce A Drop In Consumption ...
 # Increased "uncertainty" has become a popular explanation of much of what happened in the Great Recession -- including this drop.  Qualitatively, it is well known that a perceived increase in labor income uncertainty should induce more saving (less consumption) for precautionary reasons.
 #
 # ### ... But Is the Story _Quantitatively_ Plausible?
-# But if explaining a 6.4 percent drop in consumption would require an implausibly large increase in uncertainty, the story that uncertainty explains the consumption drop is implausible.  
+# But if explaining a 6.4 percent drop in consumption would require an implausibly large increase in uncertainty, the story that uncertainty explains the consumption drop is implausible.
 #
 # ### Transitory Shocks, Permanent Shocks, or Unemployment
-# The $\texttt{ConsIndShockConsumerType}$ model incorporates three kinds of uncertainty: Unemployment spells, during which income is reduced to some small proportion of its normal level; and, for consumers who remain employed, transitory and permanent shocks with standard deviations $\sigma_{\theta}$ and $\sigma_{\psi}$.  
+# The $\texttt{ConsIndShockConsumerType}$ model incorporates three kinds of uncertainty: Unemployment spells, during which income is reduced to some small proportion of its normal level; and, for consumers who remain employed, transitory and permanent shocks with standard deviations $\sigma_{\theta}$ and $\sigma_{\psi}$.
 #
 # ### The Question:
 # How large an increase in the standard deviation of $\sigma_{\psi}$ would be necessary to induce a 6.4 percent drop in consumption in one quarter?  What about $\sigma_{\theta}$?  How high would the perceived unemployment probability have to be?
@@ -70,14 +70,14 @@ from HARK.utilities import plot_funcs
 # Model set up:
 # - "Standard" infinite horizon consumption/savings model, with mortality and permanent and temporary shocks to income
 # - Ex-ante heterogeneity in consumers' discount factors
-#     
+#
 # With this basic setup, HARK's IndShockConsumerType is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
 #
 
-# %% {"code_folding": [1]}
-# Choose some calibrated parameters that roughly match steady state 
+# %% {"code_folding": []}
+# Choose some calibrated parameters that roughly match steady state
 init_infinite = {
-    "CRRA":1.0,                    # Coefficient of relative risk aversion 
+    "CRRA":1.0,                    # Coefficient of relative risk aversion
     "Rfree":1.01/(1.0 - 1.0/240.0), # Survival probability,
     "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
     "PermGroFacAgg":1.0,
@@ -124,7 +124,7 @@ BaselineType = IndShockConsumerType(**init_infinite)
 #
 # First, let's create a list with seven copies of our baseline type.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # A list in python can contain anything -- including consumers
 num_consumer_types   = 7 # declare the number of types we want
 ConsumerTypes = [] # initialize an empty list
@@ -136,9 +136,9 @@ for nn in range(num_consumer_types):
     ConsumerTypes.append(NewType)
 
 # %% [markdown]
-# Now we can give each of the consumer types their own discount factor. (This approximates the distribution of parameters estimated in ["The Distribution of Wealth and the Marginal Propensity to Consume"](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC)). 
+# Now we can give each of the consumer types their own discount factor. (This approximates the distribution of parameters estimated in ["The Distribution of Wealth and the Marginal Propensity to Consume"](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC)).
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
 from HARK.distribution import Uniform
 
@@ -159,12 +159,12 @@ for j in range(num_consumer_types):
 #
 # The cell below does both of those tasks, looping through the consumer types. For each one, it solves that type's infinite horizon model, then simulates 1000 periods to generate an approximation to the long run distribution of wealth.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # tqdm presents a pretty bar that interactively shows how far the calculations have gotten
 for ConsumerType in tqdm(ConsumerTypes):
     ## We configured their discount factor above.  Now solve
     ConsumerType.solve(verbose=False)
-    
+
     # Now simulate many periods to get to the stationary distribution
     ConsumerType.T_sim = 2000
     ConsumerType.initialize_sim()
@@ -175,7 +175,7 @@ for ConsumerType in tqdm(ConsumerTypes):
 #
 # First, let's define a simple function that merely calculates the average consumption level across the entire population in the most recent simulated period.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # We just merge the cNrm and pNrm lists already constructed for each ConsumerType
 def calcAvgC(ConsumerTypes):
     """
@@ -186,7 +186,7 @@ def calcAvgC(ConsumerTypes):
     # The brackets indicate that the contents will be a list (in this case, of lists)
     cNrm = np.concatenate([ThisType.controls["cNrm"] for ThisType in ConsumerTypes])
     pLvl = np.concatenate([ThisType.state_now["pLvl"] for ThisType in ConsumerTypes])
-    
+
     # Calculate and return average consumption level in the economy
     avgC = np.mean(cNrm*pLvl) # c is the ratio to p, so C = c*p
     return avgC
@@ -205,13 +205,13 @@ def calcAvgC(ConsumerTypes):
 #  6. Calculate the new average consumption level as percentage change vs the prior level.
 # 3. Return the list of percentage changes
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Whenever you define a function, you should describe it (with a "docstring")
 def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
     '''
-    Calculate the change in aggregate consumption for a list of values that a 
+    Calculate the change in aggregate consumption for a list of values that a
     parameter will take on.
-    
+
     Parameters
     ----------
     OriginalTypes : [IndShockConsumerType]
@@ -220,7 +220,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
         List or array of new values that the parameter of interest will take on.
     ParamToChange : str
         Name of the income distribution parameter that will be changed.
-        
+
     Returns
     -------
     ChangesInConsumption : [float]
@@ -237,16 +237,16 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
         else:
             ThisVal = NewVal
 
-        ConsumerTypesNew = deepcopy(OriginalTypes)          
+        ConsumerTypesNew = deepcopy(OriginalTypes)
         for index,ConsumerTypeNew in enumerate(ConsumerTypesNew):
-            setattr(ConsumerTypeNew,ParamToChange,ThisVal) # Step 2A   
+            setattr(ConsumerTypeNew,ParamToChange,ThisVal) # Step 2A
             ConsumerTypeNew.update_income_process()
             ConsumerTypeNew.solve(verbose=False) # Step 2B
-            
+
             ConsumerTypeNew.initialize_sim() # Step 2C
             ConsumerTypeNew.aNrmNow = OriginalTypes[index].state_now["aNrm"]
             ConsumerTypeNew.pLvlNow = OriginalTypes[index].state_now["pLvl"]
-            
+
             ConsumerTypeNew.simOnePeriod() # Step 2D
 
         NewAvgC = calcAvgC(ConsumerTypesNew) # Step 2E
@@ -258,7 +258,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
 # %% [markdown]
 # Our counterfactual experiment function takes three inputs-- consumer types, counterfactual values, and the name of the parameter we want to change. For the sake of convenience, let's define small functions to run the experiment for each parameter with just a single input.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Trivial functions can be useful in making the logic of your program clear
 def calcConsChangeAfterPermShkChange(newVals):
     return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"PermShkStd")
@@ -272,7 +272,7 @@ def calcConsChangeAfterUnempPrbChange(newVals):
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Calculate the consequences of an "MIT shock" to the standard deviation of permanent shocks
 ratio_min = 0.8 # minimum number to multiply uncertainty parameter by
 TargetChangeInC = -6.3 # Source: FRED
@@ -293,7 +293,7 @@ plt.hlines(TargetChangeInC,perm_min,perm_max)
 plot_funcs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
 
 # %% [markdown]
-# The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.012, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  
+# The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.012, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.
 #
 # The question is whether this is a reasonable or an unreasonable magnitude for a change in uncertainty.  Some perspective on that question is offered by the large literature that attempts to estimate the magnitude of persistent or permanent shocks to household income.  The answer varies substantially across household types, countries, and time periods, but our sense of the literature is that the whole span of the territory between 0.04 and ranging nearly up to 0.20 is well populated (in the sense that substantial populations of people or countries have been estimated to experience shocks of this magnitude).
 #

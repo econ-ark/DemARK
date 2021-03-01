@@ -37,30 +37,18 @@
 #
 #
 #
-# This notebook provides a simple introduction to the upper envelope calculation in the "DCEGM" algorithm <cite data-cite="6202365/4F64GG8F"></cite>. It takes the EGM method proposed in <cite data-cite="6202365/HQ6H9JEI"></cite>, and extends it to the mixed choice (discrete and continuous) case. It handles various constraints. It works on a 1-dimensional problems.
+# This notebook provides a simple introduction to the "DCEGM" algorithm <cite data-cite="6202365/4F64GG8F"></cite>. DCEGM extends the EGM method proposed in <cite data-cite="6202365/HQ6H9JEI"></cite> to problems with both continuous (e.g. consumption) and discrete (e.g. retirement) decisions.
 #
-# The main challenge in the types of models considered in DCEGM is, that the first order conditions to the Bellman equations are no longer sufficient to find an optimum.  Though, they are still necessary in a broad class of models. This means that our EGM step will give us (resource, consumption) pairs that do fulfill the FOCs, but that are sub-optimal (there's another consumption choices for the same initial resources that gives a higher value).
+# The main challenge for the EGM algorithm in discrete-continuous problems is that the discrete decisions generate "kinks" in the value function, making it non-concave and rendering the first order condition used by EGM a necessary but not sufficient for optimality. In practice, this causes the EGM inversion step to produce (resource, consumption) points that are not optimal. DCEGM incorporates a method to filter the points produced by EGM so that only the truly optimal ones are used in producing an approximation to the solution.
 #
-# Take a consumption model formulated as:
-# $$
-# \max_{\{c_t\}^T_{t=1}} \sum^T_{t=1}\beta^t\cdot u(c_t)
-# $$
-# given some initial condition on $x$ and some laws of motion for the states, though explicit references to states are omitted. Then, if we're in a class of models described in EGM
-# , we can show that
-# $$
-# c_t = {u_{c}}^{-1}[E_t(u_c(c_{t+1}))]
-# $$
-# uniquely determines an optimal consumption today given the expected marginal utility of consuming  tomorrow. However, if there is a another choice in the choice set, and that choice is discrete, we get
-# $$
-# \max_{\{c_t, d_t\}^T_{t=1}} \sum^T_{t=1}\beta^t\cdot u(c_t, d_t)
-# $$
-# again given initial conditions and the laws of motion. Then, we can show that
-# $$
-# c_t = {u_{c}}^{-1}[E_t(u_c(c_{t+1}))]
-# $$
-# will produce solutions that are necessary but not sufficient. Note, that there is no explicit mentioning of the discrete choices in the expectation, but they obviously vary over the realized states in general. For the optimal consumption, it doesn't matter what the choice is exactly, only what expected marginal utility is tomorrow. The algorithm presented in [1] is designed to take advantage of models with this structure.
+# This filtering process consists mainly of computing "upper-envelopes" of the candidate points: lines that are made up only of the points with the higher values.
 #
-# To visualize the problem, consider the following pictures that show the output of an EGM step from the model in the REMARK [linkhere].
+# This notebook presents HARK's tool for calculating upper-envelopes and then uses it to solve a simple three-period discrete-continuous problem using DCEGM.
+
+# %% [markdown]
+# # Upper envelopes
+#
+# Start by importing the tools.
 
 # %%
 # imports
@@ -73,13 +61,14 @@ import matplotlib.pyplot as plt
 from HARK.interpolation import LinearInterp
 from HARK.dcegm import calc_segments, calc_multiline_envelope, calc_prim_kink
 
+# %% [markdown]
+# Applying EGM to value functions with kinks, as the ones that result from discrete-continuous problems, will often result in grids for market resources that are not monotonic and candidate choices at those points that are sub-optimal.
+# Consider the following example output.
+
 # %%
-m_common = np.linspace(0,1.0,100)
 m_egm = np.array([0.0, 0.04, 0.25, 0.15, 0.1, 0.3, 0.6,0.5, 0.35, 0.6, 0.75,0.85])
 c_egm = np.array([0.0, 0.03, 0.1, 0.07, 0.05, 0.36, 0.4, 0.6, 0.8, 0.9,0.9,0.9])
 vt_egm = np.array( [0.0, 0.05, 0.1,0.04, 0.02,0.2, 0.7, 0.5, 0.2, 0.9, 1.0, 1.2])
-
-# %%
 plt.plot(m_egm, vt_egm)
 plt.xlabel("resources")
 plt.ylabel("transformed values")
@@ -96,36 +85,31 @@ plt.show()
 rise, fall = calc_segments(m_egm, vt_egm)
 
 # %% [markdown]
-# In `rise` we have all the starting indices for the segments that are "good", that is `(m, vt)` draws an increasing curve.
-
-# %%
-rise
-
-# %% [markdown]
-# We see that `rise` has its first index at `0`, then again at `4`, and lastly at `8`. Let's look at `fall`.
-
-# %%
-fall
+# There are two main issues:
+# - The line implied by the points "goes backwards" at some points. This is because the m-grid is not monotonic.
+# - Some segments of the line are under other segments of the line. This means that we have sub-optimal points.
 
 # %% [markdown]
-# We see that the last segment is increasing (as the last element of `rise` is larger than the last element of `fall`), and we see that `len(fall)` is one larger than number of problematic segments in the plot. The index of the last point in `m_egm`/`c_egm`/`vt_egm` is added for convenience when we do the upper envelope step (and is also convenient below for drawing the segments!).
-#
-# We can use `fall` and `rise` to draw only the relevant segments that we will use to construct an upper envelope.
+# A first step in filtering out sub-optimal points is to split the previous line in its non-decreasing segments. This is achieved by HARK's function `calcSegments`.
 
 # %%
+# Compute non-decreasing segments
+rise, fall = calcSegments(m_egm, vt_egm)
+
+# Plot them
 for j in range(len(fall)):
     idx = range(rise[j],fall[j]+1)
     plt.plot(m_egm[idx], vt_egm[idx])
 plt.xlabel("resources")
 plt.ylabel("transformed values")
 plt.show()
+
 # %% [markdown]
-# Let us now use the `calcMultilineEnvelope` function to do the full DCEGM step: find segments and calculate upper envelope in one sweep.
+# The next step is to produce the upper-envelope of these segments: a line comprised of the points that are not under any other segment. This is done by HARK's `calcMultilineEnvelope`function. We now apply it and plot the result
 
 # %%
 m_upper, c_upper, v_upper = calc_multiline_envelope(m_egm, c_egm, vt_egm, m_common)
 
-# %%
 for j in range(len(fall)):
     idx = range(rise[j],fall[j]+1)
     plt.plot(m_egm[idx], vt_egm[idx])
@@ -133,11 +117,15 @@ plt.plot(m_upper, v_upper, 'k')
 plt.xlabel("resources")
 plt.ylabel("transformed values")
 plt.show()
+
 # %% [markdown]
-# And there we have it! These functions are the building blocks for univariate discrete choice modeling in HARK, so hopefully this little demo helped better understand what goes on under the hood, or it was a help if you're extending some existing class with a discrete choice.
+# And there we have it! a monotonic value without the sub-optimal points or reverse jumps!
+#
+# Having introduced the main tools, we are now ready to apply DCEGM to a simple example.
 
 # %% [markdown]
 # # An example: writing a will
+# ### Author: [Mateo Velásquez-Giraldo](https://mv77.github.io/)
 #
 # We now present a basic example to illustrate the use of the previous tools in solving dynamic optimization problems with discrete and continuous decisions.
 #
@@ -154,7 +142,7 @@ plt.show()
 # discrete choices.
 from HARK.interpolation import calc_log_sum_choice_probs
 
-# Import CRRA utility (and related) functions from HARK 
+# Import CRRA utility (and related) functions from HARK
 from HARK.utilities import CRRAutility, CRRAutilityP, CRRAutilityP_inv
 
 # Solution method parameters
@@ -165,7 +153,7 @@ aGrid = np.linspace(0,8,400) # Savings grid for EGM.
 # Parameters that need to be fixed
 # Relative risk aversion. This is fixed at 2 in order to mantain
 # the analytical solution that we use, from Carroll (2000)
-CRRA   = 2 
+CRRA   = 2
 
 # Parameters that can be changed.
 w          = 1    # Deterministic wage per period.
@@ -293,7 +281,7 @@ plt.show()
 # \nu (m_2|w=0) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=0)\\
 # s.t.&\\
 # m_3 &= m_2 - c + w
-# \end{split} 
+# \end{split}
 # \end{equation}
 #
 # We can approximate a solution to this problem through the method of endogenous gridpoints. This yields approximations to $\nu(\cdot|w=0)$ and $c_2(\cdot|w=0)$
@@ -330,7 +318,7 @@ c2_cond_no  = LinearInterp(np.insert(mGrid2_cond_no,0,0), np.insert(cGrid2_cond_
 # \nu (m_2|w=1) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=1)\\
 # s.t.&\\
 # m_3 &= (1-\tau)(m_2 - c + w)
-# \end{split} 
+# \end{split}
 # \end{equation}
 #
 # We also approximate a solution to this problem using the EGM. This yields approximations to $\nu(\cdot|w=1)$ and $c_2(\cdot|w=1)$.
@@ -436,8 +424,8 @@ for i in range(len(m_kink)):
     # Point to the right of the discontinuitiy
     add_m.append(mr)
     add_c.append(cond_cfuncs[segments[i,1]](mr))
-   
-# Add to grids    
+
+# Add to grids
 idx = np.searchsorted(mGrid, add_m)
 mGrid_k = np.insert(mGrid, idx, add_m)
 cGrid2_k = np.insert(cGrid2, idx, add_c)
@@ -468,7 +456,7 @@ plt.show()
 # V (m_1) &= \max_{0\leq c \leq m_1} u(c) + \beta V_2(m_2)\\
 # s.t.&\\
 # m_2 &= m_1 - c + w.
-# \end{split} 
+# \end{split}
 # \end{equation}
 #
 # Although this looks like a simple problem, there are complications introduced by the kink in $V_2(\cdot)$, which is clearly visible in the plot from the previous block. Particularly, note that $V_2'(\cdot)$ and $c_2(\cdot)$ are not monotonic: there are now multiple points $m$ for which the slope of $V_2(m)$ is equal. Thus, the Euler equation becomes a necessary but not sufficient condition for optimality and the traditional EGM inversion step can generate non-monotonic endogenous $m$ gridpoints.
@@ -504,7 +492,7 @@ plt.show()
 # %% [markdown]
 # The previous cell applies the endogenous gridpoints method to the first period problem. The plots illustrate that the sequence of resulting endogenous gridpoints $\{m_i\}_{i=1}^N$ is not monotonic. This results in intervals of market resources over which we have multiple candidate values for the value function. This is the point where we must apply the upper envelope function illustrated above.
 #
-# We finally use the resulting consumption and value grid points to create the first period value and consumption functions. 
+# We finally use the resulting consumption and value grid points to create the first period value and consumption functions.
 
 # %%
 # Calculate envelope

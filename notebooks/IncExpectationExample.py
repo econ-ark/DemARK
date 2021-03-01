@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: econ-ark-3.8
 #     language: python
@@ -60,8 +60,8 @@ from HARK.distribution import Uniform
 from HARK.utilities import get_lorenz_shares, calc_subpop_avg
 mystr = lambda number : "{:.4f}".format(number)
 
-# %% {"code_folding": [1]}
-# This cell makes a subclass of PersistentShockConsumerType including the MPC 
+# %% {"code_folding": []}
+# This cell makes a subclass of PersistentShockConsumerType including the MPC
 class PersistentShockConsumerTypeX(PersistentShockConsumerType):
     def getControls(self):
         cLvlNow = np.zeros(self.AgentCount) + np.nan
@@ -73,7 +73,7 @@ class PersistentShockConsumerTypeX(PersistentShockConsumerType):
         self.controls['cLvl'] = cLvlNow
         self.MPCnow  = MPCnow
 
-# %% {"code_folding": [1]}
+# %% {"code_folding": []}
 # This cell defines a dictionary to make an instance of "persistent shocks" consumer for the infinite horizon model
 BaselineDict = {
         "CRRA": 2.0,                           # Coefficient of relative risk aversion
@@ -91,7 +91,7 @@ BaselineDict = {
         "T_cycle" : 1,                         # Number of periods in the cycle for this agent type
         "T_sim":1200,                          # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
         "aXtraMin" : 0.001,                    # Minimum end-of-period "assets above minimum" value
-        "aXtraMax" : 30,                       # Maximum end-of-period "assets above minimum" value               
+        "aXtraMax" : 30,                       # Maximum end-of-period "assets above minimum" value
         "aXtraExtra" : [0.005,0.01],           # Some other value of "assets above minimum" to add to the grid
         "aXtraNestFac" : 3,                    # Exponential nesting factor when constructing "assets above minimum" grid
         "aXtraCount" : 48,                     # Number of points in the grid of "assets above minimum"
@@ -107,20 +107,20 @@ BaselineDict = {
         "T_retire" : 0,                        # Period of retirement (0 --> no retirement)
         "BoroCnstArt" : 0.0,                   # Artificial borrowing constraint; imposed minimum level of end-of period assets
         "CubicBool" : False,                   # Use cubic spline interpolation when True, linear interpolation when False
-        "vFuncBool" : True,                    # Whether to calculate the value function during solution    
+        "vFuncBool" : True,                    # Whether to calculate the value function during solution
         "cycles": 0,                           # Make this type have an infinite horizon
         "pLvlPctiles" : np.concatenate(([0.001, 0.005, 0.01, 0.03], np.linspace(0.05, 0.95, num=19),[0.97, 0.99, 0.995, 0.999])),
-        "PermGroFac" :[1.000**0.25],           # Permanent income growth factor (no perm growth)                   
+        "PermGroFac" :[1.000**0.25],           # Permanent income growth factor (no perm growth)
         "PrstIncCorr": 0.99,                   # Serial correlation coefficient for persistence of income
     }
 
-# %% {"code_folding": [1]}
+# %% {"code_folding": []}
 # This cell defines a function to solve and simulate a consumer misperceiving the correlation of persistent income shocks
 def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_spread):
     '''
     Solve and simulate a consumer type who misperceives the extent of serial correlation
     of persistent shocks to income.
-    
+
     Parameters
     ----------
     CorrAct : float
@@ -143,46 +143,46 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
         Gini coefficient for assets in the most recent simulated period.
     Avg_MPC: numpy.array
         Average marginal propensity to consume by income quintile in the latest simulated period.
-    
-    '''     
-    
+
+    '''
+
     # Make a dictionary to construct our consumer type
     ThisDict = copy(BaselineDict)
     ThisDict['PrstIncCorr'] = CorrAct
-    
+
     # Make a 7 point approximation to a uniform distribution of DiscFac
     DiscFac_list = Uniform(bot=DiscFac_center-DiscFac_spread,top=DiscFac_center+DiscFac_spread).approx(N=7).X
-    
+
     type_list = []
     # Make a PersistentShockConsumerTypeX for each value of beta saved in DiscFac_list
-    for i in range(len(DiscFac_list)):    
-        ThisDict['DiscFac'] = DiscFac_list[i]    
+    for i in range(len(DiscFac_list)):
+        ThisDict['DiscFac'] = DiscFac_list[i]
         ThisType = PersistentShockConsumerTypeX(**ThisDict)
-              
+
         # Make the consumer type *believe* he will face a different level of persistence
         ThisType.PrstIncCorr = CorrPcvd
         ThisType.update_pLvlNextFunc() # Now he *thinks* E[p_{t+1}] as a function of p_t is different than it is
-    
-        # Solve the consumer's problem with *perceived* persistence 
+
+        # Solve the consumer's problem with *perceived* persistence
         ThisType.solve()
-    
+
         # Make the consumer type experience the true level of persistence during simulation
         ThisType.PrstIncCorr = CorrAct
         ThisType.update_pLvlNextFunc()
-    
+
         # Simulate the agents for many periods
         ThisType.T_sim = 100
         #ThisType.track_vars = ['cLvlNow','aLvlNow','pLvl,'MPCnow']
         ThisType.initialize_sim()
         ThisType.simulate()
         type_list.append(ThisType)
-    
-    # Get the most recent simulated values of X = cLvlNow, MPCnow, aLvlNow, pLvlNow for all types   
+
+    # Get the most recent simulated values of X = cLvlNow, MPCnow, aLvlNow, pLvlNow for all types
     cLvl_all = np.concatenate([ThisType.controls['cLvl'] for ThisType in type_list])
     aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in type_list])
     MPC_all = np.concatenate([ThisType.MPCnow for ThisType in type_list])
     pLvl_all = np.concatenate([ThisType.state_now["pLvl"] for ThisType in type_list])
-    
+
     # The ratio of aggregate assets over the income
     AggWealthRatio = np.mean(aLvl_all) / np.mean(pLvl_all)
 
@@ -195,16 +195,16 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     # Stick 0 and 1 at the boundaries of both arrays to make it inclusive on the range [0,1]
     Lorenz_init = np.concatenate([[0],Lorenz_init,[1]])
     wealth_percentile = np.concatenate([[0],wealth_percentile,[1]])
-    
+
     # Create a list of wealth_percentile 1D array and Lorenz Shares 1D array
     Lorenz  = np.stack((wealth_percentile, Lorenz_init))
 
     # Compute the Gini coefficient
     Gini = 1.0 - 2.0*np.mean(Lorenz_init[1])
-    
+
     # Compute the average MPC by income quintile in the latest simulated period
     Avg_MPC = calc_subpop_avg(MPC_all, pLvl_all, cutoffs=[(0.0,0.2), (0.2,0.4),  (0.4,0.6), (0.6,0.8), (0.8,1.0)])
-    
+
     return AggWealthRatio, Lorenz, Gini, Avg_MPC
 
 
@@ -217,7 +217,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
 # Call the function with test values for (CorrAct, CorrPcvd, DiscFac_center, DiscFac_spread)
 AggWealthRatio, Lorenz, Gini, Avg_MPC = runRoszypalSchlaffmanExperiment(0.97, 0.9831,  0.9867, 0.0067)
 
-# Plot the Lorenz curve  
+# Plot the Lorenz curve
 print('The Lorenz curve for assests is')
 plt.plot(Lorenz[0],Lorenz[1])
 plt.xlabel('Wealth percentile')
@@ -225,8 +225,7 @@ plt.ylabel('Cumulative wealth share')
 plt.xlim([0.,1.])
 plt.ylim([0.,1.])
 plt.show()
-    
+
 print('The aggregate wealth to income ratio is ' + str(AggWealthRatio))
 print('The Gini Coefficient for assests is ' + str(Gini))
 print('The average MPC by income quintile is ' + str(Avg_MPC))
-
