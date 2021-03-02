@@ -8,12 +8,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
-#     display_name: econ-ark-3.8
+#     display_name: Python 3
 #     language: python
-#     name: econ-ark-3.8
+#     name: python3
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.7
+#     version: 3.8.5
 # ---
 
 # %% [markdown]
@@ -99,7 +99,7 @@ def in_ipynb():
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
 if in_ipynb():
-    # %matplotlib inline generates a syntax error when run from the shell
+    # # %matplotlib inline generates a syntax error when run from the shell
     # so do this instead
     get_ipython().run_line_magic('matplotlib', 'inline')
 else:

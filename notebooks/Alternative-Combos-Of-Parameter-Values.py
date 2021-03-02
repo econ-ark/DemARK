@@ -8,12 +8,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
-#     display_name: econ-ark-3.8
+#     display_name: Python 3
 #     language: python
-#     name: econ-ark-3.8
+#     name: python3
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.7
+#     version: 3.8.5
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -185,7 +185,7 @@ def calcLorenzDistance(SomeTypes):
     ----------
     SomeTypes : [AgentType]
         List of AgentTypes that have been solved and simulated.  Current levels of individual assets should
-        be stored in the attribute aLvlNow.
+        be stored in the attribute aLvl.
         
     Returns
     -------
@@ -196,7 +196,7 @@ def calcLorenzDistance(SomeTypes):
     lorenz_SCF = np.array([-0.00183091,  0.0104425 ,  0.0552605 ,  0.1751907 ])
     
     # Extract asset holdings from all consumer types
-    aLvl_sim = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
+    aLvl_sim = np.concatenate([ThisType.aLvl for ThisType in MyTypes])
     
     # Calculate simulated Lorenz curve points
     lorenz_sim = get_lorenz_shares(aLvl_sim,percentiles=[0.2,0.4,0.6,0.8])

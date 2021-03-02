@@ -9,12 +9,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
-#     display_name: econ-ark-3.8
+#     display_name: Python 3
 #     language: python
-#     name: econ-ark-3.8
+#     name: python3
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -24,7 +24,23 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.7
+#     version: 3.8.5
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 # ---
 
 # %% [markdown]
@@ -70,19 +86,8 @@ m_egm = np.array([0.0, 0.04, 0.25, 0.15, 0.1, 0.3, 0.6,0.5, 0.35, 0.6, 0.75,0.85
 c_egm = np.array([0.0, 0.03, 0.1, 0.07, 0.05, 0.36, 0.4, 0.6, 0.8, 0.9,0.9,0.9])
 vt_egm = np.array( [0.0, 0.05, 0.1,0.04, 0.02,0.2, 0.7, 0.5, 0.2, 0.9, 1.0, 1.2])
 plt.plot(m_egm, vt_egm)
-plt.xlabel("resources")
-plt.ylabel("transformed values")
-
-# %%
-plt.plot(m_egm, c_egm)
-plt.xlabel("resources")
-plt.ylabel("consumption")
-plt.show()
-# %% [markdown]
-# The point of DCEGM is to realize, that the segments on the `(m, vt)` curve that are decreasing, cannot be optimal. This leaves us with a set of increasing line segments, as seen below (`dcegmSegments` is the function in HARK that calculates the breaks where the curve goes from increasing to decreasing).
-
-# %%
-rise, fall = calc_segments(m_egm, vt_egm)
+plt.xlabel("Resources")
+plt.ylabel("Value")
 
 # %% [markdown]
 # There are two main issues:
@@ -90,11 +95,11 @@ rise, fall = calc_segments(m_egm, vt_egm)
 # - Some segments of the line are under other segments of the line. This means that we have sub-optimal points.
 
 # %% [markdown]
-# A first step in filtering out sub-optimal points is to split the previous line in its non-decreasing segments. This is achieved by HARK's function `calcSegments`.
+# A first step in filtering out sub-optimal points is to split the previous line in its non-decreasing segments. This is achieved by HARK's function `calc_segments`. 
 
 # %%
 # Compute non-decreasing segments
-rise, fall = calcSegments(m_egm, vt_egm)
+rise, fall = calc_segments(m_egm, vt_egm)
 
 # Plot them
 for j in range(len(fall)):
@@ -105,9 +110,12 @@ plt.ylabel("transformed values")
 plt.show()
 
 # %% [markdown]
-# The next step is to produce the upper-envelope of these segments: a line comprised of the points that are not under any other segment. This is done by HARK's `calcMultilineEnvelope`function. We now apply it and plot the result
+# The next step is to produce the upper-envelope of these segments: a line comprised of the points that are not under any other segment. This is done by HARK's `calc_multiline_envelope`function. We now apply it and plot the result
 
 # %%
+# The function defines the upper envelope over a new grid, which it
+# uses to interpolate each of the non-decreasing segments.
+m_common = np.linspace(0,1.0,100)
 m_upper, c_upper, v_upper = calc_multiline_envelope(m_egm, c_egm, vt_egm, m_common)
 
 for j in range(len(fall)):
@@ -142,7 +150,7 @@ plt.show()
 # discrete choices.
 from HARK.interpolation import calc_log_sum_choice_probs
 
-# Import CRRA utility (and related) functions from HARK
+# Import CRRA utility (and related) functions from HARK 
 from HARK.utilities import CRRAutility, CRRAutilityP, CRRAutilityP_inv
 
 # Solution method parameters
@@ -153,7 +161,7 @@ aGrid = np.linspace(0,8,400) # Savings grid for EGM.
 # Parameters that need to be fixed
 # Relative risk aversion. This is fixed at 2 in order to mantain
 # the analytical solution that we use, from Carroll (2000)
-CRRA   = 2
+CRRA   = 2 
 
 # Parameters that can be changed.
 w          = 1    # Deterministic wage per period.
@@ -281,7 +289,7 @@ plt.show()
 # \nu (m_2|w=0) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=0)\\
 # s.t.&\\
 # m_3 &= m_2 - c + w
-# \end{split}
+# \end{split} 
 # \end{equation}
 #
 # We can approximate a solution to this problem through the method of endogenous gridpoints. This yields approximations to $\nu(\cdot|w=0)$ and $c_2(\cdot|w=0)$
@@ -318,7 +326,7 @@ c2_cond_no  = LinearInterp(np.insert(mGrid2_cond_no,0,0), np.insert(cGrid2_cond_
 # \nu (m_2|w=1) &= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=1)\\
 # s.t.&\\
 # m_3 &= (1-\tau)(m_2 - c + w)
-# \end{split}
+# \end{split} 
 # \end{equation}
 #
 # We also approximate a solution to this problem using the EGM. This yields approximations to $\nu(\cdot|w=1)$ and $c_2(\cdot|w=1)$.
@@ -369,8 +377,8 @@ c2_cond_wi  = LinearInterp(np.insert(mGrid2_cond_wi,0,0), np.insert(cGrid2_cond_
 # Use transformed values since -given sigma=0- magnitudes are unimportant. This
 # avoids NaNs at m \approx 0.
 vTGrid2, willChoice2 = calc_log_sum_choice_probs(np.stack((vT2_cond_wi(mGrid),
-                                                           vT2_cond_no(mGrid))),
-                                                 sigma = 0)
+                                                     vT2_cond_no(mGrid))),
+                                             sigma = 0)
 
 # Plot the optimal decision rule
 plt.plot(mGrid, willChoice2[0])
@@ -385,8 +393,8 @@ cGrid2 = (willChoice2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=
 # Now find the primary kink point (the point at which the optimal discrete
 # decision changes)
 pKink, segments = calc_prim_kink(mGrid, np.stack((vT2_cond_wi(mGrid),
-                                                  vT2_cond_no(mGrid))),
-                                 willChoice2)
+                                                vT2_cond_no(mGrid))),
+                               willChoice2)
 
 m_kink = np.array([x[0] for x in pKink])
 v_kink = np.array([x[1] for x in pKink])
@@ -424,8 +432,8 @@ for i in range(len(m_kink)):
     # Point to the right of the discontinuitiy
     add_m.append(mr)
     add_c.append(cond_cfuncs[segments[i,1]](mr))
-
-# Add to grids
+   
+# Add to grids    
 idx = np.searchsorted(mGrid, add_m)
 mGrid_k = np.insert(mGrid, idx, add_m)
 cGrid2_k = np.insert(cGrid2, idx, add_c)
@@ -456,7 +464,7 @@ plt.show()
 # V (m_1) &= \max_{0\leq c \leq m_1} u(c) + \beta V_2(m_2)\\
 # s.t.&\\
 # m_2 &= m_1 - c + w.
-# \end{split}
+# \end{split} 
 # \end{equation}
 #
 # Although this looks like a simple problem, there are complications introduced by the kink in $V_2(\cdot)$, which is clearly visible in the plot from the previous block. Particularly, note that $V_2'(\cdot)$ and $c_2(\cdot)$ are not monotonic: there are now multiple points $m$ for which the slope of $V_2(m)$ is equal. Thus, the Euler equation becomes a necessary but not sufficient condition for optimality and the traditional EGM inversion step can generate non-monotonic endogenous $m$ gridpoints.
@@ -492,7 +500,7 @@ plt.show()
 # %% [markdown]
 # The previous cell applies the endogenous gridpoints method to the first period problem. The plots illustrate that the sequence of resulting endogenous gridpoints $\{m_i\}_{i=1}^N$ is not monotonic. This results in intervals of market resources over which we have multiple candidate values for the value function. This is the point where we must apply the upper envelope function illustrated above.
 #
-# We finally use the resulting consumption and value grid points to create the first period value and consumption functions.
+# We finally use the resulting consumption and value grid points to create the first period value and consumption functions. 
 
 # %%
 # Calculate envelope
@@ -500,8 +508,8 @@ vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
 rise, fall = calc_segments(mGrid1, vTGrid1)
 mGrid1_up, cGrid1_up, vTGrid1_up, xings = calc_multiline_envelope(mGrid1, cGrid1,
-                                                                  vTGrid1, mGrid,
-                                                                  findXings = True)
+                                                                vTGrid1, mGrid,
+                                                                find_crossings = True)
 # Create functions
 c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
 v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)

@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.12
+#     version: 3.8.5
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -110,14 +110,14 @@ class KeynesianConsumer:
     This class represents consumers that behave according to a
     Keynesian consumption function, representing them as a
     special case of HARK's PerfForesightConsumerType
-
+    
     Methods:
-    - cFunc: computes consumption/permanent income
+    - cFunc: computes consumption/permanent income 
              given total income/permanent income.
     """
-
+    
     def __init__(self):
-
+        
         PFexample = PerfForesightConsumerType() # set up a consumer type and use default parameteres
         PFexample.cycles = 0 # Make this type have an infinite horizon
         PFexample.DiscFac = 0.05
@@ -125,7 +125,7 @@ class KeynesianConsumer:
 
         PFexample.solve() # solve the consumer's problem
         PFexample.unpack('cFunc') # unpack the consumption function
-
+        
         self.cFunc = PFexample.solution[0].cFunc
         self.a0 = self.cFunc(0)
         self.a1 = self.cFunc(1) - self.cFunc(0)
@@ -284,14 +284,14 @@ class FriedmanPIHConsumer:
     This class represents consumers that behave according to
     Friedman's permanent income hypothesis, representing them as a
     special case of HARK's PerfForesightConsumerType
-
+    
     Methods:
-    - cFunc: computes consumption/permanent income
+    - cFunc: computes consumption/permanent income 
              given total income/permanent income.
     """
-
+    
     def __init__(self, Rfree=1.001, CRRA = 2):
-
+        
         PFaux = PerfForesightConsumerType() # set up a consumer type and use default parameteres
         PFaux.cycles = 0 # Make this type have an infinite horizon
         PFaux.DiscFac = 1/Rfree
@@ -301,7 +301,7 @@ class FriedmanPIHConsumer:
         PFaux.CRRA = CRRA
         PFaux.solve() # solve the consumer's problem
         PFaux.unpack('cFunc') # unpack the consumption function
-
+        
         self.cFunc = PFaux.solution[0].cFunc
 
 

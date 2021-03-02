@@ -7,12 +7,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
-#     display_name: econ-ark-3.8
+#     display_name: Python 3
 #     language: python
-#     name: econ-ark-3.8
+#     name: python3
 #   language_info:
 #     codemirror_mode:
 #       name: ipython
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.7
+#     version: 3.8.5
 # ---
 
 # %% [markdown]
@@ -229,12 +229,12 @@ plot_funcs([IndShockExample.solution[0].cFunc,IndShockExample.solution_terminal.
 #
 # Suppose you were interested in changing (say) the amount of permanent income risk.  From the section above, you might think that you could simply change the attribute $\texttt{TranShkStd}$, solve the model again, and it would work.
 #
-# That's _almost_ true-- there's one extra step. $\texttt{TranShkStd}$ is a primitive input, but it's not the thing you _actually_ want to change. Changing $\texttt{TranShkStd}$ doesn't actually update the income distribution... unless you tell it to (just like changing an agent's preferences does not change the consumption function that was stored for the old set of parameters -- until you invoke the $\texttt{solve}$ method again).  In the cell below, we invoke the method $\texttt{updateIncomeProcess}$ so HARK knows to reconstruct the attribute $\texttt{IncomeDstn}$.
+# That's _almost_ true-- there's one extra step. $\texttt{TranShkStd}$ is a primitive input, but it's not the thing you _actually_ want to change. Changing $\texttt{TranShkStd}$ doesn't actually update the income distribution... unless you tell it to (just like changing an agent's preferences does not change the consumption function that was stored for the old set of parameters -- until you invoke the $\texttt{solve}$ method again).  In the cell below, we invoke the method $\texttt{update_income_process}$ so HARK knows to reconstruct the attribute $\texttt{IncomeDstn}$.
 
 # %%
 OtherExample = deepcopy(IndShockExample)  # Make a copy so we can compare consumption functions
 OtherExample.PermShkStd = [0.2]           # Double permanent income risk (note that it's a one element list)
-OtherExample.updateIncomeProcess()        # Call the method to reconstruct the representation of F_t
+OtherExample.update_income_process()        # Call the method to reconstruct the representation of F_t
 OtherExample.solve()
 
 # %% [markdown]
@@ -256,4 +256,4 @@ OtherExample.solve()
 # The tests can be invoked using the `checkConditions()` method:
 
 # %%
-IndShockExample.checkConditions(verbose=True)
+IndShockExample.check_conditions(verbose=True)
