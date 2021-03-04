@@ -2,13 +2,13 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_json: true
-#     formats: py,ipynb
+#     formats: py:percent,ipynb
 #     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.6.0
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,15 +22,16 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.5
 # ---
 
+# %% [markdown]
 # # Perfect Foresight CRRA Model - Approximation
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/perfforesightcrra-approximation#launch)
 #
 
-# + {"code_folding": []}
+# %% {"code_folding": []}
 # Initial notebook set up
 # %matplotlib inline
 import matplotlib.pyplot as plt
@@ -39,13 +40,13 @@ import numpy as np
 import HARK 
 from copy import deepcopy
 mystr = lambda number : "{:.4f}".format(number)
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # These last two will make our charts look nice
 plt.style.use('seaborn-darkgrid')
 palette = plt.get_cmap('Dark2')
-# -
 
+# %% [markdown]
 # [PerfectForesightCRRA](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/Consumption/PerfForesightCRRA) derives a number of results as approximations; for instance, the exact formula for the consumption function is derived as $$c_t = \left(\frac{R - (R\beta)^{1/\rho}}{R}\right)o_t$$
 # and approximated by $$c_t \approx (r-\rho^{-1}(r-\theta))o_t$$.
 #
@@ -63,7 +64,7 @@ palette = plt.get_cmap('Dark2')
 # 1. [MathFactsList](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/MathFacts/MathFactsList.pdf) describes the conditions under which the approximations will be good; you want to find conditions under which the approximations get bad
 # 2. An interesting question is the extent to which the size of approximation errors is related to the degree of impatience according to alternative metrics
 
-# +
+# %%
 # Set up a HARK Perfect Foresight Consumer called PFagent
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType, init_perfect_foresight # Import the consumer type
@@ -81,14 +82,14 @@ PermGroFac = Paramod['PermGroFac']          # Permanent income growth factor
 LivPrb     = Paramod['LivPrb']     = [1.0]  # Survival probability of 100 percent
 cycles     = Paramod['cycles']     = 0      # This says that it is an infinite horizon model
 
-# +
+# %%
 # Now let's pass our dictionary to our consumer class to create an instance 
 PFagent = PerfForesightConsumerType(**Paramod) # Any parameters we did not modify get their default values
 
 # Solve the agent's problem
 PFagent.solve()
 
-# +
+# %%
 # Plot the consumption function approximation versus the "true" consumption function
 
 # Set out some range of market resources that we want to plot consumption for
@@ -129,10 +130,11 @@ plt.plot(m_range, cApprox, 'k', label='c function approximated') # Add true cons
 plt.legend() # show the legend
 
 plt.show() # show the plot
-# -
 
+# %% [markdown]
 # The size of the error looks pretty stable, which we can show by calculating it in percentage terms
 
+# %%
 # Plot the deviations
 approximationError = 100*(cHARK - cApprox)/cHARK
 plt.figure(figsize=(9,6)) #set the figure size
@@ -142,6 +144,7 @@ plt.ylabel('Percent deviation of approximation') # y axis label
 plt.legend()
 plt.show()
 
+# %% [markdown]
 # Now we want to calculate how the approximation quality depends on the interest factor.  We proceed as follows:
 # 1. Create arrays of R values, such that the return patience factor is increasing as you descend through the array
 # 2. Set up a for loop in which we will:
@@ -151,7 +154,7 @@ plt.show()
 #     0. Save the average deviation between the two functions
 # 3. Then we can plot average deviation against the $R$ factor
 
-# +
+# %%
 # Create array of Rfree values, and calculate the patience factor
 howMany = 30
 Rfree_min = Rfree
@@ -161,12 +164,12 @@ Rfree_array = np.linspace(Rfree_min, Rfree_max, howMany)
 Pat_array  = (Rfree_array*DiscFac)**(1/CRRA)
 PatR_array = Pat_array/Rfree_array
 
-# +
+# %%
 # Set the time preference factor to match the interest factor so that $(R \beta) = 1$
 
 Paramod['DiscFac'] = 1/Rfree
 
-# +
+# %%
 # Plot average deviation from true consumption function
 PFagent = PerfForesightConsumerType(**Paramod) # construct a consumer with our previous parameters
 
@@ -191,6 +194,6 @@ plt.plot(Rfree_array,mean_dev)
 plt.xlabel('Return Factor') # x axis label
 plt.ylabel(' Average deviation along consumption function') # y axis label
 plt.show()
-# -
 
+# %% [markdown]
 # So, when the return factor gets to roughly 1.4, the error in the approximation is almost 80 percent.  It looks like the value for $R$ where the approximation almost exactly matches the truth is about 1.035.

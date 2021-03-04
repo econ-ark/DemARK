@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.8.5
 # ---
 
 # %% [markdown]
@@ -68,7 +68,7 @@ import numpy as np
 from copy import deepcopy
 
 import HARK # Prevents import error from Demos repo
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 
 Generator=False # Is this notebook the master or is it generated?
@@ -99,7 +99,7 @@ def in_ipynb():
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
 if in_ipynb():
-    # %matplotlib inline generates a syntax error when run from the shell
+    # # %matplotlib inline generates a syntax error when run from the shell
     # so do this instead
     get_ipython().run_line_magic('matplotlib', 'inline')
 else:
@@ -221,13 +221,13 @@ for nn in range(num_types):
 #
 # Now let's solve and simulate each of our types of agents.  If you look in the parameter dictionary (or at any of the agent objects themselves), you will see that each one has an $\texttt{AgentCount}$ attribute of 10000. That is, these seven ex ante heterogeneous types each represent ten thousand individual agents that will experience ex post heterogeneity when they draw different income (and mortality) shocks over time.
 #
-# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initializeSim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
+# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
 
 # %%
 # Progress bar keeps track interactively of how many have been made
 for ThisType in tqdm(MyTypes):
     ThisType.solve()
-    ThisType.initializeSim()
+    ThisType.initialize_sim()
     ThisType.simulate()
 
 # %% [markdown]
@@ -236,7 +236,7 @@ for ThisType in tqdm(MyTypes):
 # NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0. 
 
 # %%
-aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes])
+aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
 print('The ratio of aggregate capital to permanent income is ' + decfmt2(np.mean(aLvl_all)))
 
 # %% [markdown]
@@ -245,14 +245,14 @@ print('The ratio of aggregate capital to permanent income is ' + decfmt2(np.mean
 # %%
 # Plot Lorenz curves for model with uniform distribution of time preference
 from HARK.datasets import load_SCF_wealth_weights
-from HARK.utilities import getLorenzShares, getPercentiles
+from HARK.utilities import get_lorenz_shares, get_percentiles
 
 SCF_wealth, SCF_weights = load_SCF_wealth_weights()
 
 pctiles = np.linspace(0.001,0.999,200)
-sim_wealth = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes])
-SCF_Lorenz_points = getLorenzShares(SCF_wealth,weights=SCF_weights,percentiles=pctiles)
-sim_Lorenz_points = getLorenzShares(sim_wealth,percentiles=pctiles)
+sim_wealth = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
+SCF_Lorenz_points = get_lorenz_shares(SCF_wealth,weights=SCF_weights,percentiles=pctiles)
+sim_Lorenz_points = get_lorenz_shares(sim_wealth,percentiles=pctiles)
 plt.plot(pctiles,SCF_Lorenz_points,'--k')
 plt.plot(pctiles,sim_Lorenz_points,'-b')
 plt.xlabel('Percentile of net worth')
@@ -275,7 +275,7 @@ plt.show(block=False)
 # Retrieve the MPC's
 percentiles=np.linspace(0.1,0.9,9)
 MPC_sim = np.concatenate([ThisType.MPCnow for ThisType in MyTypes])
-MPCpercentiles_quarterly = getPercentiles(MPC_sim,percentiles=percentiles)
+MPCpercentiles_quarterly = get_percentiles(MPC_sim,percentiles=percentiles)
 MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
 
 print('The MPC at the 10th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[0])))
@@ -300,13 +300,13 @@ print('The MPC at the 90th percentile of the distribution is '+str(decfmt2(MPCpe
 NewTypes = deepcopy(MyTypes)
 NewTypes[0].DiscFac = 0.8
 NewTypes[0].solve()
-NewTypes[0].initializeSim()
+NewTypes[0].initialize_sim()
 NewTypes[0].simulate()
 
 # Retrieve the MPC's
 percentiles=np.linspace(0.1,0.9,9)
 MPC_sim = np.concatenate([ThisType.MPCnow for ThisType in NewTypes])
-MPCpercentiles_quarterly = getPercentiles(MPC_sim,percentiles=percentiles)
+MPCpercentiles_quarterly = get_percentiles(MPC_sim,percentiles=percentiles)
 MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
 
 print('The MPC at the 10th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[0])))

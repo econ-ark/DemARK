@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.5
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -71,7 +71,7 @@
 # Initial imports and notebook setup, click arrow to show
 
 import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl        # The consumption-saving micro model
-from HARK.utilities import plotFuncsDer, plotFuncs              # Some tools
+from HARK.utilities import plot_funcs_der, plot_funcs              # Some tools
 import pandas as pd 
 
 import numpy as np
@@ -233,13 +233,13 @@ LifeCyclePop = cShksModl.IndShockConsumerType(**init_consumer_objects)
 # %% {"code_folding": []}
 # Solve and simulate the model (ignore the "warning" message)
 LifeCyclePop.solve()                            # Obtain consumption rules by age 
-LifeCyclePop.unpackcFunc()                      # Expose the consumption rules
+LifeCyclePop.unpack_cFunc()                      # Expose the consumption rules
 
 # Which variables do we want to track
-LifeCyclePop.track_vars = ['aNrmNow','aLvlNow','pLvlNow','mNrmNow','cNrmNow','TranShkNow']
+LifeCyclePop.track_vars = ['aNrm','aLvl','pLvl','mNrm','cNrm','TranShk']
 
 LifeCyclePop.T_sim = 120                        # Nobody lives to be older than 145 years (=25+120)
-LifeCyclePop.initializeSim()                    # Construct the age-25 distribution of income and assets
+LifeCyclePop.initialize_sim()                    # Construct the age-25 distribution of income and assets
 LifeCyclePop.simulate()                         # Simulate a population behaving according to this model
 
 
@@ -248,7 +248,7 @@ LifeCyclePop.simulate()                         # Simulate a population behaving
 
 print('Consumption as a function of market resources while working:')
 mMin = min([LifeCyclePop.solution[t].mNrmMin for t in range(LifeCyclePop.T_cycle)])
-plotFuncs(LifeCyclePop.cFunc[:LifeCyclePop.T_retire],mMin,5)
+plot_funcs(LifeCyclePop.cFunc[:LifeCyclePop.T_retire],mMin,5)
 
 
 # %% {"code_folding": []}
@@ -279,7 +279,7 @@ def savRteFunc(SomeType, m, t):
 
 # %% {"code_folding": []}
 # Create a matrix gathering useful data:
-# 't_now', 'aNrmNow_hist', 'cNrmNow_hist', employment-status in date t and date t-1,
+# 't_now', 'aNrm_hist', 'cNrm_hist', employment-status in date t and date t-1,
 # aLvlGro_hist, Saving rate
 
 w, h = 1, LifeCyclePop.T_cycle
@@ -291,21 +291,21 @@ warnings.filterwarnings("ignore") # Suppress some disturbing but harmless warnin
 
 for t in range(1,LifeCyclePop.T_cycle+1):
     #aLvlGro[0] = 0 # set the first growth rate to 0, since there is no data for period 0
-    aLvlGroNow = np.log((LifeCyclePop.history['aNrmNow'][t]   *LifeCyclePop.history['pLvlNow'][t])/ \
-                         LifeCyclePop.history['aNrmNow'][t-1] *LifeCyclePop.history['pLvlNow'][t-1]) # (10000,)
+    aLvlGroNow = np.log((LifeCyclePop.history['aNrm'][t]   *LifeCyclePop.history['pLvl'][t])/ \
+                         LifeCyclePop.history['aNrm'][t-1] *LifeCyclePop.history['pLvl'][t-1]) # (10000,)
 
     # Call the saving rate function defined above 
-    savRte = savRteFunc(LifeCyclePop, LifeCyclePop.history['mNrmNow'][t] , t)
+    savRte = savRteFunc(LifeCyclePop, LifeCyclePop.history['mNrm'][t] , t)
       
     savRte_list.append(savRte) # Add this period's saving rate to the list 
 
     # Create elements of matrix list
     matrix_list = [0 for number in range(7)]
     matrix_list[0] = t
-    matrix_list[1] = LifeCyclePop.history['aNrmNow'][t]
-    matrix_list[2] = LifeCyclePop.history['cNrmNow'][t]
-    matrix_list[3] = LifeCyclePop.history['TranShkNow'][t]
-    matrix_list[4] = LifeCyclePop.history['TranShkNow'][t-1]
+    matrix_list[1] = LifeCyclePop.history['aNrm'][t]
+    matrix_list[2] = LifeCyclePop.history['cNrm'][t]
+    matrix_list[3] = LifeCyclePop.history['TranShk'][t]
+    matrix_list[4] = LifeCyclePop.history['TranShk'][t-1]
     matrix_list[5] = aLvlGroNow
     matrix_list[6] = savRte
     
@@ -314,8 +314,8 @@ for t in range(1,LifeCyclePop.T_cycle+1):
 # %% {"code_folding": []}
 # Construct the level of assets A from a*p where a is the ratio to permanent income p
 # Remember 41 is "years after entering workforce" (=age 25); 66 is the year right after retirement
-LifeCyclePop.history['aLvlNow'] = LifeCyclePop.history['aNrmNow']*LifeCyclePop.history['pLvlNow']
-aGro41=LifeCyclePop.history['aLvlNow'][41]/LifeCyclePop.history['aLvlNow'][40]
+LifeCyclePop.history['aLvl'] = LifeCyclePop.history['aNrm']*LifeCyclePop.history['pLvl']
+aGro41=LifeCyclePop.history['aLvl'][41]/LifeCyclePop.history['aLvl'][40]
 aGro41NoU=aGro41[aGro41[:]>0.2] # Throw out extreme outliers; don't want growth rates relative to 0 income!
 
 
@@ -347,21 +347,21 @@ n, bins, patches = plt.hist(aGro41NoU,50,density=True)
 #
 
 # %%
-cumulative_income_first_half = np.sum(LifeCyclePop.history['pLvlNow'][0:20,:]*LifeCyclePop.history['TranShkNow'][0:20,:],0)
-cumulative_income_second_half = np.sum(LifeCyclePop.history['pLvlNow'][20:40,:]*LifeCyclePop.history['TranShkNow'][20:40,:],0)
+cumulative_income_first_half = np.sum(LifeCyclePop.history['pLvl'][0:20,:]*LifeCyclePop.history['TranShk'][0:20,:],0)
+cumulative_income_second_half = np.sum(LifeCyclePop.history['pLvl'][20:40,:]*LifeCyclePop.history['TranShk'][20:40,:],0)
 lifetime_growth = cumulative_income_second_half/cumulative_income_first_half
 
 t=39
 vigntiles = pd.qcut(lifetime_growth,20,labels=False)
-savRte = savRteFunc(LifeCyclePop, LifeCyclePop.history['mNrmNow'][t] , t)
+savRte = savRteFunc(LifeCyclePop, LifeCyclePop.history['mNrm'][t] , t)
 savRtgueseByVigtile = np.zeros(20)
 assetsByVigtile = np.zeros(20)
 assetsNrmByVigtile = np.zeros(20)
 savRteByVigtile = np.zeros(20)
 for i in range(20):
     savRteByVigtile[i] = np.mean(savRte[vigntiles==i])
-    assetsByVigtile[i] = np.mean(LifeCyclePop.history['aLvlNow'][t][vigntiles==i])
-    assetsNrmByVigtile[i] = np.mean(LifeCyclePop.history['aNrmNow'][t][vigntiles==i])
+    assetsByVigtile[i] = np.mean(LifeCyclePop.history['aLvl'][t][vigntiles==i])
+    assetsNrmByVigtile[i] = np.mean(LifeCyclePop.history['aNrm'][t][vigntiles==i])
 plt.plot(np.array(range(20)), savRteByVigtile)
 plt.title("Saving Rate at age 65, by Vigntile of Lifetime Income Growth")
 plt.xlabel("Vigntile of Lifetime Income Growth")

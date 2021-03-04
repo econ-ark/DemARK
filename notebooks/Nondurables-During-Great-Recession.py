@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.5
+#     version: 3.8.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -55,13 +55,13 @@
 # ---
 
 # %% [markdown]
-# # Spending on Nondurables During the Great 
+# # Spending on Nondurables During the Great Recession
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/nondurables-during-great-recession#launch)
 #
 # <p style="text-align: center;"><small><small><small>Generator: QuARK-make/notebooks_byname</small></small></small></p>
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 
 import matplotlib.pyplot as plt
@@ -74,7 +74,7 @@ import numpy as np
 from copy import deepcopy
 
 import HARK # Prevents import error from Demos repo
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% [markdown]
 # ### There Was a Big Drop in Consumption ... 
@@ -96,13 +96,13 @@ from HARK.utilities import plotFuncs
 # The first step is to create the agents we want to solve the model for.
 #
 # Model set up:
-# - "Standard" infinite horizon consumption/savings model, with mortality and permanent and temporary shocks to income
+# - "Standard" infinite horizon consumption/saving model, with mortality and permanent and temporary shocks to income
 # - Ex-ante heterogeneity in consumers' discount factors
 #     
-# With this basic setup, HARK's IndShockConsumerType is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
+# With this basic setup, HARK's `IndShockConsumerType` is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
 #
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Choose some calibrated parameters that roughly match steady state 
 init_infinite = {
     "CRRA":1.0,                    # Coefficient of relative risk aversion 
@@ -195,7 +195,7 @@ for ConsumerType in tqdm(ConsumerTypes):
     
     # Now simulate many periods to get to the stationary distribution
     ConsumerType.T_sim = 2000
-    ConsumerType.initializeSim()
+    ConsumerType.initialize_sim()
     ConsumerType.simulate()
 
 # %% [markdown]
@@ -212,8 +212,8 @@ def calcAvgC(ConsumerTypes):
     """
     # Make arrays with all types' (normalized) consumption and permanent income level
     # The brackets indicate that the contents will be a list (in this case, of lists)
-    cNrm = np.concatenate([ThisType.controls["cNrmNow"] for ThisType in ConsumerTypes])
-    pLvl = np.concatenate([ThisType.state_now["pLvlNow"] for ThisType in ConsumerTypes])
+    cNrm = np.concatenate([ThisType.controls["cNrm"] for ThisType in ConsumerTypes])
+    pLvl = np.concatenate([ThisType.state_now["pLvl"] for ThisType in ConsumerTypes])
     
     # Calculate and return average consumption level in the economy
     avgC = np.mean(cNrm*pLvl) # c is the ratio to p, so C = c*p
@@ -268,14 +268,14 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
         ConsumerTypesNew = deepcopy(OriginalTypes)          
         for index,ConsumerTypeNew in enumerate(ConsumerTypesNew):
             setattr(ConsumerTypeNew,ParamToChange,ThisVal) # Step 2A   
-            ConsumerTypeNew.updateIncomeProcess()
+            ConsumerTypeNew.update_income_process()
             ConsumerTypeNew.solve(verbose=False) # Step 2B
             
-            ConsumerTypeNew.initializeSim() # Step 2C
-            ConsumerTypeNew.aNrmNow = OriginalTypes[index].state_now["aNrmNow"]
-            ConsumerTypeNew.pLvlNow = OriginalTypes[index].state_now["pLvlNow"]
+            ConsumerTypeNew.initialize_sim() # Step 2C
+            ConsumerTypeNew.aNrm = OriginalTypes[index].state_now["aNrm"]
+            ConsumerTypeNew.pLvl = OriginalTypes[index].state_now["pLvl"]
             
-            ConsumerTypeNew.simOnePeriod() # Step 2D
+            ConsumerTypeNew.sim_one_period() # Step 2D
 
         NewAvgC = calcAvgC(ConsumerTypesNew) # Step 2E
         ChangeInConsumption = 100. * (NewAvgC - OldAvgC) / OldAvgC # Step 2F
@@ -318,7 +318,7 @@ plt.title('Change in Cons. Following Increase in Perm. Income Uncertainty')
 plt.ylim(-20.,5.)
 plt.hlines(TargetChangeInC,perm_min,perm_max)
 # The expression below shows the power of python
-plotFuncs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
+plot_funcs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
 
 # %% [markdown]
 # The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.012, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  

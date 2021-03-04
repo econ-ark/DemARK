@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,7 +21,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.5
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -54,7 +54,7 @@ from copy  import deepcopy
 import numpy as np
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-from HARK.utilities import plotFuncsDer, plotFuncs
+from HARK.utilities import plot_funcs_der, plot_funcs
 mystr = lambda number : "{:.3f}".format(number)
 
 from ipywidgets import interact, interactive, fixed, interact_manual
@@ -602,6 +602,7 @@ def FisherPlot3(M1, R, Beta, CRRA, c1Max, c2Max):
         PFexample.solve()
     except:
         print('Those parameter values violate a condition required for solution!')
+        return
         
     # Create the figure
     c1Min = 0.

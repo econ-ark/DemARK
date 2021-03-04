@@ -9,8 +9,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -24,7 +24,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.9
+#     version: 3.8.5
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -75,7 +75,7 @@ import matplotlib.pyplot as plt
 # here for now, should be
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp
-from HARK.dcegm import calcSegments, calcMultilineEnvelope, calcPrimKink
+from HARK.dcegm import calc_segments, calc_multiline_envelope, calc_prim_kink
 
 # %% [markdown]
 # Applying EGM to value functions with kinks, as the ones that result from discrete-continuous problems, will often result in grids for market resources that are not monotonic and candidate choices at those points that are sub-optimal.
@@ -95,11 +95,11 @@ plt.ylabel("Value")
 # - Some segments of the line are under other segments of the line. This means that we have sub-optimal points.
 
 # %% [markdown]
-# A first step in filtering out sub-optimal points is to split the previous line in its non-decreasing segments. This is achieved by HARK's function `calcSegments`. 
+# A first step in filtering out sub-optimal points is to split the previous line in its non-decreasing segments. This is achieved by HARK's function `calc_segments`. 
 
 # %%
 # Compute non-decreasing segments
-rise, fall = calcSegments(m_egm, vt_egm)
+rise, fall = calc_segments(m_egm, vt_egm)
 
 # Plot them
 for j in range(len(fall)):
@@ -110,13 +110,13 @@ plt.ylabel("transformed values")
 plt.show()
 
 # %% [markdown]
-# The next step is to produce the upper-envelope of these segments: a line comprised of the points that are not under any other segment. This is done by HARK's `calcMultilineEnvelope`function. We now apply it and plot the result
+# The next step is to produce the upper-envelope of these segments: a line comprised of the points that are not under any other segment. This is done by HARK's `calc_multiline_envelope`function. We now apply it and plot the result
 
 # %%
 # The function defines the upper envelope over a new grid, which it
 # uses to interpolate each of the non-decreasing segments.
 m_common = np.linspace(0,1.0,100)
-m_upper, c_upper, v_upper = calcMultilineEnvelope(m_egm, c_egm, vt_egm, m_common)
+m_upper, c_upper, v_upper = calc_multiline_envelope(m_egm, c_egm, vt_egm, m_common)
 
 for j in range(len(fall)):
     idx = range(rise[j],fall[j]+1)
@@ -148,7 +148,7 @@ plt.show()
 # %%
 # Import tools for linear interpolation and finding optimal
 # discrete choices.
-from HARK.interpolation import calcLogSumChoiceProbs
+from HARK.interpolation import calc_log_sum_choice_probs
 
 # Import CRRA utility (and related) functions from HARK 
 from HARK.utilities import CRRAutility, CRRAutilityP, CRRAutilityP_inv
@@ -376,7 +376,7 @@ c2_cond_wi  = LinearInterp(np.insert(mGrid2_cond_wi,0,0), np.insert(cGrid2_cond_
 # The function also returns the unconditional value function
 # Use transformed values since -given sigma=0- magnitudes are unimportant. This
 # avoids NaNs at m \approx 0.
-vTGrid2, willChoice2 = calcLogSumChoiceProbs(np.stack((vT2_cond_wi(mGrid),
+vTGrid2, willChoice2 = calc_log_sum_choice_probs(np.stack((vT2_cond_wi(mGrid),
                                                      vT2_cond_no(mGrid))),
                                              sigma = 0)
 
@@ -392,7 +392,7 @@ cGrid2 = (willChoice2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=
 
 # Now find the primary kink point (the point at which the optimal discrete
 # decision changes)
-pKink, segments = calcPrimKink(mGrid, np.stack((vT2_cond_wi(mGrid),
+pKink, segments = calc_prim_kink(mGrid, np.stack((vT2_cond_wi(mGrid),
                                                 vT2_cond_no(mGrid))),
                                willChoice2)
 
@@ -506,10 +506,10 @@ plt.show()
 # Calculate envelope
 vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
-rise, fall = calcSegments(mGrid1, vTGrid1)
-mGrid1_up, cGrid1_up, vTGrid1_up, xings = calcMultilineEnvelope(mGrid1, cGrid1,
+rise, fall = calc_segments(mGrid1, vTGrid1)
+mGrid1_up, cGrid1_up, vTGrid1_up, xings = calc_multiline_envelope(mGrid1, cGrid1,
                                                                 vTGrid1, mGrid,
-                                                                findXings = True)
+                                                                find_crossings = True)
 # Create functions
 c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
 v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)

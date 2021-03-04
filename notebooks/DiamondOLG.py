@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,7 +21,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.5
 # ---
 
 # %% [markdown]
@@ -66,7 +66,7 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     PFagent = PerfForesightConsumerType(init_perfect_foresight)
     PFagent.cycles = 1 # let the agent live the cycle of periods just once
     PFagent.T_cycle = 2 # Number of periods in the cycle
-    PFagent.PermGroFac = [0.] # Income only in the first period
+    PFagent.assign_parameters(PermGroFac = [0.000001]) # Income only in the first period
     PFagent.LivPrb = [1.]
     
     PFagent.DiscFac = Beta
@@ -187,6 +187,8 @@ kMax_widget1 = widgets.FloatText(
     step=0.01,
     description='$kMax$',
     disabled=False)
+
+# %%
 
 # %%
 # Make the widget

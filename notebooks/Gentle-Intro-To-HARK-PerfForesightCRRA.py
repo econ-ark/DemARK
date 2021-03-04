@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.5
 # ---
 
 # %% [markdown]
@@ -51,7 +51,7 @@ import numpy as np
 import HARK 
 from copy import deepcopy
 mystr = lambda number : "{:.4f}".format(number)
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% [markdown]
 # ## Your First HARK Model: Perfect Foresight
@@ -145,7 +145,7 @@ PFexample.solution[0].cFunc
 
 # %%
 mPlotTop=10
-plotFuncs(PFexample.solution[0].cFunc,0.,mPlotTop)
+plot_funcs(PFexample.solution[0].cFunc,0.,mPlotTop)
 
 # %% [markdown]
 # The figure illustrates one of the surprising features of the perfect foresight model: A person with zero money should be spending at a rate more than double their income ($\texttt{cFunc}(0.) \approx 2.08$). What gives?
@@ -161,13 +161,13 @@ print("This agent's human wealth is " + str(humanWealth) + ' times his current i
 print("This agent's consumption function is defined down to m_t = " + str(mMinimum))
 
 # %% [markdown]
-# Yikes! Let's take a look at the bottom of the consumption function.  In the cell below, set the bounds of the $\texttt{plotFuncs}$ function to display down to the lowest defined value of the consumption function.
+# Yikes! Let's take a look at the bottom of the consumption function.  In the cell below, set the bounds of the $\texttt{plot_funcs}$ function to display down to the lowest defined value of the consumption function.
 
 # %%
 # YOUR FIRST HANDS-ON EXERCISE!
 # Fill in the value for "mPlotBottom" to plot the consumption function from the point where it is zero.
 mPlotBottom = 0. # You should replace 0. with the correct answer 
-plotFuncs(PFexample.solution[0].cFunc,mPlotBottom,mPlotTop)
+plot_funcs(PFexample.solution[0].cFunc,mPlotBottom,mPlotTop)
 
 # %% [markdown]
 # ## Changing Agent Parameters
@@ -184,10 +184,10 @@ NewExample = deepcopy(PFexample)
 NewExample.DiscFac = 0.90
 NewExample.solve()
 mPlotBottom = NewExample.solution[0].mNrmMin
-plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],mPlotBottom,mPlotTop)
+plot_funcs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],mPlotBottom,mPlotTop)
 
 # %% [markdown]
-# (Note that you can pass a list of functions to $\texttt{plotFuncs}$ as the first argument rather than just a single function. Lists are written inside of [square brackets].)
+# (Note that you can pass a list of functions to $\texttt{plot_funcs}$ as the first argument rather than just a single function. Lists are written inside of [square brackets].)
 #
 # Let's try to deal with the "problem" of massive human wealth by making another consumer who has essentially no future income.  We can almost eliminate human wealth by making the permanent income growth factor $\textit{very}$ small.
 #
@@ -200,7 +200,7 @@ plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],mPlotBottom
 # your lines here!
 
 # Compare the old and new consumption functions
-plotFuncs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],0.,10.)
+plot_funcs([PFexample.solution[0].cFunc,NewExample.solution[0].cFunc],0.,10.)
 
 # %% [markdown]
 # Now $\texttt{NewExample}$'s consumption function has the same slope (MPC) as $\texttt{PFexample}$, but it emanates from (almost) zero-- he has basically no future income to borrow against!

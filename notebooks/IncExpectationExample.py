@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.5
+#     version: 3.8.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -85,20 +85,20 @@ import numpy as np
 
 from HARK.ConsumptionSaving.ConsGenIncProcessModel import PersistentShockConsumerType
 from HARK.distribution import Uniform
-from HARK.utilities import getLorenzShares, calcSubpopAvg
+from HARK.utilities import get_lorenz_shares, calc_subpop_avg
 mystr = lambda number : "{:.4f}".format(number)
 
 # %% {"code_folding": []}
 # This cell makes a subclass of PersistentShockConsumerType including the MPC 
 class PersistentShockConsumerTypeX(PersistentShockConsumerType):
     def getControls(self):
-        cLvlNow = np.zeros(self.AgentCount) + np.nan
+        cLvl = np.zeros(self.AgentCount) + np.nan
         MPCnow = np.zeros(self.AgentCount) + np.nan
         for t in range(self.T_cycle):
             these = t == self.t_cycle
-            cLvlNow[these] = self.solution[t].cFunc(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
-            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvlNow"][these],self.state_now["pLvlNow"][these])
-        self.controls["cLvlNow"] = cLvlNow
+            cLvl[these] = self.solution[t].cFunc(self.state_now["mLvlNow"][these],self.state_now["pLvl"][these])
+            MPCnow[these]  =self.solution[t].cFunc.derivativeX(self.state_now["mLvlNow"][these],self.state_now["pLvl"][these])
+        self.controls["cLvl"] = cLvl
         self.MPCnow  = MPCnow
 
 # %% {"code_folding": []}
@@ -189,27 +189,27 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
               
         # Make the consumer type *believe* he will face a different level of persistence
         ThisType.PrstIncCorr = CorrPcvd
-        ThisType.updatepLvlNextFunc() # Now he *thinks* E[p_{t+1}] as a function of p_t is different than it is
+        ThisType.update_pLvlNextFunc() # Now he *thinks* E[p_{t+1}] as a function of p_t is different than it is
     
         # Solve the consumer's problem with *perceived* persistence 
         ThisType.solve()
     
         # Make the consumer type experience the true level of persistence during simulation
         ThisType.PrstIncCorr = CorrAct
-        ThisType.updatepLvlNextFunc()
+        ThisType.update_pLvlNextFunc()
     
         # Simulate the agents for many periods
         ThisType.T_sim = 100
-        #ThisType.track_vars = ['cLvlNow','aLvlNow','pLvlNow','MPCnow']
-        ThisType.initializeSim()
+        #ThisType.track_vars = ['cLvl','aLvl','pLvl','MPCnow']
+        ThisType.initialize_sim()
         ThisType.simulate()
         type_list.append(ThisType)
     
-    # Get the most recent simulated values of X = cLvlNow, MPCnow, aLvlNow, pLvlNow for all types   
-    cLvl_all = np.concatenate([ThisType.controls["cLvlNow"] for ThisType in type_list])
-    aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in type_list])
+    # Get the most recent simulated values of X = cLvl, MPCnow, aLvl, pLvl for all types   
+    cLvl_all = np.concatenate([ThisType.controls["cLvl"] for ThisType in type_list])
+    aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in type_list])
     MPC_all = np.concatenate([ThisType.MPCnow for ThisType in type_list])
-    pLvl_all = np.concatenate([ThisType.state_now["pLvlNow"] for ThisType in type_list])
+    pLvl_all = np.concatenate([ThisType.state_now["pLvl"] for ThisType in type_list])
     
     # The ratio of aggregate assets over the income
     AggWealthRatio = np.mean(aLvl_all) / np.mean(pLvl_all)
@@ -218,7 +218,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     wealth_percentile = np.linspace(0.001,0.999,201)
 
     # second 1D array: Compute Lorenz shares for the created points
-    Lorenz_init = getLorenzShares(aLvl_all, percentiles=wealth_percentile)
+    Lorenz_init = get_lorenz_shares(aLvl_all, percentiles=wealth_percentile)
 
     # Stick 0 and 1 at the boundaries of both arrays to make it inclusive on the range [0,1]
     Lorenz_init = np.concatenate([[0],Lorenz_init,[1]])
@@ -231,7 +231,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     Gini = 1.0 - 2.0*np.mean(Lorenz_init[1])
     
     # Compute the average MPC by income quintile in the latest simulated period
-    Avg_MPC = calcSubpopAvg(MPC_all, pLvl_all, cutoffs=[(0.0,0.2), (0.2,0.4),  (0.4,0.6), (0.6,0.8), (0.8,1.0)])
+    Avg_MPC = calc_subpop_avg(MPC_all, pLvl_all, cutoffs=[(0.0,0.2), (0.2,0.4),  (0.4,0.6), (0.6,0.8), (0.8,1.0)])
     
     return AggWealthRatio, Lorenz, Gini, Avg_MPC
 

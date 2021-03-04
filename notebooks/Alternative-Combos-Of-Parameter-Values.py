@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.8.5
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -91,7 +91,7 @@ import numpy as np
 from copy import deepcopy
 
 import HARK # Prevents import error from Demos repo
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 
 # %% {"code_folding": [0, 4]}
 # Import IndShockConsumerType
@@ -145,12 +145,12 @@ MyTypes = [IndShockConsumerType(verbose=0, **cstwMPC_calibrated_parameters)]
 #
 # But the fact that everyone has the same target ${m}$ does not mean that the _distribution_ of ${m}$ will be the same for all of these consumer types.
 #
-# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initializeSim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
+# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
 
 # %%
 for ThisType in tqdm(MyTypes):
     ThisType.solve()
-    ThisType.initializeSim()
+    ThisType.initialize_sim()
     ThisType.simulate()
 
 # %% [markdown]
@@ -158,7 +158,7 @@ for ThisType in tqdm(MyTypes):
 
 # %%
 # To help you out, we have given you the command needed to construct a list of the levels of assets for all consumers
-aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes])
+aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
 
 # You should take the mean of aLvl for each consumer in MyTypes, divide it by the mean across all simulations
 # and then plot the ratio of the values of mean(aLvl) for each group against the value of $\rho$ 
@@ -173,7 +173,7 @@ aLvl_all = np.concatenate([ThisType.state_now["aLvlNow"] for ThisType in MyTypes
 # Your next exercise is to show how the distribution of wealth differs for the different parameter  values 
 
 # %%
-from HARK.utilities import getLorenzShares, getPercentiles
+from HARK.utilities import get_lorenz_shares, get_percentiles
 
 # Finish filling in this function to calculate the Euclidean distance between the simulated and actual Lorenz curves.
 def calcLorenzDistance(SomeTypes):
@@ -185,7 +185,7 @@ def calcLorenzDistance(SomeTypes):
     ----------
     SomeTypes : [AgentType]
         List of AgentTypes that have been solved and simulated.  Current levels of individual assets should
-        be stored in the attribute aLvlNow.
+        be stored in the attribute aLvl.
         
     Returns
     -------
@@ -196,10 +196,10 @@ def calcLorenzDistance(SomeTypes):
     lorenz_SCF = np.array([-0.00183091,  0.0104425 ,  0.0552605 ,  0.1751907 ])
     
     # Extract asset holdings from all consumer types
-    aLvl_sim = np.concatenate([ThisType.aLvlNow for ThisType in MyTypes])
+    aLvl_sim = np.concatenate([ThisType.aLvl for ThisType in MyTypes])
     
     # Calculate simulated Lorenz curve points
-    lorenz_sim = getLorenzShares(aLvl_sim,percentiles=[0.2,0.4,0.6,0.8])
+    lorenz_sim = get_lorenz_shares(aLvl_sim,percentiles=[0.2,0.4,0.6,0.8])
     
     # Calculate the Euclidean distance between the simulated and actual Lorenz curves
     lorenz_distance = np.sqrt(np.sum((lorenz_SCF - lorenz_sim)**2))
@@ -224,7 +224,7 @@ def calcLorenzDistance(SomeTypes):
 # You will almost surely find it useful to use a for loop in this function.
 def describeMPCdstn(SomeTypes,percentiles):
     MPC_sim = np.concatenate([ThisType.MPCnow for ThisType in SomeTypes])
-    MPCpercentiles_quarterly = getPercentiles(MPC_sim,percentiles=percentiles)
+    MPCpercentiles_quarterly = get_percentiles(MPC_sim,percentiles=percentiles)
     MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
     
     for j in range(len(percentiles)):

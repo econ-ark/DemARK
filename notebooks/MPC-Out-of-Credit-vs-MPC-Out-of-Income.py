@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.10.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.4
+#     version: 3.8.5
 # ---
 
 # %% [markdown]
@@ -71,7 +71,6 @@ The next step is to change the values of parameters as we want.
 To see all the parameters used in the model, along with their default values, see $\texttt{ConsumerParameters.py}$
 
 Parameter values are stored as attributes of the $\texttt{ConsumerType}$ the values are used for. For example, the risk-free interest rate $\texttt{Rfree}$ is stored as $\texttt{BaselineExample.Rfree}$. Because we created $\texttt{BaselineExample}$ using the default parameters values at the moment $\texttt{BaselineExample.Rfree}$ is set to the default value of $\texttt{Rfree}$ (which, at the time this demo was written, was 1.03).  Therefore, to change the risk-free interest rate used in $\texttt{BaselineExample}$ to (say) 1.02, all we need to do is:
-
 """
 
 # %% {"code_folding": [0]}
@@ -179,7 +178,7 @@ def FirstDiffMPC_Credit(x):
 ## Now, plot the functions we want
 # %matplotlib inline
 # Import a useful plotting function from HARK.utilities
-from HARK.utilities import plotFuncs
+from HARK.utilities import plot_funcs
 import pylab as plt # We need this module to change the y-axis on the graphs
 
 
@@ -187,7 +186,7 @@ import pylab as plt # We need this module to change the y-axis on the graphs
 x_max = 10.
 
 
-# Note that plotFuncs takes four arguments: (1) a list of the arguments to plot,
+# Note that plot_funcs takes four arguments: (1) a list of the arguments to plot,
 # (2) the lower bound for the plots, (3) the upper bound for the plots, and (4) keywords to pass
 # to the legend for the plot.
 
@@ -196,7 +195,7 @@ x_max = 10.
 # by a tiny amount
 print('The XtraCredit consumption function allows the consumer to spend a tiny bit more') 
 print('The difference is so small that the baseline is obscured by the XtraCredit solution') 
-plotFuncs([BaselineExample.solution[0].cFunc,XtraCreditExample.solution[0].cFunc],
+plot_funcs([BaselineExample.solution[0].cFunc,XtraCreditExample.solution[0].cFunc],
            BaselineExample.solution[0].mNrmMin,x_max,
            legend_kwds = {'loc': 'upper left', 'labels': ["Baseline","XtraCredit"]})
 
@@ -204,6 +203,6 @@ plotFuncs([BaselineExample.solution[0].cFunc,XtraCreditExample.solution[0].cFunc
 # Plot the MPCs to compare them
 print('MPC out of Credit v MPC out of Income')
 plt.ylim([0.,1.2])
-plotFuncs([FirstDiffMPC_Credit,FirstDiffMPC_Income],
+plot_funcs([FirstDiffMPC_Credit,FirstDiffMPC_Income],
           BaselineExample.solution[0].mNrmMin,x_max,
           legend_kwds = {'labels': ["MPC out of Credit","MPC out of Income"]})
