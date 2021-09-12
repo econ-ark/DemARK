@@ -32,4 +32,4 @@ jobs:
     - name: Test with nbval
       run: |
         pip install pytest
-        pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb notebooks/ 
+        pytest --nbval-lax --nbval-cell-timeout=60000 notebooks/ 
