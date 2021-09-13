@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       format_version: '1.2'
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.7.9
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -274,7 +274,7 @@ result.summary()
 # $$a_1 = \frac{s^2_{p}}{(s^2_{v} + s^2_{p})}$$
 
 # %% [markdown]
-# #### Friedman's Permanent Income Hypothesis: HARK
+# #### Friedman's Permanent Income Hypothesis
 #
 # We begin by creating a class that class implements the Friedman PIH consumption function as a special case of the [Perfect Foresight CRRA](http://econ.jhu.edu/people/ccarroll/courses/choice/lecturenotes/consumption/PerfForesightCRRA) model.
 
@@ -328,7 +328,7 @@ plt.show()
 #
 # If we look at HH's who have very similar permanent incomes, we should get a small estimate of $a_1$, because $s^2_v$ is large relative to $s^2_p$.
 #
-# Lets simulate this using our HARK consumer.
+# Lets simulate this using our consumer.
 
 # %%
 # Permanent income has the same variance
@@ -385,7 +385,7 @@ print('a_1 is ' +  str(slope))
 # #### Friedman's Permanent Income Hypothesis: Evidence
 
 # %% [markdown]
-# We can now consider the empirical evidence for the claims our HARK model made about the PIH.
+# We can now consider the empirical evidence for the claims our model made about the PIH.
 #
 # If we take a long time series, then the differences in permanent income should be the main driver of the variance in total income. This implies that a_1 should be high.
 #
