@@ -7,9 +7,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.11.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -21,7 +21,23 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.8.8
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 # ---
 
 # %% [markdown]
@@ -63,7 +79,7 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     kBar = Q**(1/(1-Epsilon))
     
     # Create an agent that will solve the consumption problem
-    PFagent = PerfForesightConsumerType(init_perfect_foresight)
+    PFagent = PerfForesightConsumerType(**init_perfect_foresight)
     PFagent.cycles = 1 # let the agent live the cycle of periods just once
     PFagent.T_cycle = 2 # Number of periods in the cycle
     PFagent.assign_parameters(PermGroFac = [0.000001]) # Income only in the first period
