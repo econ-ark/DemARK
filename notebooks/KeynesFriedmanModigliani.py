@@ -8,8 +8,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       format_version: '1.2'
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.7.9
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -158,8 +158,8 @@ plt.show()
 # We can even find a_0 and a_1
 a_0 = KeynesianExample.a0
 a_1 = KeynesianExample.a1
-print('a_0 is ' + str(a_0))
-print('a_1 is ' +  str(a_1))
+print('a_0 is {:.2f}'.format(a_0))
+print('a_1 is {:.2f}'.format(a_1))
 
 # %% [markdown]
 # #### The Keynesian consumption function: Evidence
@@ -188,8 +188,8 @@ plt.ylabel('Consumption (c)')
 plt.legend()
 plt.show()
 
-print('a_0 is ' + str(intercept))
-print('a_1 is ' +  str(slope))
+print('a_0 is {:.2f}'.format(intercept))
+print('a_1 is {:.2f}'.format(slope))
 # %%
 # However, our consumption data is [non-stationary](https://www.reed.edu/economics/parker/312/tschapters/S13_Ch_4.pdf) and this drives the previous
 # estimate.
@@ -213,7 +213,7 @@ plt.ylabel('Change in consumption (dc)')
 plt.legend()
 plt.show()
 
-print('a_1 is ' +  str(slope))
+print('a_1 is {:.2f}'.format(slope))
 
 # %% [markdown]
 # a_1 is now much lower, as we expected
@@ -274,7 +274,7 @@ result.summary()
 # $$a_1 = \frac{s^2_{p}}{(s^2_{v} + s^2_{p})}$$
 
 # %% [markdown]
-# #### Friedman's Permanent Income Hypothesis: HARK
+# #### Friedman's Permanent Income Hypothesis
 #
 # We begin by creating a class that class implements the Friedman PIH consumption function as a special case of the [Perfect Foresight CRRA](http://econ.jhu.edu/people/ccarroll/courses/choice/lecturenotes/consumption/PerfForesightCRRA) model.
 
@@ -328,7 +328,7 @@ plt.show()
 #
 # If we look at HH's who have very similar permanent incomes, we should get a small estimate of $a_1$, because $s^2_v$ is large relative to $s^2_p$.
 #
-# Lets simulate this using our HARK consumer.
+# Lets simulate this using our consumer.
 
 # %%
 # Permanent income has the same variance
@@ -352,8 +352,8 @@ plt.ylim(0, 2)
 plt.xlim(1.1, 1.9)
 plt.show()
 
-print('a_0 is ' + str(intercept))
-print('a_1 is ' +  str(slope))
+print('a_0 is {:.2f}'.format(intercept))
+print('a_1 is {:.2f}'.format(slope))
 
 # %%
 # Permanent income with higher variance
@@ -375,8 +375,8 @@ plt.legend()
 plt.ylim(0, 2)
 plt.show()
 
-print('a_0 is ' + str(intercept))
-print('a_1 is ' +  str(slope))
+print('a_0 is {:.2f}'.format(intercept))
+print('a_1 is {:.2f}'.format(slope))
 
 # %% [markdown]
 # We can see that as we increase the variance of permanent income, the estimate of a_1 rises
@@ -385,7 +385,7 @@ print('a_1 is ' +  str(slope))
 # #### Friedman's Permanent Income Hypothesis: Evidence
 
 # %% [markdown]
-# We can now consider the empirical evidence for the claims our HARK model made about the PIH.
+# We can now consider the empirical evidence for the claims our model made about the PIH.
 #
 # If we take a long time series, then the differences in permanent income should be the main driver of the variance in total income. This implies that a_1 should be high.
 #
@@ -408,7 +408,7 @@ plt.ylabel('Change in consumption (dc)')
 plt.legend()
 plt.show()
 
-print('a_1 is ' +  str(slope))
+print('a_1 is {:.2f}'.format(slope))
 
 # %% [markdown]
 # And now consider longer time differences, 20 quarters for instance, where the changes in permanent income should dominate transitory effects
@@ -428,8 +428,8 @@ plt.xlabel('Change in income (dy)')
 plt.ylabel('Change in consumption (dc)')
 plt.show()
 
-print('a_0 is ' + str(intercept))
-print('a_1 is ' +  str(slope))
+print('a_0 is {:.2f}'.format(intercept))
+print('a_1 is {:.2f}'.format(slope))
 
 # %% [markdown]
 # The estimate of $a_1$ using the longer differences is much higher because permanent income is playing a much more important role in explaining the variation in consumption.
