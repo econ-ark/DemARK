@@ -8,10 +8,10 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       format_version: '1.3'
+#       jupytext_version: 1.11.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.9
+#     version: 3.8.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -277,6 +277,17 @@ result.summary()
 # #### Friedman's Permanent Income Hypothesis
 #
 # We begin by creating a class that class implements the Friedman PIH consumption function as a special case of the [Perfect Foresight CRRA](http://econ.jhu.edu/people/ccarroll/courses/choice/lecturenotes/consumption/PerfForesightCRRA) model.
+#
+# As discussed in the lecture notes, it is often convenient to represent this type of models in variables that are normalized by permanent income. That is the case for the [HARK](https://github.com/econ-ark/HARK/) tools that we use below in the definition of our consumer. Therefore, the consumption function will expect
+# \begin{equation*}
+# y_{i,t} = \frac{Y_{i,t}}{P_{i,t}}
+# \end{equation*}
+# and compute
+# \begin{equation*}
+# c_t = \frac{C_{i,t}}{P_{i,t}}.
+# \end{equation*}
+#
+# Therefore, to find consumption at a total level of income $Y$, we will use $\texttt{P} \times \texttt{cFunc(Y/P)}$.
 
 # %% {"code_folding": []}
 class FriedmanPIHConsumer:
@@ -304,6 +315,9 @@ class FriedmanPIHConsumer:
         
         self.cFunc = PFaux.solution[0].cFunc
 
+
+# %% [markdown]
+# Now, think of a consumer that has a permanent income of 1. What will be his consumption at different levels of total observed income?
 
 # %%
 # We can now create a PIH consumer
@@ -339,7 +353,7 @@ trans_inc = np.random.normal(0.5, 0.1, 50)
 
 total_inc = perm_inc + trans_inc
 
-slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc)*perm_inc)
+slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc/perm_inc)*perm_inc)
 
 plt.figure(figsize=(9,6))
 plt.plot(total_inc, PIHexample.cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
@@ -363,7 +377,7 @@ trans_inc = np.random.normal(0.5, 0.1, 50)
 
 total_inc = perm_inc + trans_inc
 
-slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc)*perm_inc)
+slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc/perm_inc)*perm_inc)
 
 plt.figure(figsize=(9,6))
 plt.plot(total_inc, PIHexample.cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
