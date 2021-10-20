@@ -10,7 +10,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.11.2
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -26,16 +26,14 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.8.8
 # ---
 
 # %% [markdown]
 # # The Tractable Buffer Stock Model
 #
-# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/tractablebufferstock-interactive#launch)
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/tractablebufferstock-interactive?launch)
 #
-#
-# <p style="text-align: center;"><small><small><small>Generator: BufferStockTheory-make/notebooks_byname</small></small></small></p>
 
 # %% [markdown]
 # The [TractableBufferStock](http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/TractableBufferStock/) model is a (relatively) simple framework that captures all of the qualitative, and many of the quantitative features of optimal consumption in the presence of labor income uncertainty.  
@@ -282,9 +280,3 @@ interact(makeTBSplot,
          plot_ret = plot_ret_widget,
          plot_mSS = plot_mSS_widget,
         );
-
-
-
-
-
-# %%
