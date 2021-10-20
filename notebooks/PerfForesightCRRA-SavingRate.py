@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -21,7 +21,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.8.8
 # ---
 
 # %% [markdown]
@@ -44,15 +44,8 @@ from HARK.utilities import plot_funcs
 plt.style.use('seaborn-darkgrid')
 palette = plt.get_cmap('Dark2')
 
-# %% [markdown]
-# ## Question 2
-# Make some plots that illustrate the points made in sections 4.1 and 4.2 of [PerfForesightCRRA](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/Consumption/PerfForesightCRRA.pdf) about the size of the human wealth effect and the relationship between interest rates and the saving rate.
-
-# %% [markdown]
-# Firstly, we want to show that for plausible parameter values, the human wealth effect of a fall in interest rate outweighs the income and substition effects, so consumption rises strongly.
-
 # %%
-# Set up a HARK Perfect Foresight Consumer called PFwealth
+# Set up a HARK Perfect Foresight Consumer called PFsavrate
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType # Import the consumer type
 
@@ -80,7 +73,9 @@ dict_wealth = { 'CRRA': CRRA,
                 }
 
 # Now lets pass our dictionary to our consumer class
-PFwealth = PerfForesightConsumerType(**dict_wealth)
+PFsavrate = PerfForesightConsumerType(**dict_wealth)
 
 # %% [markdown]
-# We can see that consumption is higher for all market resources when R is low, owing to the human wealth effect. And that the saving rate is very sensitive to changes in R (look at when m=1, the savings rate goes from -0.1 to- 0.5 when R moves from 1.06 to 1.03.
+# # Now We can plot the saving rate as a function of market resoures
+
+# %%
