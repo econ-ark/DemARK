@@ -7,9 +7,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.4
+#       jupytext_version: 1.11.2
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
 #   language_info:
@@ -48,7 +48,7 @@
 # %% [markdown]
 # ### Convergence of OLG Economy to Steady State
 
-# %%
+# %% tags=[]
 # Some initial setup
 
 from matplotlib import pyplot as plt
@@ -60,10 +60,11 @@ from copy  import deepcopy
 from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 
-from HARK.ConsumptionSaving.ConsIndShockModel import *
+from HARK.ConsumptionSaving.ConsIndShockModel import (
+    PerfForesightConsumerType, init_perfect_foresight)
 
 
-# %%
+# %% tags=[]
 # Define a function that plots something given some inputs
 def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     '''Inputs:
@@ -92,59 +93,9 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     PFagent.CRRA = 1.001
     
     PFagent.solve()
-    
-    # Plot the OLG capital accumulation curve and 45 deg line
-    plt.figure(figsize=(9,6))
-    kt_range = np.linspace(0, kMax, 1000)
-    
-    # Analitical solution plot
-    ktp1 = Q*kt_range**Epsilon
-    plt.plot(kt_range, ktp1, 'b-', label='Capital accumulation curve')
-    plt.plot(kt_range, kt_range, 'k-', label='45 Degree line')
-    
-    # Plot the path
-    kt_ar = Initialk
-    ktp1_ar = 0.
-    for i in range(3):
-        
-        # Compute Next Period's capital using HARK
-        wage = (1-Epsilon)*kt_ar**Epsilon
-        c = PFagent.solution[0].cFunc(wage)
-        a = wage - c
-        k1 = a/xi
-        
-        plt.arrow(kt_ar, ktp1_ar, 0., k1-ktp1_ar,
-                  length_includes_head=True,
-                  lw=0.01,
-                  width=0.0005,
-                  color='black',
-                  edgecolor=None)
-        plt.arrow(kt_ar, k1, k1-kt_ar , 0.,
-                  length_includes_head=True,
-                  lw=0.01,
-                  width=0.0005,
-                  color='black',
-                  edgecolor=None)
-        
-        # Update arrow
-        kt_ar = k1
-        ktp1_ar = kt_ar
-    
-    # Plot kbar and initial k
-    plt.plot(kBar, kBar, 'ro', label='kBar')
-    plt.plot(Initialk, 0.0005, 'co', label = 'Initialk')
-    
-    plt.legend()
-    plt.xlim(0 ,kMax)
-    plt.ylim(0, kMax)
-    plt.xlabel('$k_t$')
-    plt.ylabel('$k_{t+1}$')
-    plt.show()
-
-    return None
 
 
-# %%
+# %% tags=[]
 # Define some widgets to control the plot
 
 # Define a slider for Epsilon
@@ -204,9 +155,7 @@ kMax_widget1 = widgets.FloatText(
     description='$kMax$',
     disabled=False)
 
-# %%
-
-# %%
+# %% tags=[]
 # Make the widget
 interact(plot1,
          Epsilon = Epsilon_widget1,
@@ -253,6 +202,55 @@ def plot2(Epsilon, PopGrowth, YearsPerGeneration, kMax):
     plt.ylim(0, kMax*Xi)
     plt.xlabel('$k_t$')
     
+    plt.show()
+
+    return None
+    # Plot the OLG capital accumulation curve and 45 deg line
+    plt.figure(figsize=(9,6))
+    kt_range = np.linspace(0, kMax, 1000)
+    
+    # Analitical solution plot
+    ktp1 = Q*kt_range**Epsilon
+    plt.plot(kt_range, ktp1, 'b-', label='Capital accumulation curve')
+    plt.plot(kt_range, kt_range, 'k-', label='45 Degree line')
+    
+    # Plot the path
+    kt_ar = Initialk
+    ktp1_ar = 0.
+    for i in range(3):
+        
+        # Compute Next Period's capital using HARK
+        wage = (1-Epsilon)*kt_ar**Epsilon
+        c = PFagent.solution[0].cFunc(wage)
+        a = wage - c
+        k1 = a/xi
+        
+        plt.arrow(kt_ar, ktp1_ar, 0., k1-ktp1_ar,
+                  length_includes_head=True,
+                  lw=0.01,
+                  width=0.0005,
+                  color='black',
+                  edgecolor=None)
+        plt.arrow(kt_ar, k1, k1-kt_ar , 0.,
+                  length_includes_head=True,
+                  lw=0.01,
+                  width=0.0005,
+                  color='black',
+                  edgecolor=None)
+        
+        # Update arrow
+        kt_ar = k1
+        ktp1_ar = kt_ar
+    
+    # Plot kbar and initial k
+    plt.plot(kBar, kBar, 'ro', label='kBar')
+    plt.plot(Initialk, 0.0005, 'co', label = 'Initialk')
+    
+    plt.legend()
+    plt.xlim(0 ,kMax)
+    plt.ylim(0, kMax)
+    plt.xlabel('$k_t$')
+    plt.ylabel('$k_{t+1}$')
     plt.show()
 
     return None
@@ -307,3 +305,5 @@ interact(plot2,
          Initialk = Initialk_widget1,
          kMax = kMax_widget2,
         );
+
+# %%
