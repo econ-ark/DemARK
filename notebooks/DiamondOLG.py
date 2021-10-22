@@ -57,11 +57,13 @@ plt.style.use('seaborn-darkgrid')
 palette = plt.get_cmap('Dark2')
 from copy  import deepcopy
 
-from ipywidgets import interact, interactive, fixed, interact_manual
+from ipywidgets import interact, interactive, fixed, interact_manual, Layout
 import ipywidgets as widgets
 
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     PerfForesightConsumerType, init_perfect_foresight)
+
+years_per_gen = 30
 
 
 # %% tags=[]
@@ -158,7 +160,8 @@ Epsilon_widget1 = widgets.FloatSlider(
     value=0.33,
     continuous_update=False,
     readout_format='.3f',
-    description='$\epsilon$')
+    description=r'Capital Share $\epsilon$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for the discount factor
 DiscFac_widget1 = widgets.FloatSlider(
@@ -168,7 +171,8 @@ DiscFac_widget1 = widgets.FloatSlider(
     value=0.96,
     continuous_update=False,
     readout_format='.3f',
-    description='$Disc. Fac$')
+    description=r'Discount Factor $\beta$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for pop. growth
 PopGrowth_widget1 = widgets.FloatSlider(
@@ -178,17 +182,8 @@ PopGrowth_widget1 = widgets.FloatSlider(
     value=1.01,
     continuous_update=False,
     readout_format='.3f',
-    description='$Pop. growth$')
-
-# Define a slider for years per generation
-YearsPerGeneration_widget1 = widgets.FloatSlider(
-    min=20.,
-    max=50,
-    step=1,
-    value=30,
-    continuous_update=False,
-    readout_format='.0f',
-    description='$YrsPerGen$')
+    description=r'Pop. Growth $\Xi$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for initial k
 Initialk_widget1 = widgets.FloatSlider(
@@ -198,7 +193,8 @@ Initialk_widget1 = widgets.FloatSlider(
     value=.05,
     continuous_update=True,
     readout_format='.3f',
-    description='$Initial k$')
+    description='Init. capital ratio',
+    style = {'description_width': 'initial'})
 
 # %% tags=[]
 # Make the widget
@@ -206,7 +202,7 @@ interact(plot1,
          Epsilon = Epsilon_widget1,
          DiscFac = DiscFac_widget1,
          PopGrowth = PopGrowth_widget1,
-         YearsPerGeneration = YearsPerGeneration_widget1,
+         YearsPerGeneration = fixed(years_per_gen),
          Initialk = Initialk_widget1);
 
 
@@ -263,7 +259,8 @@ Epsilon_widget2 = widgets.FloatSlider(
     value=0.33,
     continuous_update=False,
     readout_format='.3f',
-    description='$\epsilon$')
+    description=r'Capital Share $\epsilon$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for pop. growth
 PopGrowth_widget2 = widgets.FloatSlider(
@@ -273,25 +270,13 @@ PopGrowth_widget2 = widgets.FloatSlider(
     value=1.01,
     continuous_update=False,
     readout_format='.3f',
-    description='$Pop. growth$')
-
-# Define a slider for years per generation
-YearsPerGeneration_widget2 = widgets.FloatSlider(
-    min=20.,
-    max=50,
-    step=1,
-    value=30,
-    continuous_update=False,
-    readout_format='.0f',
-    description='$YrsPerGen$')
+    description=r'Pop. Growth $\Xi$',
+    style = {'description_width': 'initial'})
 
 # %%
 # Make the widget
 interact(plot2,
          Epsilon = Epsilon_widget2,
          PopGrowth = PopGrowth_widget2,
-         YearsPerGeneration = YearsPerGeneration_widget2,
-         Initialk = Initialk_widget1,
+         YearsPerGeneration = fixed(years_per_gen)
         );
-
-# %%
