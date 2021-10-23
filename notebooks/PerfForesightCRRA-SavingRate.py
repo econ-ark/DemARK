@@ -132,7 +132,7 @@ m_t = a_tm1 * Rfree/Γ + 1
 c_t = PFsavrate.solution[0].cFunc(m_t)
 
 # and finally the saving rate
-σ_t = sav_rate_t = (cap_income_t + lab_income_t - c_t) / (cap_income_t + lab_income_t)
+ς_t = sav_rate_t = (cap_income_t + lab_income_t - c_t) / (cap_income_t + lab_income_t)
 
 # And now the plot
 plt.plot(a_tm1, sav_rate_t)
