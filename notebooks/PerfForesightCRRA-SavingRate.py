@@ -67,7 +67,8 @@ DiscFac = 0.97           # Intertemporal discount factor
 LivPrb = [1.0]           # Survival probability
 PermGroFac = [1.01]      # Permanent income growth factor
 AgentCount = 1           # Number of agents of this type (only matters for simulation# Number of periods in the cycle for this agent type
-T_cycle = 0              # Agent is infinitely lived
+cycles = 0               # Agent is infinitely lived
+T_cycle = 1              # Every period is the same
 
 # Make a dictionary to specify a perfect foresight consumer type
 dict_wealth = { 'CRRA': CRRA,
@@ -76,7 +77,8 @@ dict_wealth = { 'CRRA': CRRA,
                 'LivPrb': LivPrb,
                 'PermGroFac': PermGroFac,
                 'AgentCount': AgentCount,
-                'T_cycle' : T_cycle
+                'cycles' : cycles,
+                'T_cycle' : T_cycle,
                 }
 
 # Now lets pass our dictionary to our consumer class
