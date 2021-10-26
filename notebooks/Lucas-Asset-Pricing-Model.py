@@ -221,7 +221,7 @@ class LucasEconomy:
 
 
 # %% [markdown]
-# # Creating and solving an example economy
+# # Creating and solving an example economy with AR1 dividends
 #
 # An economy is fully specified by:
 # - **The dividend process for the assets (trees)**: we assume that $\ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}$. We must create a dividend process specifying $\alpha$ and $\sigma_{\varepsilon}$.
