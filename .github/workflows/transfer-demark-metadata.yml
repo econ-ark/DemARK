@@ -1,8 +1,8 @@
 name: Copy metadata
 on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 7 * * *'
+  push:
+    branches:
+      - master
 jobs:
   copy:
     runs-on: ubuntu-latest
