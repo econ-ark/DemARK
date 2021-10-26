@@ -6,8 +6,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       format_version: '1.2'
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -94,7 +94,7 @@
 # %% [markdown]
 # # A computational representation of the problem and its solution.
 
-# %% Preamble code_folding=[0]
+# %% Preamble {"code_folding": [0]}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -104,7 +104,7 @@ from HARK.utilities import CRRAutilityP
 from HARK.distribution import Normal
 from HARK.interpolation import LinearInterp, ConstantFunction
 
-# %% Definitions code_folding=[0]
+# %% Definitions {"code_folding": [0]}
 # A class representing log-AR1 dividend processes.
 class DivProcess:
     
@@ -228,7 +228,7 @@ class LucasEconomy:
 # - **The coefficient of relative risk aversion (CRRA).**
 # - **The time-discount factor ($\beta$).**
 
-# %% Example code_folding=[0]
+# %% Example {"code_folding": [0]}
 # Create a log-AR1 process for dividends
 DivProc = DivProcess(alpha = 0.90, shock_sd = 0.1)
 
@@ -239,7 +239,7 @@ economy = LucasEconomy(CRRA = 2, DiscFac = 0.95, DivProcess = DivProc)
 # %% [markdown]
 # Once created, the economy can be 'solved', which means finding the equilibrium price kernel. The distribution of dividends at period $t+1$ depends on the value of dividends at $t$, which also determines the resources agents have available to buy trees. Thus, $d_t$ is a state variable for the economy. The pricing function gives the price of trees that equates their demand and supply at every level of current dividends $d_t$.
 
-# %% Solution code_folding=[0]
+# %% Solution {"code_folding": [0]}
 # Solve the economy
 economy.solve(disp = True)
 
@@ -253,20 +253,20 @@ print('P({}) = {}'.format(d, economy.EqPfun(d)))
 #
 # [The notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/) discuss the surprising implication that an increase in the coefficient of relative risk aversion $\rho$ leads to higher prices for the risky trees! This is demonstrated below.
 
-# %% code_folding=[0]
+# %% {"code_folding": [0]}
 # Create two economies with different risk aversion
 Disc = 0.95
-LowCrraEcon  = LucasEconomy(CRRA = 2, DiscFac = Disc, DivProcess = DivProc)
-HighCrraEcon = LucasEconomy(CRRA = 4, DiscFac = Disc, DivProcess = DivProc)
+LowCRRAEcon  = LucasEconomy(CRRA = 2, DiscFac = Disc, DivProcess = DivProc)
+HighCRRAEcon = LucasEconomy(CRRA = 4, DiscFac = Disc, DivProcess = DivProc)
 
 # Solve both
-LowCrraEcon.solve()
-HighCrraEcon.solve()
+LowCRRAEcon.solve()
+HighCRRAEcon.solve()
 
 # Plot the pricing functions for both
 dGrid = np.linspace(0.5,2.5,30)
-plt.plot(dGrid, LowCrraEcon.EqPfun(dGrid), label = 'Low CRRA')
-plt.plot(dGrid, HighCrraEcon.EqPfun(dGrid), label = 'High CRRA')
+plt.plot(dGrid, LowCRRAEcon.EqPfun(dGrid), label = 'Low CRRA')
+plt.plot(dGrid, HighCRRAEcon.EqPfun(dGrid), label = 'High CRRA')
 plt.legend()
 plt.xlabel('$d_t$')
 plt.ylabel('$P_t$')
@@ -281,7 +281,7 @@ plt.ylabel('$P_t$')
 #
 # We now compare our numerical solution with this analytical expression.
 
-# %% code_folding=[0]
+# %% {"code_folding": [0]}
 # Create an economy with log utility and the same dividend process from before
 logUtilEcon = LucasEconomy(CRRA = 1, DiscFac = Disc, DivProcess = DivProc)
 # Solve it
@@ -311,7 +311,7 @@ plt.ylabel('$P^*(d_t)$')
 #  
 #  We now our numerical solution for this case.
 
-# %% code_folding=[0]
+# %% {"code_folding": [0]}
 # Create an i.i.d. dividend process
 shock_sd = 0.1
 iidDivs = DivProcess(alpha = 0.0, shock_mean = -shock_sd**2/2, shock_sd = shock_sd)
@@ -344,7 +344,7 @@ plt.ylabel('$P^*(d_t)$')
 #
 # A parameter for the numerical solution is the number of different values that we allow our discrete approximation $\tilde{\varepsilon}$ to take, $n^{\#}$. We would expect a higher $n^#$ to improve our solution, as the discrete approximation of $\varepsilon_t$ improves. We test this below.
 
-# %% code_folding=[0]
+# %% {"code_folding": [0]}
 # Increase CRRA to make the effect of uncertainty more evident.
 CRRA = 10
 Disc = 0.9
