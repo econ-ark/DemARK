@@ -28,7 +28,7 @@
 #
 # A presentation of this model can be found in [Christopher D. Carroll's lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/). 
 #
-# Those notes [derive](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) from the Bellman equation a relationship between the price of the asset in the current period $t$ and the next period $t+1$:  
+# Those notes [use the Bellman equation to derive](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) a relationship between the price of the asset in the current period $t$ and the next period $t+1$:  
 #
 # \begin{equation*}
 # P_{t} = 
