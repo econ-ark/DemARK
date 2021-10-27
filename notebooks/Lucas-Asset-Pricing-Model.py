@@ -104,7 +104,7 @@ import matplotlib.pyplot as plt
 from copy import copy
 
 from HARK.utilities import CRRAutilityP
-from HARK.distribution import Normal
+from HARK.distribution import Normal, calc_expectation
 from HARK.interpolation import LinearInterp, ConstantFunction
 
 # %% Definitions {"code_folding": [0]}
@@ -145,37 +145,31 @@ class LucasEconomy:
         
     def priceOnePeriod(self, Pfunc_next, logDGrid):
         
-        # Create 'tiled arrays' rows are state today, columns are value of
-        # tomorrow's shock
-        dGrid_N = len(logDGrid)
-        shock_N = self.DivProcess.nApprox
+        # Create a function that, given current dividends
+        # and the value of next period's shock, returns
+        # the discounted value derived from the asset next period.
+        def discounted_value(shock, log_d_now):
+            
+            # Find dividends
+            d_now = np.exp(log_d_now)    
+            log_d_next = self.DivProcess.α * log_d_now + shock
+            d_next = np.exp(log_d_next)
+            
+            # Payoff and sdf
+            payoff_next = Pfunc_next(log_d_next) + d_next
+            SDF = self.DiscFac * self.uP(d_next / d_now)
+            
+            return SDF * payoff_next
         
-        # Today's dividends
-        logD_now = np.tile(np.reshape(logDGrid, (dGrid_N,1)),
-                           (1,shock_N))
-        d_now = np.exp(logD_now)
-        
-        # Tomorrow's dividends
-        Shk_next = np.tile(self.DivProcess.ShkAppDstn.X,
-                               (dGrid_N, 1))
-        Shk_next_pmf = np.tile(self.DivProcess.ShkAppDstn.pmf,
-                               (dGrid_N, 1))
-        
-        logD_next = self.DivProcess.α * logD_now + Shk_next
-        d_next = np.exp(logD_next)
-        
-        # Tomorrow's prices
-        P_next = Pfunc_next(logD_next)
-        
-        # Compute the RHS of the pricing equation, pre-expectation
-        SDF = self.DiscFac * self.uP(d_next / d_now)
-        Payoff_next = P_next + d_next
-        
-        # Take expectation and discount
-        P_now = np.sum(SDF*Payoff_next*Shk_next_pmf, axis = 1, keepdims=True)
+        # The price at a given d_t is the expectation of the discounted value.
+        # Compute it at every d in our grid. The expectation is taken over next
+        # period's shocks
+        prices_now = calc_expectation(self.DivProcess.ShkAppDstn,
+                                      discounted_value,
+                                      logDGrid)
         
         # Create new interpolating price function
-        Pfunc_now = LinearInterp(logDGrid, P_now.flatten(), lower_extrap=True)
+        Pfunc_now = LinearInterp(logDGrid, prices_now, lower_extrap=True)
         
         return(Pfunc_now)
         
@@ -268,6 +262,7 @@ HighCRRAEcon.solve()
 
 # Plot the pricing functions for both
 dGrid = np.linspace(0.5,2.5,30)
+plt.figure()
 plt.plot(dGrid, LowCRRAEcon.EqPfun(dGrid), label = 'Low CRRA')
 plt.plot(dGrid, HighCRRAEcon.EqPfun(dGrid), label = 'High CRRA')
 plt.legend()
@@ -298,6 +293,7 @@ aSol = lambda d: d/theta
 dGrid = np.exp(DivProc.getLogdGrid())
 
 # Plot both
+plt.figure()
 plt.plot(dGrid, aSol(dGrid), '*',label = 'Analytical solution')
 plt.plot(dGrid, logUtilEcon.EqPfun(dGrid), label = 'Numerical solution')
 plt.legend()
@@ -334,6 +330,7 @@ aSolIID = lambda d: d**CRRA * dTil * Disc/(1 - Disc)
 dGrid = np.exp(iidDivs.getLogdGrid())
 
 # Plot both
+plt.figure()
 plt.plot(dGrid, aSolIID(dGrid), '*',label = 'Analytical solution')
 plt.plot(dGrid, iidEcon.EqPfun(dGrid), label = 'Numerical solution')
 plt.legend()
