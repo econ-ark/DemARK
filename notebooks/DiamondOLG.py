@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.4
+#       jupytext_version: 1.13.0
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -48,7 +48,7 @@
 # %% [markdown]
 # ### Convergence of OLG Economy to Steady State
 
-# %%
+# %% tags=[]
 # Some initial setup
 
 from matplotlib import pyplot as plt
@@ -57,21 +57,26 @@ plt.style.use('seaborn-darkgrid')
 palette = plt.get_cmap('Dark2')
 from copy  import deepcopy
 
-from ipywidgets import interact, interactive, fixed, interact_manual
+from ipywidgets import interact, interactive, fixed, interact_manual, Layout
 import ipywidgets as widgets
 
-from HARK.ConsumptionSaving.ConsIndShockModel import *
+from HARK.ConsumptionSaving.ConsIndShockModel import (
+    PerfForesightConsumerType, init_perfect_foresight)
+
+years_per_gen = 30
 
 
-# %%
+# %% tags=[]
 # Define a function that plots something given some inputs
-def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
+def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, Initialk):
     '''Inputs:
         Epsilon: Elasticity of output with respect to capital/labour ratio
         DiscFac: One period discount factor
         YearPerGeneration: No. of years per generation
         PopGrowth: Gross growth rate of population in one period'''
     
+    #
+    kMax = 0.1
     # Define some parameters
     Beta = DiscFac**YearsPerGeneration
     xi = PopGrowth**YearsPerGeneration
@@ -95,7 +100,7 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     
     # Plot the OLG capital accumulation curve and 45 deg line
     plt.figure(figsize=(9,6))
-    kt_range = np.linspace(0, kMax, 1000)
+    kt_range = np.linspace(0, kMax, 300)
     
     # Analitical solution plot
     ktp1 = Q*kt_range**Epsilon
@@ -131,8 +136,8 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
         ktp1_ar = kt_ar
     
     # Plot kbar and initial k
-    plt.plot(kBar, kBar, 'ro', label='kBar')
-    plt.plot(Initialk, 0.0005, 'co', label = 'Initialk')
+    plt.plot(kBar, kBar, 'ro', label=r'$\bar{k}$')
+    plt.plot(Initialk, 0.0005, 'co', label = '$k_0$')
     
     plt.legend()
     plt.xlim(0 ,kMax)
@@ -144,28 +149,30 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, kMax, Initialk):
     return None
 
 
-# %%
+# %% tags=[]
 # Define some widgets to control the plot
 
 # Define a slider for Epsilon
 Epsilon_widget1 = widgets.FloatSlider(
-    min=0.1,
-    max=.6,
-    step=0.001,
+    min=0.2,
+    max=0.4,
+    step=0.01,
     value=0.33,
-    continuous_update=True,
+    continuous_update=False,
     readout_format='.3f',
-    description='$\epsilon$')
+    description=r'Capital Share $\epsilon$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for the discount factor
 DiscFac_widget1 = widgets.FloatSlider(
-    min=.9,
-    max=1.,
-    step=0.0001,
+    min=.94,
+    max=0.99,
+    step=0.001,
     value=0.96,
-    continuous_update=True,
+    continuous_update=False,
     readout_format='.3f',
-    description='$Disc. Fac$')
+    description=r'Discount Factor $\beta$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for pop. growth
 PopGrowth_widget1 = widgets.FloatSlider(
@@ -173,49 +180,30 @@ PopGrowth_widget1 = widgets.FloatSlider(
     max=1.05,
     step=0.001,
     value=1.01,
-    continuous_update=True,
+    continuous_update=False,
     readout_format='.3f',
-    description='$Pop. growth$')
-
-# Define a slider for years per generation
-YearsPerGeneration_widget1 = widgets.FloatSlider(
-    min=20.,
-    max=50,
-    step=1,
-    value=30,
-    continuous_update=True,
-    readout_format='.0f',
-    description='$YrsPerGen$')
+    description=r'Pop. Growth $\Xi$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for initial k
 Initialk_widget1 = widgets.FloatSlider(
-    min=0.0000001,
-    max=0.07,
-    step=0.0001,
-    value=.01,
+    min=0.01,
+    max=0.1,
+    step=0.01,
+    value=.05,
     continuous_update=True,
     readout_format='.3f',
-    description='$Initial k$')
+    description='Init. capital ratio',
+    style = {'description_width': 'initial'})
 
-# Define a textbox for k max
-kMax_widget1 = widgets.FloatText(
-    value=0.07,
-    step=0.01,
-    description='$kMax$',
-    disabled=False)
-
-# %%
-
-# %%
+# %% tags=[]
 # Make the widget
 interact(plot1,
          Epsilon = Epsilon_widget1,
          DiscFac = DiscFac_widget1,
          PopGrowth = PopGrowth_widget1,
-         YearsPerGeneration = YearsPerGeneration_widget1,
-         Initialk = Initialk_widget1,
-         kMax = kMax_widget1,
-        );
+         YearsPerGeneration = fixed(years_per_gen),
+         Initialk = Initialk_widget1);
 
 
 # %% [markdown]
@@ -223,12 +211,14 @@ interact(plot1,
 
 # %%
 # Define a function that plots something given some inputs
-def plot2(Epsilon, PopGrowth, YearsPerGeneration, kMax):
+def plot2(Epsilon, PopGrowth, YearsPerGeneration):
     '''Inputs:
         Epsilon: Elasticity of output with respect to capital/labour ratio
         DiscFac: One period discount factor
         YearPerGeneration: No. of years per generation
         PopGrowth: Gross growth rate of population in one period'''
+    
+    kMax = 5.5
     
     # Define some parameters
     xi = PopGrowth**YearsPerGeneration
@@ -236,21 +226,21 @@ def plot2(Epsilon, PopGrowth, YearsPerGeneration, kMax):
     kBarForcZero = Xi**(1/(Epsilon-1))
     
     # Plot the production function and depreciation/dilution curves
-    kt_range = np.linspace(0, kBarForcZero, 100)
+    kt_range = np.linspace(0, kMax, 500)
     plt.figure(figsize=(18, 6))
     plt.subplot(1,2,1)
     plt.plot(kt_range, kt_range**Epsilon, 'b-', label = '$f(k)$')
     plt.plot(kt_range, Xi*kt_range, 'k-', label = '$Xi * k$')
     plt.legend()
     plt.xlim(0, kMax)
-    plt.ylim(0, kMax*Xi)
+    plt.ylim(0, kMax)
     plt.xlabel('$k_t$')
     
     plt.subplot(1,2,2)
     plt.plot(kt_range, kt_range**Epsilon - Xi*kt_range, 'k-', label ='$f(k) - Xi * k$')
     plt.legend()
     plt.xlim(0, kMax)
-    plt.ylim(0, kMax*Xi)
+    plt.ylim(0, kMax*0.2)
     plt.xlabel('$k_t$')
     
     plt.show()
@@ -263,47 +253,30 @@ def plot2(Epsilon, PopGrowth, YearsPerGeneration, kMax):
 
 # Define a slider for Epsilon
 Epsilon_widget2 = widgets.FloatSlider(
-    min=0.1,
-    max=.6,
-    step=0.001,
+    min=0.2,
+    max=0.4,
+    step=0.01,
     value=0.33,
-    continuous_update=True,
+    continuous_update=False,
     readout_format='.3f',
-    description='$\epsilon$')
+    description=r'Capital Share $\epsilon$',
+    style = {'description_width': 'initial'})
 
 # Define a slider for pop. growth
 PopGrowth_widget2 = widgets.FloatSlider(
-    min=1.0001,
+    min=0.98,
     max=1.05,
     step=0.001,
     value=1.01,
-    continuous_update=True,
+    continuous_update=False,
     readout_format='.3f',
-    description='$Pop. growth$')
-
-# Define a slider for years per generation
-YearsPerGeneration_widget2 = widgets.FloatSlider(
-    min=20.,
-    max=50,
-    step=1,
-    value=30,
-    continuous_update=True,
-    readout_format='.0f',
-    description='$YrsPerGen$')
-
-# Define a textbox for k max
-kMax_widget2 = widgets.FloatText(
-    value=6,
-    step=0.1,
-    description='$kMax$',
-    disabled=False)
+    description=r'Pop. Growth $\Xi$',
+    style = {'description_width': 'initial'})
 
 # %%
 # Make the widget
 interact(plot2,
          Epsilon = Epsilon_widget2,
          PopGrowth = PopGrowth_widget2,
-         YearsPerGeneration = YearsPerGeneration_widget2,
-         Initialk = Initialk_widget1,
-         kMax = kMax_widget2,
+         YearsPerGeneration = fixed(years_per_gen)
         );

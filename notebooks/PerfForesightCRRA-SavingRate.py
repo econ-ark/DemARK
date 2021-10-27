@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
@@ -6,10 +7,10 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       format_version: '1.2'
+#       jupytext_version: 1.2.3
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
 #   language_info:
@@ -21,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.7.9
 # ---
 
 # %% [markdown]
@@ -61,13 +62,14 @@ from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType #
 # Now we need to "fill" our consumer with parameters that allow us to solve the consumer's problem
 
 # First we need to set out a dictionary
-CRRA = 2.                # Coefficient of relative risk aversion
+ρ = CRRA = 2.            # Coefficient of relative risk aversion
 Rfree = 1.03             # Interest factor on assets
-DiscFac = 0.97           # Intertemporal discount factor
+β = DiscFac = 0.97       # Intertemporal discount factor
 LivPrb = [1.0]           # Survival probability
-PermGroFac = [1.01]      # Permanent income growth factor
+Γ = PermGroFac = [1.01]  # Permanent income growth factor
 AgentCount = 1           # Number of agents of this type (only matters for simulation# Number of periods in the cycle for this agent type
-T_cycle = 0              # Agent is infinitely lived
+cycles = 0               # Agent is infinitely lived
+T_cycle = 1              # Every period is the same
 
 # Make a dictionary to specify a perfect foresight consumer type
 dict_wealth = { 'CRRA': CRRA,
@@ -76,7 +78,8 @@ dict_wealth = { 'CRRA': CRRA,
                 'LivPrb': LivPrb,
                 'PermGroFac': PermGroFac,
                 'AgentCount': AgentCount,
-                'T_cycle' : T_cycle
+                'cycles' : cycles,
+                'T_cycle' : T_cycle,
                 }
 
 # Now lets pass our dictionary to our consumer class
@@ -121,17 +124,17 @@ print("When normalized market resources are m={}, the agent's normalized consump
 a_tm1 = np.linspace(-1,4)
 
 # Compute income components at every a
-cap_income_t = a_tm1*(Rfree-1)/PermGroFac
+cap_income_t = a_tm1*(Rfree-1)/Γ
 lab_income_t = 1
 
 # and market resources
-m_t = a_tm1 * Rfree/PermGroFac + 1
+m_t = a_tm1 * Rfree/Γ + 1
 
 # Consumption
 c_t = PFsavrate.solution[0].cFunc(m_t)
 
 # and finally the saving rate
-sav_rate_t = (cap_income_t + lab_income_t - c_t) / (cap_income_t + lab_income_t)
+ς_t = sav_rate_t = (cap_income_t + lab_income_t - c_t) / (cap_income_t + lab_income_t)
 
 # And now the plot
 plt.plot(a_tm1, sav_rate_t)

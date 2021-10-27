@@ -6,8 +6,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -36,7 +36,7 @@
 # ^{\beta}\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P_{t+1} + d_{t+1}) \right]
 # \end{equation*}
 #
-# The equilibrium pricing equation is a relationship between prices and dividend (a "pricing kernel") $P^{*}(d)$ such that, if everyone _believes_ that to be the pricing kernel, everyone's Euler equation will be satisfied:
+# The equilibrium pricing equation is a relationship between the price and the dividend (a "pricing kernel") $P^{*}(d)$ such that, if everyone _believes_ that to be the pricing kernel, everyone's Euler equation will be satisfied:
 #
 # \begin{equation*}
 # P^*(d_t) = \left(\frac{1}{1+\vartheta}\right)\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right]
@@ -61,14 +61,14 @@
 # We define our particular operator as follows. For any function $g:\mathbb{R}\rightarrow\mathbb{R}$, $T[g]$ is obtained as
 #
 # \begin{equation*}
-# \forall d_t \in \mathbb{R},\,\,\,\, T[g](d_t) := \beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right].
+# \forall~d_t \in \mathbb{R},\,\,\,\, T[g](d_t) := \beta~\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right].
 # \end{equation*}
 #
 #
-# We can use $T$ to re-express our pricing equation. If $P^*(\cdot)$ is our equilibrium pricing funtion, it must satisfy
+# We can use $T$ to re-express our pricing equation. If $P^*(\bullet)$ is our equilibrium pricing funtion, it must satisfy
 #
 # \begin{equation*}
-# \forall d_t,\,\,\,\,P^*(d_t) = \beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right] = T[P^*](d_t).
+# \forall~d_t,\,\,\,\,P^*(d_t) = \beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right] = T[P^*](d_t).
 # \end{equation*}
 # or, expressed differently,
 # \begin{equation*}
@@ -87,14 +87,17 @@
 #
 # The code below creates a representation of our model and implements a solution routine to find $P^*$. The main components of this routine are:
 #
-# - `priceOnePeriod`: this is operator $T$ from above. It takes a function $f$, computes $\beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right]$ for a grid of $d_t$ values, and uses the result to construct a linear interpolator that approximates $T[f]$.
+# - `priceOnePeriod`: this is operator $T$ from above. It takes a function $f$, computes $\beta~\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right]$ for a grid of $d_t$ values, and uses the result to construct a linear interpolator that approximates $T[f]$.
 #
 # - `solve`: this is our iterative solution procedure. It generates an initial guess $f$ and applies `priceOnePeriod` to it iteratively. At each application, it constructs a measure of how much the candidate pricing function changed. Once changes between successive iterations are small enough, it declares that the solution has converged.
 
 # %% [markdown]
 # # A computational representation of the problem and its solution.
 
-# %% Preamble {"code_folding": [0]}
+# %% [markdown]
+# `Uninteresting setup:`
+
+# %% Preamble code_folding=[0] tags=[] jupyter={"source_hidden": true}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -104,8 +107,8 @@ from HARK.utilities import CRRAutilityP
 from HARK.distribution import Normal
 from HARK.interpolation import LinearInterp, ConstantFunction
 
-# %% Definitions {"code_folding": [0]}
-# A class representing log-AR1 dividend processes.
+# %% Definitions code_folding=[0]
+# A python class representing log-AR1 dividend processes.
 class DivProcess:
     
     def __init__(self, alpha, shock_sd, shock_mean = 0.0, nApprox = 7):
