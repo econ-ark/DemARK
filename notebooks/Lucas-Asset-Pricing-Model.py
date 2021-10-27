@@ -6,8 +6,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       format_version: '1.2'
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -97,7 +97,7 @@
 # %% [markdown]
 # `Uninteresting setup:`
 
-# %% Preamble code_folding=[0] tags=[] jupyter={"source_hidden": true}
+# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}, "tags": []}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -107,7 +107,7 @@ from HARK.utilities import CRRAutilityP
 from HARK.distribution import Normal
 from HARK.interpolation import LinearInterp, ConstantFunction
 
-# %% Definitions code_folding=[0]
+# %% Definitions {"code_folding": [0]}
 # A python class representing log-AR1 dividend processes.
 class DivProcess:
     
