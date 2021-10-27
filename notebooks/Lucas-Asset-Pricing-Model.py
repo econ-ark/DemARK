@@ -23,7 +23,7 @@
 # This notebook presents simple computational tools to solve Lucas' asset-pricing model when the logarithm of the asset's dividend follows an autoregressive process of order 1,
 #
 # \begin{equation*}
-# \ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}.
+# \ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(\mu, \sigma).
 # \end{equation*}
 #
 # A presentation of this model can be found in [Christopher D. Carroll's lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/). 
@@ -111,22 +111,22 @@ from HARK.interpolation import LinearInterp, ConstantFunction
 # A python class representing log-AR1 dividend processes.
 class DivProcess:
     
-    def __init__(self, alpha, shock_sd, shock_mean = 0.0, nApprox = 7):
+    def __init__(self, α, σ, μ = 0.0, nApprox = 7):
         
-        self.alpha = alpha
-        self.shock_sd = shock_sd
-        self.shock_mean = shock_mean
+        self.α = α
+        self.σ = σ
+        self.μ = μ
         self.nApprox = nApprox
         
         # Create a discrete approximation to the random shock
-        self.ShkAppDstn = Normal(mu = shock_mean, sigma = shock_sd).approx(N = nApprox)
+        self.ShkAppDstn = Normal(mu = μ, sigma = σ).approx(N = nApprox)
         
     def getLogdGrid(self, n = 100):
         '''
         A method for creating a reasonable grid for log-dividends.
         '''
-        uncond_sd = self.shock_sd / np.sqrt(1 - self.alpha**2)
-        uncond_mean = self.shock_mean/(1-self.alpha)
+        uncond_sd = self.σ / np.sqrt(1 - self.α**2)
+        uncond_mean = self.μ/(1-self.α)
         logDGrid = np.linspace(-5*uncond_sd, 5*uncond_sd, n) + uncond_mean
         return(logDGrid)
         
@@ -161,7 +161,7 @@ class LucasEconomy:
         Shk_next_pmf = np.tile(self.DivProcess.ShkAppDstn.pmf,
                                (dGrid_N, 1))
         
-        logD_next = self.DivProcess.alpha * logD_now + Shk_next
+        logD_next = self.DivProcess.α * logD_now + Shk_next
         d_next = np.exp(logD_next)
         
         # Tomorrow's prices
@@ -233,7 +233,7 @@ class LucasEconomy:
 
 # %% Example {"code_folding": [0]}
 # Create a log-AR1 process for dividends
-DivProc = DivProcess(alpha = 0.90, shock_sd = 0.1)
+DivProc = DivProcess(α = 0.90, σ = 0.1)
 
 # Create an example economy
 economy = LucasEconomy(CRRA = 2, DiscFac = 0.95, DivProcess = DivProc)
@@ -316,8 +316,8 @@ plt.ylabel('$P^*(d_t)$')
 
 # %% {"code_folding": [0]}
 # Create an i.i.d. dividend process
-shock_sd = 0.1
-iidDivs = DivProcess(alpha = 0.0, shock_mean = -shock_sd**2/2, shock_sd = shock_sd)
+σ = 0.1
+iidDivs = DivProcess(α = 0.0, μ = -σ**2/2, σ = σ)
 
 # And an economy that embeds it
 CRRA = 2
@@ -327,7 +327,7 @@ iidEcon = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = iidDivs)
 iidEcon.solve()
 
 # Generate a function with our analytical solution
-dTil = np.exp((shock_sd**2)/2*CRRA*(CRRA-1))
+dTil = np.exp((σ**2)/2*CRRA*(CRRA-1))
 aSolIID = lambda d: d**CRRA * dTil * Disc/(1 - Disc)
 
 # Get a grid for d over which to compare them
@@ -351,17 +351,17 @@ plt.ylabel('$P^*(d_t)$')
 # Increase CRRA to make the effect of uncertainty more evident.
 CRRA = 10
 Disc = 0.9
-shock_sd = 0.1
+σ = 0.1
 ns = [1,2,10]
 
 # 
-dTil = np.exp((shock_sd**2)/2*CRRA*(CRRA-1))
+dTil = np.exp((σ**2)/2*CRRA*(CRRA-1))
 fact = dTil*Disc
 aSolIID = lambda d: d**CRRA * dTil * Disc/(1 - Disc)
 
 plt.figure()
 for n in ns:
-    iidDivs = DivProcess(alpha = 0.0, shock_mean = -shock_sd**2/2, shock_sd = shock_sd, nApprox = n)
+    iidDivs = DivProcess(α = 0.0, μ = -σ**2/2, σ = σ, nApprox = n)
     iidEcon = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = iidDivs)
     iidEcon.solve()
     plt.plot(dGrid, iidEcon.EqPfun(dGrid), label = 'Num.Sol. $n^\#$ = {}'.format(n))
