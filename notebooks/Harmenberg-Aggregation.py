@@ -41,7 +41,7 @@ from matplotlib import pyplot as plt
 burnin = 2000
 sample_every = 50
 n_sample = 100
-max_agents = 1000
+max_agents = 10000
 
 sample_periods = np.arange(start=burnin,
                            stop = burnin+sample_every*n_sample,
@@ -62,7 +62,8 @@ def sumstats(sims, sample_periods):
     means = avgs.mean(axis = 1)
     stds = avgs.std(axis = 1)
     
-    return {'means':  means, 'stds': stds}
+    # Also return the full last sample
+    return {'means':  means, 'stds': stds, 'dist_last': sims[-1,]}
 
 
 # %% Create and simulate agent
@@ -135,3 +136,10 @@ plt.show()
 
 # %% [markdown]
 # # Comparison of the PIN-measure and the base measure
+
+# %%
+mdists = pd.DataFrame({'Base': M_base['dist_last'],
+                       'PIN': M_pin['dist_last']})
+
+mdists.plot.kde()
+plt.xlim([0,10])
