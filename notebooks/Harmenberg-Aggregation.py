@@ -6,9 +6,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       jupytext_version: 1.13.1
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
@@ -25,6 +25,8 @@ from HARK.ConsumptionSaving.tests.test_IndShockConsumerType import (
 )
 
 import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
 
 # %% [markdown]
 # # Description of the problem
@@ -35,52 +37,101 @@ import numpy as np
 # %% [markdown]
 # # Demonstration of HARK's implementation and the gain in efficiency
 
-# %%
+# %% Experiment setup
+burnin = 2000
+sample_every = 50
+n_sample = 100
+max_agents = 1000
+
+sample_periods = np.arange(start=burnin,
+                           stop = burnin+sample_every*n_sample,
+                           step = sample_every, dtype = int)
+
+# %% Define function to get our stats of interest
+def sumstats(sims, sample_periods):
+    
+    # Sims' columns are different agents and rows are different times.
+    # Subset the times at which we'll sample and transpose.
+    samples = pd.DataFrame(sims[sample_periods,].T)
+    
+    # Get rolling averages
+    avgs = samples.expanding(1).mean()
+    
+    # Now get the mean and standard deviations across samples with every
+    # number of agents
+    means = avgs.mean(axis = 1)
+    stds = avgs.std(axis = 1)
+    
+    return {'means':  means, 'stds': stds}
+
+
+# %% Create and simulate agent
+# Simulations
+dict_harmenberg.update(
+    {'T_sim': max(sample_periods)+1, 'AgentCount': max_agents,
+     'track_vars': [ 'mNrm','cNrm','pLvl']}
+)
 
 example = IndShockConsumerType(**dict_harmenberg, verbose = 0)
 example.cycles = 0
-example.track_vars = [ 'aNrm', 'mNrm','cNrm','pLvl','aLvl']
-example.T_sim= 20000
 
 example.solve()
 
-example.neutral_measure = True
-example.update_income_process()
-
+# Base simulation
 example.initialize_sim()
 example.simulate()
 
+M_base = sumstats(example.history['mNrm'] * example.history['pLvl'],
+                  sample_periods)
 
+C_base = sumstats(example.history['cNrm'] * example.history['pLvl'],
+                  sample_periods)
 
+# Harmenberg PIN simulation
+example.neutral_measure = True
+example.update_income_process()
+example.initialize_sim()
+example.simulate()
 
-Asset_list = []
-Consumption_list = []
-M_list =[]
+M_pin = sumstats(example.history['mNrm'], sample_periods)
+C_pin = sumstats(example.history['cNrm'], sample_periods)
 
+# %% Plots
+# Plots
 
-for i in range (example.T_sim):
-    Assetagg =  np.mean(example.history['aNrm'][i])
-    Asset_list.append(Assetagg)
-    ConsAgg =  np.mean(example.history['cNrm'][i] )
-    Consumption_list.append(ConsAgg)
-    Magg = np.mean(example.history['mNrm'][i])
-    M_list.append(Magg)
+nagents = np.arange(1,max_agents+1,1)
 
-#########################################################
+# Market resources
+fig, axs = plt.subplots(2)
+axs[0].plot(nagents, M_base['stds'], label = 'Base')
+axs[0].plot(nagents, M_pin['stds'], label = 'Perm. Inc. Neutral')
+axs[0].set_yscale('log')
+axs[0].set_xscale('log')
+axs[0].grid()
+axs[0].legend()
 
-burnin = 100
-sample_every = 50
-n_agents = [10,100,1000]
+axs[1].plot(nagents, M_base['means'], label = 'Base')
+axs[1].plot(nagents, M_pin['means'], label = 'Perm. Inc. Neutral')
+axs[1].set_xscale('log')
+axs[1].set_xlabel('Number of Agents')
+axs[1].grid()
+plt.show()
 
-example2 = IndShockConsumerType(**dict_harmenberg, verbose = 0)
-example2.cycles = 0
-example2.track_vars = [ 'aNrm', 'mNrm','cNrm','pLvl','aLvl']
-example2.T_sim= 20000
+# Consumption
+fig, axs = plt.subplots(2)
+axs[0].plot(nagents, C_base['stds'], label = 'Base')
+axs[0].plot(nagents, C_pin['stds'], label = 'Perm. Inc. Neutral')
+axs[0].set_yscale('log')
+axs[0].set_xscale('log')
+axs[0].grid()
+axs[0].legend()
 
-
-example2.solve()
-example2.initialize_sim()
-example2.simulate()
+axs[1].plot(nagents, C_base['means'], label = 'Base')
+axs[1].plot(nagents, C_pin['means'], label = 'Perm. Inc. Neutral')
+axs[1].set_xscale('log')
+axs[1].set_xlabel('Number of Agents')
+axs[1].grid()
+plt.show()
 
 # %% [markdown]
 # # Comparison of the PIN-measure and the base measure
