@@ -51,10 +51,34 @@ from matplotlib import pyplot as plt
 # \begin{equation*}
 # \begin{split}
 # \bar{\textbf{C}}_t =& \int \int C(\text{State},\textbf{P}) \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P}\\
-# =& \int \int c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P}
+# =& \int \int c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P},
 # \end{split}
 # \end{equation*}
 #
+# which depends on $P$.
+#
+# To further complicate matters, we usually do not have analytical expressions for $c(\cdot)$ or $f_t(\text{State},\textbf{P})$. What we do in practice is to simulate a population $I$ of agents for a large number of periods $T$ using the model's policy functions and transition equations. The result is a set of observations $\{\text{State}_{i,t},\textbf{P}_{i,t}\}_{i\in I, 0\leq t\leq T}$ which we then use to approximate
+#
+# \begin{equation*}
+# \bar{\textbf{C}}_t \approx \frac{1}{|I|}\sum_{i \in I} c\left(\frac{1}{\textbf{P}_{i,t}}\times \text{State}_{i,t}\right)\times \textbf{P}_{i,t}. 
+# \end{equation*}
+#
+# At least two features of the previous strategy are unpleasant:
+# - We have to simulate the distribution of permanent income, even though the model's solution does not depend on it.
+# - As a geometric random walk, permanent income might have an unbounded distribution with a thick right tail. Since $\textbf{P}_{i,t}$ appears multiplicatively in our approximation, agents with high permanent incomes will be the most important to our results. Therefore, it is important for our simulated population to achieve a good approximation of the distribution of permanent income in its thick right tail, which will require us to use many agents.
+#
+# [CITE HARMENBERG 2021] presents a way to resolve the previous two points. His solution constructs a distribution $\widetilde{\psi}_t(\cdot)$ of the normalized state vector that he calls **the permanent-income neutral measure** and which has the convenient property that
+#
+# \begin{equation*}
+# \begin{split}
+# \bar{\textbf{C}}_t =& \int \int c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P}\\
+# & \int c\left(\widetilde{\text{State}}\right) \times \widetilde{\psi}(\widetilde{\text{State}}) \, d\widetilde{\text{State}}
+# \end{split}
+# \end{equation*}
+#
+# Therefore, his solution allows us to calculate aggregate variables without the need to keep track of the distribution of permanent income. Additionally, the method eliminates the issue of a small number of agents in the tail having an outsized influence in our approximation and this makes it much more precise.
+#
+# This notebook briefly describes Harmenberg's method and demonstrates its implementation in the HARK toolkit.
 
 # %% [markdown]
 # # Description of the method
