@@ -15,7 +15,6 @@
 
 # %%
 # Preliminaries
-
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     IndShockConsumerType
 )
@@ -30,6 +29,32 @@ from matplotlib import pyplot as plt
 
 # %% [markdown]
 # # Description of the problem
+#
+# In macroeconomic models with heterogeneous agents, the permanent component of agents' income ($\textbf{P}_t$) often follows a geometric random walk. At any time, these economies include agents with different levels of permanent income. To find an aggregate characteristic of these economies such as aggregate consumption $\bar{\textbf{C}}_t$, one must integrate over permanent income and all the other relevant state variables
+#
+# \begin{equation*}
+# \bar{\textbf{C}}_t = \int \int C(\text{State},\textbf{P}) \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P}, 
+# \end{equation*}
+#
+# where $\text{State}$ denotes any other state variables that consumption might depend on, $C(\cdot,\cdot)$ is the individual consumption function, and $f_t(\cdot,\cdot)$ is the joint density function of permanent income and the other state variables at time $t$.
+#
+# Models like the traditional Buffer-Stock-Saving agent with CRRA utility [CITE CARROLL 2021] are homothetic in permanent income. This means that one can solve for a normalized policy function $c(\cdot)$ such that
+#
+# \begin{equation*}
+#     C(\text{State},\textbf{P}) = c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \qquad \forall \text{State},\textbf{P}.
+# \end{equation*}
+#
+# In practice, this implies that one can defined a normalized state vector $\widetilde{\text{State}} = \text{State}/\textbf{P}$ and solve for the normalized policy function. This eliminates one dimension of the optimization problem problem, $\textbf{P}$.
+#
+# While convenient for the solution of the agents' optimization problem, homotheticity has not simplified our aggregation calculations as we still have
+#
+# \begin{equation*}
+# \begin{split}
+# \bar{\textbf{C}}_t =& \int \int C(\text{State},\textbf{P}) \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P}\\
+# =& \int \int c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P}
+# \end{split}
+# \end{equation*}
+#
 
 # %% [markdown]
 # # Description of the method
