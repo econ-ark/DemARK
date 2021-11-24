@@ -6,9 +6,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.1
+#       jupytext_version: 1.13.0
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -72,7 +72,7 @@ from matplotlib import pyplot as plt
 # \begin{equation*}
 # \begin{split}
 # \bar{\textbf{C}}_t =& \int \int c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \times f_t(\text{State},\textbf{P}) \, d\text{State}\, d\textbf{P}\\
-# & \int c\left(\widetilde{\text{State}}\right) \times \widetilde{\psi}(\widetilde{\text{State}}) \, d\widetilde{\text{State}}
+# =& \int c\left(\widetilde{\text{State}}\right) \times \widetilde{\psi}(\widetilde{\text{State}}) \, d\widetilde{\text{State}}
 # \end{split}
 # \end{equation*}
 #
@@ -88,13 +88,16 @@ from matplotlib import pyplot as plt
 
 # %% Experiment setup
 burnin = 2000
-sample_every = 50
+sample_every = 100
 n_sample = 100
 max_agents = 10000
 
 sample_periods = np.arange(start=burnin,
                            stop = burnin+sample_every*n_sample,
                            step = sample_every, dtype = int)
+
+# %% [markdown]
+# Point to the specific line that makes the income measure change
 
 # %% Define function to get our stats of interest
 def sumstats(sims, sample_periods):
@@ -114,6 +117,9 @@ def sumstats(sims, sample_periods):
     # Also return the full last sample
     return {'means':  means, 'stds': stds, 'dist_last': sims[-1,]}
 
+
+# %% [markdown]
+# # Make sure the parametrization satisfies Szeidl and Harmenberg convergence conditions.
 
 # %% Create and simulate agent
 # Simulations
