@@ -82,9 +82,79 @@ from matplotlib import pyplot as plt
 
 # %% [markdown]
 # # Description of the method
+#
+# TODO
 
 # %% [markdown]
-# # Demonstration of HARK's implementation and the gain in efficiency
+# # Harmenberg's method in HARK
+#
+# Harmenberg's method for simulations under the permanent-income-neutral measure is readily available in [HARK's `IndShockConsumerType` class](https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsIndShockModel.py) and the models that inherit its income process, such as [`PortfolioConsumerType`](https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsPortfolioModel.py).
+#
+# As the cell below illustrates, using Harmenberg's method in HARK simply requires to set an agent's property `agent.neutral_measure = True` and then update his income process. After these steps, `agent.simulate` will simulate the model using Harmenberg's permanent-income-neutral measure.
+
+# %%
+# Create an infinite horizon agent with the default parametrization
+example = IndShockConsumerType(**dict_harmenberg, verbose = 0)
+example.cycles = 0
+
+# Solve for the consumption function
+example.solve()
+
+# Simulation under the base measure
+example.initialize_sim()
+example.simulate()
+
+# Harmenberg permanent-income-neutral simulation
+example.neutral_measure = True
+example.update_income_process()
+example.initialize_sim()
+example.simulate()
+
+# %% [markdown]
+# ### TODO: Point to the specific line that makes the income measure change
+
+# %% [markdown]
+# # The gains in efficiency from using Harmenberg's method
+#
+# To demonstrate the gain in efficiency from using Harmenberg's method, we will set up the following experiment.
+#
+# Consider an economy populated by [Buffer-Stock agents](https://llorracc.github.io/BufferStockTheory/), whose individual-level state variables are market resources $\textbf{m}_t$ and permanent income $\textbf{P}_t$. [CITE BUFFER STOCK THEORY] shows that this type of agents has an homothetic consumption function, so that we can define normalized market resources $m_t \equiv \textbf{m}_t / \textbf{P}_t$, solve for a normalized consumption function $c(\cdot)$, and express the consumption function as $\textbf{c}(\textbf{m},\textbf{p}) = c(m)\times\textbf{P}$.
+#
+# Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of $m$ and $\textbf{P}$ characterized by the density function $f(\cdot,\cdot)$. Under these conditions, define the stable level of aggregate market resources and consumption as
+#
+# \begin{equation}
+#     \bar{\textbf{M}} \equiv \int \int m \times \textbf{P} \times f(m, \textbf{P})\,dm\,d\textbf{P}, \qquad
+#     \bar{\textbf{C}} \equiv \int \int c(m) \times \textbf{P} \times f(m, \textbf{P})\,dm\,d\textbf{P}.
+# \end{equation}
+#
+# If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources $\hat{\bar{\textbf{M}}}_t$ would converge to $\bar{\textbf{M}}$ and our estimate of aggregate consumption $\hat{\bar{\textbf{C}}}_t$ would converge to $\bar{\textbf{C}}$. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:
+# \begin{equation}
+#     \hat{\bar{\textbf{M}}}_t \approx \hat{\bar{\textbf{M}}}_{t+n} \approx \bar{\textbf{M}}\quad
+#     \text{and} \quad
+#     \hat{\bar{\textbf{C}}}_t \approx \hat{\bar{\textbf{C}}}_{t+n} \approx \bar{\textbf{C}},\quad
+#     \text{for } n>0 \text{ and } t \text{ large enough}.
+# \end{equation}
+#
+# In practice, however, we rely on approximations using a finite number of agents $I$. Our estimates of aggregate market resources and consumption at time $t$ are
+#
+# \begin{equation}
+# \hat{\bar{\textbf{M}}}_t \equiv \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\textbf{P}_{i,t}, \quad \hat{\bar{\textbf{C}}}_t \equiv \frac{1}{I} \sum_{i=1}^{I} c(m_{i,t})\times\textbf{P}_{i,t},
+# \end{equation}
+#
+# under the basic simulation strategy or
+#
+# \begin{equation}
+# \hat{\bar{\textbf{M}}}_t \equiv \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \quad \hat{\bar{\textbf{C}}}_t \equiv \frac{1}{I} \sum_{i=1}^{I} c(\tilde{m}_{i,t}),
+# \end{equation}
+#
+# if we use Harmenberg's method to simulate the distribution of normalized market resources under the permanent-income neutral measure.
+#
+# If we do not use enough agents, our approximate economy will be far from the continuous one and our distributions of agents over state variables will depend on the sequences of shocks that they receive. The time-dependence will cause fluctuations in $\hat{\bar{\textbf{M}}}_t$ and $\hat{\bar{\textbf{C}}}_t$. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations:
+#
+# 1. Simulate the economy for a long time $T_0$.
+# 2. Sample our aggregate estimates at regular intervals after $T_0$. Letting the sampling times be $\mathcal{T}\equiv \{T_0 + \Delta t\times n\}_{n=0,1,...,N}$, obtain $\{\hat{\bar{\textbf{M}}}_t\}_{t\in\mathcal{T}}$ and $\{\hat{\bar{\textbf{C}}}_t\}_{t\in\mathcal{T}}$.
+# 3. Compute the variance of approximation samples $\text{Var}\left(\{\hat{\bar{\textbf{M}}}_t\}_{t\in\mathcal{T}}\right)$ and $\text{Var}\left(\{\hat{\bar{\textbf{C}}}_t\}_{t\in\mathcal{T}}\right)$.
+#
 
 # %% Experiment setup
 burnin = 2000
@@ -95,9 +165,6 @@ max_agents = 10000
 sample_periods = np.arange(start=burnin,
                            stop = burnin+sample_every*n_sample,
                            step = sample_every, dtype = int)
-
-# %% [markdown]
-# Point to the specific line that makes the income measure change
 
 # %% Define function to get our stats of interest
 def sumstats(sims, sample_periods):
@@ -120,6 +187,8 @@ def sumstats(sims, sample_periods):
 
 # %% [markdown]
 # # Make sure the parametrization satisfies Szeidl and Harmenberg convergence conditions.
+#
+# TODO
 
 # %% Create and simulate agent
 # Simulations
@@ -130,7 +199,6 @@ dict_harmenberg.update(
 
 example = IndShockConsumerType(**dict_harmenberg, verbose = 0)
 example.cycles = 0
-
 example.solve()
 
 # Base simulation
@@ -191,6 +259,8 @@ plt.show()
 
 # %% [markdown]
 # # Comparison of the PIN-measure and the base measure
+#
+# TODO
 
 # %%
 mdists = pd.DataFrame({'Base': M_base['dist_last'],
