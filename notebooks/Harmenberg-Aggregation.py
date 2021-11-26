@@ -47,7 +47,7 @@ from matplotlib import pyplot as plt
 # Models like the traditional Buffer-Stock-Saving agent with CRRA utility [CITE CARROLL 2021] are homothetic in permanent income. This means that one can solve for a normalized policy function $c(\cdot)$ such that
 #
 # \begin{equation*}
-#     C(\text{State},\textbf{P}) = c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \qquad \forall \text{State},\textbf{P}.
+#     C(\text{State},\textbf{P}) = c\left(\frac{1}{\textbf{P}}\times \text{State}\right)\times \textbf{P} \qquad \forall \, (\text{State},\textbf{P}).
 # \end{equation*}
 #
 # In practice, this implies that one can defined a normalized state vector $\widetilde{\text{State}} = \text{State}/\textbf{P}$ and solve for the normalized policy function. This eliminates one dimension of the optimization problem problem, $\textbf{P}$.
@@ -255,42 +255,67 @@ example.simulate()
 M_pin = sumstats(example.history['mNrm'], sample_periods)
 C_pin = sumstats(example.history['cNrm'], sample_periods)
 
+# %% [markdown]
+# We can now compare the two methods my plotting our measure of precision for different numbers of simulated agents.
+
 # %% Plots
 # Plots
-
 nagents = np.arange(1,max_agents+1,1)
 
 # Market resources
-fig, axs = plt.subplots(2)
+fig, axs = plt.subplots(2, figsize = (10,7), constrained_layout=True)
+
+fig.suptitle('Estimates of Aggregate Market Resources', fontsize=16)
 axs[0].plot(nagents, M_base['stds'], label = 'Base')
 axs[0].plot(nagents, M_pin['stds'], label = 'Perm. Inc. Neutral')
 axs[0].set_yscale('log')
 axs[0].set_xscale('log')
+axs[0].set_title('Variance', fontsize=14)
+axs[0].set_ylabel(r'$Var\left(\{\hat{\bar{M}}_t\}_{t\in\mathcal{T}}\right)$', fontsize = 14)
+axs[0].set_xlabel('Number of Agents', fontsize=12)
 axs[0].grid()
-axs[0].legend()
+axs[0].legend(fontsize=12)
 
 axs[1].plot(nagents, M_base['means'], label = 'Base')
 axs[1].plot(nagents, M_pin['means'], label = 'Perm. Inc. Neutral')
 axs[1].set_xscale('log')
-axs[1].set_xlabel('Number of Agents')
+axs[1].set_title('Average', fontsize=14)
+axs[1].set_ylabel(r'$Avg\left(\{\hat{\bar{M}}_t\}_{t\in\mathcal{T}}\right)$', fontsize=14)
+axs[1].set_xlabel('Number of Agents', fontsize=12)
 axs[1].grid()
 plt.show()
 
+# %% [markdown]
+# The previous plot highlights the gain in efficiency from Harmenberg's method: it attains any given level of precission ($\text{Var}\left(\{\hat{\bar{\textbf{M}}}_t\}_{t\in\mathcal{T}}\right)$) with roughly **one tenth** of the agents needed by the standard method to achieve that same level.
+#
+# We now examine consumption.
+
+# %%
 # Consumption
-fig, axs = plt.subplots(2)
+fig, axs = plt.subplots(2, figsize = (10,7), constrained_layout=True)
+
+fig.suptitle('Estimates of Aggregate Consumption', fontsize=16)
 axs[0].plot(nagents, C_base['stds'], label = 'Base')
 axs[0].plot(nagents, C_pin['stds'], label = 'Perm. Inc. Neutral')
 axs[0].set_yscale('log')
 axs[0].set_xscale('log')
+axs[0].set_title('Variance', fontsize=14)
+axs[0].set_ylabel(r'$Var\left(\{\hat{\bar{C}}_t\}_{t\in\mathcal{T}}\right)$', fontsize = 14)
+axs[0].set_xlabel('Number of Agents', fontsize=12)
 axs[0].grid()
-axs[0].legend()
+axs[0].legend(fontsize=12)
 
 axs[1].plot(nagents, C_base['means'], label = 'Base')
 axs[1].plot(nagents, C_pin['means'], label = 'Perm. Inc. Neutral')
 axs[1].set_xscale('log')
-axs[1].set_xlabel('Number of Agents')
+axs[1].set_title('Average', fontsize=14)
+axs[1].set_ylabel(r'$Avg\left(\{\hat{\bar{C}}_t\}_{t\in\mathcal{T}}\right)$', fontsize=14)
+axs[1].set_xlabel('Number of Agents', fontsize=12)
 axs[1].grid()
 plt.show()
+
+# %% [markdown]
+# The variance plot shows that the efficiency gains are even greater for consumption: Harmenberg's method requires rouglhy **one-hundredth** of the agents that the standard method would require for a given precision, and at a fixed number of agents it is **ten times more precise**!
 
 # %% [markdown]
 # # Comparison of the PIN-measure and the base measure
