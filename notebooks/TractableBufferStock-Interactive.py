@@ -80,7 +80,7 @@ from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerTy
 # Defining $\gamma = \log \Gamma$ and $r = \log R$, the handout shows that an approximation of the target is given by the formula:
 #
 # \begin{align}
-# \check{m} & = 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
+# \check{m} & \approx 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
 # \end{align}
 #
 
