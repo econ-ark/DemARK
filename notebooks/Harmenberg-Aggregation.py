@@ -155,39 +155,56 @@ example.simulate()
 #
 # if we use Harmenberg's method to simulate the distribution of normalized market resources under the permanent-income neutral measure.
 #
-# If we do not use enough agents, our approximate economy will be far from the continuous one and our distributions of agents over state variables will depend on the sequences of shocks that they receive. The time-dependence will cause fluctuations in $\hat{\bar{\textbf{M}}}_t$ and $\hat{\bar{\textbf{C}}}_t$. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations:
+# If we do not use enough agents, our distributions of agents over state variables will be inconsistent at approximating their continuous counterpartes. Additionally, they will depend on the sequences of shocks that the agents receive. The time-dependence will cause fluctuations in $\hat{\bar{\textbf{M}}}_t$ and $\hat{\bar{\textbf{C}}}_t$. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations:
 #
 # 1. Simulate the economy for a long time $T_0$.
 # 2. Sample our aggregate estimates at regular intervals after $T_0$. Letting the sampling times be $\mathcal{T}\equiv \{T_0 + \Delta t\times n\}_{n=0,1,...,N}$, obtain $\{\hat{\bar{\textbf{M}}}_t\}_{t\in\mathcal{T}}$ and $\{\hat{\bar{\textbf{C}}}_t\}_{t\in\mathcal{T}}$.
 # 3. Compute the variance of approximation samples $\text{Var}\left(\{\hat{\bar{\textbf{M}}}_t\}_{t\in\mathcal{T}}\right)$ and $\text{Var}\left(\{\hat{\bar{\textbf{C}}}_t\}_{t\in\mathcal{T}}\right)$.
 #
+# We will now perform exactly this experiment. We will examine the fluctuations in aggregates when they are approximated using the basic simulation strategy and Harmenberg's permanent-income-neutral measure. Since each approximation can be made arbitrarily good by increasing the number of agents it uses, we will examine the variances of aggregates for various sample sizes.
+#
+# First, some setup.
 
 # %% Experiment setup
+# How long to run the economies without sampling? T_0
 burnin = 2000
-sample_every = 100
+# Fixed intervals between sampling aggregates, Δt
+sample_every = 50
+# How many times to sample the aggregates? n
 n_sample = 100
-max_agents = 10000
 
+# Create a vector with all the times at which we'll sample
 sample_periods = np.arange(start=burnin,
                            stop = burnin+sample_every*n_sample,
                            step = sample_every, dtype = int)
 
+# Maximum number of aggents that we will use for our approximations
+max_agents = 10000
+
 # %% Define function to get our stats of interest
+# Now create a function that takes HARK's simulation output
+# and computes all the summary statistics we need
+
 def sumstats(sims, sample_periods):
     
-    # Sims' columns are different agents and rows are different times.
+    # sims will be an array in the shape of hark's
+    # agent.history elements
+    
+    # Columns are different agents and rows are different times.
     # Subset the times at which we'll sample and transpose.
     samples = pd.DataFrame(sims[sample_periods,].T)
     
-    # Get rolling averages
+    # Get rolling averages over agents. This will tell us
+    # What our aggregate estimate would be if we had each possible
+    # sample size
     avgs = samples.expanding(1).mean()
     
-    # Now get the mean and standard deviations across samples with every
-    # number of agents
+    # Now get the mean and standard deviations across time with
+    # every number of agents
     means = avgs.mean(axis = 1)
     stds = avgs.std(axis = 1)
     
-    # Also return the full last sample
+    # Also return the full sampl on the last simulation period
     return {'means':  means, 'stds': stds, 'dist_last': sims[-1,]}
 
 
@@ -196,8 +213,11 @@ def sumstats(sims, sample_periods):
 #
 # TODO
 
+# %% [markdown]
+# We now configure and solve a buffer-stock agent with a default parametrization. The only interesting aspect of the parametrization we use is that in guarantees that the distribution of permanent income has a stable limit, as opposed to drifting forever.
+
 # %% Create and simulate agent
-# Simulations
+# Create and solve agent
 dict_harmenberg.update(
     {'T_sim': max(sample_periods)+1, 'AgentCount': max_agents,
      'track_vars': [ 'mNrm','cNrm','pLvl']}
@@ -207,6 +227,10 @@ example = IndShockConsumerType(**dict_harmenberg, verbose = 0)
 example.cycles = 0
 example.solve()
 
+# %% [markdown]
+# Under the basic simulation strategy, we have to de-normalize market resources and consumption multiplying them by permanent income. Only then we construct our statistics of interest.
+
+# %%
 # Base simulation
 example.initialize_sim()
 example.simulate()
@@ -217,9 +241,14 @@ M_base = sumstats(example.history['mNrm'] * example.history['pLvl'],
 C_base = sumstats(example.history['cNrm'] * example.history['pLvl'],
                   sample_periods)
 
+# %% [markdown]
+# Update and simulate using Harmenberg's strategy. This time, not multiplying by permanent income.
+
+# %%
 # Harmenberg PIN simulation
 example.neutral_measure = True
 example.update_income_process()
+example.track_vars = [ 'mNrm','cNrm']
 example.initialize_sim()
 example.simulate()
 
