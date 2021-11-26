@@ -89,7 +89,26 @@ from matplotlib import pyplot as plt
 # %% [markdown]
 # # Description of the method
 #
-# TODO
+# To illustrate Harmenberg's idea, consider a model in which:
+# - The indivudual agent's problem has two state variables:
+#     - His market resources $\textbf{m}_{i,t}$.
+#     - His permanent income $P_{i,t}$.
+#     
+# - The agent's problem is homothetic in his permanent income, so that we can define $m_t = \textbf{m}_t/P_t$ and find a normalized policy function $c(\cdot)$ such that $$c(\frac{\textbf{m}_t}{P_t})*P_t = \mathbf{c}(\textbf{m}_t, P_t)\quad \forall(\textbf{m}_t, P_t)$$ where $\mathbf{c}(\cdot,\cdot)$ is the optimal consumption function.
+#
+# - $P_t$ evolves according to $$P_{t+1} = \Gamma \eta_{t+1} P_t,$$ where $\eta_{t+1}$ is a shock with density function $f_\eta(\cdot)$ satisfying $E_t[\eta_{t+1}] = 1$.
+#
+# To compute aggregate consumption $\bar{C}_t$ in this model, we would follow the approach from above
+# \begin{equation*}
+# \bar{C}_t = \int \int c(m)\times\textbf{P} \times \psi_t(m,\textbf{P}) \, d\text{m}\, d\textbf{P},
+# \end{equation*}
+# where $\psi_t(m,\textbf{P})$ is the measure of agents with normalized resources $m$ and permanent income $P$.
+#
+# The first of Harmenberg's insights is that the previous integral can be rearranged as
+# \begin{equation*}
+# \bar{C}_t = \int c(m)\left(\int \textbf{P} \times \psi_t(m,\textbf{P}) d\textbf{P}\right) \, d\text{m}.
+# \end{equation*}
+# The inner integral, $\int \textbf{P} \times \psi_t(m,\textbf{P}) d\textbf{P}$, is a function of $m$ and it measures *the total amount of permanent income accruing to agents with normalizer market resources of* $m$.
 
 # %% [markdown]
 # # Harmenberg's method in HARK
