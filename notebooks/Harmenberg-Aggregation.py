@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
@@ -12,6 +13,11 @@
 #     language: python
 #     name: python3
 # ---
+
+# %% [markdown]
+# # Work in Progress
+#
+# ## Author: [Mateo Velásquez-Giraldo](https://mv77.github.io/)
 
 # %%
 # Preliminaries
