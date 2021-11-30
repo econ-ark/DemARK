@@ -170,7 +170,7 @@ from matplotlib import pyplot as plt
 #
 # As the cell below illustrates, using Harmenberg's method in HARK simply requires to set an agent's property `agent.neutral_measure = True` and then update his income process. After these steps, `agent.simulate` will simulate the model using Harmenberg's permanent-income-neutral measure.
 
-# %% code_folding=[0]
+# %% code_folding=[]
 # Create an infinite horizon agent with the default parametrization
 example = IndShockConsumerType(**dict_harmenberg, verbose = 0)
 example.cycles = 0
@@ -189,7 +189,16 @@ example.initialize_sim()
 example.simulate()
 
 # %% [markdown]
-# ### TODO: Point to the specific line that makes the income measure change
+# All we had to do differently to simulate using the permanent-income-neutral measure was to set the agent's property `neutral_measure=True`.
+#
+# This is noticed when the function `update_income_process` re-constructs the agent's income process. The specific lines that achieve the change of measure in HARK are in [this link](https://github.com/econ-ark/HARK/blob/760df611a6ec2ff147d00b7d866dbab6fc4e18a1/HARK/ConsumptionSaving/ConsIndShockModel.py#L2734-L2735), or reproduced here:
+#
+# ```python
+# if self.neutral_measure == True:
+#     PermShkDstn_t.pmf = PermShkDstn_t.X*PermShkDstn_t.pmf
+# ```
+#
+# Simple!
 
 # %% [markdown]
 # # The gains in efficiency from using Harmenberg's method
