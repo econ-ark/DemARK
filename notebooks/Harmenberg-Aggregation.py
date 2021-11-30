@@ -7,9 +7,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       jupytext_version: 1.13.1
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
@@ -136,9 +136,9 @@ from matplotlib import pyplot as plt
 #
 #
 # The definition allows us to rewrite
-# \begin{equation*}
+# \begin{equation}\label{eq:aggC}
 # \aggC = \PermGroFac^t \int c(m) \times \PIWmea_t(m) \, dm,
-# \end{equation*}
+# \end{equation}
 # but there is no computational advances yet. We have hidden the joint distribution of $(\PInc,m)$ inside the object we have defined. This makes us notice that $\PIWmea$ is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating $\PIWmea$.
 #
 #
@@ -149,13 +149,19 @@ from matplotlib import pyplot as plt
 # We start with the density function of $m_{t+1}$ given $m_t$ and $\PermShk_{t+1}$, $\kernel(m_{t+1}|m_t,\PermShk_{t+1})$. This density will depend on the model's transition equations and draws of random variables like transitory shocks to income in $t+1$ or random returns to savings between $t$ and $t+1$. If we can simulate those things, then we can sample from $\kernel(\cdot|m_t,\PermShk_t)$.
 #
 # Harmenberg shows that
-# \begin{equation*}
-# \PIWmea_{t+1}(m_{t+1}) = \int \kernel(m_{t+1}|m_t, \PermShk_t) \PINmeasure(\PermShk_{t+1}) \PIWmea_t(m_t)\, dm_t\, d\PermShk_{t+1}
-# \end{equation*}
-# HERE!!
-# where 
+# \begin{equation}\label{eq:transition}
+# \PIWmea_{t+1}(m_{t+1}) = \int \kernel(m_{t+1}|m_t, \PermShk_t) \PINmeasure(\PermShk_{t+1}) \PIWmea_t(m_t)\, dm_t\, d\PermShk_{t+1},
+# \end{equation}
+# where $\PINmeasure$ is an altered density function for the permanent income shocks $\PermShk$, which we call the *permanent-income-neutral* measure, and which relates to the original density through $$\PINmeasure(\PermShk_{t+1})\def \PermShk_{t+1}f_{\PermShk}(\PermShk_{t+1})\,\,\, \forall \PermShk_{t+1}.$$
 #
-# For our purposes this means that if we start with a sample of $m\sim \PIWmea$...
+#
+# The remarkable aspect of Equation \ref{eq:transition} is that it gives us a way to obtain a distribution whose $m$ is distributed according to $\PIWmea_{t+1}$ from one whose $m$ is distributed according to $\PIWmea_t$:
+# - Start with a population whose $m$ is distributed according to $\PIWmea_t$.
+# - Give that population permanent income shocks with distribution $\PINmeasure$.
+# - Apply the transition equations and other shocks of the model to obtain $m_{t+1}$ from $m_{t}$ and $\PermShk_{t+1}$ for every agent.
+# - The distribution of $m$ across the resulting population will be $\PIWmea_{t+1}$.
+#
+# Notice that the only change in these steps from what how we would usually simulate the model is that we now draw permanent income shocks from $\PINmeasure$ instead of $f_{\PermShk}$. Therefore, with this procedure we can approximate $\PIWmea_t$ and compute aggregate using formulas like Equation \ref{eq:aggC}, all without tracking permanent income and with few changes to the code we use to simulate the model.
 
 # %% [markdown]
 # # Harmenberg's method in HARK
