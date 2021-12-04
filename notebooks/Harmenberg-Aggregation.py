@@ -33,6 +33,10 @@
 # $\newcommand{\def}{:=}$
 # $\newcommand{\kernel}{\phi}$
 # $\newcommand{\PINmeasure}{\tilde{f}_\PermShk}$
+#
+# TODO:
+# \begin{align}
+# \end{align}
 
 # %% code_folding=[]
 # Preliminaries
@@ -262,7 +266,7 @@ sample_periods = np.arange(start=burnin,
 # Maximum number of aggents that we will use for our approximations
 max_agents = 10000
 
-# %% Define function to get our stats of interest
+# %% Define function to get our stats of interest code_folding=[0]
 # Now create a function that takes HARK's simulation output
 # and computes all the summary statistics we need
 
@@ -339,7 +343,7 @@ C_pin = sumstats(example.history['cNrm'], sample_periods)
 # %% [markdown]
 # We can now compare the two methods my plotting our measure of precision for different numbers of simulated agents.
 
-# %% Plots
+# %% Plots code_folding=[0]
 # Plots
 nagents = np.arange(1,max_agents+1,1)
 
