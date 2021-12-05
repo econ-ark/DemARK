@@ -37,7 +37,7 @@
 # $\newcommand{\kernel}{\phi}$
 # $\newcommand{\PINmeasure}{\tilde{f}_\PermShk}$
 
-# %% code_folding=[]
+# %% code_folding=[0]
 # Preliminaries
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     IndShockConsumerType
@@ -97,7 +97,7 @@ from matplotlib import pyplot as plt
 # \begin{equation*}
 # \begin{split}
 # \aggC_t =& \int \int c\left(\frac{1}{\PInc}\times \mLvl\right)\times \PInc \times f_t(\mLvl,\PInc) \, d\mLvl\, d\PInc\\
-# =& \int c\left(\mNrm\right) \times \widetilde{\psi}(\mNrm) \, d\mNrm
+# =& \int c\left(\mNrm\right) \times \widetilde{f}(\mNrm) \, d\mNrm
 # \end{split}
 # \end{equation*}
 #
