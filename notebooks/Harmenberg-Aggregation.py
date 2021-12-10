@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       jupytext_version: 1.11.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,20 +22,24 @@
 # %% [markdown]
 # Symbol definitions
 #
-# $\newcommand{\PInc}{P}$
-# $\newcommand{\mLvl}{\mathbf{m}}$
-# $\newcommand{\mNrm}{m}$
-# $\newcommand{\aggC}{\bar{\mathbf{C}}}$
-# $\newcommand{\aggM}{\bar{\mathbf{M}}}$
-# $\newcommand{\aggCest}{\widehat{\aggC}}$
-# $\newcommand{\aggMest}{\widehat{\aggM}}$
-# $\newcommand{\mPdist}{\psi}$
-# $\newcommand{\PIWmea}{\tilde{\psi}^m}}$
-# $\newcommand{\PermGroFac}{\Gamma}$
-# $\newcommand{\PermShk}{\eta}$
-# $\newcommand{\def}{:=}$
-# $\newcommand{\kernel}{\phi}$
-# $\newcommand{\PINmeasure}{\tilde{f}_\PermShk}$
+# \begin{align}
+# & 
+# \newcommand{\PInc}{P} 
+# \newcommand{\mLvl}{\mathbf{m}}  
+# \newcommand{\mNrm}{m} 
+# \newcommand{\aggC}{\bar{\mathbf{C}}} 
+# \newcommand{\aggM}{\bar{\mathbf{M}}}
+# \newcommand{\aggCest}{\widehat{\aggC}}
+# \newcommand{\aggMest}{\widehat{\aggM}}
+# \newcommand{\mPdist}{\psi}
+# \newcommand{\PermGroFac}{\Gamma}
+# \newcommand{\PermShk}{\eta}
+# \newcommand{\def}{:=}
+# \newcommand{\kernel}{\phi}
+# \newcommand{\PINmeasure}{\tilde{f}_\PermShk}
+# \end{align}
+# $\newcommand{\PIWmea}{\tilde{\psi}^{m}}}$
+#
 
 # %% code_folding=[0]
 # Preliminaries
@@ -51,6 +55,10 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
+# %%
+import HARK
+HARK.__file__
+
 # %% [markdown]
 # # Description of the problem
 #
@@ -65,7 +73,7 @@ from matplotlib import pyplot as plt
 # Under the usual assumption of Constant Relative Risk Aversion utility and standard assumptions about the budget constraint, such models are homothetic in permanent income (see [Carroll (2021)](https://econ-ark.github.io/BufferStockTheory)). This means that for a state variable $\mLvl$ one can solve for a normalized policy function $c(\cdot)$ such that
 #
 # \begin{equation*}
-#     c(\mLvl,\PInc) = c\left(\frac{1}{\PInc}\times \mLvl\right)\times \PInc \,\,\, \forall \, (\mLvl,\PInc).
+#     c(\mLvl,\PInc) = c\left(\frac{\mLvl}{\PInc} \right)\times \PInc \,\,\, \forall \, (\mLvl,\PInc).
 # \end{equation*}
 #
 #
@@ -141,7 +149,7 @@ from matplotlib import pyplot as plt
 #
 #
 # The definition allows us to rewrite
-# \begin{equation}\label{eq:aggC}
+# \begin{equation}\label{eq:aggC}\tag{0}
 # \aggC = \PermGroFac^t \int c(\mNrm) \times \PIWmea_t(\mNrm) \, dm,
 # \end{equation}
 # but there is no computational advances yet. We have hidden the joint distribution of $(\PInc,\mNrm)$ inside the object we have defined. This makes us notice that $\PIWmea$ is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating $\PIWmea$.
@@ -154,7 +162,7 @@ from matplotlib import pyplot as plt
 # We start with the density function of $\mNrm_{t+1}$ given $\mNrm_t$ and $\PermShk_{t+1}$, $\kernel(\mNrm_{t+1}|\mNrm_t,\PermShk_{t+1})$. This density will depend on the model's transition equations and draws of random variables like transitory shocks to income in $t+1$ or random returns to savings between $t$ and $t+1$. If we can simulate those things, then we can sample from $\kernel(\cdot|\mNrm_t,\PermShk_t)$.
 #
 # Harmenberg shows that
-# \begin{equation}\label{eq:transition}
+# \begin{equation}\label{eq:transition}\tag{1}
 # \PIWmea_{t+1}(\mNrm_{t+1}) = \int \kernel(\mNrm_{t+1}|\mNrm_t, \PermShk_t) \PINmeasure(\PermShk_{t+1}) \PIWmea_t(\mNrm_t)\, d\mNrm_t\, d\PermShk_{t+1},
 # \end{equation}
 # where $\PINmeasure$ is an altered density function for the permanent income shocks $\PermShk$, which we call the *permanent-income-neutral* measure, and which relates to the original density through $$\PINmeasure(\PermShk_{t+1})\def \PermShk_{t+1}f_{\PermShk}(\PermShk_{t+1})\,\,\, \forall \PermShk_{t+1}.$$
@@ -176,7 +184,7 @@ from matplotlib import pyplot as plt
 # As the cell below illustrates, using Harmenberg's method in HARK simply requires setting an agent's property `agent.neutral_measure = True` and then computing the discrete approximation to the income process. After these steps, `agent.simulate` will simulate the model using Harmenberg's permanent-income-neutral measure.
 
 # %% code_folding=[]
-# Create an infinite horizon agent with the default parametrization
+# Create an infinite horizon agent with the default parameterization
 example = IndShockConsumerType(**dict_harmenberg, verbose = 0)
 example.cycles = 0
 
@@ -217,7 +225,7 @@ example.simulate()
 #     \aggM \def \int \int \mNrm \times \PInc \times f(\mNrm, \PInc)\,d\mNrm \,d\PInc, \,\,\,    \aggC \def \int \int c(\mNrm) \times \PInc \times f(\mNrm, \PInc)\,d\mNrm \,d\PInc.
 # \end{equation}
 #
-# If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources $\aggMest_t$ would converge to $aggM$ and our estimate of aggregate consumption $\aggCest_t$ would converge to $\aggC$. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:
+# If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources $\aggMest_{t}$ would converge to $\aggM$ and our estimate of aggregate consumption $\aggCest_t$ would converge to $\aggC$. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:
 # \begin{equation}
 #     \aggMest_t \approx \aggMest_{t+n} \approx \aggM \,\,
 #     \text{and} \,\,
@@ -239,9 +247,9 @@ example.simulate()
 #
 # if we use Harmenberg's method to simulate the distribution of normalized market resources under the permanent-income neutral measure.
 #
-# If we do not use enough agents, our distributions of agents over state variables will be inconsistent at approximating their continuous counterpartes. Additionally, they will depend on the sequences of shocks that the agents receive. The time-dependence will cause fluctuations in $\aggMest_t$ and $\aggCest_t$. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations:
+# If we do not use enough agents, our distributions of agents over state variables will be noisy at approximating their continuous counterparts. Additionally, they will depend on the sequences of shocks that the agents receive. The time-dependence will cause fluctuations in $\aggMest_t$ and $\aggCest_t$. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations:
 #
-# 1. Simulate the economy for a long time $T_0$.
+# 1. Simulate the economy for a long time $T_0$ (a 'burn-in' period)
 # 2. Sample our aggregate estimates at regular intervals after $T_0$. Letting the sampling times be $\mathcal{T}\def \{T_0 + \Delta t\times n\}_{n=0,1,...,N}$, obtain $\{\aggMest_t\}_{t\in\mathcal{T}}$ and $\{\aggCest_t\}_{t\in\mathcal{T}}$.
 # 3. Compute the variance of approximation samples $\text{Var}\left(\{\aggMest_t\}_{t\in\mathcal{T}}\right)$ and $\text{Var}\left(\{\aggCest_t\}_{t\in\mathcal{T}}\right)$.
 #
@@ -300,7 +308,7 @@ def sumstats(sims, sample_periods):
 # %% [markdown]
 # We now configure and solve a buffer-stock agent with a default parametrization. The only interesting aspect of the parametrization we use is that it guarantees that the distribution of permanent income has a stable limit, as opposed to drifting forever.
 
-# %% Create and simulate agent
+# %% Create and simulate agent jupyter={"source_hidden": true} tags=[]
 # Create and solve agent
 dict_harmenberg.update(
     {'T_sim': max(sample_periods)+1, 'AgentCount': max_agents,
@@ -314,7 +322,7 @@ example.solve()
 # %% [markdown]
 # Under the basic simulation strategy, we have to de-normalize market resources and consumption multiplying them by permanent income. Only then we construct our statistics of interest.
 
-# %%
+# %% tags=[] jupyter={"source_hidden": true}
 # Base simulation
 example.initialize_sim()
 example.simulate()
@@ -328,7 +336,7 @@ C_base = sumstats(example.history['cNrm'] * example.history['pLvl'],
 # %% [markdown]
 # Update and simulate using Harmenberg's strategy. This time, not multiplying by permanent income.
 
-# %%
+# %% jupyter={"source_hidden": true} tags=[]
 # Harmenberg PIN simulation
 example.neutral_measure = True
 example.update_income_process()
@@ -342,7 +350,7 @@ C_pin = sumstats(example.history['cNrm'], sample_periods)
 # %% [markdown]
 # We can now compare the two methods my plotting our measure of precision for different numbers of simulated agents.
 
-# %% Plots code_folding=[0]
+# %% Plots code_folding=[0] jupyter={"source_hidden": true} tags=[]
 # Plots
 nagents = np.arange(1,max_agents+1,1)
 
