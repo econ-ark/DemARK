@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.4
+#       jupytext_version: 1.13.0
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -273,7 +273,7 @@ sample_periods = np.arange(start=burnin,
 # Maximum number of aggents that we will use for our approximations
 max_agents = 10000
 
-# %% Define function to get our stats of interest code_folding=[0]
+# %% Define function to get our stats of interest code_folding=[0] jupyter={"source_hidden": true} tags=[]
 # Now create a function that takes HARK's simulation output
 # and computes all the summary statistics we need
 
@@ -301,14 +301,9 @@ def sumstats(sims, sample_periods):
 
 
 # %% [markdown]
-# # Make sure the parametrization satisfies Szeidl and Harmenberg convergence conditions.
-#
-# TODO
+# We now configure and solve a buffer-stock agent with a default parametrization.
 
-# %% [markdown]
-# We now configure and solve a buffer-stock agent with a default parametrization. The only interesting aspect of the parametrization we use is that it guarantees that the distribution of permanent income has a stable limit, as opposed to drifting forever.
-
-# %% Create and simulate agent jupyter={"source_hidden": true} tags=[]
+# %% Create and simulate agent tags=[]
 # Create and solve agent
 dict_harmenberg.update(
     {'T_sim': max(sample_periods)+1, 'AgentCount': max_agents,
@@ -321,22 +316,54 @@ example.solve()
 
 # %% [markdown]
 # Under the basic simulation strategy, we have to de-normalize market resources and consumption multiplying them by permanent income. Only then we construct our statistics of interest.
+#
+# Note that our time-sampling strategy requieres that, after enough time has passed, the economy settles on a stable distribution of its agents across states. How can we know this will be the case? [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) and [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) provide conditions that can give us some reassurance.
+#
+# 1. [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) shows that if $$\log [\frac{(R\beta)^{1/\rho}}{\PermGroFac}
+# ] < E[\log \PermShk],$$ then there is a stable invariant distribution of normalized market resources $\mNrm$.
+# 2. [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) uses Szeidl proof to argue that if the same condition is satisfied when the expectation is taken with respect to the permanent-income-neutral measure ($\PINmeasure$), then there is a stable invariant permanent-income-weighted distribution ($\PIWmea$)
+#
+# We now check both conditions with our parametrization.
 
-# %% tags=[] jupyter={"source_hidden": true}
+# %% jupyter={"source_hidden": true} tags=[]
+from HARK.distribution import calc_expectation
+
+thorn_G = (example.Rfree * example.DiscFac) ** (1/example.CRRA) / example.PermGroFac[0]
+
+e_log_psi_base = calc_expectation(example.PermShkDstn[0], func = lambda x: np.log(x))
+# E_base[g(eta)] = E_pin[eta*g(eta)]
+e_log_psi_pin = calc_expectation(example.PermShkDstn[0], func = lambda x: x*np.log(x))
+
+szeidl_cond = np.log(thorn_G) < e_log_psi_base
+harmen_cond = np.log(thorn_G) < e_log_psi_pin
+
+if szeidl_cond:
+    print("Szeidl's condition is satisfied, there is a stable invariant distribution of normalized market resources")
+else:
+    print("Warning: Szeidl's condition is not satisfied")
+if harmen_cond:
+    print("Harmenberg's condition is satisfied, there is a stable invariant permanent-income-weighted distribution")
+else:
+    print("Warning: Harmenberg's condition is not satisfied")
+
+# %% [markdown]
+# Knowing that the conditions are satisfied, we are ready to perform our experiments.
+
+# %% tags=[]
 # Base simulation
 example.initialize_sim()
 example.simulate()
 
 M_base = sumstats(example.history['mNrm'] * example.history['pLvl'],
                   sample_periods)
-
+m_base = sumstats(example.history['mNrm'], sample_periods)
 C_base = sumstats(example.history['cNrm'] * example.history['pLvl'],
                   sample_periods)
 
 # %% [markdown]
 # Update and simulate using Harmenberg's strategy. This time, not multiplying by permanent income.
 
-# %% jupyter={"source_hidden": true} tags=[]
+# %% tags=[]
 # Harmenberg PIN simulation
 example.neutral_measure = True
 example.update_income_process()
@@ -382,7 +409,7 @@ plt.show()
 #
 # We now examine consumption.
 
-# %% code_folding=[0]
+# %% code_folding=[0] jupyter={"source_hidden": true} tags=[]
 # Consumption
 fig, axs = plt.subplots(2, figsize = (10,7), constrained_layout=True)
 
@@ -414,9 +441,10 @@ plt.show()
 #
 # TODO
 
-# %%
-mdists = pd.DataFrame({'Base': M_base['dist_last'],
-                       'PIN': M_pin['dist_last']})
+# %% tags=[]
+mdists = pd.DataFrame({'Base m': m_base['dist_last'],
+                       'Base MP': M_base['dist_last'],
+                       'PIN m': M_pin['dist_last']})
 
 mdists.plot.kde()
 plt.xlim([0,10])
