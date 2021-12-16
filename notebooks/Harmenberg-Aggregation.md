@@ -1,12 +1,12 @@
 ---
-name: Harmenberg-Agregation
+name: Harmenberg-Aggregation
 tags:
   - DemARK
   - Demonstration
   - Tutorial
   - Teaching
   - Notebook
-abstract: 'Harmenberg's method for aggregating heterogeneous-agent models with permanent income shocks.'
+abstract: 'Harmenberg method for aggregating heterogeneous-agent models with permanent income shocks.'
 authors:
   -
     family-names: "Velásquez-Giraldo"
