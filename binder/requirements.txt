@@ -2,7 +2,6 @@ matplotlib
 numpy
 ipywidgets
 scipy
-jupyter
 cite2c
 pandas
 pandas-datareader
