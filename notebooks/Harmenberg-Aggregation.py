@@ -152,7 +152,7 @@ HARK.__file__
 # \begin{equation}\label{eq:aggC}\tag{0}
 # \aggC = \PermGroFac^t \int c(\mNrm) \times \PIWmea_t(\mNrm) \, dm,
 # \end{equation}
-# but there is no computational advances yet. We have hidden the joint distribution of $(\PInc,\mNrm)$ inside the object we have defined. This makes us notice that $\PIWmea$ is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating $\PIWmea$.
+# but there is no computational advances yet. We have hidden the joint distribution of $(\PInc,\mNrm)$ inside the object we have defined. This makes us notice that $\PIWmea$ is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practical way of computing or approximating $\PIWmea$.
 #
 #
 # ## Second insight
@@ -317,7 +317,7 @@ example.solve()
 # %% [markdown]
 # Under the basic simulation strategy, we have to de-normalize market resources and consumption multiplying them by permanent income. Only then we construct our statistics of interest.
 #
-# Note that our time-sampling strategy requieres that, after enough time has passed, the economy settles on a stable distribution of its agents across states. How can we know this will be the case? [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) and [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) provide conditions that can give us some reassurance.
+# Note that our time-sampling strategy requires that, after enough time has passed, the economy settles on a stable distribution of its agents across states. How can we know this will be the case? [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) and [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) provide conditions that can give us some reassurance.
 #
 # 1. [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) shows that if $$\log [\frac{(R\beta)^{1/\rho}}{\PermGroFac}
 # ] < E[\log \PermShk],$$ then there is a stable invariant distribution of normalized market resources $\mNrm$.
@@ -405,7 +405,7 @@ axs[1].grid()
 plt.show()
 
 # %% [markdown]
-# The previous plot highlights the gain in efficiency from Harmenberg's method: it attains any given level of precission ($\text{Var}\left(\{\aggMest_t\}_{t\in\mathcal{T}}\right)$) with roughly **one tenth** of the agents needed by the standard method to achieve that same level.
+# The previous plot highlights the gain in efficiency from Harmenberg's method: it attains any given level of precision ($\text{Var}\left(\{\aggMest_t\}_{t\in\mathcal{T}}\right)$) with roughly **one tenth** of the agents needed by the standard method to achieve that same level.
 #
 # We now examine consumption.
 
@@ -434,17 +434,22 @@ axs[1].grid()
 plt.show()
 
 # %% [markdown]
-# The variance plot shows that the efficiency gains are even greater for consumption: Harmenberg's method requires rouglhy **one-hundredth** of the agents that the standard method would require for a given precision, and at a fixed number of agents it is **ten times more precise**!
+# The variance plot shows that the efficiency gains are even greater for consumption: Harmenberg's method requires roughly **one-hundredth** of the agents that the standard method would require for a given precision, and at a fixed number of agents it is **ten times more precise**!
 
 # %% [markdown]
-# # Comparison of the PIN-measure and the base measure
+# # Permanent-income-weighted measure and market-resources distribution are different things!
 #
-# TODO
+# We have learned that 
+# \begin{equation}
+# \aggM_t = \int \int \mNrm \times \PInc \times \mPdist_t(\mNrm,\PInc) \, d\PInc \, d\mNrm = \PermGroFac^t \int \mNrm \times \PIWmea_t(\mNrm) \, dm.
+# \end{equation}
+# This equivalence might lead us to thing that, in our simulations, $\mNrm$ under the permanent-income-weighted measure ($\PIWmea$) is equivalent to $\mLvl = \mNrm\times \PInc$ under the base measure. However, **this is not the case**: $\PIWmea(x)$ is the total (de-trended) amount of permanent income earned by people with normalized resources $\mNrm = x$, **not** the measure of agents with non-normalized resources $\mLvl = x$.
+#
+# To visualize this point, it suffices to examine our simulations. We now plot density estimates of $\mNrm$ in the permanent-income-neutral simulation and $\mNrm \times \PInc$ under the base simulation. It is clear that the densities are not the same!
 
-# %% tags=[]
-mdists = pd.DataFrame({'Base m': m_base['dist_last'],
-                       'Base MP': M_base['dist_last'],
-                       'PIN m': M_pin['dist_last']})
+# %% tags=[] jupyter={"source_hidden": true}
+mdists = pd.DataFrame({'Base m*P': M_base['dist_last'],
+                       'Perm.-Inc.-weighted m': M_pin['dist_last']})
 
 mdists.plot.kde()
 plt.xlim([0,10])
