@@ -7,9 +7,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.13.0
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -56,7 +56,7 @@ from matplotlib import pyplot as plt
 # $\newcommand{\PermShk}{\pmb{\Psi}}$
 # $\newcommand{\def}{:=}$
 # $\newcommand{\kernel}{\Lambda}$
-# $\newcommand{\pLvlWgtDstn}{\tilde{f}_{\PermShk}}$
+# $\newcommand{\pShkNeutDstn}{\tilde{f}_{\PermShk}}$
 # $\newcommand{\Ex}{\mathbb{E}}$
 #
 # Macroeconomic models with heterogeneous agents sometimes incorporate a microeconomic income process with a permanent component ($\pLvl_t$) that follows a geometric random walk. To find an aggregate characteristic of these economies such as aggregate consumption $\CLvl_t$, one must integrate over permanent income (and all the other relevant state variables):
@@ -97,11 +97,11 @@ from matplotlib import pyplot as plt
 # - We have to simulate the distribution of permanent income, even though the model's solution does not depend on it.
 # - As a geometric random walk, permanent income might have an unbounded distribution. Since $\pLvl_{i,t}$ appears multiplicatively in our approximation, agents with high permanent incomes will be the most important in determining levels of aggregate variables. Therefore, it is important for our simulated population to achieve a good approximation of the distribution of permanent income among the small number of agents with very high permanent income, which will require us to use many agents (large $I$, requiring considerable computational resources).
 #
-# [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) presents a way to resolve the previous two points. His solution constructs a distribution $\pLvlWgtDstn(\cdot)$ of the normalized state vector that he calls **the permanent-income neutral measure** and which has the convenient property that
+# [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) presents a way to resolve the previous two points. His solution constructs a distribution $\tilde{f}(\cdot)$ of the normalized state vector that he calls **the permanent-income-weighted distribution** and which has the convenient property that
 # \begin{equation*}
 # \begin{split}
 # \CLvl_t =& \int \int c\left(\frac{1}{\pLvl}\times \mLvl\right)\times \pLvl \times f_t(\mLvl,\pLvl) \, d\mLvl\, d\pLvl\\
-# =& \int c\left(\mNrm\right) \times \pLvlWgtDstn(\mNrm) \, d\mNrm
+# =& \int c\left(\mNrm\right) \times \tilde{f}(\mNrm) \, d\mNrm
 # \end{split}
 # \end{equation*}
 #
@@ -155,21 +155,21 @@ from matplotlib import pyplot as plt
 #
 # Harmenberg's second insight produces a simple way of generating simulated counterparts of $\mWgtDstnMarg$ without having to simulate permanent incomes.
 #
-# We start with the density function of $\mNrm_{t+1}$ given $\mNrm_t$ and $\PermShk_{t+1}$, $\kernel(\mNrm_{t+1}|\mNrm_t,\PermShk_{t+1})$. This density will depend on the model's transition equations and draws of random variables like transitory shocks to income in $t+1$ or random returns to savings between $t$ and $t+1$. If we can simulate those things, then we can sample from $\kernel(\cdot|\mNrm_t,\PermShk_t)$.
+# We start with the density function of $\mNrm_{t+1}$ given $\mNrm_t$ and $\PermShk_{t+1}$, $\kernel(\mNrm_{t+1}|\mNrm_t,\PermShk_{t+1})$. This density will depend on the model's transition equations and draws of random variables like transitory shocks to income in $t+1$ or random returns to savings between $t$ and $t+1$. If we can simulate those things, then we can sample from $\kernel(\cdot|\mNrm_t,\PermShk_{t+1})$.
 #
 # Harmenberg shows that
 # \begin{equation}\label{eq:transition}
-# \texttt{transition:    }\mWgtDstnMarg_{t+1}(\mNrm_{t+1}) = \int \kernel(\mNrm_{t+1}|\mNrm_t, \PermShk_t) \pLvlWgtDstn(\PermShk_{t+1}) \mWgtDstnMarg_t(\mNrm_t)\, d\mNrm_t\, d\PermShk_{t+1},
+# \texttt{transition:    }\mWgtDstnMarg_{t+1}(\mNrm_{t+1}) = \int \kernel(\mNrm_{t+1}|\mNrm_t, \PermShk_t) \pShkNeutDstn(\PermShk_{t+1}) \mWgtDstnMarg_t(\mNrm_t)\, d\mNrm_t\, d\PermShk_{t+1},
 # \end{equation}
-# where $\pLvlWgtDstn$ is an altered density function for the permanent income shocks $\PermShk$, which he calls the *permanent-income-neutral* measure, and which relates to the original density $f_{\PermShk}$ through $$\pLvlWgtDstn(\PermShk_{t+1})\def \PermShk_{t+1}f_{\PermShk}(\PermShk_{t+1})\,\,\, \forall \PermShk_{t+1}.$$
+# where $\pShkNeutDstn$ is an altered density function for the permanent income shocks $\PermShk$, which he calls the *permanent-income-neutral* measure, and which relates to the original density $f_{\PermShk}$ through $$\pShkNeutDstn(\PermShk_{t+1})\def \PermShk_{t+1}f_{\PermShk}(\PermShk_{t+1})\,\,\, \forall \PermShk_{t+1}.$$
 #
 # What's remarkable about this equation is that it gives us a way to obtain a distribution $\mWgtDstnMarg_{t+1}$ from $\mWgtDstnMarg_t$:
 # - Start with a population whose $\mNrm$ is distributed according to $\mWgtDstnMarg_t$.
-# - Give that population permanent income shocks with distribution $\pLvlWgtDstn$.
+# - Give that population permanent income shocks with distribution $\pShkNeutDstn$.
 # - Apply the transition equations and other shocks of the model to obtain $\mNrm_{t+1}$ from $\mNrm_{t}$ and $\PermShk_{t+1}$ for every agent.
 # - The distribution of $\mNrm$ across the resulting population will be $\mWgtDstnMarg_{t+1}$.
 #
-# Notice that the only change in these steps from what how we would usually simulate the model is that we now draw permanent income shocks from $\pLvlWgtDstn$ instead of $f_{\PermShk}$. Therefore, with this procedure we can approximate $\mWgtDstnMarg_t$ and compute aggregates using formulas like the equation `transition`, all without tracking permanent income and with few changes to the code we use to simulate the model.
+# Notice that the only change in these steps from what how we would usually simulate the model is that we now draw permanent income shocks from $\pShkNeutDstn$ instead of $f_{\PermShk}$. Therefore, with this procedure we can approximate $\mWgtDstnMarg_t$ and compute aggregates using formulas like the equation `transition`, all without tracking permanent income and with few changes to the code we use to simulate the model.
 
 # %% [markdown]
 # # Harmenberg's method in HARK
@@ -194,6 +194,8 @@ example.initialize_sim()
 example.simulate()
 
 # Harmenberg permanent-income-neutral simulation
+
+# Change the income process to use the neutral measure
 example.neutral_measure = True
 example.update_income_process()
 example.initialize_sim()
@@ -325,7 +327,7 @@ example.solve()
 #
 # 1. [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) shows that if $$\log [\frac{(R\beta)^{1/\rho}}{\PermGroFac}
 # ] < E[\log \PermShk],$$ then there is a stable invariant distribution of normalized market resources $\mNrm$.
-# 2. [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) uses Szeidl proof to argue that if the same condition is satisfied when the expectation is taken with respect to the permanent-income-neutral measure ($\PINmeasure$), then there is a stable invariant permanent-income-weighted distribution ($\PIWmea$)
+# 2. [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) uses Szeidl proof to argue that if the same condition is satisfied when the expectation is taken with respect to the permanent-income-neutral measure ($\pShkNeutDstn$), then there is a stable invariant permanent-income-weighted distribution ($\mWgtDstnMarg$)
 #
 # We now check both conditions with our parametrization.
 
@@ -352,8 +354,10 @@ else:
 
 # %% [markdown]
 # Knowing that the conditions are satisfied, we are ready to perform our experiments.
+#
+# First, we simulate using the traditional approach.
 
-# %% tags=[]
+# %% tags=[] jupyter={"source_hidden": true}
 # Base simulation
 example.initialize_sim()
 example.simulate()
@@ -381,7 +385,7 @@ C_pin = sumstats(example.history['cNrm'], sample_periods)
 # %% [markdown]
 # We can now compare the two methods my plotting our measure of precision for different numbers of simulated agents.
 
-# %% Plots code_folding=[0] tags=[]
+# %% Plots code_folding=[0] tags=[] jupyter={"source_hidden": true}
 # Plots
 nagents = np.arange(1,max_agents+1,1)
 
@@ -445,11 +449,11 @@ plt.show()
 #
 # We have learned that 
 # \begin{equation}
-# \aggM_t = \int \int \mNrm \times \PInc \times \mPdist_t(\mNrm,\PInc) \, d\PInc \, d\mNrm = \PermGroFac^t \int \mNrm \times \PIWmea_t(\mNrm) \, dm.
+# \MLvl_t = \int \int \mNrm \times \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl \, d\mNrm = \PermGroFac^t \int \mNrm \times \mWgtDstnMarg_t(\mNrm) \, d\mNrm.
 # \end{equation}
-# This equivalence might lead us to thing that, in our simulations, $\mNrm$ under the permanent-income-weighted measure ($\PIWmea$) is equivalent to $\mLvl = \mNrm\times \PInc$ under the base measure. However, **this is not the case**: $\PIWmea(x)$ is the total (de-trended) amount of permanent income earned by people with normalized resources $\mNrm = x$, **not** the measure of agents with non-normalized resources $\mLvl = x$.
+# This equivalence might lead us to thing that, in our simulations, $\mNrm$ under the permanent-income-weighted measure ($\mWgtDstnMarg$) is equivalent to $\mLvl = \mNrm\times \pLvl$ under the base measure. However, **this is not the case**: $\mWgtDstnMarg_t(x)$ is the total (de-trended) amount of permanent income earned by people with normalized resources $\mNrm = x$, **not** the measure of agents with non-normalized resources $\mLvl = x$.
 #
-# To visualize this point, it suffices to examine our simulations. We now plot density estimates of $\mNrm$ in the permanent-income-neutral simulation and $\mNrm \times \PInc$ under the base simulation. It is clear that the densities are not the same!
+# To visualize this point, it suffices to examine our simulations. We now plot density estimates of $\mNrm$ in the permanent-income-neutral simulation and $\mNrm \times \pLvl$ under the base simulation. It is clear that the densities are not the same!
 
 # %% tags=[] jupyter={"source_hidden": true}
 mdists = pd.DataFrame({'Base m*P': M_base['dist_last'],
