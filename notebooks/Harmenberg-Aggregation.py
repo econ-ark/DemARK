@@ -7,41 +7,26 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       jupytext_version: 1.11.2
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
 
 # %% [markdown]
-# # A Demonstration of [Harmenberg's (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) aggregation method in HARK
+# ## A Demonstration of the Harmenberg (2021) Aggregation Method
+#
+#    - ["Aggregating heterogeneous-agent models with permanent income shocks"](https://doi.org/10.1016/j.jedc.2021.104185)
 #
 # ## Authors: [Christopher D. Carroll](http://www.econ2.jhu.edu/people/ccarroll/), [Mateo Velásquez-Giraldo](https://mv77.github.io/)
+#
+#
 
 # %% [markdown]
-# Symbol definitions
-#
-# \begin{align}
-# & 
-# \newcommand{\PInc}{P} 
-# \newcommand{\mLvl}{\mathbf{m}}  
-# \newcommand{\mNrm}{m} 
-# \newcommand{\aggC}{\bar{\mathbf{C}}} 
-# \newcommand{\aggM}{\bar{\mathbf{M}}}
-# \newcommand{\aggCest}{\widehat{\aggC}}
-# \newcommand{\aggMest}{\widehat{\aggM}}
-# \newcommand{\mPdist}{\psi}
-# \newcommand{\PermGroFac}{\Gamma}
-# \newcommand{\PermShk}{\eta}
-# \newcommand{\def}{:=}
-# \newcommand{\kernel}{\phi}
-# \newcommand{\PINmeasure}{\tilde{f}_\PermShk}
-# \end{align}
-# $\newcommand{\PIWmea}{\tilde{\psi}^{m}}}$
-#
+# `# Set Up the Computational Environment: (in JupyterLab, click the dots)`
 
-# %% code_folding=[0]
+# %% code_folding=[0] tags=[] jupyter={"source_hidden": true}
 # Preliminaries
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     IndShockConsumerType
@@ -55,57 +40,68 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-# %%
-import HARK
-HARK.__file__
-
-# %% [markdown]
+# %% [markdown] jp-MarkdownHeadingCollapsed=true tags=[]
 # # Description of the problem
 #
-# Macroeconomic models with heterogeneous agents sometimes incorporate a microeconomic income process with a permanent component ($\PInc_t$) that follows a geometric random walk. To find an aggregate characteristic of these economies such as aggregate consumption $\aggC_t$, one must integrate over permanent income (and all the other relevant state variables):
+# $\newcommand{\pLvl}{\mathbf{p}}$
+# $\newcommand{\mLvl}{\mathbf{m}}$
+# $\newcommand{\mNrm}{m}$
+# $\newcommand{\CLvl}{\mathbf{C}}$
+# $\newcommand{\MLvl}{\mathbf{M}}$
+# $\newcommand{\CLvlest}{\widehat{\CLvl}}$
+# $\newcommand{\MLvlest}{\widehat{\MLvl}}$
+# $\newcommand{\mpLvlDstn}{\mu}$
+# $\newcommand{\mWgtDstnMarg}{\tilde{\mu}^{m}}$
+# $\newcommand{\PermGroFac}{\pmb{\Phi}}$
+# $\newcommand{\PermShk}{\pmb{\Psi}}$
+# $\newcommand{\def}{:=}$
+# $\newcommand{\kernel}{\Lambda}$
+# $\newcommand{\pLvlWgtDstn}{\tilde{f}_{\PermShk}}$
+# $\newcommand{\Ex}{\mathbb{E}}$
+#
+# Macroeconomic models with heterogeneous agents sometimes incorporate a microeconomic income process with a permanent component ($\pLvl_t$) that follows a geometric random walk. To find an aggregate characteristic of these economies such as aggregate consumption $\CLvl_t$, one must integrate over permanent income (and all the other relevant state variables):
 #
 # \begin{equation*}
-# \aggC_t = \int \int c(\mLvl,\PInc) \times f_t(\mLvl,\PInc) \, d \mLvl\, d\PInc, 
+# \CLvl_t = \int \int c(\mLvl,\pLvl) \times f_t(\mLvl,\pLvl) \, d \mLvl\, d\pLvl, 
 # \end{equation*}
 #
 # where $\mLvl$ denotes any other state variables that consumption might depend on, $c(\cdot,\cdot)$ is the individual consumption function, and $f_t(\cdot,\cdot)$ is the joint density function of permanent income and the other state variables at time $t$.
 #
-# Under the usual assumption of Constant Relative Risk Aversion utility and standard assumptions about the budget constraint, such models are homothetic in permanent income (see [Carroll (2021)](https://econ-ark.github.io/BufferStockTheory)). This means that for a state variable $\mLvl$ one can solve for a normalized policy function $c(\cdot)$ such that
+# Under the usual assumption of Constant Relative Risk Aversion utility and standard assumptions about the budget constraint, [such models are homothetic](https://econ-ark.github.io/BufferStockTheory/BufferStockTheory3.html#The-Problem-Can-Be-Normalized-By-Permanent-Income). This means that for a state variable $\mLvl$ one can solve for a normalized policy function $c(\cdot)$ such that
 #
 # \begin{equation*}
-#     c(\mLvl,\PInc) = c\left(\frac{\mLvl}{\PInc} \right)\times \PInc \,\,\, \forall \, (\mLvl,\PInc).
+#     c(\mLvl,\pLvl) = c\left(\mLvl/\pLvl\right)\times \pLvl \,\,\, \forall \, (\mLvl,\pLvl).
 # \end{equation*}
 #
 #
-# In practice, this implies that one can defined a normalized state vector $\mNrm = \mLvl/\PInc$ and solve for the normalized policy function. This eliminates one dimension of the optimization problem problem, $\PInc$.
+# In practice, this implies that one can defined a normalized state vector $\mNrm = \mLvl/\pLvl$ and solve for the normalized policy function. This eliminates one dimension of the optimization problem problem, $\pLvl$.
 #
 # While convenient for the solution of the agents' optimization problem, homotheticity has not simplified our aggregation calculations as we still have
 #
 # \begin{equation*}
 # \begin{split}
-# \aggC_t =& \int \int c(\mLvl,\PInc) \times f_t(\mLvl,\PInc) \, d\mLvl\, d\PInc\\
-# =& \int \int c\left(\frac{1}{\PInc}\times \mLvl\right)\times \PInc \times f_t(\mLvl,\PInc) \, d\mLvl\, d\PInc,
+# \CLvl_t =& \int \int c(\mLvl,\pLvl) \times f_t(\mLvl,\pLvl) \, d\mLvl\, d\pLvl\\
+# =& \int \int c\left(\frac{1}{\pLvl}\times \mLvl\right)\times \pLvl \times f_t(\mLvl,\pLvl) \, d\mLvl\, d\pLvl,
 # \end{split}
 # \end{equation*}
 #
-# which depends on $\PInc$.
+# which depends on $\pLvl$.
 #
-# To further complicate matters, we usually do not have analytical expressions for $c(\cdot)$ or $f_t(\mLvl,\PInc)$. What we do in practice is to simulate a population $I$ of agents for a large number of periods $T$ using the model's policy functions and transition equations. The result is a set of observations $\{\mLvl_{i,t},\PInc_{i,t}\}_{i\in I, 0\leq t\leq T}$ which we then use to approximate
+# To further complicate matters, we usually do not have analytical expressions for $c(\cdot)$ or $f_t(\mLvl,\pLvl)$. What we often do in practice is to simulate a population $I$ of agents for a large number of periods $T$ using the model's policy functions and transition equations. The result is a set of observations $\{\mLvl_{i,t},\pLvl_{i,t}\}_{i\in I, 0\leq t\leq T}$ which we then use to approximate
 #
 # \begin{equation*}
-# \aggC_t \approx \frac{1}{|I|}\sum_{i \in I} c\left(\frac{1}{\PInc_{i,t}}\times \mLvl_{i,t}\right)\times \PInc_{i,t}. 
+# \CLvl_t \approx \frac{1}{|I|}\sum_{i \in I} c\left(\mLvl_{i,t}/\pLvl_{i,t}\right)\times \pLvl_{i,t}. 
 # \end{equation*}
 #
 # At least two features of the previous strategy are unpleasant:
 # - We have to simulate the distribution of permanent income, even though the model's solution does not depend on it.
-# - As a geometric random walk, permanent income might have an unbounded distribution with a thick right tail. Since $\PInc_{i,t}$ appears multiplicatively in our approximation, agents with high permanent incomes will be the most important in determining levels of aggregate variables. Therefore, it is important for our simulated population to achieve a good approximation of the distribution of permanent income in its thick right tail, which will require us to use many agents.
+# - As a geometric random walk, permanent income might have an unbounded distribution. Since $\pLvl_{i,t}$ appears multiplicatively in our approximation, agents with high permanent incomes will be the most important in determining levels of aggregate variables. Therefore, it is important for our simulated population to achieve a good approximation of the distribution of permanent income among the small number of agents with very high permanent income, which will require us to use many agents (large $I$, requiring considerable computational resources).
 #
-# [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) presents a way to resolve the previous two points. His solution constructs a distribution $\widetilde{f}_t(\cdot)$ of the normalized state vector that he calls **the permanent-income neutral measure** and which has the convenient property that
-#
+# [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) presents a way to resolve the previous two points. His solution constructs a distribution $\pLvlWgtDstn(\cdot)$ of the normalized state vector that he calls **the permanent-income neutral measure** and which has the convenient property that
 # \begin{equation*}
 # \begin{split}
-# \aggC_t =& \int \int c\left(\frac{1}{\PInc}\times \mLvl\right)\times \PInc \times f_t(\mLvl,\PInc) \, d\mLvl\, d\PInc\\
-# =& \int c\left(\mNrm\right) \times \widetilde{f}(\mNrm) \, d\mNrm
+# \CLvl_t =& \int \int c\left(\frac{1}{\pLvl}\times \mLvl\right)\times \pLvl \times f_t(\mLvl,\pLvl) \, d\mLvl\, d\pLvl\\
+# =& \int c\left(\mNrm\right) \times \pLvlWgtDstn(\mNrm) \, d\mNrm
 # \end{split}
 # \end{equation*}
 #
@@ -113,78 +109,80 @@ HARK.__file__
 #
 # This notebook briefly describes Harmenberg's method and demonstrates its implementation in the HARK toolkit.
 
-# %% [markdown]
+# %% [markdown] tags=[]
 # # Description of the method
 #
-# To illustrate Harmenberg's idea, consider a model in which:
+# To illustrate Harmenberg's idea, consider a [buffer stock saving](https://econ-ark.github.io/BufferStockTheory) model in which:
 # - The individual agent's problem has two state variables:
 #     - Market resources $\mLvl_{i,t}$.
-#     - Permanent income $\PInc_{i,t}$.
+#     - Permanent income $\pLvl_{i,t}$.
 #     
-# - The agent's problem is homothetic in permanent income, so that we can define $m_t = \mLvl_t/\PInc_t$ and find a normalized policy function $c(\cdot)$ such that
+# - The agent's problem is homothetic in permanent income, so that we can define $m_t = \mLvl_t/\pLvl_t$ and find a normalized policy function $c(\cdot)$ such that
 # \begin{equation*}
-# c(\mNrm) \times \PInc_t = \mathbf{c}(\mLvl_t, \PInc_t) \,\,\qquad \forall(\mLvl_t, \PInc_t)
+# c(\mNrm) \times \pLvl_t = \mathbf{c}(\mLvl_t, \pLvl_t) \,\,\qquad \forall(\mLvl_t, \pLvl_t)
 # \end{equation*}
 # where $\mathbf{c}(\cdot,\cdot)$ is the optimal consumption function.
 #
-# - $\PInc_t$ evolves according to $$\PInc_{t+1} = \Gamma \PermShk_{t+1} \PInc_t,$$ where $\PermShk_{t+1}$ is a shock with density function $f_\PermShk(\cdot)$ satisfying $E_t[\PermShk_{t+1}] = 1$.
+# - $\pLvl_t$ evolves according to $$\pLvl_{t+1} = \PermGroFac \PermShk_{t+1} \pLvl_t,$$ where $\PermShk_{t+1}$ is a shock with density function $f_{\PermShk}(\cdot)$ satisfying $\Ex_t[\PermShk_{t+1}] = 1$.
 #
-# To compute aggregate consumption $\aggC_t$ in this model, we would follow the approach from above
+# To compute aggregate consumption $\CLvl_t$ in this model, we would follow the approach from above
 # \begin{equation*}
-# \aggC_t = \int \int c(\mNrm)\times\PInc \times \mPdist_t(\mNrm,\PInc) \, d\mNrm \, d\PInc,
+# \CLvl_t = \int \int c(\mNrm)\times\pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\mNrm \, d\pLvl,
 # \end{equation*}
-# where $\mPdist_t(\mNrm,\PInc)$ is the measure of agents with normalized resources $\mNrm$ and permanent income $\PInc$.
+# where $\mpLvlDstn_t(\mNrm,\pLvl)$ is the measure of agents with normalized resources $\mNrm$ and permanent income $\pLvl$.
 #
 # ## First insight
 #
 # The first of Harmenberg's insights is that the previous integral can be rearranged as
 # \begin{equation*}
-# \aggC_t = \int c(\mNrm)\left(\int \PInc \times \mPdist_t(\mNrm,\PInc) \, d\PInc\right) \, d\mNrm.
+# \CLvl_t = \int c(\mNrm)\left(\int \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl\right) \, d\mNrm.
 # \end{equation*}
-# The inner integral, $\int \PInc \times \mPdist_t(\mNrm,\PInc) \, d\PInc$, is a function of $\mNrm$ and it measures *the total amount of permanent income accruing to agents with normalized market resources of* $\mNrm$. De-trending this object from deterministic growth in permanent income, Harmenberg defines the *permanent-income-weighted distribution* $\PIWmea(\cdot)$ as
+# The inner integral, $\int \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl$, is a function of $\mNrm$ and it measures *the total amount of permanent income accruing to agents with normalized market resources of* $\mNrm$. De-trending this object by the deterministic component of growth in permanent income $\PermGroFac$, Harmenberg defines the *permanent-income-weighted distribution* $\mWgtDstnMarg(\cdot)$ as
 #
 # \begin{equation*}
-# \PIWmea_t(\mNrm) \def \PermGroFac^{-t}\int \PInc \times \mPdist_t(\mNrm,\PInc) \, d\PInc.
+# \mWgtDstnMarg_{t}(\mNrm) \def \PermGroFac^{-t}\int \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl.
 # \end{equation*}
 #
 #
 # The definition allows us to rewrite
-# \begin{equation}\label{eq:aggC}\tag{0}
-# \aggC = \PermGroFac^t \int c(\mNrm) \times \PIWmea_t(\mNrm) \, dm,
+# \begin{equation}\label{eq:aggC}
+# \CLvl = \PermGroFac^t \int c(\mNrm) \times \mWgtDstnMarg_t(\mNrm) \, dm.
 # \end{equation}
-# but there is no computational advances yet. We have hidden the joint distribution of $(\PInc,\mNrm)$ inside the object we have defined. This makes us notice that $\PIWmea$ is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practical way of computing or approximating $\PIWmea$.
 #
+# There are no computational advances yet: We have merely hidden the joint distribution of $(\pLvl,\mNrm)$ inside the $\mWgtDstnMarg$ object we have defined. This helps us notice that $\mWgtDstnMarg$ is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating $\mWgtDstnMarg$.
 #
 # ## Second insight
 #
-# Harmenberg's second insight produces a simple way of generating simulated counterparts of $\PIWmea$ without having to simulate permanent incomes.
+# Harmenberg's second insight produces a simple way of generating simulated counterparts of $\mWgtDstnMarg$ without having to simulate permanent incomes.
 #
 # We start with the density function of $\mNrm_{t+1}$ given $\mNrm_t$ and $\PermShk_{t+1}$, $\kernel(\mNrm_{t+1}|\mNrm_t,\PermShk_{t+1})$. This density will depend on the model's transition equations and draws of random variables like transitory shocks to income in $t+1$ or random returns to savings between $t$ and $t+1$. If we can simulate those things, then we can sample from $\kernel(\cdot|\mNrm_t,\PermShk_t)$.
 #
 # Harmenberg shows that
-# \begin{equation}\label{eq:transition}\tag{1}
-# \PIWmea_{t+1}(\mNrm_{t+1}) = \int \kernel(\mNrm_{t+1}|\mNrm_t, \PermShk_t) \PINmeasure(\PermShk_{t+1}) \PIWmea_t(\mNrm_t)\, d\mNrm_t\, d\PermShk_{t+1},
+# \begin{equation}\label{eq:transition}
+# \texttt{transition:    }\mWgtDstnMarg_{t+1}(\mNrm_{t+1}) = \int \kernel(\mNrm_{t+1}|\mNrm_t, \PermShk_t) \pLvlWgtDstn(\PermShk_{t+1}) \mWgtDstnMarg_t(\mNrm_t)\, d\mNrm_t\, d\PermShk_{t+1},
 # \end{equation}
-# where $\PINmeasure$ is an altered density function for the permanent income shocks $\PermShk$, which we call the *permanent-income-neutral* measure, and which relates to the original density through $$\PINmeasure(\PermShk_{t+1})\def \PermShk_{t+1}f_{\PermShk}(\PermShk_{t+1})\,\,\, \forall \PermShk_{t+1}.$$
+# where $\pLvlWgtDstn$ is an altered density function for the permanent income shocks $\PermShk$, which he calls the *permanent-income-neutral* measure, and which relates to the original density $f_{\PermShk}$ through $$\pLvlWgtDstn(\PermShk_{t+1})\def \PermShk_{t+1}f_{\PermShk}(\PermShk_{t+1})\,\,\, \forall \PermShk_{t+1}.$$
 #
-#
-# What's remarkable about Equation \ref{eq:transition} is that it gives us a way to obtain a distribution whose $\mNrm$ is distributed according to $\PIWmea_{t+1}$ from one whose $\mNrm$ is distributed according to $\PIWmea_t$:
-# - Start with a population whose $\mNrm$ is distributed according to $\PIWmea_t$.
-# - Give that population permanent income shocks with distribution $\PINmeasure$.
+# What's remarkable about this equation is that it gives us a way to obtain a distribution $\mWgtDstnMarg_{t+1}$ from $\mWgtDstnMarg_t$:
+# - Start with a population whose $\mNrm$ is distributed according to $\mWgtDstnMarg_t$.
+# - Give that population permanent income shocks with distribution $\pLvlWgtDstn$.
 # - Apply the transition equations and other shocks of the model to obtain $\mNrm_{t+1}$ from $\mNrm_{t}$ and $\PermShk_{t+1}$ for every agent.
-# - The distribution of $\mNrm$ across the resulting population will be $\PIWmea_{t+1}$.
+# - The distribution of $\mNrm$ across the resulting population will be $\mWgtDstnMarg_{t+1}$.
 #
-# Notice that the only change in these steps from what how we would usually simulate the model is that we now draw permanent income shocks from $\PINmeasure$ instead of $f_{\PermShk}$. Therefore, with this procedure we can approximate $\PIWmea_t$ and compute aggregates using formulas like Equation \ref{eq:aggC}, all without tracking permanent income and with few changes to the code we use to simulate the model.
+# Notice that the only change in these steps from what how we would usually simulate the model is that we now draw permanent income shocks from $\pLvlWgtDstn$ instead of $f_{\PermShk}$. Therefore, with this procedure we can approximate $\mWgtDstnMarg_t$ and compute aggregates using formulas like the equation `transition`, all without tracking permanent income and with few changes to the code we use to simulate the model.
 
 # %% [markdown]
 # # Harmenberg's method in HARK
 #
-# Harmenberg's method for simulations under the permanent-income-neutral measure is available in [HARK's `IndShockConsumerType` class](https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsIndShockModel.py) and the models that inherit its income process, such as [`PortfolioConsumerType`](https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsPortfolioModel.py).
+# Harmenberg's method for simulations under the permanent-income-neutral measure is available in [HARK's `IndShockConsumerType` class](https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsIndShockModel.py) and the (many) models that inherit its income process, such as [`PortfolioConsumerType`](https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsPortfolioModel.py).
 #
 # As the cell below illustrates, using Harmenberg's method in HARK simply requires setting an agent's property `agent.neutral_measure = True` and then computing the discrete approximation to the income process. After these steps, `agent.simulate` will simulate the model using Harmenberg's permanent-income-neutral measure.
 
-# %% code_folding=[]
-# Create an infinite horizon agent with the default parameterization
+# %% [markdown]
+# `# Implementation in HARK:`
+
+# %% code_folding=[] jupyter={"source_hidden": true} tags=[]
+# Create an infinite horizon agent with the default parametrization
 example = IndShockConsumerType(**dict_harmenberg, verbose = 0)
 example.cycles = 0
 
@@ -201,10 +199,10 @@ example.update_income_process()
 example.initialize_sim()
 example.simulate()
 
-# %% [markdown]
+# %% [markdown] tags=[]
 # All we had to do differently to simulate using the permanent-income-neutral measure was to set the agent's property `neutral_measure=True`.
 #
-# This is noticed when the function `update_income_process` re-constructs the agent's income process. The specific lines that achieve the change of measure in HARK are in [this link](https://github.com/econ-ark/HARK/blob/760df611a6ec2ff147d00b7d866dbab6fc4e18a1/HARK/ConsumptionSaving/ConsIndShockModel.py#L2734-L2735), or reproduced here:
+# This is implemented when the function `update_income_process` re-constructs the agent's income process. The specific lines that achieve the change of measure in HARK are in [this link](https://github.com/econ-ark/HARK/blob/760df611a6ec2ff147d00b7d866dbab6fc4e18a1/HARK/ConsumptionSaving/ConsIndShockModel.py#L2734-L2735), or reproduced here:
 #
 # ```python
 # if self.neutral_measure == True:
@@ -218,46 +216,49 @@ example.simulate()
 #
 # To demonstrate the gain in efficiency from using Harmenberg's method, we will set up the following experiment.
 #
-# Consider an economy populated by [Buffer-Stock agents](https://llorracc.github.io/BufferStockTheory/), whose individual-level state variables are market resources $\mLvl_t$ and permanent income $\PInc_t$. Such agents have a [homothetic consumption function](https://econ-ark.github.io/BufferStockTheory/#The-Problem-Can-Be-Normalized-By-Permanent-Income), so that we can define normalized market resources $\mNrm_t \def \mLvl_t / \PInc_t$, solve for a normalized consumption function $c(\cdot)$, and express the consumption function as $\mathbf{c}(\mLvl,\PInc) = c(\mNrm)\times\PInc$.
+# Consider an economy populated by [Buffer-Stock](https://econ-ark.github.io/BufferStockTheory/) savers, whose individual-level state variables are market resources $\mLvl_t$ and permanent income $\pLvl_t$. Such agents have a [homothetic consumption function](https://econ-ark.github.io/BufferStockTheory/#The-Problem-Can-Be-Normalized-By-Permanent-Income), so that we can define normalized market resources $\mNrm_t \def \mLvl_t / \pLvl_t$, solve for a normalized consumption function $c(\cdot)$, and express the consumption function as $\mathbf{c}(\mLvl,\pLvl) = c(\mNrm)\times\pLvl$.
 #
-# Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of $\mNrm$ and $\PInc$ characterized by the density function $f(\cdot,\cdot)$. Under these conditions, define the stable level of aggregate market resources and consumption as
+# Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of $\mNrm$ and $\pLvl$ characterized by the density function $f(\cdot,\cdot)$. Under these conditions, define the stable level of aggregate market resources and consumption as
 # \begin{equation}
-#     \aggM \def \int \int \mNrm \times \PInc \times f(\mNrm, \PInc)\,d\mNrm \,d\PInc, \,\,\,    \aggC \def \int \int c(\mNrm) \times \PInc \times f(\mNrm, \PInc)\,d\mNrm \,d\PInc.
+#     \MLvl \def \int \int \mNrm \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl, \,\,\,    \CLvl \def \int \int c(\mNrm) \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl.
 # \end{equation}
 #
-# If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources $\aggMest_{t}$ would converge to $\aggM$ and our estimate of aggregate consumption $\aggCest_t$ would converge to $\aggC$. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:
+# If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources $\MLvlest_t$ would converge to $\MLvl$ and our estimate of aggregate consumption $\CLvlest_t$ would converge to $\CLvl$. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:
 # \begin{equation}
-#     \aggMest_t \approx \aggMest_{t+n} \approx \aggM \,\,
+#     \MLvlest_t \approx \MLvlest_{t+n} \approx \MLvl \,\,
 #     \text{and} \,\,
-#     \aggCest_t \approx \aggCest_{t+n} \approx \aggC, \,\,
+#     \CLvlest_t \approx \CLvlest_{t+n} \approx \CLvl, \,\,
 #     \text{for } n>0 \text{ and } t \text{ large enough}.
 # \end{equation}
 #
 # In practice, however, we rely on approximations using a finite number of agents $I$. Our estimates of aggregate market resources and consumption at time $t$ are
-#
 # \begin{equation}
-# \aggMest_t \def \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\PInc_{i,t}, \,\,\, \aggCest_t \def \frac{1}{I} \sum_{i=1}^{I} c(m_{i,t})\times\PInc_{i,t},
+# \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\pLvl_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} c(m_{i,t})\times\pLvl_{i,t},
 # \end{equation}
 #
 # under the basic simulation strategy or
 #
 # \begin{equation}
-# \aggMest_t \def \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \,\,\, \aggCest_t \def \frac{1}{I} \sum_{i=1}^{I} c(\tilde{m}_{i,t}),
+# \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} c(\tilde{m}_{i,t}),
 # \end{equation}
 #
 # if we use Harmenberg's method to simulate the distribution of normalized market resources under the permanent-income neutral measure.
 #
-# If we do not use enough agents, our distributions of agents over state variables will be noisy at approximating their continuous counterparts. Additionally, they will depend on the sequences of shocks that the agents receive. The time-dependence will cause fluctuations in $\aggMest_t$ and $\aggCest_t$. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations:
-#
-# 1. Simulate the economy for a long time $T_0$ (a 'burn-in' period)
-# 2. Sample our aggregate estimates at regular intervals after $T_0$. Letting the sampling times be $\mathcal{T}\def \{T_0 + \Delta t\times n\}_{n=0,1,...,N}$, obtain $\{\aggMest_t\}_{t\in\mathcal{T}}$ and $\{\aggCest_t\}_{t\in\mathcal{T}}$.
-# 3. Compute the variance of approximation samples $\text{Var}\left(\{\aggMest_t\}_{t\in\mathcal{T}}\right)$ and $\text{Var}\left(\{\aggCest_t\}_{t\in\mathcal{T}}\right)$.
-#
-# We will now perform exactly this experiment: We will examine the fluctuations in aggregates when they are approximated using the basic simulation strategy and Harmenberg's permanent-income-neutral measure. Since each approximation can be made arbitrarily good by increasing the number of agents it uses, we will examine the variances of aggregates for various sample sizes.
+# If we do not use enough agents, our distributions of agents over state variables will be noisy at approximating their continuous counterparts. Additionally, they will depend on the sequences of shocks that the agents receive. The stochasticity of the draws will cause fluctuations in $\MLvlest_t$ and $\CLvlest_t$. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations:
 #
 # First, some setup.
+# 1. Simulate the economy for a long time $T_0$.
+# 2. Sample our aggregate estimates at regular intervals after $T_0$. Letting the sampling times be $\mathcal{T}\def \{T_0 + \Delta t\times n\}_{n=0,1,...,N}$, obtain $\{\MLvlest_t\}_{t\in\mathcal{T}}$ and $\{\CLvlest_t\}_{t\in\mathcal{T}}$.
+# 3. Compute the variance of approximation samples $\text{Var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)$ and $\text{Var}\left(\{\CLvlest_t\}_{t\in\mathcal{T}}\right)$.
+#     - Other measures of uncertainty (like standard deviation) could also be computed
+#     - But variance is the natural choice [because it is closely related to expected welfare](http://www.econ2.jhu.edu/people/ccarroll/papers/candcwithstickye/#Utility-Costs-Of-Sticky-Expectations)
+#
+# We will now perform exactly this exercise, examining the fluctuations in aggregates when they are approximated using the basic simulation strategy and Harmenberg's permanent-income-neutral measure. Since each approximation can be made arbitrarily good by increasing the number of agents it uses, we will examine the variances of aggregates for various sample sizes.
 
-# %% Experiment setup
+# %% [markdown]
+# `# Setup computational environment:`
+
+# %% Experiment setup jupyter={"source_hidden": true} tags=[]
 # How long to run the economies without sampling? T_0
 burnin = 2000
 # Fixed intervals between sampling aggregates, Δt
@@ -273,7 +274,10 @@ sample_periods = np.arange(start=burnin,
 # Maximum number of aggents that we will use for our approximations
 max_agents = 10000
 
-# %% Define function to get our stats of interest code_folding=[0] jupyter={"source_hidden": true} tags=[]
+# %% [markdown]
+# `# Define tool to calculate summary statistics:`
+
+# %% Define function to get our stats of interest code_folding=[0] tags=[] jupyter={"source_hidden": true}
 # Now create a function that takes HARK's simulation output
 # and computes all the summary statistics we need
 
@@ -303,7 +307,7 @@ def sumstats(sims, sample_periods):
 # %% [markdown]
 # We now configure and solve a buffer-stock agent with a default parametrization.
 
-# %% Create and simulate agent tags=[]
+# %% Create and simulate agent jupyter={"source_hidden": true} tags=[]
 # Create and solve agent
 dict_harmenberg.update(
     {'T_sim': max(sample_periods)+1, 'AgentCount': max_agents,
@@ -363,7 +367,7 @@ C_base = sumstats(example.history['cNrm'] * example.history['pLvl'],
 # %% [markdown]
 # Update and simulate using Harmenberg's strategy. This time, not multiplying by permanent income.
 
-# %% tags=[]
+# %% jupyter={"source_hidden": true} tags=[]
 # Harmenberg PIN simulation
 example.neutral_measure = True
 example.update_income_process()
@@ -377,7 +381,7 @@ C_pin = sumstats(example.history['cNrm'], sample_periods)
 # %% [markdown]
 # We can now compare the two methods my plotting our measure of precision for different numbers of simulated agents.
 
-# %% Plots code_folding=[0] jupyter={"source_hidden": true} tags=[]
+# %% Plots code_folding=[0] tags=[]
 # Plots
 nagents = np.arange(1,max_agents+1,1)
 
@@ -404,8 +408,8 @@ axs[1].set_xlabel('Number of Agents', fontsize=12)
 axs[1].grid()
 plt.show()
 
-# %% [markdown]
-# The previous plot highlights the gain in efficiency from Harmenberg's method: it attains any given level of precision ($\text{Var}\left(\{\aggMest_t\}_{t\in\mathcal{T}}\right)$) with roughly **one tenth** of the agents needed by the standard method to achieve that same level.
+# %% [markdown] tags=[]
+# The previous plot highlights the gain in efficiency from Harmenberg's method: it attains any given level of precission ($\text{Var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)$) with roughly **one tenth** of the agents needed by the standard method to achieve that same level.
 #
 # We now examine consumption.
 
