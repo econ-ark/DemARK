@@ -331,7 +331,7 @@ from HARK.distribution import calc_expectation
 thorn_G = (example.Rfree * example.DiscFac) ** (1/example.CRRA) / example.PermGroFac[0]
 
 e_log_psi_base = calc_expectation(example.PermShkDstn[0], func = lambda x: np.log(x))
-# E_base[g(eta)] = E_pin[eta*g(eta)]
+# E_pin[g(eta)] = E_base[eta*g(eta)]
 e_log_psi_pin = calc_expectation(example.PermShkDstn[0], func = lambda x: x*np.log(x))
 
 szeidl_cond = np.log(thorn_G) < e_log_psi_base
