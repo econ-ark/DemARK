@@ -7,9 +7,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       jupytext_version: 1.11.2
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
 # ---
@@ -309,7 +309,7 @@ def sumstats(sims, sample_periods):
 # %% [markdown]
 # We now configure and solve a buffer-stock agent with a default parametrization.
 
-# %% Create and simulate agent jupyter={"source_hidden": true} tags=[]
+# %% Create and simulate agent tags=[]
 # Create and solve agent
 dict_harmenberg.update(
     {'T_sim': max(sample_periods)+1, 'AgentCount': max_agents,
@@ -325,13 +325,13 @@ example.solve()
 #
 # Note that our time-sampling strategy requires that, after enough time has passed, the economy settles on a stable distribution of its agents across states. How can we know this will be the case? [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) and [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) provide conditions that can give us some reassurance.
 #
-# 1. [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) shows that if $$\log [\frac{(R\beta)^{1/\rho}}{\PermGroFac}
-# ] < E[\log \PermShk],$$ then there is a stable invariant distribution of normalized market resources $\mNrm$.
+# 1. [Szeidl (2013)](http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf) shows that if $$\log \left[\frac{(R\beta)^{1/\rho}}{\PermGroFac}
+# \right] < \Ex[\log \PermShk],$$ then there is a stable invariant distribution of normalized market resources $\mNrm$.
 # 2. [Harmenberg (2021)](https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub) uses Szeidl proof to argue that if the same condition is satisfied when the expectation is taken with respect to the permanent-income-neutral measure ($\pShkNeutDstn$), then there is a stable invariant permanent-income-weighted distribution ($\mWgtDstnMarg$)
 #
 # We now check both conditions with our parametrization.
 
-# %% jupyter={"source_hidden": true} tags=[]
+# %% tags=[] jupyter={"source_hidden": true}
 from HARK.distribution import calc_expectation
 
 thorn_G = (example.Rfree * example.DiscFac) ** (1/example.CRRA) / example.PermGroFac[0]
