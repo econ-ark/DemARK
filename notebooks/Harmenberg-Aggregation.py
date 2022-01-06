@@ -2,16 +2,29 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.13.4
 #   kernelspec:
-#     display_name: Python 3.8 (XPython)
+#     display_name: Python 3 (ipykernel)
 #     language: python
-#     name: xpython
+#     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.8.8
+#   orig_nbformat: 4
 # ---
 
 # %% [markdown]
@@ -230,7 +243,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 # Simple!
 
 # %% [markdown]
-# # The eficiency gain from using Harmenberg's method
+# # The efficiency gain from using Harmenberg's method
 #
 # To demonstrate the gain in efficiency from using Harmenberg's method, we will set up the following experiment.
 #
@@ -496,7 +509,7 @@ plt.show()
 #
 # The upper variance plot shows that the efficiency gains are very large for consumption: The horizontal gap between the two loci is generally more than two orders of magnitude.  That is, Harmenberg's method requires less than **one-hundredth** as many agents as the standard method would require for a given precision.  Alternatively, for a given number of agents it is typically more than 10 times as precise.
 #
-# The improvement in variance is smaller for market resources, likely because in a buffer stock model the point of consumers' actions is to use assets to absorb shocks.  But even for $\MLvl$, the Harmenberg method attains any given level of precision ($\text{Var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)$) with roughly **one tenth** of the agents needed by the standard method to achieve that same level.
+# The improvement in variance is smaller for market resources, likely because in a buffer stock model the point of consumers' actions is to use assets to absorb shocks.  But even for $\MLvl$, the Harmenberg method attains any given level of precision ($\text{var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)$) with roughly **one tenth** of the agents needed by the standard method to achieve that same level.
 #
 # Of course, these results apply only to the particular configuration of parameter values that is the default in the HARK toolkit (but which were chosen long before Harmenberg developed his method).  The degree of improvement will vary depending on the calibration -- for example, if the magnitude of permanent shocks is small or zero, the method will yield little or no improvement.
 
