@@ -474,39 +474,48 @@ plt.show()
 # Calculate envelope
 vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
-rise, fall = calc_segments(mGrid1, vTGrid1)
-mGrid1_up, cGrid1_up, vTGrid1_up, xings = calc_multiline_envelope(mGrid1, cGrid1,
-                                                                vTGrid1, mGrid,
-                                                                find_crossings = True)
-# Create functions
-c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
-v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)
-v1_up  = lambda x: vUntransf(v1T_up(x))
+# Form non-decreasing segments
+start, end = calc_nondecreasing_segments(mGrid1, vTGrid1)
 
-# Extract crossing points
-xing_m = np.array(xings)
-xing_v = v1_up(xings)
+m_segments = []
+vT_segments = []
+c_segments = []
+for j in range(len(start)):
+    idx = range(start[j],end[j]+1)
+    m_segments.append(mGrid1[idx])
+    vT_segments.append(vTGrid1[idx])
+    c_segments.append(cGrid1[idx])
+
+# Get the upper envelope using m and vT    
+m1_env, vt1_env, idx_1 = upper_envelope(segments = list(zip(m_segments,vT_segments)))
+
+# Store the index at which the optimal segment changes
+sec_kink_idx = np.where(np.diff(idx_1)!=0.0)
+
+# Construct enveloped consumption
+c1_env = np.zeros_like(m1_env) + np.nan
+for k, c_segm in enumerate(c_segments):
+    c1_env[idx_1 == k] = LinearInterp(m_segments[k], c_segm)(m1_env[idx_1 == k])
+
+# Create functions
+c1_up  = LinearInterp(m1_env, c1_env)
+v1T_up = LinearInterp(m1_env, vt1_env)
+v1_up  = lambda x: vUntransf(v1T_up(x))
 
 # Show that there is a non-monothonicity and that the upper envelope fixes it
 plt.plot(mGrid1,vGrid1, label = 'EGM Points')
-plt.plot(mGridPlots, v1_up(mGridPlots), 'k--', label = 'Upper Envelope')
-plt.plot(xing_m, xing_v, 'rX', label = 'Crossings')
+plt.plot(m1_env, v1_up(m1_env), 'k--', label = 'Upper Envelope')
+plt.plot(m1_env[sec_kink_idx], v1_up(m1_env[sec_kink_idx]), 'rX', label = 'Crossings')
 plt.plot()
 plt.title('Period 1: Value function')
 plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-# For the consumption function, we want to highlight the sharp discontinuity,
-# so we'll add points to the grid that make it evident.
-add_m_points = np.concatenate([xing_m, np.nextafter(xing_m, np.inf)])
-mGridPlotsC_disc = np.concatenate([mGridPlotsC, add_m_points])
-mGridPlotsC_disc.sort()
-
 # Plot consumption
 plt.plot(mGrid1,cGrid1, label = 'EGM Points')
-plt.plot(mGridPlotsC_disc,c1_up(mGridPlotsC_disc),'k--', label = 'Upper Envelope')
-plt.plot(add_m_points, c1_up(add_m_points),'rX', label = 'Secondary Kink')
+plt.plot(m1_env,c1_up(m1_env),'k--', label = 'Upper Envelope')
+plt.plot(m1_env[sec_kink_idx], c1_up(m1_env[sec_kink_idx]),'rX', label = 'Secondary Kink')
 plt.title('Period 1: Consumption function')
 plt.xlabel('Market resources')
 plt.legend()
