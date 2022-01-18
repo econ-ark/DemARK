@@ -10,9 +10,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.13.0
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -24,7 +24,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.8.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -75,7 +75,7 @@ import matplotlib.pyplot as plt
 # here for now, should be
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp
-from HARK.dcegm import calc_segments, calc_multiline_envelope, calc_prim_kink
+from HARK.dcegm import calc_nondecreasing_segments, upper_envelope, calc_cross_points
 
 # %% [markdown]
 # Applying EGM to value functions with kinks, as the ones that result from discrete-continuous problems, will often result in grids for market resources that are not monotonic and candidate choices at those points that are sub-optimal.
@@ -99,29 +99,31 @@ plt.ylabel("Value")
 
 # %%
 # Compute non-decreasing segments
-rise, fall = calc_segments(m_egm, vt_egm)
+start, end = calc_nondecreasing_segments(m_egm, vt_egm)
 
-# Plot them
-for j in range(len(fall)):
-    idx = range(rise[j],fall[j]+1)
+# Plot them, and store them as [m, v] pairs
+segments = []
+for j in range(len(start)):
+    idx = range(start[j],end[j]+1)
     plt.plot(m_egm[idx], vt_egm[idx])
+    segments.append([m_egm[idx], vt_egm[idx]])
+
 plt.xlabel("resources")
 plt.ylabel("transformed values")
 plt.show()
 
 # %% [markdown]
-# The next step is to produce the upper-envelope of these segments: a line comprised of the points that are not under any other segment. This is done by HARK's `calc_multiline_envelope`function. We now apply it and plot the result
+# The next step is to produce the upper-envelope of these segments: a line comprised of the points that are not under any other segment. This is done by HARK's `upper_envelope`function. We now apply it and plot the result
 
 # %%
 # The function defines the upper envelope over a new grid, which it
 # uses to interpolate each of the non-decreasing segments.
-m_common = np.linspace(0,1.0,100)
-m_upper, c_upper, v_upper = calc_multiline_envelope(m_egm, c_egm, vt_egm, m_common)
+m_upper, v_upper, inds_upper = upper_envelope(segments)
 
-for j in range(len(fall)):
-    idx = range(rise[j],fall[j]+1)
+for j in range(len(start)):
+    idx = range(start[j],end[j]+1)
     plt.plot(m_egm[idx], vt_egm[idx])
-plt.plot(m_upper, v_upper, 'k')
+plt.plot(m_upper, v_upper, '.k')
 plt.xlabel("resources")
 plt.ylabel("transformed values")
 plt.show()
@@ -371,84 +373,50 @@ c2_cond_wi  = LinearInterp(np.insert(mGrid2_cond_wi,0,0), np.insert(cGrid2_cond_
 # We now construct these objects.
 
 # %%
-# We use HARK's 'calcLogSumchoiceProbs' to compute the optimal
-# will decision over our grid of market resources.
-# The function also returns the unconditional value function
-# Use transformed values since -given sigma=0- magnitudes are unimportant. This
-# avoids NaNs at m \approx 0.
-vTGrid2, willChoice2 = calc_log_sum_choice_probs(np.stack((vT2_cond_wi(mGrid),
-                                                     vT2_cond_no(mGrid))),
-                                             sigma = 0)
+# We can use the upper_envelope function to find which action
+# is optimal over the common grid of market resources, and 
+# insert the exact point in which the two actions yield equal value
+# into the grid
+m2_env, vt2_env, inds2_env = upper_envelope([[mGrid, vT2_cond_no(mGrid)],
+                                             [mGrid, vT2_cond_wi(mGrid)]])
 
 # Plot the optimal decision rule
-plt.plot(mGrid, willChoice2[0])
+plt.plot(m2_env, inds2_env)
 plt.title('$w^*(m)$')
 plt.ylabel('Write will (1) or not (0)')
 plt.xlabel('Market resources: m')
 plt.show()
 
-# With the decision rule we can get the unconditional consumption grid
-cGrid2 = (willChoice2*np.stack((c2_cond_wi(mGrid),c2_cond_no(mGrid)))).sum(axis=0)
+# With the decision rule, we can find unconditional consumption
+c2_env = np.zeros_like(m2_env) + np.nan
+c2_env[inds2_env == 0] = c2_cond_no(m2_env[inds2_env == 0])
+c2_env[inds2_env == 1] = c2_cond_wi(m2_env[inds2_env == 1])
 
-# Now find the primary kink point (the point at which the optimal discrete
-# decision changes)
-pKink, segments = calc_prim_kink(mGrid, np.stack((vT2_cond_wi(mGrid),
-                                                vT2_cond_no(mGrid))),
-                               willChoice2)
-
-m_kink = np.array([x[0] for x in pKink])
-v_kink = np.array([x[1] for x in pKink])
-
-# Insert the kink point into the value function grid and create the function.
-idx = np.searchsorted(mGrid, m_kink)
-mGrid_k = np.insert(mGrid, idx, m_kink)
-vTGrid2_k = np.insert(vTGrid2, idx, v_kink)
-
-vT2 = LinearInterp(mGrid_k, vTGrid2_k, lower_extrap = True)
+# And create the unconditional consumption and value functions
+vT2 = LinearInterp(m2_env, vt2_env, lower_extrap = True)
 v2  = lambda x: vUntransf(vT2(x))
 
+c2 = LinearInterp(m2_env, c2_env, lower_extrap = True)
+
+# The 'kink' is where the optimal action changes. Find its position to plot it
+kink_idx = np.where(np.diff(inds2_env)!=0.0)
+
 # Plot the conditional and unconditional value functions
-mGridPlots_k = np.concatenate([mGridPlots,m_kink])
-mGridPlots_k.sort()
-plt.plot(mGridPlots_k, v2_cond_wi(mGridPlots_k), label = 'Cond. Will')
-plt.plot(mGridPlots_k, v2_cond_no(mGridPlots_k), label = 'Cond. No will')
-plt.plot(mGridPlots_k, v2(mGridPlots_k), 'k--',label = 'Uncond.')
-plt.plot(m_kink, v2(m_kink), 'rX', label = 'Primary kink')
+plt.plot(m2_env, v2_cond_wi(m2_env), label = 'Cond. Will')
+plt.plot(m2_env, v2_cond_no(m2_env), label = 'Cond. No will')
+plt.plot(m2_env, v2(m2_env), 'k--',label = 'Uncond.')
+plt.plot(m2_env[kink_idx], v2(m2_env[kink_idx]), 'rX', label = 'Primary kink')
 plt.title('Period 2: Value Functions')
 plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-# Add kink points to consumption function. Make the discontinuity evident
-add_c = []
-add_m = []
-cond_cfuncs = [c2_cond_wi, c2_cond_no]
-for i in range(len(m_kink)):
-    ml = m_kink[i]
-    mr = np.nextafter(ml, np.inf)
-    # Point to the left of the discontinuity
-    add_m.append(ml)
-    add_c.append(cond_cfuncs[segments[i,0]](ml))
-    # Point to the right of the discontinuitiy
-    add_m.append(mr)
-    add_c.append(cond_cfuncs[segments[i,1]](mr))
-   
-# Add to grids    
-idx = np.searchsorted(mGrid, add_m)
-mGrid_k = np.insert(mGrid, idx, add_m)
-cGrid2_k = np.insert(cGrid2, idx, add_c)
-
-# Create function
-c2  = LinearInterp(mGrid_k, cGrid2_k)
-
 # Plot the conditional and unconditional consumption
 # functions
-mGridPlotsC_k = np.concatenate([mGridPlotsC,add_m])
-mGridPlotsC_k.sort()
-plt.plot(mGridPlotsC_k, c2_cond_wi(mGridPlotsC_k), label = 'Cond. Will')
-plt.plot(mGridPlotsC_k, c2_cond_no(mGridPlotsC_k), label = 'Cond. No will')
-plt.plot(mGridPlotsC_k, c2(mGridPlotsC_k), 'k--',label = 'Uncond.')
-plt.plot(add_m, c2(add_m), 'rX', label = 'Primary kink')
+plt.plot(m2_env, c2_cond_wi(m2_env), label = 'Cond. Will')
+plt.plot(m2_env, c2_cond_no(m2_env), label = 'Cond. No will')
+plt.plot(m2_env, c2(m2_env), 'k--',label = 'Uncond.')
+plt.plot(m2_env[kink_idx], c2(m2_env[kink_idx]), 'rX', label = 'Primary kink')
 plt.title('Period 2: Consumption Functions')
 plt.xlabel('Market resources')
 plt.legend()
@@ -506,39 +474,48 @@ plt.show()
 # Calculate envelope
 vTGrid1 = vTransf(vGrid1) # The function operates with *transformed* value grids
 
-rise, fall = calc_segments(mGrid1, vTGrid1)
-mGrid1_up, cGrid1_up, vTGrid1_up, xings = calc_multiline_envelope(mGrid1, cGrid1,
-                                                                vTGrid1, mGrid,
-                                                                find_crossings = True)
-# Create functions
-c1_up  = LinearInterp(mGrid1_up, cGrid1_up)
-v1T_up = LinearInterp(mGrid1_up, vTGrid1_up)
-v1_up  = lambda x: vUntransf(v1T_up(x))
+# Form non-decreasing segments
+start, end = calc_nondecreasing_segments(mGrid1, vTGrid1)
 
-# Extract crossing points
-xing_m = np.array(xings)
-xing_v = v1_up(xings)
+m_segments = []
+vT_segments = []
+c_segments = []
+for j in range(len(start)):
+    idx = range(start[j],end[j]+1)
+    m_segments.append(mGrid1[idx])
+    vT_segments.append(vTGrid1[idx])
+    c_segments.append(cGrid1[idx])
+
+# Get the upper envelope using m and vT    
+m1_env, vt1_env, idx_1 = upper_envelope(segments = list(zip(m_segments,vT_segments)))
+
+# Store the index at which the optimal segment changes
+sec_kink_idx = np.where(np.diff(idx_1)!=0.0)
+
+# Construct enveloped consumption
+c1_env = np.zeros_like(m1_env) + np.nan
+for k, c_segm in enumerate(c_segments):
+    c1_env[idx_1 == k] = LinearInterp(m_segments[k], c_segm)(m1_env[idx_1 == k])
+
+# Create functions
+c1_up  = LinearInterp(m1_env, c1_env)
+v1T_up = LinearInterp(m1_env, vt1_env)
+v1_up  = lambda x: vUntransf(v1T_up(x))
 
 # Show that there is a non-monothonicity and that the upper envelope fixes it
 plt.plot(mGrid1,vGrid1, label = 'EGM Points')
-plt.plot(mGridPlots, v1_up(mGridPlots), 'k--', label = 'Upper Envelope')
-plt.plot(xing_m, xing_v, 'rX', label = 'Crossings')
+plt.plot(m1_env, v1_up(m1_env), 'k--', label = 'Upper Envelope')
+plt.plot(m1_env[sec_kink_idx], v1_up(m1_env[sec_kink_idx]), 'rX', label = 'Crossings')
 plt.plot()
 plt.title('Period 1: Value function')
 plt.xlabel('Market resources')
 plt.legend()
 plt.show()
 
-# For the consumption function, we want to highlight the sharp discontinuity,
-# so we'll add points to the grid that make it evident.
-add_m_points = np.concatenate([xing_m, np.nextafter(xing_m, np.inf)])
-mGridPlotsC_disc = np.concatenate([mGridPlotsC, add_m_points])
-mGridPlotsC_disc.sort()
-
 # Plot consumption
 plt.plot(mGrid1,cGrid1, label = 'EGM Points')
-plt.plot(mGridPlotsC_disc,c1_up(mGridPlotsC_disc),'k--', label = 'Upper Envelope')
-plt.plot(add_m_points, c1_up(add_m_points),'rX', label = 'Secondary Kink')
+plt.plot(m1_env,c1_up(m1_env),'k--', label = 'Upper Envelope')
+plt.plot(m1_env[sec_kink_idx], c1_up(m1_env[sec_kink_idx]),'rX', label = 'Secondary Kink')
 plt.title('Period 1: Consumption function')
 plt.xlabel('Market resources')
 plt.legend()
