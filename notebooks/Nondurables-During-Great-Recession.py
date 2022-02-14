@@ -2,6 +2,7 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
@@ -10,7 +11,7 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.11.5
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -22,15 +23,45 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.8.8
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: true
+#     sideBar: true
+#     skip_h1_title: false
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: false
+#     toc_position: {}
+#     toc_section_display: true
+#     toc_window_display: false
 # ---
 
 # %% [markdown]
 # # Spending on Nondurables During the Great Recession
 #
+# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/nondurables-during-great-recession#launch)
+#
 # <p style="text-align: center;"><small><small><small>Generator: QuARK-make/notebooks_byname</small></small></small></p>
 
-# %% code_folding=[0]
+# %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 
 import matplotlib.pyplot as plt
@@ -44,11 +75,11 @@ from copy import deepcopy
 
 import HARK # Prevents import error from Demos repo
 from HARK.utilities import plot_funcs
-# Choose some calibrated parameters that roughly match steady state 
+
 
 # %% [markdown]
 # ### There Was a Big Drop in Consumption ... 
-# Between the second and fourth quarters of 2018, "discretionary" spending on nondurables and services in the U.S. dropped by about 4 percent -- an unprecedented collapse.  Subsequent analyses of the Great Recession concluded that it was the large drop in consumption expenditures that turned what would otherwise have been a moderate downturn into the largest economic decline since the Great Depresssion.
+# Between the second and fourth quarters of 2008, "discretionary" spending on nondurables and services in the U.S. dropped by about 4 percent -- an unprecedented collapse.  Subsequent analyses of the Great Recession concluded that it was the large drop in consumption expenditures that turned what would otherwise have been a moderate downturn into the largest economic decline since the Great Depresssion.
 #
 # <!-- Following Blinder and Deaton (1987), we exclude clothing and shoes from the "nondurables" category.  By "discretionary" services, we mean those that are not mostly predetermined or imputed from other data: Specifically: recreation services, and food services and accommodations.  Data accessed on 2020-03-27 are from https://apps.bea.gov/iTable/iTable.cfm?ReqID=19&step=2#reqid=19&step=2&isuri=1&1921=underlying
 #
@@ -73,66 +104,63 @@ from HARK.utilities import plot_funcs
 # The first step is to create the agents we want to solve the model for.
 #
 # Model set up:
-# - "Standard" infinite horizon consumption/savings model, with mortality and permanent and temporary shocks to income
+# - "Standard" infinite horizon consumption/saving model, with mortality and permanent and temporary shocks to income
 # - Ex-ante heterogeneity in consumers' discount factors
 #     
-# With this basic setup, HARK's IndShockConsumerType is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
+# With this basic setup, HARK's `IndShockConsumerType` is the appropriate subclass of $\texttt{AgentType}$. So we need to prepare the parameters to create instances of that class.
 #
 
-# %% code_folding=[1]
-from HARK.ConsumptionSaving.ConsIndShockModel import init_idiosyncratic_shocks
-init_idiosyncratic_shocks_agg_SS = deepcopy(init_idiosyncratic_shocks)
-
-# %% code_folding=[1]
-# Calibrated and calculated parameters
-
-PermShkVarAnn   = 0.01 # var of annual perm shk from Carroll (1992)
-TranShkVarAnn   = 0.01 # var of annual tran shk from Carroll (1992)
-TranShkStd      = (0.01*4)**0.5         # Converts ann var to qtr std for tran
-PermShkStd      = (0.01*4/11)**0.5      # Converts ann var to qtr std for perm
-PermGroFacAnn   = 1.00                  # No underlying annual idiosyncratic permanent income growth
-PermGroFac      = PermGroFacAnn**0.25 # Quarterly idiosyncratic permanent income growth factor
-Rfree           = 1.01/(1.0 - 1.0/240.0)# Extra idiosyncratic interest comes from Blanchard (1985) insurance 
-LivPrb          = 1.0 - 1.0/240.0       # Expected life of 240 quarters = 60 years + born at 25 = lifespan 85
-PermLogLevVarSS = (PermShkStd**2)/(1.0-(LivPrb**2.)*(PermGroFac**2.)) # Variance of SS dist of perm inc in levels
-
-# %% code_folding=[1]
-init_idiosyncratic_shocks_agg_SS['CRRA']  = 1.0                       # Log utility
-init_idiosyncratic_shocks_agg_SS['Rfree'] = 1.01/(1.0 - 1.0/240.0)   # 240 quarters = 60 years + start life at 25
-init_idiosyncratic_shocks_agg_SS['PermGroFac'] = [PermGroFac]        # Calculated above
-init_idiosyncratic_shocks_agg_SS['PermGroFacAgg'] = 1.0              # No aggregate permanent growth
-init_idiosyncratic_shocks_agg_SS['PermShkStd'] = [PermShkStd]        # std perm shocks (cstwMPC; 0.01 annually)
-init_idiosyncratic_shocks_agg_SS['TranShkStd'] = [TranShkStd]        # std trans shocks to income,
-init_idiosyncratic_shocks_agg_SS['UnempPrb'] = 0.07                  # Prob becoming unemp if currently emp
-init_idiosyncratic_shocks_agg_SS['IncUnemp'] = 0.15                  # UI replacement rate
-init_idiosyncratic_shocks_agg_SS['UnempPrbRet'] = None              # Benefits cannot be taken away after retirement
-init_idiosyncratic_shocks_agg_SS['LivPrb'] = [LivPrb]                # Calculated above
-init_idiosyncratic_shocks_agg_SS['DiscFac'] = 0.97             # Default intertemporal discount factor, # dummy value, will be overwritten
-init_idiosyncratic_shocks_agg_SS['cycles'] = 0
-init_idiosyncratic_shocks_agg_SS['T_cycle'] = 1
-init_idiosyncratic_shocks_agg_SS['T_sim'] = 2000  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
-init_idiosyncratic_shocks_agg_SS['T_retire'] = 0  # Kill people off if they live this many periods or more
-init_idiosyncratic_shocks_agg_SS['T_age'] = 1000  # Kill people off if they live this many periods or more
-init_idiosyncratic_shocks_agg_SS['IndL'] =  10.0/9.0# Labor supply per individual (constant)
-init_idiosyncratic_shocks_agg_SS['aNrmInitMean'] = np.log(0.00001), # Everyone starts with (nearly) zero assets
-init_idiosyncratic_shocks_agg_SS['aNrmInitStd'] = 0.0
-init_idiosyncratic_shocks_agg_SS['pLvlInitMean'] = 0.0
-init_idiosyncratic_shocks_agg_SS['pLvlInitStd'] = PermLogLevVarSS**0.5 # Variance of SS distribution of permanent income
-init_idiosyncratic_shocks_agg_SS['AgentCount'] = 10000 # Num people to sim
+# %% {"code_folding": [0]}
+# Choose some calibrated parameters that roughly match steady state 
+init_infinite = {
+    "CRRA":1.0,                    # Coefficient of relative risk aversion 
+    "Rfree":1.01/(1.0 - 1.0/240.0), # Survival probability,
+    "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
+    "PermGroFacAgg":1.0,
+    "BoroCnstArt":0.0,
+    "CubicBool":False,
+    "vFuncBool":False,
+    "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
+    "PermShkCount":7,  # Number of points in permanent income shock grid
+    "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
+    "TranShkCount":5,  # Number of points in transitory income shock grid
+    "UnempPrb":0.07,  # Probability of unemployment while working
+    "IncUnemp":0.15,  # Unemployment benefit replacement rate
+    "UnempPrbRet":None,
+    "IncUnempRet":None,
+    "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
+    "aXtraMax":20,  # Maximum end-of-period assets in grid
+    "aXtraCount":20,  # Number of points in assets grid,
+    "aXtraExtra":[None],
+    "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
+    "LivPrb":[1.0 - 1.0/240.0],  # Survival probability
+    "DiscFac":0.97,             # Default intertemporal discount factor, # dummy value, will be overwritten
+    "cycles":0,
+    "T_cycle":1,
+    "T_retire":0,
+    'T_sim':2000,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    'T_age':1000,
+    'IndL': 10.0/9.0,  # Labor supply per individual (constant),
+    'aNrmInitMean':np.log(0.00001),
+    'aNrmInitStd':0.0,
+    'pLvlInitMean':0.0,
+    'pLvlInitStd':0.0,
+    'AgentCount':10000,
+}
 
 # %% [markdown]
 # Now we import the class itself and make a baseline type.
 
 # %%
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
-BaselineType = IndShockConsumerType(**init_idiosyncratic_shocks_agg_SS)
+BaselineType = IndShockConsumerType(**init_infinite)
 
 # %% [markdown]
 # For this exercise, we will introduce _ex ante_ heterogeneity, so the baseline type will be copied several times.
 #
 # First, let's create a list with seven copies of our baseline type.
 
-# %% code_folding=[0]
+# %% {"code_folding": []}
 # A list in python can contain anything -- including consumers
 num_consumer_types   = 7 # declare the number of types we want
 ConsumerTypes = [] # initialize an empty list
@@ -146,20 +174,19 @@ for nn in range(num_consumer_types):
 # %% [markdown]
 # Now we can give each of the consumer types their own discount factor. (This approximates the distribution of parameters estimated in ["The Distribution of Wealth and the Marginal Propensity to Consume"](https://www.econ2.jhu.edu/people/ccarroll/papers/cstwMPC)). 
 
-# %% code_folding=[0]
+# %% {"code_folding": []}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
-from HARK.utilities import approxUniform
+from HARK.distribution import Uniform
 
-# Calibrations from cstwMPC, Table 3, http://www.econ2.jhu.edu/people/ccarroll/papers/cstwMPC/#TBL-4-1-1
-# are for the version of the modelt that matches the distribution of liquid assets
-bottomDiscFac  = 0.9637-0.0133
-topDiscFac     = 0.9637+0.0133
-DiscFac_list   = approxUniform(N=num_consumer_types,bot=bottomDiscFac,top=topDiscFac)[1]
+# Calibrations from cstwMPC
+bottomDiscFac  = 0.9800
+topDiscFac     = 0.9934
+DiscFac_list   = Uniform(bot=bottomDiscFac,top=topDiscFac).approx(N=num_consumer_types).X
 
 # Now, assign the discount factors
 for j in range(num_consumer_types):
     ConsumerTypes[j].DiscFac = DiscFac_list[j]
-    ConsumerTypes[j].quiet   = True # Turn off some unwanted output
+    ConsumerTypes[j].quiet   = True # Turn off some output
 
 # %% [markdown]
 # Our agents now exist and have a concept of the problem they face, but we still need them to solve that problem.
@@ -168,7 +195,7 @@ for j in range(num_consumer_types):
 #
 # The cell below does both of those tasks, looping through the consumer types. For each one, it solves that type's infinite horizon model, then simulates 1000 periods to generate an approximation to the long run distribution of wealth.
 
-# %% code_folding=[0]
+# %% {"code_folding": []}
 # tqdm presents a pretty bar that interactively shows how far the calculations have gotten
 for ConsumerType in tqdm(ConsumerTypes):
     ## We configured their discount factor above.  Now solve
@@ -184,7 +211,7 @@ for ConsumerType in tqdm(ConsumerTypes):
 #
 # First, let's define a simple function that merely calculates the average consumption level across the entire population in the most recent simulated period.
 
-# %% code_folding=[0]
+# %% {"code_folding": []}
 # We just merge the cNrm and pNrm lists already constructed for each ConsumerType
 def calcAvgC(ConsumerTypes):
     """
@@ -193,8 +220,8 @@ def calcAvgC(ConsumerTypes):
     """
     # Make arrays with all types' (normalized) consumption and permanent income level
     # The brackets indicate that the contents will be a list (in this case, of lists)
-    cNrm = np.concatenate([ThisType.cNrm for ThisType in ConsumerTypes])
-    pLvl = np.concatenate([ThisType.pLvl for ThisType in ConsumerTypes])
+    cNrm = np.concatenate([ThisType.controls["cNrm"] for ThisType in ConsumerTypes])
+    pLvl = np.concatenate([ThisType.state_now["pLvl"] for ThisType in ConsumerTypes])
     
     # Calculate and return average consumption level in the economy
     avgC = np.mean(cNrm*pLvl) # c is the ratio to p, so C = c*p
@@ -214,7 +241,7 @@ def calcAvgC(ConsumerTypes):
 #  6. Calculate the new average consumption level as percentage change vs the prior level.
 # 3. Return the list of percentage changes
 
-# %% code_folding=[0]
+# %% {"code_folding": []}
 # Whenever you define a function, you should describe it (with a "docstring")
 def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
     '''
@@ -253,8 +280,8 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
             ConsumerTypeNew.solve(verbose=False) # Step 2B
             
             ConsumerTypeNew.initialize_sim() # Step 2C
-            ConsumerTypeNew.aNrm = OriginalTypes[index].aNrmNow
-            ConsumerTypeNew.pLvl = OriginalTypes[index].pLvlNow
+            ConsumerTypeNew.aNrm = OriginalTypes[index].state_now["aNrm"]
+            ConsumerTypeNew.pLvl = OriginalTypes[index].state_now["pLvl"]
             
             ConsumerTypeNew.sim_one_period() # Step 2D
 
@@ -267,7 +294,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
 # %% [markdown]
 # Our counterfactual experiment function takes three inputs-- consumer types, counterfactual values, and the name of the parameter we want to change. For the sake of convenience, let's define small functions to run the experiment for each parameter with just a single input.
 
-# %% code_folding=[0]
+# %% {"code_folding": []}
 # Trivial functions can be useful in making the logic of your program clear
 def calcConsChangeAfterPermShkChange(newVals):
     return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"PermShkStd")
@@ -281,7 +308,7 @@ def calcConsChangeAfterUnempPrbChange(newVals):
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
 
-# %% code_folding=[0]
+# %% {"code_folding": []}
 # Calculate the consequences of an "MIT shock" to the standard deviation of permanent shocks
 ratio_min = 0.8 # minimum number to multiply uncertainty parameter by
 TargetChangeInC = -4.1 # Source: see comment above
@@ -302,9 +329,9 @@ plt.hlines(TargetChangeInC,perm_min,perm_max)
 plot_funcs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
 
 # %% [markdown]
-# The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.014, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  
+# The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.012, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  
 #
-# The question at hand is whether this is a reasonable or an unreasonable magnitude for a change in uncertainty.  Some perspective on that question is offered by the large literature that attempts to estimate the magnitude of persistent or permanent shocks to household income.  The answer varies substantially across household types, countries, and time periods, but our sense of the literature is that the whole span of the territory between 0.04 and ranging nearly up perhaps 0.16 is well populated (in the sense that substantial numbers of people or countries have been estimated to experience shocks of this magnitude).
+# The question is whether this is a reasonable or an unreasonable magnitude for a change in uncertainty.  Some perspective on that question is offered by the large literature that attempts to estimate the magnitude of persistent or permanent shocks to household income.  The answer varies substantially across household types, countries, and time periods, but our sense of the literature is that the whole span of the territory between 0.04 and ranging nearly up to 0.20 is well populated (in the sense that substantial populations of people or countries have been estimated to experience shocks of this magnitude).
 #
 # The conclusion is that, in order for an increase in permanent income uncertainty to explain the entire drop in consumption spending, uncertainty in permanent income would have to have roughly doubled between Q2 and Q4 of 2008.  While this seems rather a large increase in uncertainty, it is by no means an absurdly large increase.  And, there is no reason to rule out the possibility that people perceived a likely change in the _level_ of their permanent income as well, which of course would translate one-for-one into a change in the appropriate level of consumption.  
 #
