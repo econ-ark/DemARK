@@ -48,10 +48,10 @@
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/micro-and-macro-implications-of-very-impatient-hhs#launch)
 
-# %% [markdown]
+# %% [markdown] tags=[]
 # ## Introduction
 #
-# Buffer stock saving models of the kind implemented in $\texttt{ConsIndShockType}$ say that, if a standard ['Growth Impatience Condition'](https://econ-ark/BufferStockTheory/#GICRaw), holds:
+# Buffer stock saving models of the kind implemented in $\texttt{ConsIndShockType}$ say that, if a standard ['Growth Impatience Condition'](https://econ-ark.github.io/BufferStockTheory/#GICRaw), holds:
 #
 # \begin{eqnarray}
 # \newcommand{\Rfree}{\mathsf{R}}\newcommand{\DiscFac}{\beta}\newcommand{\PermGroFac}{\Gamma}\newcommand{\PermShk}{\psi}\newcommand{\CRRA}{\rho}
@@ -135,7 +135,7 @@ iflatexExists=False
 if find_executable('latex'):
     iflatexExists=True
     
-plt.rc('text', usetex= iflatexExists)
+plt.rc('text', usetex=iflatexExists)
 
 # The warnings package allows us to ignore some harmless but alarming warning messages
 import warnings
@@ -282,7 +282,7 @@ plt.show(block=False)
 # %% [markdown]
 # ## The Distribution Of the Marginal Propensity to Consume
 #
-# For many macroeconomic purposes, the distribution of the MPC $\kappa$ is more important than the distribution of wealth.  Ours is a quarterly model, and MPC's are typically reported on an annual basis; we can compute an approximate MPC from the quraterly ones as $\kappa_{Y} \approx 1.0 - (1.0 - \kappa_{Q})^4$
+# For many macroeconomic purposes, the distribution of the MPC $\kappa$ is more important than the distribution of wealth.  Ours is a quarterly model, and MPC's are typically reported on an annual basis; we can compute a (very) approximate annual MPC from the quraterly ones as $\kappa_{Y} \approx 1.0 - (1.0 - \kappa_{Q})^4$
 #
 # In the cell below, we retrieve the MPCs from our simulated consumers and show that the 10th percentile in the MPC distribution is only about 6 percent, while at the 90th percentile it is almost 0.5
 

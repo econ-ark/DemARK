@@ -99,7 +99,7 @@ from HARK.utilities import plot_funcs
 # The $\texttt{ConsIndShockConsumerType}$ model incorporates three kinds of uncertainty: Unemployment spells, during which income is reduced to some small proportion of its normal level; and, for consumers who remain employed, transitory and permanent shocks with standard deviations $\sigma_{\theta}$ and $\sigma_{\psi}$.  
 #
 # ### The Question:
-# How large an increase in the standard deviation of $\sigma_{\psi}$ would be necessary to induce a 6.4 percent drop in consumption in one quarter?  What about $\sigma_{\theta}$?  How high would the perceived unemployment probability have to be?
+# How large an increase in the standard deviation of $\sigma_{\psi}$ would be necessary to induce a 4 percent drop in consumption in one quarter?  What about $\sigma_{\theta}$?  How high would the perceived unemployment probability have to be?
 #
 # The first step is to create the agents we want to solve the model for.
 #
@@ -231,15 +231,17 @@ def calcAvgC(ConsumerTypes):
 # Now let's create a function to run the experiment we want -- change income uncertainty, and see how consumption changes.
 # To keep the code block below (mostly) clean, we'll describe the procedure below step by step here, with accompanying annotations in the codeblock.
 #
-# 1. Initialize an empty list to hold the changes in consumption that happen after parameters change, and calculate average consumption before the change in uncertainty.
-# 2. Loop through the new uncertainty parameter values to assign. For each parameter value:
-#  1. Assign the parameter value to the agents
-#  2. Re-solve the agent's model under that degree of uncertainty
-#  3. Construct a population of agents distributed according to the pre-crisis steady state
-#  4. Simulate one more period-- the first period after the change in risk.
-#  5. Calculate the population average consumption level given the new consumption rule
-#  6. Calculate the new average consumption level as percentage change vs the prior level.
-# 3. Return the list of percentage changes
+# 1. Initialize an empty list to 
+#    * hold the changes in consumption that happen after parameters change, and
+#    * calculate average consumption before the change in uncertainty
+# 2. Loop through the new uncertainty parameter values to assign. For each: 
+#    1. Assign the parameter value to the agents
+#    2. Re-solve the agent's model under that degree of uncertainty
+#    3. Construct a popn of agents distributed in the pre-crisis steady state
+#    4. Simulate one more period-- the first period after the change in risk.
+#    5. Calculate the popn avg C level given the new consumption rule
+#    6. Calculate the new average consumption level as percentage change vs the prior level.
+#    7. Return the list of percentage changes
 
 # %% {"code_folding": []}
 # Whenever you define a function, you should describe it (with a "docstring")
@@ -304,6 +306,7 @@ def calcConsChangeAfterTranShkChange(newVals):
 
 def calcConsChangeAfterUnempPrbChange(newVals):
     return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"UnempPrb")
+
 
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
