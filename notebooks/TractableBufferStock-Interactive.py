@@ -2,15 +2,14 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed,code_folding
-#     cell_metadata_json: true
+#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
 #     formats: ipynb,py:percent
-#     notebook_metadata_filter: all
+#     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.11.5
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -26,25 +25,43 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.6.9
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
+#   nteract:
+#     version: 0.14.4
 # ---
 
 # %% [markdown]
 # # The Tractable Buffer Stock Model
 #
-# [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/tractablebufferstock-interactive?launch)
-#
+# <p style="text-align: center;"><small><small><small>Generator: BufferStockTheory-make/notebooks_byname</small></small></small></p>
 
 # %% [markdown]
 # The [TractableBufferStock](http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/TractableBufferStock/) model is a (relatively) simple framework that captures all of the qualitative, and many of the quantitative features of optimal consumption in the presence of labor income uncertainty.  
 
-# %% {"code_folding": [0]}
+# %% code_folding=[0]
 # This cell has a bit of (uninteresting) initial setup.
 
 import matplotlib.pyplot as plt
 
 import numpy as np
 import HARK 
+import time
 from copy import deepcopy
 mystr = lambda number : "{:.3f}".format(number)
 
@@ -52,7 +69,7 @@ from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 from HARK.utilities import plot_funcs
 
-# %% {"code_folding": [0]}
+# %% code_folding=[0]
 # Import the model from the toolkit
 from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerType
 
@@ -80,11 +97,11 @@ from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerTy
 # Defining $\gamma = \log \Gamma$ and $r = \log R$, the handout shows that an approximation of the target is given by the formula:
 #
 # \begin{align}
-# \check{m} & \approx 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
+# \check{m} & = 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
 # \end{align}
 #
 
-# %% {"code_folding": [0]}
+# %% code_folding=[0]
 # Define a parameter dictionary and representation of the agents for the tractable buffer stock model
 TBS_dictionary =  {'UnempPrb' : .00625,    # Prob of becoming unemployed; working life of 1/UnempProb = 160 qtrs
                    'DiscFac' : 0.975,      # Intertemporal discount factor
@@ -104,13 +121,13 @@ MyTBStype = TractableConsumerType(**TBS_dictionary)
 # \\ \left(\frac{(R \beta (1-\mho))^{1/\rho}}{G (1-\mho)}\right)  &<  1
 # \\ \left(\frac{(R \beta)^{1/\rho}}{G} (1-\mho)^{-\rho}\right)  &<  1
 # \end{align}
-# and recall (from [PerfForesightCRRA](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/)) that the perfect foresight 'Growth Impatience Factor' is 
+# and recall (from [PerfForesightCRRA](https://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/)) that the perfect foresight 'Growth Impatience Factor' is 
 # \begin{align}\label{eq:PFGIC}
 # \left(\frac{(R \beta)^{1/\rho}}{G}\right)  &<  1
 # \end{align}
 # so since $\mho > 0$, uncertainty makes it harder to be 'impatient.'  To understand this, think of someone who, in the perfect foresight model, was 'poised': Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of 'patience.'  So, in the presence of uncertainty, the conditions on parameters other than $\mho$ must be stronger in order to guarantee 'impatience' in the sense of wanting to spend enough for your wealth to decline _despite_ the extra precautionary motive.
 
-# %% {"code_folding": [3]}
+# %% code_folding=[3]
 # Define a function that plots the employed consumption function and sustainable consumption function 
 # for given parameter values
 
@@ -280,3 +297,5 @@ interact(makeTBSplot,
          plot_ret = plot_ret_widget,
          plot_mSS = plot_mSS_widget,
         );
+
+

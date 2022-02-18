@@ -1,17 +1,17 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
 #     cell_metadata_json: true
 #     formats: ipynb,py:percent
-#     notebook_metadata_filter: all
+#     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.11.5
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -23,35 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
-#   latex_envs:
-#     LaTeX_envs_menu_present: true
-#     autoclose: false
-#     autocomplete: true
-#     bibliofile: biblio.bib
-#     cite_by: apalike
-#     current_citInitial: 1
-#     eqLabelWithNumbers: true
-#     eqNumInitial: 1
-#     hotkeys:
-#       equation: Ctrl-E
-#       itemize: Ctrl-I
-#     labels_anchors: false
-#     latex_user_defs: false
-#     report_style_numbering: false
-#     user_envs_cfg: false
-#   toc:
-#     base_numbering: 1
-#     nav_menu: {}
-#     number_sections: true
-#     sideBar: true
-#     skip_h1_title: false
-#     title_cell: Table of Contents
-#     title_sidebar: Contents
-#     toc_cell: false
-#     toc_position: {}
-#     toc_section_display: true
-#     toc_window_display: false
+#     version: 3.8.8
 # ---
 
 # %% [markdown]
@@ -72,7 +44,7 @@
 # 5. do_secant : Boolean indicator for whether to use "secant MPC", which is average MPC over the range of the prize.  MNW believes authors' regressions are estimating this rather than point MPC.  When False, structural estimation uses point MPC after receiving prize.  NB: This is incompatible with Splurge > 0.
 # 6. drop_corner : Boolean for whether to include target MPC in the top left corner, which is greater than 1.  Authors discuss reasons why the MPC from a transitory shock *could* exceed 1.  Option is included here because this target tends to push the estimate around a bit.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Import python tools
 
 import sys
@@ -137,7 +109,7 @@ Splurge = 0.0    # Consumers automatically spend this amount of any lottery priz
 do_secant = True # If True, calculate MPC by secant, else point MPC
 drop_corner = False # If True, ignore upper left corner when calculating distance
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Set standard HARK parameter values
 
 base_params = deepcopy(init_infinite)
@@ -150,7 +122,7 @@ base_params['AgentCount'] = 10000
 base_params['pLvlInitMean'] = np.log(23.72) # From Table 1, in thousands of USD
 base_params['T_sim'] = T_kill  # No point simulating past when agents would be killed off
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Define the MPC targets from Fagereng et al Table 9; element i,j is lottery quartile i, deposit quartile j
 
 MPC_target_base = np.array([[1.047, 0.745, 0.720, 0.490],
@@ -159,12 +131,12 @@ MPC_target_base = np.array([[1.047, 0.745, 0.720, 0.490],
                             [0.354, 0.325, 0.242, 0.216]])
 MPC_target = AdjFactor*MPC_target_base
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Define the four lottery sizes, in thousands of USD; these are eyeballed centers/averages
 
 lottery_size = np.array([1.625, 3.3741, 7.129, 40.0])
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Make several consumer types to be used during estimation
 
 BaseType = IndShockConsumerType(**base_params)
@@ -212,7 +184,7 @@ def FagerengObjFunc(center,spread,verbose=False):
         WealthQ = np.zeros(ThisType.AgentCount,dtype=int)
         for n in range(3):
             WealthQ[ThisType.state_now["aLvl"] > quartile_cuts[n]] += 1
-        ThisType(WealthQ = WealthQ)
+        ThisType.WealthQ = WealthQ
 
     # Keep track of MPC sets in lists of lists of arrays
     MPC_set_list = [ [[],[],[],[]],
@@ -230,11 +202,11 @@ def FagerengObjFunc(center,spread,verbose=False):
             Lnrm = Llvl/ThisType.state_now["pLvl"]
             if do_secant:
                 SplurgeNrm = Splurge/ThisType.state_now["pLvl"]
-                mAdj = ThisType.state_now["mNrmNow"] + Lnrm - SplurgeNrm
+                mAdj = ThisType.state_now["mNrm"] + Lnrm - SplurgeNrm
                 cAdj = ThisType.cFunc[0](mAdj) + SplurgeNrm
                 MPC_this_type[:,k] = (cAdj - c_base)/Lnrm
             else:
-                mAdj = ThisType.state_now["mNrmNow"] + Lnrm
+                mAdj = ThisType.state_now["mNrm"] + Lnrm
                 MPC_this_type[:,k] = cAdj = ThisType.cFunc[0].derivative(mAdj)
 
         # Sort the MPCs into the proper MPC sets
@@ -261,5 +233,14 @@ def FagerengObjFunc(center,spread,verbose=False):
         print (center, spread, distance)
     return distance
 
-# %%
-# Put your solution here
+
+# %% {"code_folding": []}
+# Conduct the estimation
+
+guess = [0.92,0.03]
+f_temp = lambda x : FagerengObjFunc(x[0],x[1])
+opt_params = minimize_nelder_mead(f_temp, guess, verbose=False)
+print('Finished estimating for scaling factor of ' + str(AdjFactor) + ' and "splurge amount" of $' + str(1000*Splurge))
+print('Optimal (beta,nabla) is ' + str(opt_params) + ', simulated MPCs are:')
+dist = FagerengObjFunc(opt_params[0],opt_params[1],True)
+print('Distance from Fagereng et al Table 9 is ' + str(dist))

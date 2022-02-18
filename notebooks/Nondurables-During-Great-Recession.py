@@ -1,17 +1,17 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
 #     cell_metadata_json: true
 #     formats: ipynb,py:percent
-#     notebook_metadata_filter: all
+#     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.11.5
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -76,22 +76,30 @@ from copy import deepcopy
 import HARK # Prevents import error from Demos repo
 from HARK.utilities import plot_funcs
 
+
 # %% [markdown]
 # ### There Was a Big Drop in Consumption ... 
-# Between the second and fourth quarters of 2018, nondurables consumption spending in the U.S. dropped by an unprecedented 6.4 percent.  High frequency data show a drop in retail sales of something like 10 percent between the weekend before the Lehmann collapse and the weekend after Lehmann.  
+# Between the second and fourth quarters of 2008, "discretionary" spending on nondurables and services in the U.S. dropped by about 4 percent -- an unprecedented collapse.  Subsequent analyses of the Great Recession concluded that it was the large drop in consumption expenditures that turned what would otherwise have been a moderate downturn into the largest economic decline since the Great Depresssion.
+#
+# <!-- Following Blinder and Deaton (1987), we exclude clothing and shoes from the "nondurables" category.  By "discretionary" services, we mean those that are not mostly predetermined or imputed from other data: Specifically: recreation services, and food services and accommodations.  Data accessed on 2020-03-27 are from https://apps.bea.gov/iTable/iTable.cfm?ReqID=19&step=2#reqid=19&step=2&isuri=1&1921=underlying
+#
+# Q2: (770.703+789.047+421.153+621.281+391.462)
+# Q4: (773.038+786.175+302.043+621.773+387.206)
+# (Q4-Q2)/Q2=0.0412
+# -->
 
 # %% [markdown]
 # ### ... and Uncertainty Could Induce A Drop In Consumption ...  
 # Increased "uncertainty" has become a popular explanation of much of what happened in the Great Recession -- including this drop.  Qualitatively, it is well known that a perceived increase in labor income uncertainty should induce more saving (less consumption) for precautionary reasons.
 #
 # ### ... But Is the Story _Quantitatively_ Plausible?
-# But if explaining a 6.4 percent drop in consumption would require an implausibly large increase in uncertainty, the story that uncertainty explains the consumption drop is implausible.  
+# But if explaining a 4 percent drop in discretionary consumption would require an implausibly large increase in uncertainty, the story that uncertainty explains the consumption drop is implausible.  
 #
 # ### Transitory Shocks, Permanent Shocks, or Unemployment
 # The $\texttt{ConsIndShockConsumerType}$ model incorporates three kinds of uncertainty: Unemployment spells, during which income is reduced to some small proportion of its normal level; and, for consumers who remain employed, transitory and permanent shocks with standard deviations $\sigma_{\theta}$ and $\sigma_{\psi}$.  
 #
 # ### The Question:
-# How large an increase in the standard deviation of $\sigma_{\psi}$ would be necessary to induce a 6.4 percent drop in consumption in one quarter?  What about $\sigma_{\theta}$?  How high would the perceived unemployment probability have to be?
+# How large an increase in the standard deviation of $\sigma_{\psi}$ would be necessary to induce a 4 percent drop in consumption in one quarter?  What about $\sigma_{\theta}$?  How high would the perceived unemployment probability have to be?
 #
 # The first step is to create the agents we want to solve the model for.
 #
@@ -118,8 +126,8 @@ init_infinite = {
     "TranShkCount":5,  # Number of points in transitory income shock grid
     "UnempPrb":0.07,  # Probability of unemployment while working
     "IncUnemp":0.15,  # Unemployment benefit replacement rate
-    "UnempPrbRet":None,
-    "IncUnempRet":None,
+    "UnempPrbRet":0.07,
+    "IncUnempRet":0.15,
     "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
     "aXtraMax":20,  # Maximum end-of-period assets in grid
     "aXtraCount":20,  # Number of points in assets grid,
@@ -164,7 +172,7 @@ for nn in range(num_consumer_types):
     ConsumerTypes.append(NewType)
 
 # %% [markdown]
-# Now we can give each of the consumer types their own discount factor. (This approximates the distribution of parameters estimated in ["The Distribution of Wealth and the Marginal Propensity to Consume"](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC)). 
+# Now we can give each of the consumer types their own discount factor. (This approximates the distribution of parameters estimated in ["The Distribution of Wealth and the Marginal Propensity to Consume"](https://www.econ2.jhu.edu/people/ccarroll/papers/cstwMPC)). 
 
 # %% {"code_folding": []}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
@@ -223,15 +231,17 @@ def calcAvgC(ConsumerTypes):
 # Now let's create a function to run the experiment we want -- change income uncertainty, and see how consumption changes.
 # To keep the code block below (mostly) clean, we'll describe the procedure below step by step here, with accompanying annotations in the codeblock.
 #
-# 1. Initialize an empty list to hold the changes in consumption that happen after parameters change, and calculate average consumption before the change in uncertainty.
-# 2. Loop through the new uncertainty parameter values to assign. For each parameter value:
-#  1. Assign the parameter value to the agents
-#  2. Re-solve the agent's model under that degree of uncertainty
-#  3. Construct a population of agents distributed according to the pre-crisis steady state
-#  4. Simulate one more period-- the first period after the change in risk.
-#  5. Calculate the population average consumption level given the new consumption rule
-#  6. Calculate the new average consumption level as percentage change vs the prior level.
-# 3. Return the list of percentage changes
+# 1. Initialize an empty list to 
+#    * hold the changes in consumption that happen after parameters change, and
+#    * calculate average consumption before the change in uncertainty
+# 2. Loop through the new uncertainty parameter values to assign. For each: 
+#    1. Assign the parameter value to the agents
+#    2. Re-solve the agent's model under that degree of uncertainty
+#    3. Construct a popn of agents distributed in the pre-crisis steady state
+#    4. Simulate one more period-- the first period after the change in risk.
+#    5. Calculate the popn avg C level given the new consumption rule
+#    6. Calculate the new average consumption level as percentage change vs the prior level.
+#    7. Return the list of percentage changes
 
 # %% {"code_folding": []}
 # Whenever you define a function, you should describe it (with a "docstring")
@@ -297,13 +307,14 @@ def calcConsChangeAfterTranShkChange(newVals):
 def calcConsChangeAfterUnempPrbChange(newVals):
     return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"UnempPrb")
 
+
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
 
 # %% {"code_folding": []}
 # Calculate the consequences of an "MIT shock" to the standard deviation of permanent shocks
 ratio_min = 0.8 # minimum number to multiply uncertainty parameter by
-TargetChangeInC = -6.3 # Source: FRED
+TargetChangeInC = -4.1 # Source: see comment above
 num_points = 10 # number of parameter values to plot in graphs. More=slower
 
 # First change the variance of the permanent income shock
@@ -325,4 +336,6 @@ plot_funcs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
 #
 # The question is whether this is a reasonable or an unreasonable magnitude for a change in uncertainty.  Some perspective on that question is offered by the large literature that attempts to estimate the magnitude of persistent or permanent shocks to household income.  The answer varies substantially across household types, countries, and time periods, but our sense of the literature is that the whole span of the territory between 0.04 and ranging nearly up to 0.20 is well populated (in the sense that substantial populations of people or countries have been estimated to experience shocks of this magnitude).
 #
-# So, the degree to which income uncertainty would have had to rise in order to explain the drop in consumption in the Great Recession is quite moderate, compared to the variation that is estimated already to exist across people, places, times, and countries.
+# The conclusion is that, in order for an increase in permanent income uncertainty to explain the entire drop in consumption spending, uncertainty in permanent income would have to have roughly doubled between Q2 and Q4 of 2008.  While this seems rather a large increase in uncertainty, it is by no means an absurdly large increase.  And, there is no reason to rule out the possibility that people perceived a likely change in the _level_ of their permanent income as well, which of course would translate one-for-one into a change in the appropriate level of consumption.  
+#
+# The point is that it is not at all implausible, as a quantitative proposition, that an increase in uncertainty could have been responsible for a substantial portion of the decline in nondurable expenditures in the Great Recesssion.  (And it is even easier for an increase in uncertainty to induce a decline in durable goods purchases.
