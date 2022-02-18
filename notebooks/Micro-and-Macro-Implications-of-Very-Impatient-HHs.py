@@ -48,7 +48,7 @@
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/micro-and-macro-implications-of-very-impatient-hhs#launch)
 
-# %% [markdown] tags=[]
+# %% [markdown] tags=[] jp-MarkdownHeadingCollapsed=true
 # ## Introduction
 #
 # Buffer stock saving models of the kind implemented in $\texttt{ConsIndShockType}$ say that, if a standard ['Growth Impatience Condition'](https://econ-ark.github.io/BufferStockTheory/#GICRaw), holds:
@@ -185,8 +185,8 @@ cstwMPC_calibrated_parameters = {
     "TranShkCount":5,  # Number of points in transitory income shock grid
     "UnempPrb":0.07,  # Probability of unemployment while working
     "IncUnemp":0.15,  # Unemployment benefit replacement rate
-    "UnempPrbRet":None,
-    "IncUnempRet":None,
+    "UnempPrbRet":0.07,
+    "IncUnempRet":0.15,
     "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
     "aXtraMax":40,  # Maximum end-of-period assets in grid
     "aXtraCount":32,  # Number of points in assets grid
@@ -204,7 +204,7 @@ cstwMPC_calibrated_parameters = {
     'aNrmInitStd':0.0,
     'pLvlInitMean':0.0,
     'pLvlInitStd':0.0,
-    'AgentCount':10000,
+    'AgentCount':10000
 }
 
 # %% [markdown]
@@ -215,7 +215,7 @@ cstwMPC_calibrated_parameters = {
 # %%
 # This cell constructs seven instances of IndShockConsumerType with different discount factors
 from HARK.distribution import Uniform
-BaselineType = IndShockConsumerType(verbose=0, **cstwMPC_calibrated_parameters)
+BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 
 # Specify the distribution of the discount factor
 num_types = 7              # number of types we want
