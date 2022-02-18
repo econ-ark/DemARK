@@ -126,8 +126,8 @@ init_infinite = {
     "TranShkCount":5,  # Number of points in transitory income shock grid
     "UnempPrb":0.07,  # Probability of unemployment while working
     "IncUnemp":0.15,  # Unemployment benefit replacement rate
-    "UnempPrbRet":None,
-    "IncUnempRet":None,
+    "UnempPrbRet":0.07,
+    "IncUnempRet":0.15,
     "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
     "aXtraMax":20,  # Maximum end-of-period assets in grid
     "aXtraCount":20,  # Number of points in assets grid,
