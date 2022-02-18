@@ -1,17 +1,17 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed,code_folding
+#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
 #     cell_metadata_json: true
 #     formats: ipynb,py:percent
-#     notebook_metadata_filter: all
+#     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.11.5
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.8.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -65,7 +65,7 @@
 #
 # For example, some papers have tabulated information about the **growth rate** of assets at different ages over the life cycle. 
 #
-# The default parameters of the HARK life cycle model have not been optmized to match features of the Norwegian data; a first step in a real "structural" estimation would be to use Norwegian calibrate the inputs to the model (like the profile of income, and the magnitude of income shocks, over the life cycle), and then to find the values of parameters like the time preference rate that allow the model to fit the data best.  (See [SolvingMicroDSOPs](https://econ.jhu.edu/people/ccarroll/SolvingMicroDSOPs) for how this can be done, and search for the corresponding HARK content using [our documentation](https://hark.readthedocs.io)).
+# The default parameters of the HARK life cycle model have not been optmized to match features of the Norwegian data; a first step in a real "structural" estimation would be to use Norwegian calibrate the inputs to the model (like the profile of income, and the magnitude of income shocks, over the life cycle), and then to find the values of parameters like the time preference rate that allow the model to fit the data best.  (See [SolvingMicroDSOPs](https://www.econ2.jhu.edu/people/ccarroll/SolvingMicroDSOPs) for how this can be done, and search for the corresponding HARK content using [our documentation](https://hark.readthedocs.io)).
 
 # %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
@@ -209,7 +209,7 @@ init_consumer_objects = {"CRRA":CRRA_start,
                         "DiscFac":DiscFac_timevary,
                         'AgentCount':num_agents,
                         'seed':seed,
-                        'tax_rate':0.0,
+                        'tax_rte':0.0,
                         'vFuncBool':vFuncBool,
                         'CubicBool':CubicBool
                         }
@@ -233,7 +233,7 @@ LifeCyclePop = cShksModl.IndShockConsumerType(**init_consumer_objects)
 # %% {"code_folding": []}
 # Solve and simulate the model (ignore the "warning" message)
 LifeCyclePop.solve()                            # Obtain consumption rules by age 
-LifeCyclePop.unpack_cFunc()                      # Expose the consumption rules
+LifeCyclePop.unpack('cFunc')                      # Expose the consumption rules
 
 # Which variables do we want to track
 LifeCyclePop.track_vars = ['aNrm','aLvl','pLvl','mNrm','cNrm','TranShk']
@@ -319,26 +319,11 @@ aGro41=LifeCyclePop.history['aLvl'][41]/LifeCyclePop.history['aLvl'][40]
 aGro41NoU=aGro41[aGro41[:]>0.2] # Throw out extreme outliers; don't want growth rates relative to 0 income!
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Plot the (truncated) distribution of growth rates of wealth between age 65 and 66 (=25 + 41)
 from matplotlib import pyplot as plt
 n, bins, patches = plt.hist(aGro41NoU,50,density=True)
 
-
-# %%
-# put your solution here
-
-# %%
-# put your answer here
-
-# %%
-# put your answer here
-
-# %%
-# put your solution here
-
-# %%
-# put your solution here
 
 # %% [markdown]
 # # Saving Rates and Lifetime Income Growth
