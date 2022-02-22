@@ -1,0 +1,10 @@
+matplotlib
+numpy
+ipywidgets
+scipy
+cite2c
+pandas
+pandas-datareader
+statsmodels
+tqdm
+nbval
