@@ -129,10 +129,8 @@ Agent.simulate()
 # \end{eqnarray}
 # and, if the consumer is employed, actual income $Y$ is permanent income multiplied by a transitory shock $\Ex_{t}[\TranShk_{t+1}]=1$,
 # \begin{eqnarray}
-# \yLvl_{t+1} & = & \pLvl_{t+1} \PermGroFac_{t+1} \TranShk_{t+1}, \notag
+# \yLvl_{t+1} & = & \pLvl_{t+1} \TranShk_{t+1}, \notag
 # \end{eqnarray}
-#
-# Define $\newcommand{\yLog}{y}\newcommand{\pLog}{p}\yLog = \log \yLvl,\pLog=\log \pLvl$ and similarly for other variables.
 #
 # <!--- There is also a probability $\UnempPrb$ that the consumer will be temporarily unemployed and experience income of $\TranShk^{\large u}  = 0$.  We construct $\TranShk^{\large e}$ so that its mean value is $1/(1-\UnempPrb)$ because in that case the mean level of the transitory shock (accounting for both unemployed and employed states) is exactly
 #
@@ -146,8 +144,9 @@ Agent.simulate()
 # $\Gamma_{t}$ captures the predictable life cycle profile of income growth (faster when young, slower when old).  See [our replication of CGM-2005](https://github.com/econ-ark/CGMPortfolio/blob/master/Code/Python/CGMPortfolio.ipynb) for a detailed account of how these objects map to CGM's notation.
 
 # %% [markdown]
+# Now define $\newcommand{\yLog}{y}\newcommand{\pLog}{p}\yLog = \log \yLvl,\pLog=\log \pLvl$ and similarly for other variables.
 #
-# Now we construct all the necessary inputs to the regressors. The main input is the expected income growth of every agent at every time period, which is given by
+# Using this notation, we construct all the necessary inputs to the regressors. The main input is the expected income growth of every agent at every time period, which is given by
 # \begin{equation}
 # \begin{split}
 # \Ex_t[\yLvl_{t+1}/\yLvl_{t}] &= \mathbb{E}_t[\left(\frac{\theta_{t+1}\pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}}{\theta_{t}P_{t}}\right)]\\
