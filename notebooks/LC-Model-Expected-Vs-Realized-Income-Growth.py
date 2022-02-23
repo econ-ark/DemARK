@@ -1,16 +1,29 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.4
+#       jupytext_version: 1.11.5
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.8.8
+#   orig_nbformat: 4
 # ---
 
 # %% [markdown] tags=[]
@@ -109,7 +122,7 @@ Agent.simulate()
 # $\newcommand{\UnempPrb}{\wp}$
 # $\newcommand{\TranShk}{\theta}$
 #
-# We assume a standard income process with transitory and permanent shocks:  The consumer's __**p**__ermanent noncapital income $\pLvl$ grows by a predictable factor $\PermGroFac$ and is subject to an unpredictable multiplicative shock $\Ex_{t}[\PermShk_{t+1}]=1$,
+# We assume a standard income process with transitory and permanent shocks:  The consumer's Permanent noncapital income $\pLvl$ grows by a predictable factor $\PermGroFac$ and is subject to an unpredictable multiplicative shock $\Ex_{t}[\PermShk_{t+1}]=1$,
 #
 # \begin{eqnarray}
 # \pLvl_{t+1} & = & \pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}, \notag
@@ -181,9 +194,9 @@ Data["ExpIncChange"] = Data["pLvl"] * (
 
 Data["Y_change"] = Data.groupby("id")["Y"].diff(1)
 # %% [markdown]
-# The authors run an ''index'' version of the regression
+# A corresponding version of this relationship can be estimated in simulated data:
 # \begin{equation*}
-#         E_t[\Delta Y_{i,t+1}] = \alpha + \beta \Delta Y_{i,t} + f_i + \epsilon_{i,t}
+#         \Ex_t[\Delta y_{i,t+1}] = \gamma_{0} + \gamma_{1} \Delta y_{i,t} + f_i + \epsilon_{i,t}
 # \end{equation*}
 # We now estimate an analogous regression in our simulated population.
 
@@ -207,7 +220,7 @@ fe_res = mod.fit()
 print(fe_res)
 
 # %% [markdown]
-# The estimated $\hat{\beta}$ is negative because in usual life-cycle calibrations, transitory shocks are volatile enough that mean reversion of transitory fluctuations is a stronger force than persistent trends in income age-profiles.
+# The estimated $\hat{\gamma}_{1}$ is negative because in usual life-cycle calibrations, transitory shocks are volatile enough that mean reversion of transitory fluctuations is a stronger force than persistent trends in income age-profiles.
 #
 # However, with less volatile transitory shocks, the regression coefficient would be positive. We demonstrate this by shutting off transitory shocks, simulating another population of agents, and re-running the regression.
 
@@ -279,4 +292,4 @@ fe_res = mod.fit()
 print(fe_res)
 
 # %% [markdown]
-# The estimated $\hat{\beta}$ when there are no transitory shocks is positive.
+# The estimated $\hat{\gamma}_{1}$ when there are no transitory shocks is positive.
