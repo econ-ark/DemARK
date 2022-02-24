@@ -25,7 +25,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.8.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -52,7 +52,7 @@
 # <p style="text-align: center;"><small><small><small>Generator: BufferStockTheory-make/notebooks_byname</small></small></small></p>
 
 # %% [markdown]
-# The [TractableBufferStock](http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/TractableBufferStock/) model is a (relatively) simple framework that captures all of the qualitative, and many of the quantitative features of optimal consumption in the presence of labor income uncertainty.  
+# The [TractableBufferStock](http://llorracc.github.io/TractableBufferStock/) model is a (relatively) simple framework that captures all of the qualitative, and many of the quantitative features of optimal consumption in the presence of labor income uncertainty.  
 
 # %% code_folding=[0]
 # This cell has a bit of (uninteresting) initial setup.
@@ -92,12 +92,12 @@ from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerTy
 # \end{eqnarray*}
 # where $\mathcal{R} = R/\Gamma$, and $\mathbb{1}_{t+1} = 1$ if the consumer is employed (and zero if unemployed).
 #
-# Under plausible parameter values the model has a target level of $\check{m} = M/P$ (market resources to permanent income) with an analytical solution that exhibits plausible relationships among all of the parameters.  
+# Under plausible parameter values the model has a target level of $\hat{m} = M/P$ (market resources to permanent income) with an analytical solution that exhibits plausible relationships among all of the parameters.  
 #
 # Defining $\gamma = \log \Gamma$ and $r = \log R$, the handout shows that an approximation of the target is given by the formula:
 #
 # \begin{align}
-# \check{m} & = 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
+# \hat{m} & \approx 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
 # \end{align}
 #
 
@@ -127,7 +127,7 @@ MyTBStype = TractableConsumerType(**TBS_dictionary)
 # \end{align}
 # so since $\mho > 0$, uncertainty makes it harder to be 'impatient.'  To understand this, think of someone who, in the perfect foresight model, was 'poised': Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of 'patience.'  So, in the presence of uncertainty, the conditions on parameters other than $\mho$ must be stronger in order to guarantee 'impatience' in the sense of wanting to spend enough for your wealth to decline _despite_ the extra precautionary motive.
 
-# %% code_folding=[3]
+# %% code_folding=[3] jupyter={"source_hidden": true} tags=[]
 # Define a function that plots the employed consumption function and sustainable consumption function 
 # for given parameter values
 
@@ -164,7 +164,7 @@ def makeTBSplot(DiscFac,CRRA,Rfree,PermGroFac,UnempPrb,mMax,mMin,cMin,cMax,plot_
     if show_targ:
         mTarg = MyTBStype.mTarg
         cTarg = MyTBStype.cTarg
-        targ_label = r'$\left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right) $' #+ mystr(mTarg) + '\n$\check{c}^* = $ ' + mystr(cTarg)
+        targ_label = r'$\left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right) $' #+ mystr(mTarg) + '\n$\hat{c}^* = $ ' + mystr(cTarg)
         plt.annotate(targ_label,xy=(0.0,0.0),xytext=(0.2,0.1),textcoords='axes fraction',fontsize=18)
         plt.plot(mTarg,cTarg,'ro')
         plt.annotate('↙️ m target',(mTarg,cTarg),xytext=(0.25,0.2),ha='left',textcoords='offset points')

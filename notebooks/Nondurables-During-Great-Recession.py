@@ -279,7 +279,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
         for index,ConsumerTypeNew in enumerate(ConsumerTypesNew):
             setattr(ConsumerTypeNew,ParamToChange,ThisVal) # Step 2A   
             ConsumerTypeNew.update_income_process()
-            ConsumerTypeNew.solve(verbose=False) # Step 2B
+            ConsumerTypeNew.solve() # Step 2B
             
             ConsumerTypeNew.initialize_sim() # Step 2C
             ConsumerTypeNew.aNrm = OriginalTypes[index].state_now["aNrm"]
@@ -311,8 +311,8 @@ def calcConsChangeAfterUnempPrbChange(newVals):
 # %% [markdown]
 # Now we can finally run our experiment.  In the cell below, we generate a plot of the change in aggregate consumption vs the (underlying) standard deviation of permanent income shocks.
 
-# %% {"code_folding": []}
-# Calculate the consequences of an "MIT shock" to the standard deviation of permanent shocks
+# %%
+# Calculate the consequences of a permanent "MIT shock" to the standard deviation of permanent shocks
 ratio_min = 0.8 # minimum number to multiply uncertainty parameter by
 TargetChangeInC = -4.1 # Source: see comment above
 num_points = 10 # number of parameter values to plot in graphs. More=slower
@@ -326,10 +326,12 @@ perm_max = BaselineType.PermShkStd[0] * perm_ratio_max
 plt.ylabel('% Change in Consumption')
 plt.xlabel('Std. Dev. of Perm. Income Shock (Baseline = ' + str(round(BaselineType.PermShkStd[0],2)) + ')')
 plt.title('Change in Cons. Following Increase in Perm. Income Uncertainty')
-plt.ylim(-20.,5.)
+plt.ylim(-40.,5.)
 plt.hlines(TargetChangeInC,perm_min,perm_max)
 # The expression below shows the power of python
 plot_funcs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
+
+# %%
 
 # %% [markdown]
 # The figure shows that if people's beliefs about the standard deviation of permanent shocks to their incomes had changed from 0.06 (the default value) to about 0.012, the model would predict an immediate drop in consumption spending of about the magnitude seen in 2008.  
