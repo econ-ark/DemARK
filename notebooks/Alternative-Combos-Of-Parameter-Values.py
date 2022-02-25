@@ -9,9 +9,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.13.0
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.8.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -112,8 +112,8 @@ cstwMPC_calibrated_parameters = {
     "TranShkCount":5,  # Number of points in transitory income shock grid
     "UnempPrb":0.07,  # Probability of unemployment while working
     "IncUnemp":0.15,  # Unemployment benefit replacement rate
-    "UnempPrbRet":None,
-    "IncUnempRet":None,
+    "UnempPrbRet":0.0,
+    "IncUnempRet":0.0,
     "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
     "aXtraMax":40,  # Maximum end-of-period assets in grid
     "aXtraCount":32,  # Number of points in assets grid
