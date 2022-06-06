@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
+#     cell_metadata_filter: ExecuteTime,collapsed,code_folding,-autoscroll
 #     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-widgets,-varInspector
@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.5
+#       jupytext_version: 1.13.0
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -181,7 +181,7 @@ from HARK.distribution import Uniform
 # Calibrations from cstwMPC
 bottomDiscFac  = 0.9800
 topDiscFac     = 0.9934
-DiscFac_list   = Uniform(bot=bottomDiscFac,top=topDiscFac).approx(N=num_consumer_types).X
+DiscFac_list   = Uniform(bot=bottomDiscFac,top=topDiscFac).approx(N=num_consumer_types).X.flatten()
 
 # Now, assign the discount factors
 for j in range(num_consumer_types):
