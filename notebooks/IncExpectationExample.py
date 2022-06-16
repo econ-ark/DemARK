@@ -9,9 +9,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.13.0
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -184,7 +184,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
     type_list = []
     # Make a PersistentShockConsumerTypeX for each value of beta saved in DiscFac_list
     for i in range(len(DiscFac_list)):    
-        ThisDict['DiscFac'] = DiscFac_list[i]    
+        ThisDict['DiscFac'] = DiscFac_list.flatten()[i]    
         ThisType = PersistentShockConsumerTypeX(**ThisDict)
               
         # Make the consumer type *believe* he will face a different level of persistence
