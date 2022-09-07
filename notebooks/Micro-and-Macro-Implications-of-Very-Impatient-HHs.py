@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       jupytext_version: 1.14.0
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.9.13
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -82,43 +82,49 @@ from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
-import HARK # Prevents import error from Demos repo
+import HARK  # Prevents import error from Demos repo
 from HARK.utilities import plot_funcs
 
 
-Generator=False # Is this notebook the master or is it generated?
+Generator = False  # Is this notebook the master or is it generated?
 # Import related generic python packages
 
 # Set how many digits past the decimal point should be printed?
-mystr   = lambda number : "{:.4f}".format(number)
-decfmt4 = lambda number : "{:.4f}".format(number)
-decfmt3 = lambda number : "{:.3f}".format(number)
-decfmt2 = lambda number : "{:.2f}".format(number)
-decfmt1 = lambda number : "{:.1f}".format(number)
+mystr = lambda number: "{:.4f}".format(number)
+decfmt4 = lambda number: "{:.4f}".format(number)
+decfmt3 = lambda number: "{:.3f}".format(number)
+decfmt2 = lambda number: "{:.2f}".format(number)
+decfmt1 = lambda number: "{:.1f}".format(number)
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
 # But a terminal does not permit inline figures, so we need to test jupyter vs terminal
 # Google "how can I check if code is executed in the ipython notebook"
 
-from IPython import get_ipython # In case it was run from python instead of ipython
+from IPython import get_ipython  # In case it was run from python instead of ipython
+
+
 def in_ipynb():
     try:
-        if str(type(get_ipython())) == "<class 'ipykernel.zmqshell.ZMQInteractiveShell'>":
+        if (
+            str(type(get_ipython()))
+            == "<class 'ipykernel.zmqshell.ZMQInteractiveShell'>"
+        ):
             return True
         else:
             return False
     except NameError:
         return False
 
+
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
 if in_ipynb():
     # # %matplotlib inline generates a syntax error when run from the shell
     # so do this instead
-    get_ipython().run_line_magic('matplotlib', 'inline')
+    get_ipython().run_line_magic("matplotlib", "inline")
 else:
-    get_ipython().run_line_magic('matplotlib', 'auto')
+    get_ipython().run_line_magic("matplotlib", "auto")
 
 # Import the plot-figure library matplotlib
 
@@ -126,19 +132,22 @@ import matplotlib.pyplot as plt
 
 # In order to use LaTeX to manage all text layout in our figures, we import rc settings from matplotlib.
 from matplotlib import rc
-plt.rc('font', family='serif')
+
+plt.rc("font", family="serif")
 
 # LaTeX is huge and takes forever to install on mybinder
-# so if it is not installed then do not use it 
+# so if it is not installed then do not use it
 from distutils.spawn import find_executable
-iflatexExists=False
-if find_executable('latex'):
-    iflatexExists=True
-    
-plt.rc('text', usetex=iflatexExists)
+
+iflatexExists = False
+if find_executable("latex"):
+    iflatexExists = True
+
+plt.rc("text", usetex=iflatexExists)
 
 # The warnings package allows us to ignore some harmless but alarming warning messages
 import warnings
+
 warnings.filterwarnings("ignore")
 
 from copy import copy, deepcopy
@@ -172,39 +181,43 @@ from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 # Define a dictionary with calibrated parameters
 cstwMPC_calibrated_parameters = {
-    "CRRA":1.0,                    # Coefficient of relative risk aversion 
-    "Rfree":1.01/(1.0 - 1.0/160.0), # Survival probability,
-    "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
-    "PermGroFacAgg":1.0,
-    "BoroCnstArt":0.0,
-    "CubicBool":False,
-    "vFuncBool":False,
-    "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
-    "PermShkCount":5,  # Number of points in permanent income shock grid
-    "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
-    "TranShkCount":5,  # Number of points in transitory income shock grid
-    "UnempPrb":0.07,  # Probability of unemployment while working
-    "IncUnemp":0.15,  # Unemployment benefit replacement rate
-    "UnempPrbRet":0.07,
-    "IncUnempRet":0.15,
-    "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
-    "aXtraMax":40,  # Maximum end-of-period assets in grid
-    "aXtraCount":32,  # Number of points in assets grid
-    "aXtraExtra":[None],
-    "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
-    "LivPrb":[1.0 - 1.0/160.0],  # Survival probability
-    "DiscFac":0.97,             # Default intertemporal discount factor; dummy value, will be overwritten
-    "cycles":0,
-    "T_cycle":1,
-    "T_retire":0,
-    'T_sim':1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
-    'T_age': 400,
-    'IndL': 10.0/9.0,  # Labor supply per individual (constant),
-    'aNrmInitMean':np.log(0.00001),
-    'aNrmInitStd':0.0,
-    'pLvlInitMean':0.0,
-    'pLvlInitStd':0.0,
-    'AgentCount':10000
+    "CRRA": 1.0,  # Coefficient of relative risk aversion
+    "Rfree": 1.01 / (1.0 - 1.0 / 160.0),  # Survival probability,
+    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    "PermGroFacAgg": 1.0,
+    "BoroCnstArt": 0.0,
+    "CubicBool": False,
+    "vFuncBool": False,
+    "PermShkStd": [
+        (0.01 * 4 / 11) ** 0.5
+    ],  # Standard deviation of permanent shocks to income
+    "PermShkCount": 5,  # Number of points in permanent income shock grid
+    "TranShkStd": [
+        (0.01 * 4) ** 0.5
+    ],  # Standard deviation of transitory shocks to income,
+    "TranShkCount": 5,  # Number of points in transitory income shock grid
+    "UnempPrb": 0.07,  # Probability of unemployment while working
+    "IncUnemp": 0.15,  # Unemployment benefit replacement rate
+    "UnempPrbRet": 0.07,
+    "IncUnempRet": 0.15,
+    "aXtraMin": 0.00001,  # Minimum end-of-period assets in grid
+    "aXtraMax": 40,  # Maximum end-of-period assets in grid
+    "aXtraCount": 32,  # Number of points in assets grid
+    "aXtraExtra": [None],
+    "aXtraNestFac": 3,  # Number of times to 'exponentially nest' when constructing assets grid
+    "LivPrb": [1.0 - 1.0 / 160.0],  # Survival probability
+    "DiscFac": 0.97,  # Default intertemporal discount factor; dummy value, will be overwritten
+    "cycles": 0,
+    "T_cycle": 1,
+    "T_retire": 0,
+    "T_sim": 1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_age": 400,
+    "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
+    "aNrmInitMean": np.log(0.00001),
+    "aNrmInitStd": 0.0,
+    "pLvlInitMean": 0.0,
+    "pLvlInitStd": 0.0,
+    "AgentCount": 10000,
 }
 
 # %% [markdown]
@@ -215,20 +228,25 @@ cstwMPC_calibrated_parameters = {
 # %%
 # This cell constructs seven instances of IndShockConsumerType with different discount factors
 from HARK.distribution import Uniform
+
 BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 
 # Specify the distribution of the discount factor
-num_types = 7              # number of types we want
-DiscFac_mean   = 0.9855583 # center of beta distribution 
-DiscFac_spread = 0.0085    # spread of beta distribution
-DiscFac_dstn = Uniform(DiscFac_mean-DiscFac_spread, DiscFac_mean+DiscFac_spread).approx(num_types).X.flatten()
+num_types = 7  # number of types we want
+DiscFac_mean = 0.9855583  # center of beta distribution
+DiscFac_spread = 0.0085  # spread of beta distribution
+DiscFac_dstn = (
+    Uniform(DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread)
+    .approx(num_types)
+    .atoms.flatten()
+)
 
-MyTypes = [] # initialize an empty list to hold our consumer types
+MyTypes = []  # initialize an empty list to hold our consumer types
 for nn in range(num_types):
     # Now create the types, and append them to the list MyTypes
     NewType = deepcopy(BaselineType)
     NewType.DiscFac = DiscFac_dstn[nn]
-    NewType.seed = nn # give each consumer type a different RNG seed
+    NewType.seed = nn  # give each consumer type a different RNG seed
     MyTypes.append(NewType)
 
 # %% [markdown]
@@ -252,7 +270,10 @@ for ThisType in tqdm(MyTypes):
 
 # %%
 aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
-print('The ratio of aggregate capital to permanent income is ' + decfmt2(np.mean(aLvl_all)))
+print(
+    "The ratio of aggregate capital to permanent income is "
+    + decfmt2(np.mean(aLvl_all))
+)
 
 # %% [markdown]
 # ## Plotting the Lorenz Curve
@@ -264,14 +285,16 @@ from HARK.utilities import get_lorenz_shares, get_percentiles
 
 SCF_wealth, SCF_weights = load_SCF_wealth_weights()
 
-pctiles = np.linspace(0.001,0.999,200)
+pctiles = np.linspace(0.001, 0.999, 200)
 sim_wealth = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
-SCF_Lorenz_points = get_lorenz_shares(SCF_wealth,weights=SCF_weights,percentiles=pctiles)
-sim_Lorenz_points = get_lorenz_shares(sim_wealth,percentiles=pctiles)
-plt.plot(pctiles,SCF_Lorenz_points,'--k')
-plt.plot(pctiles,sim_Lorenz_points,'-b')
-plt.xlabel('Percentile of net worth')
-plt.ylabel('Cumulative share of wealth')
+SCF_Lorenz_points = get_lorenz_shares(
+    SCF_wealth, weights=SCF_weights, percentiles=pctiles
+)
+sim_Lorenz_points = get_lorenz_shares(sim_wealth, percentiles=pctiles)
+plt.plot(pctiles, SCF_Lorenz_points, "--k")
+plt.plot(pctiles, sim_Lorenz_points, "-b")
+plt.xlabel("Percentile of net worth")
+plt.ylabel("Cumulative share of wealth")
 plt.show(block=False)
 
 # %% [markdown]
@@ -288,14 +311,23 @@ plt.show(block=False)
 
 # %%
 # Retrieve the MPC's
-percentiles=np.linspace(0.1,0.9,9)
+percentiles = np.linspace(0.1, 0.9, 9)
 MPC_sim = np.concatenate([ThisType.MPCnow for ThisType in MyTypes])
-MPCpercentiles_quarterly = get_percentiles(MPC_sim,percentiles=percentiles)
-MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
+MPCpercentiles_quarterly = get_percentiles(MPC_sim, percentiles=percentiles)
+MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly) ** 4
 
-print('The MPC at the 10th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[0])))
-print('The MPC at the 50th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[4])))
-print('The MPC at the 90th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[-1])))
+print(
+    "The MPC at the 10th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual[0]))
+)
+print(
+    "The MPC at the 50th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual[4]))
+)
+print(
+    "The MPC at the 90th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual[-1]))
+)
 
 # %% [markdown]
 # ## Adding Very Impatient Households
@@ -319,11 +351,20 @@ NewTypes[0].initialize_sim()
 NewTypes[0].simulate()
 
 # Retrieve the MPC's
-percentiles=np.linspace(0.1,0.9,9)
+percentiles = np.linspace(0.1, 0.9, 9)
 MPC_sim = np.concatenate([ThisType.MPCnow for ThisType in NewTypes])
-MPCpercentiles_quarterly = get_percentiles(MPC_sim,percentiles=percentiles)
-MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
+MPCpercentiles_quarterly = get_percentiles(MPC_sim, percentiles=percentiles)
+MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly) ** 4
 
-print('The MPC at the 10th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[0])))
-print('The MPC at the 50th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[4])))
-print('The MPC at the 90th percentile of the distribution is '+str(decfmt2(MPCpercentiles_annual[-1])))
+print(
+    "The MPC at the 10th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual[0]))
+)
+print(
+    "The MPC at the 50th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual[4]))
+)
+print(
+    "The MPC at the 90th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual[-1]))
+)
