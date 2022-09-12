@@ -5,7 +5,7 @@ tags:
   - Demonstration
   - Assignment
   - Notebook
-abstract: "Alternative Combinations of Parameter Values"
+abstract: "Alternative Combinations of Parameter Values of the cstwMPC model"
 authors:
   -
     family-names: Carroll
@@ -19,4 +19,4 @@ notebooks:
 dashboards:
 ---
 
-Alternative Combinations of Parameter Values
+Alternative Combinations of Parameter Values of the cstwMPC model
