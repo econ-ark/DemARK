@@ -6,5 +6,6 @@ cite2c
 pandas
 pandas-datareader
 statsmodels
+linearmodels
 tqdm
 nbval
