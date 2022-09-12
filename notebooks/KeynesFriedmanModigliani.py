@@ -174,8 +174,8 @@ print('a_1 is {:.2f}'.format(a_1))
 # %% {"code_folding": []}
 # Lets have a look at some aggregate data
 
-sdt = dt.datetime(1990, 1, 1)
-edt = dt.datetime (2020, 1, 1)
+sdt = dt.datetime(1990, 1, 1) #set startdate
+edt = dt.datetime (2020, 1, 1) #set end date
 df = web.DataReader(["PCECC96", "DPIC96"], "fred", sdt, edt) #import the data from Fred
 # Plot the data
 plt.figure(figsize=(9,6))
