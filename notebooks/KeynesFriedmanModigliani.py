@@ -9,9 +9,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.4
+#       jupytext_version: 1.13.7
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: Python 3
 #     language: python
 #     name: python3
 #   language_info:
@@ -118,15 +118,15 @@ class KeynesianConsumer:
     
     def __init__(self):
         
-        PFexample = PerfForesightConsumerType() # set up a consumer type and use default parameteres
-        PFexample.cycles = 0 # Make this type have an infinite horizon
-        PFexample.DiscFac = 0.05
-        PFexample.PermGroFac = [0.7]
+        Keynesian = PerfForesightConsumerType() # set up a consumer type and use default parameteres
+        Keynesian.cycles = 0 # Make this type have an infinite horizon
+        Keynesian.DiscFac = 0.05
+        Keynesian.PermGroFac = [0.7]
 
-        PFexample.solve() # solve the consumer's problem
-        PFexample.unpack('cFunc') # unpack the consumption function
+        Keynesian.solve() # solve the consumer's problem
+        Keynesian.unpack('cFunc') # unpack the consumption function
         
-        self.cFunc = PFexample.solution[0].cFunc
+        self.cFunc = Keynesian.solution[0].cFunc
         self.a0 = self.cFunc(0)
         self.a1 = self.cFunc(1) - self.cFunc(0)
 
@@ -174,8 +174,8 @@ print('a_1 is {:.2f}'.format(a_1))
 # %% {"code_folding": []}
 # Lets have a look at some aggregate data
 
-sdt = dt.datetime(1980, 1, 1) #set startdate
-edt = dt.datetime (2017, 1, 1) #set end date
+sdt = dt.datetime(1990, 1, 1) #set startdate
+edt = dt.datetime (2020, 1, 1) #set end date
 df = web.DataReader(["PCECC96", "DPIC96"], "fred", sdt, edt) #import the data from Fred
 # Plot the data
 plt.figure(figsize=(9,6))
@@ -284,7 +284,7 @@ result.summary()
 # \end{equation*}
 # and compute
 # \begin{equation*}
-# c_t = \frac{C_{i,t}}{P_{i,t}}.
+# c_{i,t} = \frac{C_{i,t}}{P_{i,t}}.
 # \end{equation*}
 #
 # Therefore, to find consumption at a total level of income $Y$, we will use $\texttt{P} \times \texttt{cFunc(Y/P)}$.
@@ -303,17 +303,17 @@ class FriedmanPIHConsumer:
     
     def __init__(self, Rfree=1.001, CRRA = 2):
         
-        PFaux = PerfForesightConsumerType() # set up a consumer type and use default parameteres
-        PFaux.cycles = 0 # Make this type have an infinite horizon
-        PFaux.DiscFac = 1/Rfree
-        PFaux.Rfree = Rfree
-        PFaux.LivPrb = [1.0]
-        PFaux.PermGroFac = [1.0]
-        PFaux.CRRA = CRRA
-        PFaux.solve() # solve the consumer's problem
-        PFaux.unpack('cFunc') # unpack the consumption function
+        FriedmanPIH = PerfForesightConsumerType() # set up a consumer type and use default parameteres
+        FriedmanPIH.cycles = 0 # Make this type have an infinite horizon
+        FriedmanPIH.DiscFac = 1/Rfree
+        FriedmanPIH.Rfree = Rfree
+        FriedmanPIH.LivPrb = [1.0]
+        FriedmanPIH.PermGroFac = [1.0]
+        FriedmanPIH.CRRA = CRRA
+        FriedmanPIH.solve() # solve the consumer's problem
+        FriedmanPIH.unpack('cFunc') # unpack the consumption function
         
-        self.cFunc = PFaux.solution[0].cFunc
+        self.cFunc = FriedmanPIH.solution[0].cFunc
 
 
 # %% [markdown]
@@ -348,8 +348,8 @@ plt.show()
 # Permanent income has the same variance
 # as transitory income.
 
-perm_inc = np.random.normal(1., 0.1, 50)
-trans_inc = np.random.normal(0.5, 0.1, 50)
+perm_inc = np.random.normal(1., 0.1, 200)
+trans_inc = np.random.normal(0.5, 0.1, 200)
 
 total_inc = perm_inc + trans_inc
 
@@ -372,8 +372,8 @@ print('a_1 is {:.2f}'.format(slope))
 # %%
 # Permanent income with higher variance
 
-perm_inc = np.random.normal(1., 0.5, 50)
-trans_inc = np.random.normal(0.5, 0.1, 50)
+perm_inc = np.random.normal(1., 0.5, 200)
+trans_inc = np.random.normal(0.5, 0.1, 200)
 
 total_inc = perm_inc + trans_inc
 
