@@ -4,6 +4,7 @@ tags:
   - DemARK
   - Demonstration
   - Notebook
+  - Teaching
 abstract: 'Micro- and Macroeconomic Implications of Very Impatient Households'
 authors:
   -
