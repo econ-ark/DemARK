@@ -18,6 +18,15 @@ notebooks:
   - 
     notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
 dashboards:
+title-original-paper: MPC heterogeneity and household balance sheets # required for Replications
+identifiers-paper: # required for Replications; optional for Reproductions
+   -
+      type: url
+      value: https://economicdynamics.org/meetpapers/2017/paper_65.pdf
+   -
+      type: url published paper
+      value: https://www.aeaweb.org/articles?id=10.1257/mac.20190211
+date-published-original-paper: 2016-11 # required for Replications; optional for Reproductions
 ---
 
 Making Structural Estimates From Empirical Results

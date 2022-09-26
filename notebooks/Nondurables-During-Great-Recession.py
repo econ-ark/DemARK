@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
+#     cell_metadata_filter: ExecuteTime,collapsed,code_folding,-autoscroll
 #     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-widgets,-varInspector
@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.5
+#       jupytext_version: 1.14.0
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.9.13
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -73,7 +73,7 @@ from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
-import HARK # Prevents import error from Demos repo
+import HARK  # Prevents import error from Demos repo
 from HARK.utilities import plot_funcs
 
 
@@ -111,41 +111,45 @@ from HARK.utilities import plot_funcs
 #
 
 # %% {"code_folding": [0]}
-# Choose some calibrated parameters that roughly match steady state 
+# Choose some calibrated parameters that roughly match steady state
 init_infinite = {
-    "CRRA":1.0,                    # Coefficient of relative risk aversion 
-    "Rfree":1.01/(1.0 - 1.0/240.0), # Survival probability,
-    "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
-    "PermGroFacAgg":1.0,
-    "BoroCnstArt":0.0,
-    "CubicBool":False,
-    "vFuncBool":False,
-    "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
-    "PermShkCount":7,  # Number of points in permanent income shock grid
-    "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
-    "TranShkCount":5,  # Number of points in transitory income shock grid
-    "UnempPrb":0.07,  # Probability of unemployment while working
-    "IncUnemp":0.15,  # Unemployment benefit replacement rate
-    "UnempPrbRet":0.07,
-    "IncUnempRet":0.15,
-    "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
-    "aXtraMax":20,  # Maximum end-of-period assets in grid
-    "aXtraCount":20,  # Number of points in assets grid,
-    "aXtraExtra":[None],
-    "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
-    "LivPrb":[1.0 - 1.0/240.0],  # Survival probability
-    "DiscFac":0.97,             # Default intertemporal discount factor, # dummy value, will be overwritten
-    "cycles":0,
-    "T_cycle":1,
-    "T_retire":0,
-    'T_sim':2000,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
-    'T_age':1000,
-    'IndL': 10.0/9.0,  # Labor supply per individual (constant),
-    'aNrmInitMean':np.log(0.00001),
-    'aNrmInitStd':0.0,
-    'pLvlInitMean':0.0,
-    'pLvlInitStd':0.0,
-    'AgentCount':10000,
+    "CRRA": 1.0,  # Coefficient of relative risk aversion
+    "Rfree": 1.01 / (1.0 - 1.0 / 240.0),  # Survival probability,
+    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    "PermGroFacAgg": 1.0,
+    "BoroCnstArt": 0.0,
+    "CubicBool": False,
+    "vFuncBool": False,
+    "PermShkStd": [
+        (0.01 * 4 / 11) ** 0.5
+    ],  # Standard deviation of permanent shocks to income
+    "PermShkCount": 7,  # Number of points in permanent income shock grid
+    "TranShkStd": [
+        (0.01 * 4) ** 0.5
+    ],  # Standard deviation of transitory shocks to income,
+    "TranShkCount": 5,  # Number of points in transitory income shock grid
+    "UnempPrb": 0.07,  # Probability of unemployment while working
+    "IncUnemp": 0.15,  # Unemployment benefit replacement rate
+    "UnempPrbRet": 0.07,
+    "IncUnempRet": 0.15,
+    "aXtraMin": 0.00001,  # Minimum end-of-period assets in grid
+    "aXtraMax": 20,  # Maximum end-of-period assets in grid
+    "aXtraCount": 20,  # Number of points in assets grid,
+    "aXtraExtra": [None],
+    "aXtraNestFac": 3,  # Number of times to 'exponentially nest' when constructing assets grid
+    "LivPrb": [1.0 - 1.0 / 240.0],  # Survival probability
+    "DiscFac": 0.97,  # Default intertemporal discount factor, # dummy value, will be overwritten
+    "cycles": 0,
+    "T_cycle": 1,
+    "T_retire": 0,
+    "T_sim": 2000,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_age": 1000,
+    "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
+    "aNrmInitMean": np.log(0.00001),
+    "aNrmInitStd": 0.0,
+    "pLvlInitMean": 0.0,
+    "pLvlInitStd": 0.0,
+    "AgentCount": 10000,
 }
 
 # %% [markdown]
@@ -153,6 +157,7 @@ init_infinite = {
 
 # %%
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
+
 BaselineType = IndShockConsumerType(**init_infinite)
 
 # %% [markdown]
@@ -162,13 +167,13 @@ BaselineType = IndShockConsumerType(**init_infinite)
 
 # %% {"code_folding": []}
 # A list in python can contain anything -- including consumers
-num_consumer_types   = 7 # declare the number of types we want
-ConsumerTypes = [] # initialize an empty list
+num_consumer_types = 7  # declare the number of types we want
+ConsumerTypes = []  # initialize an empty list
 
 for nn in range(num_consumer_types):
     # Now create the types, and append them to the list ConsumerTypes
     NewType = deepcopy(BaselineType)
-    NewType.seed = nn # give each consumer type a different RNG seed
+    NewType.seed = nn  # give each consumer type a different RNG seed
     ConsumerTypes.append(NewType)
 
 # %% [markdown]
@@ -179,14 +184,18 @@ for nn in range(num_consumer_types):
 from HARK.distribution import Uniform
 
 # Calibrations from cstwMPC
-bottomDiscFac  = 0.9800
-topDiscFac     = 0.9934
-DiscFac_list   = Uniform(bot=bottomDiscFac,top=topDiscFac).approx(N=num_consumer_types).X
+bottomDiscFac = 0.9800
+topDiscFac = 0.9934
+DiscFac_list = (
+    Uniform(bot=bottomDiscFac, top=topDiscFac)
+    .approx(N=num_consumer_types)
+    .atoms.flatten()
+)
 
 # Now, assign the discount factors
 for j in range(num_consumer_types):
     ConsumerTypes[j].DiscFac = DiscFac_list[j]
-    ConsumerTypes[j].quiet   = True # Turn off some output
+    ConsumerTypes[j].quiet = True  # Turn off some output
 
 # %% [markdown]
 # Our agents now exist and have a concept of the problem they face, but we still need them to solve that problem.
@@ -200,7 +209,7 @@ for j in range(num_consumer_types):
 for ConsumerType in tqdm(ConsumerTypes):
     ## We configured their discount factor above.  Now solve
     ConsumerType.solve(verbose=False)
-    
+
     # Now simulate many periods to get to the stationary distribution
     ConsumerType.T_sim = 2000
     ConsumerType.initialize_sim()
@@ -222,9 +231,9 @@ def calcAvgC(ConsumerTypes):
     # The brackets indicate that the contents will be a list (in this case, of lists)
     cNrm = np.concatenate([ThisType.controls["cNrm"] for ThisType in ConsumerTypes])
     pLvl = np.concatenate([ThisType.state_now["pLvl"] for ThisType in ConsumerTypes])
-    
+
     # Calculate and return average consumption level in the economy
-    avgC = np.mean(cNrm*pLvl) # c is the ratio to p, so C = c*p
+    avgC = np.mean(cNrm * pLvl)  # c is the ratio to p, so C = c*p
     return avgC
 
 # %% [markdown]
@@ -245,11 +254,11 @@ def calcAvgC(ConsumerTypes):
 
 # %% {"code_folding": []}
 # Whenever you define a function, you should describe it (with a "docstring")
-def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
-    '''
-    Calculate the change in aggregate consumption for a list of values that a 
+def calcConsChangeAfterUncertaintyChange(OriginalTypes, NewVals, ParamToChange):
+    """
+    Calculate the change in aggregate consumption for a list of values that a
     parameter will take on.
-    
+
     Parameters
     ----------
     OriginalTypes : [IndShockConsumerType]
@@ -258,40 +267,40 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
         List or array of new values that the parameter of interest will take on.
     ParamToChange : str
         Name of the income distribution parameter that will be changed.
-        
+
     Returns
     -------
     ChangesInConsumption : [float]
         List of changes in aggregate consumption corresponding to the values in NewVals, as a percentage
         of the original aggregate consumption level.
-    '''
-    ChangesInConsumption = [] # Step 1
+    """
+    ChangesInConsumption = []  # Step 1
     OldAvgC = calcAvgC(OriginalTypes)
 
     # Step 2 (the loop over counterfactual parameter values)
     for NewVal in tqdm(NewVals):
-        if ParamToChange in ["PermShkStd","TranShkStd"]:
+        if ParamToChange in ["PermShkStd", "TranShkStd"]:
             ThisVal = [NewVal]
         else:
             ThisVal = NewVal
 
-        ConsumerTypesNew = deepcopy(OriginalTypes)          
-        for index,ConsumerTypeNew in enumerate(ConsumerTypesNew):
-            setattr(ConsumerTypeNew,ParamToChange,ThisVal) # Step 2A   
+        ConsumerTypesNew = deepcopy(OriginalTypes)
+        for index, ConsumerTypeNew in enumerate(ConsumerTypesNew):
+            setattr(ConsumerTypeNew, ParamToChange, ThisVal)  # Step 2A
             ConsumerTypeNew.update_income_process()
-            ConsumerTypeNew.solve() # Step 2B
-            
-            ConsumerTypeNew.initialize_sim() # Step 2C
+            ConsumerTypeNew.solve()  # Step 2B
+
+            ConsumerTypeNew.initialize_sim()  # Step 2C
             ConsumerTypeNew.aNrm = OriginalTypes[index].state_now["aNrm"]
             ConsumerTypeNew.pLvl = OriginalTypes[index].state_now["pLvl"]
-            
-            ConsumerTypeNew.sim_one_period() # Step 2D
 
-        NewAvgC = calcAvgC(ConsumerTypesNew) # Step 2E
-        ChangeInConsumption = 100. * (NewAvgC - OldAvgC) / OldAvgC # Step 2F
+            ConsumerTypeNew.sim_one_period()  # Step 2D
+
+        NewAvgC = calcAvgC(ConsumerTypesNew)  # Step 2E
+        ChangeInConsumption = 100.0 * (NewAvgC - OldAvgC) / OldAvgC  # Step 2F
         ChangesInConsumption.append(ChangeInConsumption)
 
-    return ChangesInConsumption # Step 3, returning the output
+    return ChangesInConsumption  # Step 3, returning the output
 
 # %% [markdown]
 # Our counterfactual experiment function takes three inputs-- consumer types, counterfactual values, and the name of the parameter we want to change. For the sake of convenience, let's define small functions to run the experiment for each parameter with just a single input.
@@ -299,13 +308,15 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes,NewVals,ParamToChange):
 # %% {"code_folding": []}
 # Trivial functions can be useful in making the logic of your program clear
 def calcConsChangeAfterPermShkChange(newVals):
-    return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"PermShkStd")
+    return calcConsChangeAfterUncertaintyChange(ConsumerTypes, newVals, "PermShkStd")
+
 
 def calcConsChangeAfterTranShkChange(newVals):
-    return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"TranShkStd")
+    return calcConsChangeAfterUncertaintyChange(ConsumerTypes, newVals, "TranShkStd")
+
 
 def calcConsChangeAfterUnempPrbChange(newVals):
-    return calcConsChangeAfterUncertaintyChange(ConsumerTypes,newVals,"UnempPrb")
+    return calcConsChangeAfterUncertaintyChange(ConsumerTypes, newVals, "UnempPrb")
 
 
 # %% [markdown]
@@ -313,23 +324,27 @@ def calcConsChangeAfterUnempPrbChange(newVals):
 
 # %%
 # Calculate the consequences of a permanent "MIT shock" to the standard deviation of permanent shocks
-ratio_min = 0.8 # minimum number to multiply uncertainty parameter by
-TargetChangeInC = -4.1 # Source: see comment above
-num_points = 10 # number of parameter values to plot in graphs. More=slower
+ratio_min = 0.8  # minimum number to multiply uncertainty parameter by
+TargetChangeInC = -4.1  # Source: see comment above
+num_points = 10  # number of parameter values to plot in graphs. More=slower
 
 # First change the variance of the permanent income shock
-perm_ratio_max = 2.5 # Put whatever value in you want!  maximum number to multiply var of perm income shock by
+perm_ratio_max = 2.5  # Put whatever value in you want!  maximum number to multiply var of perm income shock by
 
 perm_min = BaselineType.PermShkStd[0] * ratio_min
 perm_max = BaselineType.PermShkStd[0] * perm_ratio_max
 
-plt.ylabel('% Change in Consumption')
-plt.xlabel('Std. Dev. of Perm. Income Shock (Baseline = ' + str(round(BaselineType.PermShkStd[0],2)) + ')')
-plt.title('Change in Cons. Following Increase in Perm. Income Uncertainty')
-plt.ylim(-40.,5.)
-plt.hlines(TargetChangeInC,perm_min,perm_max)
+plt.ylabel("% Change in Consumption")
+plt.xlabel(
+    "Std. Dev. of Perm. Income Shock (Baseline = "
+    + str(round(BaselineType.PermShkStd[0], 2))
+    + ")"
+)
+plt.title("Change in Cons. Following Increase in Perm. Income Uncertainty")
+plt.ylim(-40.0, 5.0)
+plt.hlines(TargetChangeInC, perm_min, perm_max)
 # The expression below shows the power of python
-plot_funcs([calcConsChangeAfterPermShkChange],perm_min,perm_max,N=num_points)
+plot_funcs([calcConsChangeAfterPermShkChange], perm_min, perm_max, N=num_points)
 
 # %%
 
