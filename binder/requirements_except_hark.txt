@@ -1,6 +1,7 @@
 matplotlib
 numpy
 ipywidgets
+seaborn
 scipy
 cite2c
 pandas
