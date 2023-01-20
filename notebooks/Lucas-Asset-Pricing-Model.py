@@ -2,12 +2,13 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       format_version: '1.3'
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -26,12 +27,12 @@
 # \ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(\mu, \sigma).
 # \end{equation*}
 #
-# A presentation of this model can be found in [Christopher D. Carroll's lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/). 
+# A presentation of this model can be found in [Christopher D. Carroll's lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/).
 #
-# Those notes [use the Bellman equation to derive](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) a relationship between the price of the asset in the current period $t$ and the next period $t+1$:  
+# Those notes [use the Bellman equation to derive](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) a relationship between the price of the asset in the current period $t$ and the next period $t+1$:
 #
 # \begin{equation*}
-# P_{t} = 
+# P_{t} =
 # \overbrace{\left(\frac{1}{1+\vartheta}\right)}
 # ^{\beta}\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P_{t+1} + d_{t+1}) \right]
 # \end{equation*}
@@ -44,7 +45,7 @@
 #
 # As noted in the handout, there are some special circumstances in which it is possible to solve for $P^{*}$ analytically:
 #
-# | Shock Process | CRRA | Solution for Pricing Kernel | 
+# | Shock Process | CRRA | Solution for Pricing Kernel |
 # | --- | --- | --- |
 # | bounded | 1 (log) | $P^*(d) = \frac{d}{\vartheta}$ |
 # | lognormal, mean 1 | $\rho$ | $P^*(d) = d_t^\rho\ e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}$ |
@@ -83,7 +84,7 @@
 #
 # For our purposes, this translates to:
 # - Our equilibrium pricing function not only exists, but it is unique.
-# - We can get arbitrarily close to the equilibrium pricing function by making some initial guess $f$ and applying the operator $T$ to it repeatedly. 
+# - We can get arbitrarily close to the equilibrium pricing function by making some initial guess $f$ and applying the operator $T$ to it repeatedly.
 #
 # The code below creates a representation of our model and implements a solution routine to find $P^*$. The main components of this routine are:
 #
@@ -103,96 +104,97 @@ import numpy as np
 import matplotlib.pyplot as plt
 from copy import copy
 
-from HARK.utilities import CRRAutilityP
+from HARK.rewards import CRRAutilityP
 from HARK.distribution import Normal, calc_expectation
 from HARK.interpolation import LinearInterp, ConstantFunction
 
 # %% Definitions {"code_folding": [0]}
 # A python class representing log-AR1 dividend processes.
 class DivProcess:
-    
-    def __init__(self, α, σ, μ = 0.0, nApprox = 7):
-        
+    def __init__(self, α, σ, μ=0.0, nApprox=7):
+
         self.α = α
         self.σ = σ
         self.μ = μ
         self.nApprox = nApprox
-        
+
         # Create a discrete approximation to the random shock
-        self.ShkAppDstn = Normal(mu = μ, sigma = σ).approx(N = nApprox)
-        
-    def getLogdGrid(self, n = 100):
-        '''
+        self.ShkAppDstn = Normal(mu=μ, sigma=σ).discretize(N=nApprox)
+
+    def getLogdGrid(self, n=100):
+        """
         A method for creating a reasonable grid for log-dividends.
-        '''
+        """
         uncond_sd = self.σ / np.sqrt(1 - self.α**2)
-        uncond_mean = self.μ/(1-self.α)
-        logDGrid = np.linspace(-5*uncond_sd, 5*uncond_sd, n) + uncond_mean
-        return(logDGrid)
-        
+        uncond_mean = self.μ / (1 - self.α)
+        logDGrid = np.linspace(-5 * uncond_sd, 5 * uncond_sd, n) + uncond_mean
+        return logDGrid
+
+
 # A class representing economies with Lucas' trees.
 class LucasEconomy:
-    '''
+    """
     A representation of an economy in which there are Lucas trees
     whose dividends' logarithm follows an AR1 process.
-    '''
+    """
+
     def __init__(self, CRRA, DiscFac, DivProcess):
-        
+
         self.CRRA = CRRA
         self.DiscFac = DiscFac
         self.DivProcess = DivProcess
         self.uP = lambda c: CRRAutilityP(c, self.CRRA)
-        
+
     def priceOnePeriod(self, Pfunc_next, logDGrid):
-        
+
         # Create a function that, given current dividends
         # and the value of next period's shock, returns
         # the discounted value derived from the asset next period.
         def discounted_value(shock, log_d_now):
-            
+
             # Find dividends
-            d_now = np.exp(log_d_now)    
+            d_now = np.exp(log_d_now)
             log_d_next = self.DivProcess.α * log_d_now + shock
             d_next = np.exp(log_d_next)
-            
+
             # Payoff and sdf
             payoff_next = Pfunc_next(log_d_next) + d_next
             SDF = self.DiscFac * self.uP(d_next / d_now)
-            
+
             return SDF * payoff_next
-        
+
         # The price at a given d_t is the expectation of the discounted value.
         # Compute it at every d in our grid. The expectation is taken over next
         # period's shocks
-        prices_now = calc_expectation(self.DivProcess.ShkAppDstn,
-                                      discounted_value,
-                                      logDGrid)
-        
+        prices_now = calc_expectation(
+            self.DivProcess.ShkAppDstn, discounted_value, logDGrid
+        )
+
         # Create new interpolating price function
         Pfunc_now = LinearInterp(logDGrid, prices_now, lower_extrap=True)
-        
-        return(Pfunc_now)
-        
-    def solve(self, Pfunc_0 = None, logDGrid = None, tol = 1e-5, maxIter = 500, disp = False):
-        
+
+        return Pfunc_now
+
+    def solve(self, Pfunc_0=None, logDGrid=None, tol=1e-5, maxIter=500, disp=False):
+
         # Initialize the norm
         norm = tol + 1
-        
+
         # Initialize Pfunc if initial guess is not provided
         if Pfunc_0 is None:
             Pfunc_0 = ConstantFunction(0.0)
-        
+
         # Create a grid for log-dividends if one is not provided
         if logDGrid is None:
             logDGrid = self.DivProcess.getLogdGrid()
-        
+
         # Initialize function and compute prices on the grid
         Pf_0 = copy(Pfunc_0)
         P_0 = Pf_0(logDGrid)
-        
+
         it = 0
         while norm > tol and it < maxIter:
-            
+
             # Apply the pricing equation
             Pf_next = self.priceOnePeriod(Pf_0, logDGrid)
             # Find new prices on the grid
@@ -201,18 +203,18 @@ class LucasEconomy:
             norm = np.linalg.norm(P_0 - P_next)
             # Update price function and vector
             Pf_0 = Pf_next
-            P_0  = P_next
+            P_0 = P_next
             it = it + 1
             # Print iteration information
             if disp:
-                print('Iter:' + str(it) + '   Norm = '+ str(norm))
-        
+                print("Iter:" + str(it) + "   Norm = " + str(norm))
+
         if disp:
             if norm <= tol:
-                print('Price function converged!')
+                print("Price function converged!")
             else:
-                print('Maximum iterations exceeded!')
-        
+                print("Maximum iterations exceeded!")
+
         self.EqlogPfun = Pf_0
         self.EqPfun = lambda d: self.EqlogPfun(np.log(d))
 
@@ -227,10 +229,10 @@ class LucasEconomy:
 
 # %% Example {"code_folding": [0]}
 # Create a log-AR1 process for dividends
-DivProc = DivProcess(α = 0.90, σ = 0.1)
+DivProc = DivProcess(α=0.90, σ=0.1)
 
 # Create an example economy
-economy = LucasEconomy(CRRA = 2, DiscFac = 0.95, DivProcess = DivProc)
+economy = LucasEconomy(CRRA=2, DiscFac=0.95, DivProcess=DivProc)
 
 
 # %% [markdown]
@@ -238,11 +240,11 @@ economy = LucasEconomy(CRRA = 2, DiscFac = 0.95, DivProcess = DivProc)
 
 # %% Solution {"code_folding": [0]}
 # Solve the economy
-economy.solve(disp = True)
+economy.solve(disp=True)
 
 # After the economy is solved, we can use its Equilibrium price function
 d = 1
-print('P({}) = {}'.format(d, economy.EqPfun(d)))
+print("P({}) = {}".format(d, economy.EqPfun(d)))
 
 
 # %% [markdown]
@@ -253,21 +255,21 @@ print('P({}) = {}'.format(d, economy.EqPfun(d)))
 # %% {"code_folding": [0]}
 # Create two economies with different risk aversion
 Disc = 0.95
-LowCRRAEcon  = LucasEconomy(CRRA = 2, DiscFac = Disc, DivProcess = DivProc)
-HighCRRAEcon = LucasEconomy(CRRA = 4, DiscFac = Disc, DivProcess = DivProc)
+LowCRRAEcon = LucasEconomy(CRRA=2, DiscFac=Disc, DivProcess=DivProc)
+HighCRRAEcon = LucasEconomy(CRRA=4, DiscFac=Disc, DivProcess=DivProc)
 
 # Solve both
 LowCRRAEcon.solve()
 HighCRRAEcon.solve()
 
 # Plot the pricing functions for both
-dGrid = np.linspace(0.5,2.5,30)
+dGrid = np.linspace(0.5, 2.5, 30)
 plt.figure()
-plt.plot(dGrid, LowCRRAEcon.EqPfun(dGrid), label = 'Low CRRA')
-plt.plot(dGrid, HighCRRAEcon.EqPfun(dGrid), label = 'High CRRA')
+plt.plot(dGrid, LowCRRAEcon.EqPfun(dGrid), label="Low CRRA")
+plt.plot(dGrid, HighCRRAEcon.EqPfun(dGrid), label="High CRRA")
 plt.legend()
-plt.xlabel('$d_t$')
-plt.ylabel('$P_t$')
+plt.xlabel("$d_t$")
+plt.ylabel("$P_t$")
 
 # %% [markdown]
 # # Testing our analytical solutions
@@ -281,61 +283,61 @@ plt.ylabel('$P_t$')
 
 # %% {"code_folding": [0]}
 # Create an economy with log utility and the same dividend process from before
-logUtilEcon = LucasEconomy(CRRA = 1, DiscFac = Disc, DivProcess = DivProc)
+logUtilEcon = LucasEconomy(CRRA=1, DiscFac=Disc, DivProcess=DivProc)
 # Solve it
 logUtilEcon.solve()
 
 # Generate a function with our analytical solution
-theta = 1/Disc - 1
-aSol = lambda d: d/theta
+theta = 1 / Disc - 1
+aSol = lambda d: d / theta
 
 # Get a grid for d over which to compare them
 dGrid = np.exp(DivProc.getLogdGrid())
 
 # Plot both
 plt.figure()
-plt.plot(dGrid, aSol(dGrid), '*',label = 'Analytical solution')
-plt.plot(dGrid, logUtilEcon.EqPfun(dGrid), label = 'Numerical solution')
+plt.plot(dGrid, aSol(dGrid), "*", label="Analytical solution")
+plt.plot(dGrid, logUtilEcon.EqPfun(dGrid), label="Numerical solution")
 plt.legend()
-plt.xlabel('$d_t$')
-plt.ylabel('$P^*(d_t)$')
+plt.xlabel("$d_t$")
+plt.ylabel("$P^*(d_t)$")
 
 # %% [markdown]
 #  ## 2. I.I.D dividends
-#  
+#
 #  We also found that, if $\ln d_{t+n}\sim \mathcal{N}(-\sigma^2/2, \sigma^2)$ for all $n$, the pricing kernel is exactly
 #  \begin{equation*}
 #  P^*(d_t) = d_t^\rho\times e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}.
 #  \end{equation*}
-#  
+#
 #  We now our numerical solution for this case.
 
 # %% {"code_folding": [0]}
 # Create an i.i.d. dividend process
 σ = 0.1
-iidDivs = DivProcess(α = 0.0, μ = -σ**2/2, σ = σ)
+iidDivs = DivProcess(α=0.0, μ=-(σ**2) / 2, σ=σ)
 
 # And an economy that embeds it
 CRRA = 2
 Disc = 0.9
 
-iidEcon = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = iidDivs)
+iidEcon = LucasEconomy(CRRA=CRRA, DiscFac=Disc, DivProcess=iidDivs)
 iidEcon.solve()
 
 # Generate a function with our analytical solution
-dTil = np.exp((σ**2)/2*CRRA*(CRRA-1))
-aSolIID = lambda d: d**CRRA * dTil * Disc/(1 - Disc)
+dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1))
+aSolIID = lambda d: d**CRRA * dTil * Disc / (1 - Disc)
 
 # Get a grid for d over which to compare them
 dGrid = np.exp(iidDivs.getLogdGrid())
 
 # Plot both
 plt.figure()
-plt.plot(dGrid, aSolIID(dGrid), '*',label = 'Analytical solution')
-plt.plot(dGrid, iidEcon.EqPfun(dGrid), label = 'Numerical solution')
+plt.plot(dGrid, aSolIID(dGrid), "*", label="Analytical solution")
+plt.plot(dGrid, iidEcon.EqPfun(dGrid), label="Numerical solution")
 plt.legend()
-plt.xlabel('$d_t$')
-plt.ylabel('$P^*(d_t)$')
+plt.xlabel("$d_t$")
+plt.ylabel("$P^*(d_t)$")
 
 # %% [markdown]
 # # Testing our approximation of the dividend process
@@ -349,22 +351,22 @@ plt.ylabel('$P^*(d_t)$')
 CRRA = 10
 Disc = 0.9
 σ = 0.1
-ns = [1,2,10]
+ns = [1, 2, 10]
 
-# 
-dTil = np.exp((σ**2)/2*CRRA*(CRRA-1))
-fact = dTil*Disc
-aSolIID = lambda d: d**CRRA * dTil * Disc/(1 - Disc)
+#
+dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1))
+fact = dTil * Disc
+aSolIID = lambda d: d**CRRA * dTil * Disc / (1 - Disc)
 
 plt.figure()
 for n in ns:
-    iidDivs = DivProcess(α = 0.0, μ = -σ**2/2, σ = σ, nApprox = n)
-    iidEcon = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = iidDivs)
+    iidDivs = DivProcess(α=0.0, μ=-(σ**2) / 2, σ=σ, nApprox=n)
+    iidEcon = LucasEconomy(CRRA=CRRA, DiscFac=Disc, DivProcess=iidDivs)
     iidEcon.solve()
-    plt.plot(dGrid, iidEcon.EqPfun(dGrid), label = 'Num.Sol. $n^\#$ = {}'.format(n))
+    plt.plot(dGrid, iidEcon.EqPfun(dGrid), label="Num.Sol. $n^\#$ = {}".format(n))
 
 # Plot both
-plt.plot(dGrid, aSolIID(dGrid), '*',label = 'Analytical solution')
+plt.plot(dGrid, aSolIID(dGrid), "*", label="Analytical solution")
 plt.legend()
-plt.xlabel('$d_t$')
-plt.ylabel('$P^*(d_t)$')
+plt.xlabel("$d_t$")
+plt.ylabel("$P^*(d_t)$")

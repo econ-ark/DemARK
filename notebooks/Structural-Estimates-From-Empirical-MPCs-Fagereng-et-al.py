@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.9.13
+#     version: 3.10.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -201,7 +201,7 @@ def FagerengObjFunc(center, spread, verbose=False):
     # Give our consumer types the requested discount factor distribution
     beta_set = (
         Uniform(bot=center - spread, top=center + spread)
-        .approx(N=TypeCount)
+        .discretize(N=TypeCount)
         .atoms.flatten()
     )
     for j in range(TypeCount):

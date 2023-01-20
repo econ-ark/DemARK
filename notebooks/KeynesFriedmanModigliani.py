@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.7
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.10.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -65,15 +65,17 @@ import sys
 import os
 from matplotlib import pyplot as plt
 import numpy as np
-plt.style.use('seaborn-darkgrid')
-palette = plt.get_cmap('Dark2')
+
+plt.style.use("seaborn-darkgrid")
+palette = plt.get_cmap("Dark2")
 
 import pandas as pd
+
 pd.core.common.is_list_like = pd.api.types.is_list_like
 import datetime as dt
 import scipy.stats as stats
 import statsmodels.formula.api as sm
-from copy  import deepcopy
+from copy import deepcopy
 
 import pandas_datareader.data as web
 
@@ -110,22 +112,24 @@ class KeynesianConsumer:
     This class represents consumers that behave according to a
     Keynesian consumption function, representing them as a
     special case of HARK's PerfForesightConsumerType
-    
+
     Methods:
-    - cFunc: computes consumption/permanent income 
+    - cFunc: computes consumption/permanent income
              given total income/permanent income.
     """
-    
+
     def __init__(self):
-        
-        Keynesian = PerfForesightConsumerType() # set up a consumer type and use default parameteres
-        Keynesian.cycles = 0 # Make this type have an infinite horizon
+
+        Keynesian = (
+            PerfForesightConsumerType()
+        )  # set up a consumer type and use default parameteres
+        Keynesian.cycles = 0  # Make this type have an infinite horizon
         Keynesian.DiscFac = 0.05
         Keynesian.PermGroFac = [0.7]
 
-        Keynesian.solve() # solve the consumer's problem
-        Keynesian.unpack('cFunc') # unpack the consumption function
-        
+        Keynesian.solve()  # solve the consumer's problem
+        Keynesian.unpack("cFunc")  # unpack the consumption function
+
         self.cFunc = Keynesian.solution[0].cFunc
         self.a0 = self.cFunc(0)
         self.a1 = self.cFunc(1) - self.cFunc(0)
@@ -139,13 +143,15 @@ class KeynesianConsumer:
 KeynesianExample = KeynesianConsumer()
 
 # and then plot its consumption function
-income = np.linspace(0, 30, 20) # pick some income points
-plt.figure(figsize=(9,6))
-plt.plot(income, KeynesianExample.cFunc(income), label = 'Consumption function') #plot income versus the consumption
-plt.plot(income, income, 'k--', label = 'C=Y')
-plt.title('Consumption function')
-plt.xlabel('Income (y)')
-plt.ylabel('Normalized Consumption (c)')
+income = np.linspace(0, 30, 20)  # pick some income points
+plt.figure(figsize=(9, 6))
+plt.plot(
+    income, KeynesianExample.cFunc(income), label="Consumption function"
+)  # plot income versus the consumption
+plt.plot(income, income, "k--", label="C=Y")
+plt.title("Consumption function")
+plt.xlabel("Income (y)")
+plt.ylabel("Normalized Consumption (c)")
 plt.ylim(0, 20)
 plt.legend()
 plt.show()
@@ -158,8 +164,8 @@ plt.show()
 # We can even find a_0 and a_1
 a_0 = KeynesianExample.a0
 a_1 = KeynesianExample.a1
-print('a_0 is {:.2f}'.format(a_0))
-print('a_1 is {:.2f}'.format(a_1))
+print("a_0 is {:.2f}".format(a_0))
+print("a_1 is {:.2f}".format(a_1))
 
 # %% [markdown]
 # #### The Keynesian consumption function: Evidence
@@ -174,46 +180,55 @@ print('a_1 is {:.2f}'.format(a_1))
 # %% {"code_folding": []}
 # Lets have a look at some aggregate data
 
-sdt = dt.datetime(1990, 1, 1) #set startdate
-edt = dt.datetime (2020, 1, 1) #set end date
-df = web.DataReader(["PCECC96", "DPIC96"], "fred", sdt, edt) #import the data from Fred
+sdt = dt.datetime(1990, 1, 1)  # set startdate
+edt = dt.datetime(2020, 1, 1)  # set end date
+df = web.DataReader(
+    ["PCECC96", "DPIC96"], "fred", sdt, edt
+)  # import the data from Fred
 # Plot the data
-plt.figure(figsize=(9,6))
-plt.plot(df.DPIC96, df.PCECC96, 'go', markersize=3.0, label='Data')
+plt.figure(figsize=(9, 6))
+plt.plot(df.DPIC96, df.PCECC96, "go", markersize=3.0, label="Data")
 slope, intercept, r_value, p_value, std_err = stats.linregress(df.DPIC96, df.PCECC96)
-plt.plot(df.DPIC96, intercept+slope*df.DPIC96, 'k-', label = 'Line of best fit')
-plt.plot(df.DPIC96, df.DPIC96, 'k--', label = 'C=Y')
-plt.xlabel('Income (y)')
-plt.ylabel('Consumption (c)')
+plt.plot(df.DPIC96, intercept + slope * df.DPIC96, "k-", label="Line of best fit")
+plt.plot(df.DPIC96, df.DPIC96, "k--", label="C=Y")
+plt.xlabel("Income (y)")
+plt.ylabel("Consumption (c)")
 plt.legend()
 plt.show()
 
-print('a_0 is {:.2f}'.format(intercept))
-print('a_1 is {:.2f}'.format(slope))
+print("a_0 is {:.2f}".format(intercept))
+print("a_1 is {:.2f}".format(slope))
 # %%
 # However, our consumption data is [non-stationary](https://www.reed.edu/economics/parker/312/tschapters/S13_Ch_4.pdf) and this drives the previous
 # estimate.
 df.DPIC96.plot()
-plt.xlabel('Date')
-plt.ylabel('Consumption (c)')
+plt.xlabel("Date")
+plt.ylabel("Consumption (c)")
 
 # %%
 # Lets use our second equation to try to find an estimate of a_1
 
-df_diff = df.diff() #create dataframe of differenced values
+df_diff = df.diff()  # create dataframe of differenced values
 
 # Plot the data
-plt.figure(figsize=(9,6))
-plt.plot(df_diff.DPIC96, df_diff.PCECC96, 'go', markersize=3.0, label = 'Data')
-slope, intercept, r_value, p_value, std_err = stats.linregress(df_diff.DPIC96[1:], df_diff.PCECC96[1:]) # find line of best fit
-plt.plot(df_diff.DPIC96[1:], intercept+slope*df_diff.DPIC96[1:], 'k-', label = 'Line of best fit')
-plt.plot(np.array([-200, 200]), np.array([-200, 200]), 'k--', label = 'C=Y')
-plt.xlabel('Change in income (dy)')
-plt.ylabel('Change in consumption (dc)')
+plt.figure(figsize=(9, 6))
+plt.plot(df_diff.DPIC96, df_diff.PCECC96, "go", markersize=3.0, label="Data")
+slope, intercept, r_value, p_value, std_err = stats.linregress(
+    df_diff.DPIC96[1:], df_diff.PCECC96[1:]
+)  # find line of best fit
+plt.plot(
+    df_diff.DPIC96[1:],
+    intercept + slope * df_diff.DPIC96[1:],
+    "k-",
+    label="Line of best fit",
+)
+plt.plot(np.array([-200, 200]), np.array([-200, 200]), "k--", label="C=Y")
+plt.xlabel("Change in income (dy)")
+plt.ylabel("Change in consumption (dc)")
 plt.legend()
 plt.show()
 
-print('a_1 is {:.2f}'.format(slope))
+print("a_1 is {:.2f}".format(slope))
 
 # %% [markdown]
 # a_1 is now much lower, as we expected
@@ -248,11 +263,11 @@ print('a_1 is {:.2f}'.format(slope))
 # Even if we control for income, past consumption seems to be significantly related to current consumption
 
 df_habit = df.copy()
-df_habit.columns = ['cons', 'inc']
-df_habit['cons_m1'] = df.PCECC96.shift()
+df_habit.columns = ["cons", "inc"]
+df_habit["cons_m1"] = df.PCECC96.shift()
 df_habit.dropna()
 
-result = sm.ols(formula = "cons ~ inc + cons_m1", data=df_habit.dropna()).fit()
+result = sm.ols(formula="cons ~ inc + cons_m1", data=df_habit.dropna()).fit()
 result.summary()
 
 
@@ -295,24 +310,26 @@ class FriedmanPIHConsumer:
     This class represents consumers that behave according to
     Friedman's permanent income hypothesis, representing them as a
     special case of HARK's PerfForesightConsumerType
-    
+
     Methods:
-    - cFunc: computes consumption/permanent income 
+    - cFunc: computes consumption/permanent income
              given total income/permanent income.
     """
-    
-    def __init__(self, Rfree=1.001, CRRA = 2):
-        
-        FriedmanPIH = PerfForesightConsumerType() # set up a consumer type and use default parameteres
-        FriedmanPIH.cycles = 0 # Make this type have an infinite horizon
-        FriedmanPIH.DiscFac = 1/Rfree
+
+    def __init__(self, Rfree=1.001, CRRA=2):
+
+        FriedmanPIH = (
+            PerfForesightConsumerType()
+        )  # set up a consumer type and use default parameteres
+        FriedmanPIH.cycles = 0  # Make this type have an infinite horizon
+        FriedmanPIH.DiscFac = 1 / Rfree
         FriedmanPIH.Rfree = Rfree
         FriedmanPIH.LivPrb = [1.0]
         FriedmanPIH.PermGroFac = [1.0]
         FriedmanPIH.CRRA = CRRA
-        FriedmanPIH.solve() # solve the consumer's problem
-        FriedmanPIH.unpack('cFunc') # unpack the consumption function
-        
+        FriedmanPIH.solve()  # solve the consumer's problem
+        FriedmanPIH.unpack("cFunc")  # unpack the consumption function
+
         self.cFunc = FriedmanPIH.solution[0].cFunc
 
 
@@ -324,13 +341,15 @@ class FriedmanPIHConsumer:
 PIHexample = FriedmanPIHConsumer()
 
 # Plot the perfect foresight consumption function
-income = np.linspace(0, 10, 20) # pick some income points
-plt.figure(figsize=(9,6))
-plt.plot(income, PIHexample.cFunc(income), label = 'Consumption function') #plot income versus the consumption
-plt.plot(income, income, 'k--', label = 'C=Y')
-plt.title('Consumption function')
-plt.xlabel('Normalized Income (y)')
-plt.ylabel('Normalized Consumption (c)')
+income = np.linspace(0, 10, 20)  # pick some income points
+plt.figure(figsize=(9, 6))
+plt.plot(
+    income, PIHexample.cFunc(income), label="Consumption function"
+)  # plot income versus the consumption
+plt.plot(income, income, "k--", label="C=Y")
+plt.title("Consumption function")
+plt.xlabel("Normalized Income (y)")
+plt.ylabel("Normalized Consumption (c)")
 plt.legend()
 plt.show()
 
@@ -348,49 +367,57 @@ plt.show()
 # Permanent income has the same variance
 # as transitory income.
 
-perm_inc = np.random.normal(1., 0.1, 200)
+perm_inc = np.random.normal(1.0, 0.1, 200)
 trans_inc = np.random.normal(0.5, 0.1, 200)
 
 total_inc = perm_inc + trans_inc
 
-slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc/perm_inc)*perm_inc)
+slope, intercept, r_value, p_value, std_err = stats.linregress(
+    total_inc, PIHexample.cFunc(total_inc / perm_inc) * perm_inc
+)
 
-plt.figure(figsize=(9,6))
-plt.plot(total_inc, PIHexample.cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
-plt.plot(total_inc, intercept + slope*total_inc, 'k-', label='Line of best fit')
-plt.plot(np.linspace(1, 2, 5), np.linspace(1, 2, 5), 'k--', label='C=Y')
-plt.xlabel('Income (y)')
-plt.ylabel('Consumption (c)')
+plt.figure(figsize=(9, 6))
+plt.plot(
+    total_inc, PIHexample.cFunc(total_inc) * perm_inc, "go", label="Simulated data"
+)
+plt.plot(total_inc, intercept + slope * total_inc, "k-", label="Line of best fit")
+plt.plot(np.linspace(1, 2, 5), np.linspace(1, 2, 5), "k--", label="C=Y")
+plt.xlabel("Income (y)")
+plt.ylabel("Consumption (c)")
 plt.legend()
 plt.ylim(0, 2)
 plt.xlim(1.1, 1.9)
 plt.show()
 
-print('a_0 is {:.2f}'.format(intercept))
-print('a_1 is {:.2f}'.format(slope))
+print("a_0 is {:.2f}".format(intercept))
+print("a_1 is {:.2f}".format(slope))
 
 # %%
 # Permanent income with higher variance
 
-perm_inc = np.random.normal(1., 0.5, 200)
+perm_inc = np.random.normal(1.0, 0.5, 200)
 trans_inc = np.random.normal(0.5, 0.1, 200)
 
 total_inc = perm_inc + trans_inc
 
-slope, intercept, r_value, p_value, std_err = stats.linregress(total_inc, PIHexample.cFunc(total_inc/perm_inc)*perm_inc)
+slope, intercept, r_value, p_value, std_err = stats.linregress(
+    total_inc, PIHexample.cFunc(total_inc / perm_inc) * perm_inc
+)
 
-plt.figure(figsize=(9,6))
-plt.plot(total_inc, PIHexample.cFunc(total_inc)*perm_inc, 'go', label='Simulated data')
-plt.plot(total_inc, intercept + slope*total_inc, 'k-', label='Line of best fit')
-plt.plot(np.linspace(0, 2, 5), np.linspace(0, 2, 5), 'k--', label='C=Y')
-plt.xlabel('Income (y)')
-plt.ylabel('Consumption (c)')
+plt.figure(figsize=(9, 6))
+plt.plot(
+    total_inc, PIHexample.cFunc(total_inc) * perm_inc, "go", label="Simulated data"
+)
+plt.plot(total_inc, intercept + slope * total_inc, "k-", label="Line of best fit")
+plt.plot(np.linspace(0, 2, 5), np.linspace(0, 2, 5), "k--", label="C=Y")
+plt.xlabel("Income (y)")
+plt.ylabel("Consumption (c)")
 plt.legend()
 plt.ylim(0, 2)
 plt.show()
 
-print('a_0 is {:.2f}'.format(intercept))
-print('a_1 is {:.2f}'.format(slope))
+print("a_0 is {:.2f}".format(intercept))
+print("a_1 is {:.2f}".format(slope))
 
 # %% [markdown]
 # We can see that as we increase the variance of permanent income, the estimate of a_1 rises
@@ -412,38 +439,52 @@ print('a_1 is {:.2f}'.format(slope))
 
 # Using quarterly data (copying from above), we had:
 
-plt.figure(figsize=(9,6))
-plt.plot(df_diff.DPIC96, df_diff.PCECC96, 'go', markersize=3.0, label = 'Data')
-slope, intercept, r_value, p_value, std_err = stats.linregress(df_diff.DPIC96[1:], df_diff.PCECC96[1:]) # find line of best fit
-plt.plot(df_diff.DPIC96[1:], intercept+slope*df_diff.DPIC96[1:], 'k-', label = 'Line of best fit')
-plt.plot(np.array([-200, 200]), np.array([-200, 200]), 'k--', label = 'C=Y')
-plt.xlabel('Change in income (dy)')
-plt.ylabel('Change in consumption (dc)')
+plt.figure(figsize=(9, 6))
+plt.plot(df_diff.DPIC96, df_diff.PCECC96, "go", markersize=3.0, label="Data")
+slope, intercept, r_value, p_value, std_err = stats.linregress(
+    df_diff.DPIC96[1:], df_diff.PCECC96[1:]
+)  # find line of best fit
+plt.plot(
+    df_diff.DPIC96[1:],
+    intercept + slope * df_diff.DPIC96[1:],
+    "k-",
+    label="Line of best fit",
+)
+plt.plot(np.array([-200, 200]), np.array([-200, 200]), "k--", label="C=Y")
+plt.xlabel("Change in income (dy)")
+plt.ylabel("Change in consumption (dc)")
 plt.legend()
 plt.show()
 
-print('a_1 is {:.2f}'.format(slope))
+print("a_1 is {:.2f}".format(slope))
 
 # %% [markdown]
 # And now consider longer time differences, 20 quarters for instance, where the changes in permanent income should dominate transitory effects
 
 # %% {"code_folding": []}
 # Using longer differences
-df_diff_long = df.diff(periods = 20) #create dataframe of differenced values
-df_diff_long.columns = ['cons', 'inc']
+df_diff_long = df.diff(periods=20)  # create dataframe of differenced values
+df_diff_long.columns = ["cons", "inc"]
 
-plt.figure(figsize=(9,6))
-plt.plot(df_diff_long.inc, df_diff_long.cons, 'go', label='Data')
-slope, intercept, r_value, p_value, std_err = stats.linregress(df_diff_long.inc[20:], df_diff_long.cons[20:]) # find line of best fit
-plt.plot(df_diff_long.inc[1:], intercept+slope*df_diff_long.inc[1:], 'k-', label='Line of best fit')
-plt.plot(np.linspace(-100, 2000, 3), np.linspace(-100, 2000, 3), 'k--', label='C=Y')
+plt.figure(figsize=(9, 6))
+plt.plot(df_diff_long.inc, df_diff_long.cons, "go", label="Data")
+slope, intercept, r_value, p_value, std_err = stats.linregress(
+    df_diff_long.inc[20:], df_diff_long.cons[20:]
+)  # find line of best fit
+plt.plot(
+    df_diff_long.inc[1:],
+    intercept + slope * df_diff_long.inc[1:],
+    "k-",
+    label="Line of best fit",
+)
+plt.plot(np.linspace(-100, 2000, 3), np.linspace(-100, 2000, 3), "k--", label="C=Y")
 plt.legend()
-plt.xlabel('Change in income (dy)')
-plt.ylabel('Change in consumption (dc)')
+plt.xlabel("Change in income (dy)")
+plt.ylabel("Change in consumption (dc)")
 plt.show()
 
-print('a_0 is {:.2f}'.format(intercept))
-print('a_1 is {:.2f}'.format(slope))
+print("a_0 is {:.2f}".format(intercept))
+print("a_1 is {:.2f}".format(slope))
 
 # %% [markdown]
 # The estimate of $a_1$ using the longer differences is much higher because permanent income is playing a much more important role in explaining the variation in consumption.

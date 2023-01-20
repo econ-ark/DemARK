@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,11 +22,11 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.9.13
+#     version: 3.10.8
 # ---
 
 # %% [markdown]
-# # A Gentle Introduction to HARK: Buffer Stock Saving 
+# # A Gentle Introduction to HARK: Buffer Stock Saving
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/gentle-intro-to-hark-buffer-stock-model#launch)
 #
@@ -61,7 +61,7 @@ from HARK.utilities import plot_funcs
 # \end{align}
 # where again $\mathbb{E}_{t}[\theta_{t+1}] = 1$.
 #
-# As with the perfect foresight problem, this model can be rewritten in terms of _normalized_ variables, e.g. the ratio of 'market resources' $M_{t}$ (wealth plus current income) to permanent income is $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for the theory).  In addition, lenders may set a limit on borrowing: The ratio $a_{t}$ of end-of-period assets to permanent income $A_t/P_t$ must be greater than $\underline{a} \leq 0$. (So, if $\underline{a}=-0.3$, the consumer cannot borrow more than 30 percent of their permanent income).  
+# As with the perfect foresight problem, this model can be rewritten in terms of _normalized_ variables, e.g. the ratio of 'market resources' $M_{t}$ (wealth plus current income) to permanent income is $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for the theory).  In addition, lenders may set a limit on borrowing: The ratio $a_{t}$ of end-of-period assets to permanent income $A_t/P_t$ must be greater than $\underline{a} \leq 0$. (So, if $\underline{a}=-0.3$, the consumer cannot borrow more than 30 percent of their permanent income).
 #
 # The consumer's (normalized) problem turns out to be:
 # \begin{eqnarray*}
@@ -79,11 +79,11 @@ from HARK.utilities import plot_funcs
 #
 # ### Representing the Income Shocks
 #
-# Computers are discrete devices; even if somehow we knew with certainty that the transitory and permanent shocks were, say, continuously lognormally distributed, in order to be represented on a computer those distributions would need to be approximated by a finite set of points.  A large literature in numerical computation explores ways to construct such approximations; probably the easiest discretization to understand is the equiprobable approximation, in which the continuous distribution is represented by a set of $N$ outcomes that are equally likely to occur.  
+# Computers are discrete devices; even if somehow we knew with certainty that the transitory and permanent shocks were, say, continuously lognormally distributed, in order to be represented on a computer those distributions would need to be approximated by a finite set of points.  A large literature in numerical computation explores ways to construct such approximations; probably the easiest discretization to understand is the equiprobable approximation, in which the continuous distribution is represented by a set of $N$ outcomes that are equally likely to occur.
 #
 # In the case of a single variable (say, the permanent shock $\psi$), and when the number of equiprobable points is, say, 5, the procedure is to construct a list: $\psi^{0}$ is the mean value of the continuous $\psi$ given that the draw of $\psi$ is in the bottom 20 percent of the distribution of the continuous $\psi$.  $\psi^{1}$ is the mean value of $\psi$ given that the draw is between the 20th and 40th percentiles, and so on.  Having constructed these, the approximation to the expectation of some expression $g(\psi)$ can be very quickly calculated by:
 #
-# $$ 
+# $$
 # \mathbb{E}_{t}[g(\psi)] \equiv \int_{0}^{\infty} g(\psi) dF_{\psi} \approx (1/N) \sum_{i=0}^{N-1} g(\psi^{i}).
 # $$
 #
@@ -171,7 +171,7 @@ plt.show()
 #
 # HARK solves this problem using _backwards induction_: It will derive a solution for each period ($t$) by finding a mapping between specific values of market resources $\{m[0],m[1],...\}$ and the corresponding optimal consumption $\{c[0],c[1],...\}$. The function that "connects the dots" will be stored in a variable named `cFunc`.
 #
-# Backwards induction requires a "terminal" (last; final) period to work backwards from.  `IndShockExample` constructed above did not specify a terminal consumption function, and consequently it uses the default terminal function in which all resources are consumed: $c_{T} = m_{t}$. 
+# Backwards induction requires a "terminal" (last; final) period to work backwards from.  `IndShockExample` constructed above did not specify a terminal consumption function, and consequently it uses the default terminal function in which all resources are consumed: $c_{T} = m_{t}$.
 
 # %%
 IndShockExample.solution_terminal
@@ -261,7 +261,7 @@ OtherExample.solve()
 # %% [markdown]
 # ## Buffer Stock Saving?
 #
-# There are some combinations of parameter values under which problems of the kind specified above have "degenerate" solutions; for example, if consumers are so patient that they always prefer deferring consumption to the future, the limiting consumption rule can be $c(m)=0$.  
+# There are some combinations of parameter values under which problems of the kind specified above have "degenerate" solutions; for example, if consumers are so patient that they always prefer deferring consumption to the future, the limiting consumption rule can be $c(m)=0$.
 #
 # The toolkit has built-in tests for a number of parametric conditions that can be shown to result in various characteristics in the optimal solution.
 #

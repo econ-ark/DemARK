@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.9.13
+#     version: 3.10.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -105,6 +105,7 @@ class PersistentShockConsumerTypeX(PersistentShockConsumerType):
             )
         self.controls["cLvl"] = cLvl
         self.MPCnow = MPCnow
+
 
 # %% {"code_folding": []}
 # This cell defines a dictionary to make an instance of "persistent shocks" consumer for the infinite horizon model
@@ -203,7 +204,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
         Uniform(
             bot=DiscFac_center - DiscFac_spread, top=DiscFac_center + DiscFac_spread
         )
-        .approx(N=7)
+        .discretize(N=7)
         .atoms
     )
 
@@ -289,4 +290,3 @@ plt.show()
 print("The aggregate wealth to income ratio is " + str(AggWealthRatio))
 print("The Gini Coefficient for assests is " + str(Gini))
 print("The average MPC by income quintile is " + str(Avg_MPC))
-

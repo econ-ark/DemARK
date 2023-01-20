@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.0
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.10.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -62,17 +62,17 @@
 # * The consumption function
 # * The distribution of wealth
 #
-# Of _joint_ changes in $\beta$ and $\rho$ together.  
+# Of _joint_ changes in $\beta$ and $\rho$ together.
 #
 # One way you can do this is to construct a list of alternative values of $\rho$ (say, values that range upward from the default value of $\rho$, in increments of 0.2, all the way to $\rho=5$).  Then for each of these values of $\rho$ you will find the value of $\beta$ that leads the same value for target market resources, $\check{m}$.
 #
 # As a reminder, $\check{m}$ is defined as the value of $m$ at which the optimal value of ${c}$ is the value such that, at that value of ${c}$, the expected level of ${m}$ next period is the same as its current value:
 #
-# $\mathbb{E}_{t}[{m}_{t+1}] = {m}_{t}$ 
+# $\mathbb{E}_{t}[{m}_{t+1}] = {m}_{t}$
 #
 # Other notes:
 # * The cstwMPC model solves and simulates the problems of consumers with 7 different values of $\beta$
-#    * You should do your exercise using the middle value of $\beta$ from that exercise: 
+#    * You should do your exercise using the middle value of $\beta$ from that exercise:
 #       * `DiscFac_mean   = 0.9855583`
 # * You are likely to run into the problem, as you experiment with parameter values, that you have asked HARK to solve a model that does not satisfy one of the impatience conditions required for the model to have a solution.  Those conditions are explained intuitively in the [TractableBufferStock](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/TractableBufferStock/) model.  The versions of the impatience conditions that apply to the $\texttt{IndShockConsumerType}$ model can be found in the paper [BufferStockTheory](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory), table 2.
 #    * The conditions that need to be satisfied are:
@@ -82,7 +82,7 @@
 #    * For compatibility with a further part of the assignment below
 
 # %% {"code_folding": []}
-# This cell merely imports and sets up some basic functions and packages 
+# This cell merely imports and sets up some basic functions and packages
 
 # %matplotlib inline
 import matplotlib.pyplot as plt
@@ -90,7 +90,7 @@ from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
-import HARK # Prevents import error from Demos repo
+import HARK  # Prevents import error from Demos repo
 from HARK.utilities import plot_funcs
 
 # %% {"code_folding": [0, 4]}
@@ -99,39 +99,43 @@ from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 # Define a dictionary with calibrated parameters
 cstwMPC_calibrated_parameters = {
-    "CRRA":1.0,                    # Coefficient of relative risk aversion 
-    "Rfree":1.01/(1.0 - 1.0/160.0), # Survival probability,
-    "PermGroFac":[1.000**0.25], # Permanent income growth factor (no perm growth),
-    "PermGroFacAgg":1.0,
-    "BoroCnstArt":0.0,
-    "CubicBool":False,
-    "vFuncBool":False,
-    "PermShkStd":[(0.01*4/11)**0.5],  # Standard deviation of permanent shocks to income
-    "PermShkCount":5,  # Number of points in permanent income shock grid
-    "TranShkStd":[(0.01*4)**0.5],  # Standard deviation of transitory shocks to income,
-    "TranShkCount":5,  # Number of points in transitory income shock grid
-    "UnempPrb":0.07,  # Probability of unemployment while working
-    "IncUnemp":0.15,  # Unemployment benefit replacement rate
-    "UnempPrbRet":0.0,
-    "IncUnempRet":0.0,
-    "aXtraMin":0.00001,  # Minimum end-of-period assets in grid
-    "aXtraMax":40,  # Maximum end-of-period assets in grid
-    "aXtraCount":32,  # Number of points in assets grid
-    "aXtraExtra":[None],
-    "aXtraNestFac":3,  # Number of times to 'exponentially nest' when constructing assets grid
-    "LivPrb":[1.0 - 1.0/160.0],  # Survival probability
-    "DiscFac":0.97,             # Default intertemporal discount factor; dummy value, will be overwritten
-    "cycles":0,
-    "T_cycle":1,
-    "T_retire":0,
-    'T_sim':1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
-    'T_age': 400,
-    'IndL': 10.0/9.0,  # Labor supply per individual (constant),
-    'aNrmInitMean':np.log(0.00001),
-    'aNrmInitStd':0.0,
-    'pLvlInitMean':0.0,
-    'pLvlInitStd':0.0,
-    'AgentCount':10000,
+    "CRRA": 1.0,  # Coefficient of relative risk aversion
+    "Rfree": 1.01 / (1.0 - 1.0 / 160.0),  # Survival probability,
+    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    "PermGroFacAgg": 1.0,
+    "BoroCnstArt": 0.0,
+    "CubicBool": False,
+    "vFuncBool": False,
+    "PermShkStd": [
+        (0.01 * 4 / 11) ** 0.5
+    ],  # Standard deviation of permanent shocks to income
+    "PermShkCount": 5,  # Number of points in permanent income shock grid
+    "TranShkStd": [
+        (0.01 * 4) ** 0.5
+    ],  # Standard deviation of transitory shocks to income,
+    "TranShkCount": 5,  # Number of points in transitory income shock grid
+    "UnempPrb": 0.07,  # Probability of unemployment while working
+    "IncUnemp": 0.15,  # Unemployment benefit replacement rate
+    "UnempPrbRet": 0.0,
+    "IncUnempRet": 0.0,
+    "aXtraMin": 0.00001,  # Minimum end-of-period assets in grid
+    "aXtraMax": 40,  # Maximum end-of-period assets in grid
+    "aXtraCount": 32,  # Number of points in assets grid
+    "aXtraExtra": [None],
+    "aXtraNestFac": 3,  # Number of times to 'exponentially nest' when constructing assets grid
+    "LivPrb": [1.0 - 1.0 / 160.0],  # Survival probability
+    "DiscFac": 0.97,  # Default intertemporal discount factor; dummy value, will be overwritten
+    "cycles": 0,
+    "T_cycle": 1,
+    "T_retire": 0,
+    "T_sim": 1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_age": 400,
+    "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
+    "aNrmInitMean": np.log(0.00001),
+    "aNrmInitStd": 0.0,
+    "pLvlInitMean": 0.0,
+    "pLvlInitStd": 0.0,
+    "AgentCount": 10000,
 }
 
 # %%
@@ -141,11 +145,11 @@ MyTypes = [IndShockConsumerType(verbose=0, **cstwMPC_calibrated_parameters)]
 # %% [markdown]
 # ## Simulating the Distribution of Wealth for Alternative Combinations
 #
-# You should now have constructed a list of consumer types all of whom have the same _target_ level of market resources $\check{m}$.  
+# You should now have constructed a list of consumer types all of whom have the same _target_ level of market resources $\check{m}$.
 #
 # But the fact that everyone has the same target ${m}$ does not mean that the _distribution_ of ${m}$ will be the same for all of these consumer types.
 #
-# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
+# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.
 
 # %%
 for ThisType in tqdm(MyTypes):
@@ -154,14 +158,14 @@ for ThisType in tqdm(MyTypes):
     ThisType.simulate()
 
 # %% [markdown]
-# Now that you have solved and simulated these consumers, make a plot that shows the relationship between your alternative values of $\rho$ and the mean level of assets 
+# Now that you have solved and simulated these consumers, make a plot that shows the relationship between your alternative values of $\rho$ and the mean level of assets
 
 # %%
 # To help you out, we have given you the command needed to construct a list of the levels of assets for all consumers
 aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
 
 # You should take the mean of aLvl for each consumer in MyTypes, divide it by the mean across all simulations
-# and then plot the ratio of the values of mean(aLvl) for each group against the value of $\rho$ 
+# and then plot the ratio of the values of mean(aLvl) for each group against the value of $\rho$
 
 # %% [markdown]
 # # Interpret
@@ -170,40 +174,40 @@ aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
 # %% [markdown]
 # ## The Distribution of Wealth...
 #
-# Your next exercise is to show how the distribution of wealth differs for the different parameter  values 
+# Your next exercise is to show how the distribution of wealth differs for the different parameter  values
 
 # %%
 from HARK.utilities import get_lorenz_shares, get_percentiles
 
 # Finish filling in this function to calculate the Euclidean distance between the simulated and actual Lorenz curves.
 def calcLorenzDistance(SomeTypes):
-    '''
+    """
     Calculates the Euclidean distance between the simulated and actual (from SCF data) Lorenz curves at the
     20th, 40th, 60th, and 80th percentiles.
-    
+
     Parameters
     ----------
     SomeTypes : [AgentType]
         List of AgentTypes that have been solved and simulated.  Current levels of individual assets should
         be stored in the attribute aLvl.
-        
+
     Returns
     -------
     lorenz_distance : float
         Euclidean distance (square root of sum of squared differences) between simulated and actual Lorenz curves.
-    '''
+    """
     # Define empirical Lorenz curve points
-    lorenz_SCF = np.array([-0.00183091,  0.0104425 ,  0.0552605 ,  0.1751907 ])
-    
+    lorenz_SCF = np.array([-0.00183091, 0.0104425, 0.0552605, 0.1751907])
+
     # Extract asset holdings from all consumer types
     aLvl_sim = np.concatenate([ThisType.aLvl for ThisType in MyTypes])
-    
+
     # Calculate simulated Lorenz curve points
-    lorenz_sim = get_lorenz_shares(aLvl_sim,percentiles=[0.2,0.4,0.6,0.8])
-    
+    lorenz_sim = get_lorenz_shares(aLvl_sim, percentiles=[0.2, 0.4, 0.6, 0.8])
+
     # Calculate the Euclidean distance between the simulated and actual Lorenz curves
-    lorenz_distance = np.sqrt(np.sum((lorenz_SCF - lorenz_sim)**2))
-    
+    lorenz_distance = np.sqrt(np.sum((lorenz_SCF - lorenz_sim) ** 2))
+
     # Return the Lorenz distance
     return lorenz_distance
 
@@ -222,15 +226,21 @@ def calcLorenzDistance(SomeTypes):
 # %%
 # Write a function to tell us about the distribution of the MPC in this code block, then test it!
 # You will almost surely find it useful to use a for loop in this function.
-def describeMPCdstn(SomeTypes,percentiles):
+def describeMPCdstn(SomeTypes, percentiles):
     MPC_sim = np.concatenate([ThisType.MPCnow for ThisType in SomeTypes])
-    MPCpercentiles_quarterly = get_percentiles(MPC_sim,percentiles=percentiles)
-    MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly)**4
-    
+    MPCpercentiles_quarterly = get_percentiles(MPC_sim, percentiles=percentiles)
+    MPCpercentiles_annual = 1.0 - (1.0 - MPCpercentiles_quarterly) ** 4
+
     for j in range(len(percentiles)):
-        print('The ' + str(100*percentiles[j]) + 'th percentile of the MPC is ' + str(MPCpercentiles_annual[j]))
-        
-describeMPCdstn(MyTypes,np.linspace(0.05,0.95,19))
+        print(
+            "The "
+            + str(100 * percentiles[j])
+            + "th percentile of the MPC is "
+            + str(MPCpercentiles_annual[j])
+        )
+
+
+describeMPCdstn(MyTypes, np.linspace(0.05, 0.95, 19))
 
 # %% [markdown]
 # # If You Get Here ...

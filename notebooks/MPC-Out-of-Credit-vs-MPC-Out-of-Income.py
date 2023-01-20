@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.10.8
 # ---
 
 # %% [markdown]
@@ -61,11 +61,12 @@ BaselineExample = IndShockConsumerType()
 # to you to uncomment the two lines of code below, and see how the results change!
 
 from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
+
 BaselineExample = KinkedRconsumerType()
 
 
 # %% [markdown]
-"""
+r"""
 The next step is to change the values of parameters as we want.
 
 To see all the parameters used in the model, along with their default values, see $\texttt{ConsumerParameters.py}$
@@ -79,11 +80,13 @@ BaselineExample.Rfree = 1.02
 
 # %% {"code_folding": [0]}
 ## Change some parameter values
-BaselineExample.Rfree       = 1.02 #change the risk-free interest rate
-BaselineExample.CRRA        = 2.   # change  the coefficient of relative risk aversion
-BaselineExample.BoroCnstArt = -.3  # change the artificial borrowing constraint
-BaselineExample.DiscFac     = .5   #chosen so that target debt-to-permanent-income_ratio is about .1
-                                   # i.e. BaselineExample.solution[0].cFunc(.9) ROUGHLY = 1.
+BaselineExample.Rfree = 1.02  # change the risk-free interest rate
+BaselineExample.CRRA = 2.0  # change  the coefficient of relative risk aversion
+BaselineExample.BoroCnstArt = -0.3  # change the artificial borrowing constraint
+BaselineExample.DiscFac = (
+    0.5  # chosen so that target debt-to-permanent-income_ratio is about .1
+)
+# i.e. BaselineExample.solution[0].cFunc(.9) ROUGHLY = 1.
 
 ## There is one more parameter value we need to change.  This one is more complicated than the rest.
 ## We could solve the problem for a consumer with an infinite horizon of periods that (ex-ante)
@@ -100,7 +103,7 @@ BaselineExample.DiscFac     = .5   #chosen so that target debt-to-permanent-inco
 ## Note that another complication with the cycles attribute is that it does not come from
 ## Params.init_idiosyncratic_shocks.  Instead it is a keyword argument to the  __init__() method of
 ## IndShockConsumerType.
-BaselineExample.cycles      = 0
+BaselineExample.cycles = 0
 
 # %%
 # Now, create another consumer to compare the BaselineExample to.
@@ -108,6 +111,7 @@ BaselineExample.cycles      = 0
 # The easiest way to begin creating the comparison example is to just copy the baseline example.
 # We can change the parameters we want to change later.
 from copy import deepcopy
+
 XtraCreditExample = deepcopy(BaselineExample)
 
 # Now, change whatever parameters we want.
@@ -116,7 +120,7 @@ XtraCreditExample = deepcopy(BaselineExample)
 # So, to give the consumer more credit, we just need to relax their borrowing constraint a tiny bit.
 
 # Declare how much we want to increase credit by
-credit_change =  .0001
+credit_change = 0.0001
 
 # Now increase the consumer's credit limit.
 # We do this by decreasing the artificial borrowing constraint.
@@ -136,7 +140,7 @@ BaselineExample.solve()
 XtraCreditExample.solve()
 
 # %% [markdown]
-"""
+r"""
 Now that we have the solutions to the 2 different problems, we can compare them.
 
 We are going to compare the consumption functions for the two different consumers.
@@ -154,6 +158,7 @@ BaselineExample is $\texttt{BaselineExample.solution[0].cFunc}$
 # %% {"code_folding": [0]}
 ## First, declare useful functions to plot later
 
+
 def FirstDiffMPC_Income(x):
     # Approximate the MPC out of income by giving the agent a tiny bit more income,
     # and plotting the proportion of the change that is reflected in increased consumption
@@ -164,26 +169,30 @@ def FirstDiffMPC_Income(x):
     income_change = credit_change
 
     # Now, calculate the approximate MPC out of income
-    return (BaselineExample.solution[0].cFunc(x + income_change) -
-            BaselineExample.solution[0].cFunc(x)) / income_change
+    return (
+        BaselineExample.solution[0].cFunc(x + income_change)
+        - BaselineExample.solution[0].cFunc(x)
+    ) / income_change
 
 
 def FirstDiffMPC_Credit(x):
     # Approximate the MPC out of credit by plotting how much more of the increased credit the agent
     # with higher credit spends
-    return (XtraCreditExample.solution[0].cFunc(x) -
-            BaselineExample.solution[0].cFunc(x)) / credit_change
+    return (
+        XtraCreditExample.solution[0].cFunc(x) - BaselineExample.solution[0].cFunc(x)
+    ) / credit_change
+
 
 # %% {"code_folding": [0]}
 ## Now, plot the functions we want
 # %matplotlib inline
 # Import a useful plotting function from HARK.utilities
 from HARK.utilities import plot_funcs
-import pylab as plt # We need this module to change the y-axis on the graphs
+import pylab as plt  # We need this module to change the y-axis on the graphs
 
 
 # Declare the upper limit for the graph
-x_max = 10.
+x_max = 10.0
 
 
 # Note that plot_funcs takes four arguments: (1) a list of the arguments to plot,
@@ -193,16 +202,26 @@ x_max = 10.
 # Plot the consumption functions to compare them
 # The only difference is that the XtraCredit function has a credit limit that is looser
 # by a tiny amount
-print('The XtraCredit consumption function allows the consumer to spend a tiny bit more') 
-print('The difference is so small that the baseline is obscured by the XtraCredit solution') 
-plot_funcs([BaselineExample.solution[0].cFunc,XtraCreditExample.solution[0].cFunc],
-           BaselineExample.solution[0].mNrmMin,x_max,
-           legend_kwds = {'loc': 'upper left', 'labels': ["Baseline","XtraCredit"]})
+print(
+    "The XtraCredit consumption function allows the consumer to spend a tiny bit more"
+)
+print(
+    "The difference is so small that the baseline is obscured by the XtraCredit solution"
+)
+plot_funcs(
+    [BaselineExample.solution[0].cFunc, XtraCreditExample.solution[0].cFunc],
+    BaselineExample.solution[0].mNrmMin,
+    x_max,
+    legend_kwds={"loc": "upper left", "labels": ["Baseline", "XtraCredit"]},
+)
 
 
 # Plot the MPCs to compare them
-print('MPC out of Credit v MPC out of Income')
-plt.ylim([0.,1.2])
-plot_funcs([FirstDiffMPC_Credit,FirstDiffMPC_Income],
-          BaselineExample.solution[0].mNrmMin,x_max,
-          legend_kwds = {'labels': ["MPC out of Credit","MPC out of Income"]})
+print("MPC out of Credit v MPC out of Income")
+plt.ylim([0.0, 1.2])
+plot_funcs(
+    [FirstDiffMPC_Credit, FirstDiffMPC_Income],
+    BaselineExample.solution[0].mNrmMin,
+    x_max,
+    legend_kwds={"labels": ["MPC out of Credit", "MPC out of Income"]},
+)

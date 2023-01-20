@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.9.13
+#     version: 3.10.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -155,7 +155,7 @@ from copy import copy, deepcopy
 # %% [markdown]
 # ## Calibrating a Basic Version of cstwMPC
 #
-# To get started, let's reproduce a simplified version of the main results from cstwMPC.  
+# To get started, let's reproduce a simplified version of the main results from cstwMPC.
 #
 # In cstwMPC, the authors calibrated nearly all of the model parameters-- risk aversion, income shock process, etc-- to commonly used or previously estimated values.  The only parameter to be estimated is the distribution of $\beta$.  cstwMPC assumed that $\beta$ is uniformly distributed on $[\grave{\beta}-\nabla,\grave{\beta}+\nabla]$, approximated by a seven point distribution.
 #
@@ -164,7 +164,7 @@ from copy import copy, deepcopy
 # 1. The simulated aggregate capital-to-income ratio matches the true U.S. value.
 # 2. The sum of squared distances between the simulated and empirical Lorenz curves (at the 20th, 40th, 60th, and 80th percentiles) is minimized (conditional on item 1).
 #
-# cstwMPC's target empirical moments are a capital-to-income ratio of 10.26 and cumulative wealth shares as given in the table below.  Yes, you are reading the table correctly: The "poorest" 80 percent of households own 17.5 percent of wealth. 
+# cstwMPC's target empirical moments are a capital-to-income ratio of 10.26 and cumulative wealth shares as given in the table below.  Yes, you are reading the table correctly: The "poorest" 80 percent of households own 17.5 percent of wealth.
 #
 # | Net worth percentile | Cumulative wealth share |
 # |:---:|:---:|
@@ -237,7 +237,7 @@ DiscFac_mean = 0.9855583  # center of beta distribution
 DiscFac_spread = 0.0085  # spread of beta distribution
 DiscFac_dstn = (
     Uniform(DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread)
-    .approx(num_types)
+    .discretize(num_types)
     .atoms.flatten()
 )
 
@@ -254,7 +254,7 @@ for nn in range(num_types):
 #
 # Now let's solve and simulate each of our types of agents.  If you look in the parameter dictionary (or at any of the agent objects themselves), you will see that each one has an $\texttt{AgentCount}$ attribute of 10000. That is, these seven ex ante heterogeneous types each represent ten thousand individual agents that will experience ex post heterogeneity when they draw different income (and mortality) shocks over time.
 #
-# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
+# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.
 
 # %%
 # Progress bar keeps track interactively of how many have been made
@@ -266,7 +266,7 @@ for ThisType in tqdm(MyTypes):
 # %% [markdown]
 # To verify that you wrote that code correctly, let's check that the aggregate level of capital (total assets held by all households) to income ratio equals what we expected it would be.  To do that, let's combine the asset holdings of all types, take the mean, and see if we get the desired capital to income ratio of 10.26.
 #
-# NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0. 
+# NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0.
 
 # %%
 aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
@@ -300,7 +300,7 @@ plt.show(block=False)
 # %% [markdown]
 # ## Calculating the Lorenz Distance at Targets
 #
-# Now we want to construct a function that calculates the Euclidean distance between simulated and actual Lorenz curves at the four percentiles of interest: 20, 40, 60, and 80.  
+# Now we want to construct a function that calculates the Euclidean distance between simulated and actual Lorenz curves at the four percentiles of interest: 20, 40, 60, and 80.
 
 # %% [markdown]
 # ## The Distribution Of the Marginal Propensity to Consume
