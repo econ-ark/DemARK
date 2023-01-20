@@ -35,6 +35,9 @@
 # We first load some tools from the [HARK toolkit](https://github.com/econ-ark/HARK).
 
 # %% jupyter={"source_hidden": true} tags=[]
+import statsmodels.api as sm
+from linearmodels.panel.model import PanelOLS
+from HARK.distribution import calc_expectation
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     IndShockConsumerType,
     init_lifecycle,
@@ -157,7 +160,6 @@ Agent.simulate()
 #
 
 # %% Compute expectations jupyter={"source_hidden": true} tags=[]
-from HARK.distribution import calc_expectation
 
 exp = [
     calc_expectation(Agent.IncShkDstn[i], func=lambda x: x[0] * x[1])
@@ -200,8 +202,6 @@ Data["Y_change"] = Data.groupby("id")["Y"].diff(1)
 # We now estimate an analogous regression in our simulated population.
 
 # %% jupyter={"source_hidden": true} tags=[]
-from linearmodels.panel.model import PanelOLS
-import statsmodels.api as sm
 
 Data = Data.set_index(["id", "Age"])
 

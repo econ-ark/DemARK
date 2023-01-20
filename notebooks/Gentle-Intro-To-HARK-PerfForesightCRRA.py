@@ -45,14 +45,18 @@
 #   The most common problem beginners have is to execute a cell before all its predecessors
 #   If you do this, you can restart the kernel (see the "Kernel" menu above) and start over
 # %matplotlib inline
+from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
+from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
 import HARK
 from copy import deepcopy
 
-mystr = lambda number: "{:.4f}".format(number)
-from HARK.utilities import plot_funcs
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
 
 # %% [markdown]
 # ## Your First HARK Model: Perfect Foresight
@@ -76,7 +80,6 @@ from HARK.utilities import plot_funcs
 # HARK represents agents solving this type of problem as **instances** of the **class** $\texttt{PerfForesightConsumerType}$, a **subclass** of $\texttt{AgentType}$.  To make agents of this class, we must import the class itself into our workspace.  (Run the cell below in order to do this).
 
 # %%
-from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 
 # %% [markdown]
 # The $\texttt{PerfForesightConsumerType}$ class contains within itself the python code that constructs the solution for the perfect foresight model we are studying here, as specifically articulated in [these lecture notes](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/).
@@ -93,6 +96,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 #
 #
 # For now, don't worry about the specifics of dictionaries.  All you need to know is that a dictionary lets us pass many arguments wrapped up in one simple data structure.
+
 
 # %% {"code_folding": [0]}
 # This cell defines a parameter dictionary. You can expand it if you want to see what that looks like.

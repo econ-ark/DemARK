@@ -61,6 +61,14 @@
 
 # %% {"code_folding": []}
 # Some initial setup
+from HARK.utilities import plot_funcs_der, plot_funcs
+from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
+import pandas_datareader.data as web
+from copy import deepcopy
+import statsmodels.formula.api as sm
+import scipy.stats as stats
+import datetime as dt
+import pandas as pd
 import sys
 import os
 from matplotlib import pyplot as plt
@@ -69,18 +77,8 @@ import numpy as np
 plt.style.use("seaborn-darkgrid")
 palette = plt.get_cmap("Dark2")
 
-import pandas as pd
 
 pd.core.common.is_list_like = pd.api.types.is_list_like
-import datetime as dt
-import scipy.stats as stats
-import statsmodels.formula.api as sm
-from copy import deepcopy
-
-import pandas_datareader.data as web
-
-from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-from HARK.utilities import plot_funcs_der, plot_funcs
 
 
 # %% [markdown]

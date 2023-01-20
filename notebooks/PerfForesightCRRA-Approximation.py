@@ -34,14 +34,21 @@
 # %% {"code_folding": []}
 # Initial notebook set up
 # %matplotlib inline
+from HARK.ConsumptionSaving.ConsIndShockModel import (
+    PerfForesightConsumerType,
+    init_perfect_foresight,
+)  # Import the consumer type
+from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
 import HARK
 from copy import deepcopy
 
-mystr = lambda number: "{:.4f}".format(number)
-from HARK.utilities import plot_funcs
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
 
 # These last two will make our charts look nice
 plt.style.use("seaborn-darkgrid")
@@ -68,15 +75,12 @@ palette = plt.get_cmap("Dark2")
 # %%
 # Set up a HARK Perfect Foresight Consumer called PFagent
 
-from HARK.ConsumptionSaving.ConsIndShockModel import (
-    PerfForesightConsumerType,
-    init_perfect_foresight,
-)  # Import the consumer type
 
 # Now we need to give our consumer parameter values that allow us to solve the consumer's problem
 
 # Invoke it to create a dictionary called Paramod (Params that we will modify)
-Paramod = deepcopy(init_perfect_foresight)  # deepcopy prevents later overwriting
+# deepcopy prevents later overwriting
+Paramod = deepcopy(init_perfect_foresight)
 
 # Extract the parameters from the dictionary to make them easy to reference
 CRRA = Paramod["CRRA"]  # Coefficient of relative risk aversion
@@ -84,7 +88,8 @@ Rfree = Paramod["Rfree"]  # Interest factor on assets
 DiscFac = Paramod["DiscFac"]  # Intertemporal discount factor
 PermGroFac = Paramod["PermGroFac"]  # Permanent income growth factor
 LivPrb = Paramod["LivPrb"] = [1.0]  # Survival probability of 100 percent
-cycles = Paramod["cycles"] = 0  # This says that it is an infinite horizon model
+# This says that it is an infinite horizon model
+cycles = Paramod["cycles"] = 0
 
 # %%
 # Now let's pass our dictionary to our consumer class to create an instance

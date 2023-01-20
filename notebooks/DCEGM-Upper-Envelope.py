@@ -68,6 +68,8 @@
 
 # %%
 # imports
+from HARK.rewards import CRRAutility, CRRAutilityP, CRRAutilityP_inv
+from HARK.interpolation import calc_log_sum_choice_probs
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -150,10 +152,8 @@ plt.show()
 # %%
 # Import tools for linear interpolation and finding optimal
 # discrete choices.
-from HARK.interpolation import calc_log_sum_choice_probs
 
 # Import CRRA utility (and related) functions from HARK
-from HARK.rewards import CRRAutility, CRRAutilityP, CRRAutilityP_inv
 
 # Solution method parameters
 aGrid = np.linspace(0, 8, 400)  # Savings grid for EGM.
@@ -167,13 +167,24 @@ CRRA = 2
 
 # Parameters that can be changed.
 w = 1  # Deterministic wage per period.
-willCstFac = 0.35  # Fraction of resources charged by lawyer for writing a will.
+# Fraction of resources charged by lawyer for writing a will.
+willCstFac = 0.35
 DiscFac = 0.98  # Time-discount factor.
 
 # Define utility (and related) functions
-u = lambda x: CRRAutility(x, CRRA)
-uP = lambda x: CRRAutilityP(x, CRRA)
-uPinv = lambda x: CRRAutilityP_inv(x, CRRA)
+
+
+def u(x):
+    return CRRAutility(x, CRRA)
+
+
+def uP(x):
+    return CRRAutilityP(x, CRRA)
+
+
+def uPinv(x):
+    return CRRAutilityP_inv(x, CRRA)
+
 
 # Create a grid for market resources
 mGrid = (aGrid - aGrid[0]) * 1.5
@@ -181,8 +192,15 @@ mGridPlots = np.linspace(w, 10 * w, 100)
 mGridPlotsC = np.insert(mGridPlots, 0, 0)
 
 # Transformations for value funtion interpolation
-vTransf = lambda x: np.exp(x)
-vUntransf = lambda x: np.log(x)
+
+
+def vTransf(x):
+    return np.exp(x)
+
+
+def vUntransf(x):
+    return np.log(x)
+
 
 # %% [markdown]
 # # The third (last) period of life
@@ -219,6 +237,7 @@ vUntransf = lambda x: np.log(x)
 #
 # The consumption function shows that $m_3=1$ is the level of resources at which an important change of behavior occurs: agents leave bequests only for $m_3 > 1$. Since an important change of behavior happens at this point, we call it a 'kink-point' and add it to our grids.
 
+
 # %%
 # Agent without a will
 mGrid3_no = mGrid
@@ -228,12 +247,20 @@ vGrid3_no = u(cGrid3_no)
 # Create functions
 c3_no = LinearInterp(mGrid3_no, cGrid3_no)  # (0,0) is already here.
 vT3_no = LinearInterp(mGrid3_no, vTransf(vGrid3_no), lower_extrap=True)
-v3_no = lambda x: vUntransf(vT3_no(x))
+
+
+def v3_no(x):
+    return vUntransf(vT3_no(x))
+
 
 # Agent with a will
 
 # Define an auxiliary function with the analytical consumption expression
-c3will = lambda m: np.minimum(m, -0.5 + 0.5 * np.sqrt(1 + 4 * (m + 1)))
+
+
+def c3will(m):
+    return np.minimum(m, -0.5 + 0.5 * np.sqrt(1 + 4 * (m + 1)))
+
 
 # Find the kink point
 mKink = 1.0
@@ -253,7 +280,11 @@ vGrid3_wi = np.concatenate(
 # Create functions
 c3_wi = LinearInterp(mGrid3_wi, cGrid3_wi)  # (0,0) is already here
 vT3_wi = LinearInterp(mGrid3_wi, vTransf(vGrid3_wi), lower_extrap=True)
-v3_wi = lambda x: vUntransf(vT3_wi(x))
+
+
+def v3_wi(x):
+    return vUntransf(vT3_wi(x))
+
 
 plt.figure()
 
@@ -312,7 +343,12 @@ vGrid2_cond_no = u(cGrid2_cond_no) + DiscFac * v3_no(mGrid3_cond_nowi)
 
 # Create interpolating value and consumption functions
 vT2_cond_no = LinearInterp(mGrid2_cond_no, vTransf(vGrid2_cond_no), lower_extrap=True)
-v2_cond_no = lambda x: vUntransf(vT2_cond_no(x))
+
+
+def v2_cond_no(x):
+    return vUntransf(vT2_cond_no(x))
+
+
 c2_cond_no = LinearInterp(
     np.insert(mGrid2_cond_no, 0, 0), np.insert(cGrid2_cond_no, 0, 0)
 )
@@ -350,7 +386,12 @@ vGrid2_cond_wi = u(cGrid2_cond_wi) + DiscFac * v3_wi(mGrid3_cond_will)
 
 # Create interpolating value and consumption functions
 vT2_cond_wi = LinearInterp(mGrid2_cond_wi, vTransf(vGrid2_cond_wi), lower_extrap=True)
-v2_cond_wi = lambda x: vUntransf(vT2_cond_wi(x))
+
+
+def v2_cond_wi(x):
+    return vUntransf(vT2_cond_wi(x))
+
+
 c2_cond_wi = LinearInterp(
     np.insert(mGrid2_cond_wi, 0, 0), np.insert(cGrid2_cond_wi, 0, 0)
 )
@@ -397,7 +438,11 @@ c2_env[inds2_env == 1] = c2_cond_wi(m2_env[inds2_env == 1])
 
 # And create the unconditional consumption and value functions
 vT2 = LinearInterp(m2_env, vt2_env, lower_extrap=True)
-v2 = lambda x: vUntransf(vT2(x))
+
+
+def v2(x):
+    return vUntransf(vT2(x))
+
 
 c2 = LinearInterp(m2_env, c2_env, lower_extrap=True)
 
@@ -475,7 +520,8 @@ plt.show()
 
 # %%
 # Calculate envelope
-vTGrid1 = vTransf(vGrid1)  # The function operates with *transformed* value grids
+# The function operates with *transformed* value grids
+vTGrid1 = vTransf(vGrid1)
 
 # Form non-decreasing segments
 start, end = calc_nondecreasing_segments(mGrid1, vTGrid1)
@@ -503,7 +549,11 @@ for k, c_segm in enumerate(c_segments):
 # Create functions
 c1_up = LinearInterp(m1_env, c1_env)
 v1T_up = LinearInterp(m1_env, vt1_env)
-v1_up = lambda x: vUntransf(v1T_up(x))
+
+
+def v1_up(x):
+    return vUntransf(v1T_up(x))
+
 
 # Show that there is a non-monothonicity and that the upper envelope fixes it
 plt.plot(mGrid1, vGrid1, label="EGM Points")

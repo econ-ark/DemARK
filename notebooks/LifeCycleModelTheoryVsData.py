@@ -70,7 +70,10 @@
 # %% {"code_folding": []}
 # Initial imports and notebook setup, click arrow to show
 
-import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl  # The consumption-saving micro model
+# The consumption-saving micro model
+from matplotlib import pyplot as plt
+import warnings
+import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl
 from HARK.utilities import plot_funcs_der, plot_funcs  # Some tools
 import pandas as pd
 
@@ -89,7 +92,8 @@ aXtraHuge = None  # A very large value of assets to add to the grid, not used
 aXtraExtra = None  # Some other value of assets to add to the grid, not used
 aXtraCount = 8  # Number of points in the grid of "assets above minimum"
 
-BoroCnstArt = 0.0  # Artificial borrowing constraint; imposed minimum level of end-of period assets
+# Artificial borrowing constraint; imposed minimum level of end-of period assets
+BoroCnstArt = 0.0
 CubicBool = (
     True  # Use cubic spline interpolation when True, linear interpolation when False
 )
@@ -113,8 +117,10 @@ initial_age = 25  # Age at which the consumer enters the model
 TT = final_age - initial_age  # Total number of periods in the model
 retirement_t = retirement_age - initial_age - 1
 
-CRRA_start = 4.0  # Initial guess of the coefficient of relative risk aversion during estimation (rho)
-DiscFacAdj_start = 0.99  # Initial guess of the adjustment to the discount factor during estimation (beth)
+# Initial guess of the coefficient of relative risk aversion during estimation (rho)
+CRRA_start = 4.0
+# Initial guess of the adjustment to the discount factor during estimation (beth)
+DiscFacAdj_start = 0.99
 DiscFacAdj_bound = [
     0.0001,
     15.0,
@@ -533,11 +539,15 @@ init_consumer_objects = {
 init_consumer_objects[
     "CRRA"
 ] = 2.00  # Default coefficient of relative risk aversion (rho)
-init_consumer_objects["DiscFac"] = 0.97  # Default intertemporal discount factor (beta)
-init_consumer_objects["PermGroFacAgg"] = 1.0  # Aggregate permanent income growth factor
+# Default intertemporal discount factor (beta)
+init_consumer_objects["DiscFac"] = 0.97
+# Aggregate permanent income growth factor
+init_consumer_objects["PermGroFacAgg"] = 1.0
 init_consumer_objects["aNrmInitMean"] = -10.0  # Mean of log initial assets
-init_consumer_objects["aNrmInitStd"] = 1.0  # Standard deviation of log initial assets
-init_consumer_objects["pLvlInitMean"] = 0.0  # Mean of log initial permanent income
+# Standard deviation of log initial assets
+init_consumer_objects["aNrmInitStd"] = 1.0
+# Mean of log initial permanent income
+init_consumer_objects["pLvlInitMean"] = 0.0
 init_consumer_objects[
     "pLvlInitStd"
 ] = 0.0  # Standard deviation of log initial permanent income
@@ -557,7 +567,8 @@ LifeCyclePop.unpack("cFunc")  # Expose the consumption rules
 LifeCyclePop.track_vars = ["aNrm", "aLvl", "pLvl", "mNrm", "cNrm", "TranShk"]
 
 LifeCyclePop.T_sim = 120  # Nobody lives to be older than 145 years (=25+120)
-LifeCyclePop.initialize_sim()  # Construct the age-25 distribution of income and assets
+# Construct the age-25 distribution of income and assets
+LifeCyclePop.initialize_sim()
 LifeCyclePop.simulate()  # Simulate a population behaving according to this model
 
 
@@ -606,9 +617,9 @@ w, h = 1, LifeCyclePop.T_cycle
 giant_list = [[0 for x in range(w)] for y in range(h)]
 savRte_list = []
 
-import warnings
 
-warnings.filterwarnings("ignore")  # Suppress some disturbing but harmless warnings
+# Suppress some disturbing but harmless warnings
+warnings.filterwarnings("ignore")
 
 for t in range(1, LifeCyclePop.T_cycle + 1):
     # aLvlGro[0] = 0 # set the first growth rate to 0, since there is no data for period 0
@@ -649,7 +660,6 @@ aGro41NoU = aGro41[
 
 # %% {"code_folding": [0]}
 # Plot the (truncated) distribution of growth rates of wealth between age 65 and 66 (=25 + 41)
-from matplotlib import pyplot as plt
 
 n, bins, patches = plt.hist(aGro41NoU, 50, density=True)
 

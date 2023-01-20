@@ -77,6 +77,16 @@
 # %% code_folding=[25]
 # This cell does some setup and imports generic tools used to produce the figures
 
+from HARK.utilities import get_lorenz_shares, get_percentiles
+from HARK.datasets import load_SCF_wealth_weights
+from HARK.distribution import Uniform
+from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
+from copy import copy, deepcopy
+import warnings
+from distutils.spawn import find_executable
+from matplotlib import rc
+import matplotlib.pyplot as plt
+from IPython import get_ipython  # In case it was run from python instead of ipython
 from tqdm import tqdm
 
 import numpy as np
@@ -90,18 +100,32 @@ Generator = False  # Is this notebook the master or is it generated?
 # Import related generic python packages
 
 # Set how many digits past the decimal point should be printed?
-mystr = lambda number: "{:.4f}".format(number)
-decfmt4 = lambda number: "{:.4f}".format(number)
-decfmt3 = lambda number: "{:.3f}".format(number)
-decfmt2 = lambda number: "{:.2f}".format(number)
-decfmt1 = lambda number: "{:.1f}".format(number)
+
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
+
+def decfmt4(number):
+    return "{:.4f}".format(number)
+
+
+def decfmt3(number):
+    return "{:.3f}".format(number)
+
+
+def decfmt2(number):
+    return "{:.2f}".format(number)
+
+
+def decfmt1(number):
+    return "{:.1f}".format(number)
+
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
 # But a terminal does not permit inline figures, so we need to test jupyter vs terminal
 # Google "how can I check if code is executed in the ipython notebook"
-
-from IPython import get_ipython  # In case it was run from python instead of ipython
 
 
 def in_ipynb():
@@ -128,16 +152,13 @@ else:
 
 # Import the plot-figure library matplotlib
 
-import matplotlib.pyplot as plt
 
 # In order to use LaTeX to manage all text layout in our figures, we import rc settings from matplotlib.
-from matplotlib import rc
 
 plt.rc("font", family="serif")
 
 # LaTeX is huge and takes forever to install on mybinder
 # so if it is not installed then do not use it
-from distutils.spawn import find_executable
 
 iflatexExists = False
 if find_executable("latex"):
@@ -146,11 +167,9 @@ if find_executable("latex"):
 plt.rc("text", usetex=iflatexExists)
 
 # The warnings package allows us to ignore some harmless but alarming warning messages
-import warnings
 
 warnings.filterwarnings("ignore")
 
-from copy import copy, deepcopy
 
 # %% [markdown]
 # ## Calibrating a Basic Version of cstwMPC
@@ -177,13 +196,13 @@ from copy import copy, deepcopy
 
 # %% code_folding=[0, 4]
 # Import IndShockConsumerType
-from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 # Define a dictionary with calibrated parameters
 cstwMPC_calibrated_parameters = {
     "CRRA": 1.0,  # Coefficient of relative risk aversion
     "Rfree": 1.01 / (1.0 - 1.0 / 160.0),  # Survival probability,
-    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    # Permanent income growth factor (no perm growth),
+    "PermGroFac": [1.000**0.25],
     "PermGroFacAgg": 1.0,
     "BoroCnstArt": 0.0,
     "CubicBool": False,
@@ -210,7 +229,8 @@ cstwMPC_calibrated_parameters = {
     "cycles": 0,
     "T_cycle": 1,
     "T_retire": 0,
-    "T_sim": 1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_sim": 1200,
     "T_age": 400,
     "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
     "aNrmInitMean": np.log(0.00001),
@@ -227,7 +247,6 @@ cstwMPC_calibrated_parameters = {
 
 # %%
 # This cell constructs seven instances of IndShockConsumerType with different discount factors
-from HARK.distribution import Uniform
 
 BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 
@@ -280,8 +299,6 @@ print(
 
 # %%
 # Plot Lorenz curves for model with uniform distribution of time preference
-from HARK.datasets import load_SCF_wealth_weights
-from HARK.utilities import get_lorenz_shares, get_percentiles
 
 SCF_wealth, SCF_weights = load_SCF_wealth_weights()
 

@@ -38,14 +38,20 @@
 # Preliminaries
 
 # %matplotlib inline
+from HARK.ConsumptionSaving.ConsIndShockModel import (
+    PerfForesightConsumerType,
+)  # Import the consumer type
+from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
 import HARK
 from copy import deepcopy
 
-mystr = lambda number: "{:.4f}".format(number)
-from HARK.utilities import plot_funcs
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
 
 # These last two will make our charts look nice
 plt.style.use("seaborn-darkgrid")
@@ -58,9 +64,6 @@ palette = plt.get_cmap("Dark2")
 
 # %%
 # Set up a HARK Perfect Foresight Consumer called PFsavrate
-from HARK.ConsumptionSaving.ConsIndShockModel import (
-    PerfForesightConsumerType,
-)  # Import the consumer type
 
 # Now we need to "fill" our consumer with parameters that allow us to solve the consumer's problem
 
@@ -70,7 +73,8 @@ Rfree = 1.03  # Interest factor on assets
 β = DiscFac = 0.97  # Intertemporal discount factor
 LivPrb = [1.0]  # Survival probability
 Γ = PermGroFac = [1.01]  # Permanent income growth factor
-AgentCount = 1  # Number of agents of this type (only matters for simulation# Number of periods in the cycle for this agent type
+# Number of agents of this type (only matters for simulation# Number of periods in the cycle for this agent type
+AgentCount = 1
 cycles = 0  # Agent is infinitely lived
 T_cycle = 1  # Every period is the same
 

@@ -64,9 +64,11 @@
 # %% {"code_folding": [0]}
 # Initial imports and notebook setup, click arrow to show
 
+from HARK.distribution import Uniform
+from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 import matplotlib.pyplot as plt
 
-## Import some things from cstwMPC
+# Import some things from cstwMPC
 
 from tqdm import tqdm
 
@@ -115,7 +117,8 @@ from HARK.utilities import plot_funcs
 init_infinite = {
     "CRRA": 1.0,  # Coefficient of relative risk aversion
     "Rfree": 1.01 / (1.0 - 1.0 / 240.0),  # Survival probability,
-    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    # Permanent income growth factor (no perm growth),
+    "PermGroFac": [1.000**0.25],
     "PermGroFacAgg": 1.0,
     "BoroCnstArt": 0.0,
     "CubicBool": False,
@@ -142,7 +145,8 @@ init_infinite = {
     "cycles": 0,
     "T_cycle": 1,
     "T_retire": 0,
-    "T_sim": 2000,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_sim": 2000,
     "T_age": 1000,
     "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
     "aNrmInitMean": np.log(0.00001),
@@ -156,7 +160,6 @@ init_infinite = {
 # Now we import the class itself and make a baseline type.
 
 # %%
-from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 BaselineType = IndShockConsumerType(**init_infinite)
 
@@ -181,7 +184,6 @@ for nn in range(num_consumer_types):
 
 # %% {"code_folding": []}
 # Seven types is enough to approximate the uniform distribution (5 is not quite enough)
-from HARK.distribution import Uniform
 
 # Calibrations from cstwMPC
 bottomDiscFac = 0.9800
@@ -207,7 +209,7 @@ for j in range(num_consumer_types):
 # %% {"code_folding": []}
 # tqdm presents a pretty bar that interactively shows how far the calculations have gotten
 for ConsumerType in tqdm(ConsumerTypes):
-    ## We configured their discount factor above.  Now solve
+    # We configured their discount factor above.  Now solve
     ConsumerType.solve(verbose=False)
 
     # Now simulate many periods to get to the stationary distribution
@@ -222,6 +224,8 @@ for ConsumerType in tqdm(ConsumerTypes):
 
 # %% {"code_folding": []}
 # We just merge the cNrm and pNrm lists already constructed for each ConsumerType
+
+
 def calcAvgC(ConsumerTypes):
     """
     This function calculates average consumption in the economy in last simulated period,
@@ -331,7 +335,8 @@ TargetChangeInC = -4.1  # Source: see comment above
 num_points = 10  # number of parameter values to plot in graphs. More=slower
 
 # First change the variance of the permanent income shock
-perm_ratio_max = 2.5  # Put whatever value in you want!  maximum number to multiply var of perm income shock by
+# Put whatever value in you want!  maximum number to multiply var of perm income shock by
+perm_ratio_max = 2.5
 
 perm_min = BaselineType.PermShkStd[0] * ratio_min
 perm_max = BaselineType.PermShkStd[0] * perm_ratio_max

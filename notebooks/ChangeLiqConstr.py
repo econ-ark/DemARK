@@ -38,13 +38,15 @@
 # (Fuller discussion of the issues here can be found in [A Theory of the Consumption Function, With or Without Liquidity Constraints](http://econ.jhu.edu/people/ccarroll/ATheoryv3JEP.pdf))
 
 # %% {"code_folding": [0]}
+import matplotlib.pyplot as plt
 from copy import deepcopy
 from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
 from HARK.utilities import plot_funcs_der, plot_funcs
 
-mystr = lambda number: "{:.4f}".format(number)
 
-import matplotlib.pyplot as plt
+def mystr(number):
+    return "{:.4f}".format(number)
+
 
 # %%
 # Create an instance of the type of consumer we are interested in

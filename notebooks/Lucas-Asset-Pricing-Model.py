@@ -110,6 +110,8 @@ from HARK.interpolation import LinearInterp, ConstantFunction
 
 # %% Definitions {"code_folding": [0]}
 # A python class representing log-AR1 dividend processes.
+
+
 class DivProcess:
     def __init__(self, α, σ, μ=0.0, nApprox=7):
 
@@ -289,7 +291,11 @@ logUtilEcon.solve()
 
 # Generate a function with our analytical solution
 theta = 1 / Disc - 1
-aSol = lambda d: d / theta
+
+
+def aSol(d):
+    return d / theta
+
 
 # Get a grid for d over which to compare them
 dGrid = np.exp(DivProc.getLogdGrid())
@@ -326,7 +332,11 @@ iidEcon.solve()
 
 # Generate a function with our analytical solution
 dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1))
-aSolIID = lambda d: d**CRRA * dTil * Disc / (1 - Disc)
+
+
+def aSolIID(d):
+    return d**CRRA * dTil * Disc / (1 - Disc)
+
 
 # Get a grid for d over which to compare them
 dGrid = np.exp(iidDivs.getLogdGrid())
@@ -356,7 +366,11 @@ ns = [1, 2, 10]
 #
 dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1))
 fact = dTil * Disc
-aSolIID = lambda d: d**CRRA * dTil * Disc / (1 - Disc)
+
+
+def aSolIID(d):
+    return d**CRRA * dTil * Disc / (1 - Disc)
+
 
 plt.figure()
 for n in ns:

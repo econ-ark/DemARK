@@ -85,6 +85,7 @@
 # This cell merely imports and sets up some basic functions and packages
 
 # %matplotlib inline
+from HARK.utilities import get_lorenz_shares, get_percentiles
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import numpy as np
@@ -101,7 +102,8 @@ from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 cstwMPC_calibrated_parameters = {
     "CRRA": 1.0,  # Coefficient of relative risk aversion
     "Rfree": 1.01 / (1.0 - 1.0 / 160.0),  # Survival probability,
-    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    # Permanent income growth factor (no perm growth),
+    "PermGroFac": [1.000**0.25],
     "PermGroFacAgg": 1.0,
     "BoroCnstArt": 0.0,
     "CubicBool": False,
@@ -128,7 +130,8 @@ cstwMPC_calibrated_parameters = {
     "cycles": 0,
     "T_cycle": 1,
     "T_retire": 0,
-    "T_sim": 1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_sim": 1200,
     "T_age": 400,
     "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
     "aNrmInitMean": np.log(0.00001),
@@ -177,9 +180,10 @@ aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
 # Your next exercise is to show how the distribution of wealth differs for the different parameter  values
 
 # %%
-from HARK.utilities import get_lorenz_shares, get_percentiles
 
 # Finish filling in this function to calculate the Euclidean distance between the simulated and actual Lorenz curves.
+
+
 def calcLorenzDistance(SomeTypes):
     """
     Calculates the Euclidean distance between the simulated and actual (from SCF data) Lorenz curves at the

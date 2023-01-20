@@ -39,15 +39,19 @@
 # The first step is to create the ConsumerType we want to solve the model for.
 
 # %% {"code_folding": []}
-## Import the HARK ConsumerType we want
-## Here, we bring in an agent making a consumption/savings decision every period, subject
-## to transitory and permanent income shocks.
+# Import the HARK ConsumerType we want
+# Here, we bring in an agent making a consumption/savings decision every period, subject
+# to transitory and permanent income shocks.
+import pylab as plt  # We need this module to change the y-axis on the graphs
+from HARK.utilities import plot_funcs
+from copy import deepcopy
+from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 # %% {"code_folding": []}
-## Now, create an instance of the consumer type using the default parameter values
-## We create the instance of the consumer type by calling IndShockConsumerType()
-## We use the default parameter values by passing **Params.init_idiosyncratic_shocks as an argument
+# Now, create an instance of the consumer type using the default parameter values
+# We create the instance of the consumer type by calling IndShockConsumerType()
+# We use the default parameter values by passing **Params.init_idiosyncratic_shocks as an argument
 BaselineExample = IndShockConsumerType()
 
 # %% {"code_folding": []}
@@ -60,7 +64,6 @@ BaselineExample = IndShockConsumerType()
 # and instantiate an instance of that ConsumerType instead.  As a homework assignment, we leave it
 # to you to uncomment the two lines of code below, and see how the results change!
 
-from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
 
 BaselineExample = KinkedRconsumerType()
 
@@ -79,7 +82,7 @@ Parameter values are stored as attributes of the $\texttt{ConsumerType}$ the val
 BaselineExample.Rfree = 1.02
 
 # %% {"code_folding": [0]}
-## Change some parameter values
+# Change some parameter values
 BaselineExample.Rfree = 1.02  # change the risk-free interest rate
 BaselineExample.CRRA = 2.0  # change  the coefficient of relative risk aversion
 BaselineExample.BoroCnstArt = -0.3  # change the artificial borrowing constraint
@@ -88,21 +91,21 @@ BaselineExample.DiscFac = (
 )
 # i.e. BaselineExample.solution[0].cFunc(.9) ROUGHLY = 1.
 
-## There is one more parameter value we need to change.  This one is more complicated than the rest.
-## We could solve the problem for a consumer with an infinite horizon of periods that (ex-ante)
-## are all identical.  We could also solve the problem for a consumer with a fininite lifecycle,
-## or for a consumer who faces an infinite horizon of periods that cycle (e.g., a ski instructor
-## facing an infinite series of winters, with lots of income, and summers, with very little income.)
-## The way to differentiate is through the "cycles" attribute, which indicates how often the
-## sequence of periods needs to be solved.  The default value is 1, for a consumer with a finite
-## lifecycle that is only experienced 1 time.  A consumer who lived that life twice in a row, and
-## then died, would have cycles = 2.  But neither is what we want.  Here, we need to set cycles = 0,
-## to tell HARK that we are solving the model for an infinite horizon consumer.
+# There is one more parameter value we need to change.  This one is more complicated than the rest.
+# We could solve the problem for a consumer with an infinite horizon of periods that (ex-ante)
+# are all identical.  We could also solve the problem for a consumer with a fininite lifecycle,
+# or for a consumer who faces an infinite horizon of periods that cycle (e.g., a ski instructor
+# facing an infinite series of winters, with lots of income, and summers, with very little income.)
+# The way to differentiate is through the "cycles" attribute, which indicates how often the
+# sequence of periods needs to be solved.  The default value is 1, for a consumer with a finite
+# lifecycle that is only experienced 1 time.  A consumer who lived that life twice in a row, and
+# then died, would have cycles = 2.  But neither is what we want.  Here, we need to set cycles = 0,
+# to tell HARK that we are solving the model for an infinite horizon consumer.
 
 
-## Note that another complication with the cycles attribute is that it does not come from
-## Params.init_idiosyncratic_shocks.  Instead it is a keyword argument to the  __init__() method of
-## IndShockConsumerType.
+# Note that another complication with the cycles attribute is that it does not come from
+# Params.init_idiosyncratic_shocks.  Instead it is a keyword argument to the  __init__() method of
+# IndShockConsumerType.
 BaselineExample.cycles = 0
 
 # %%
@@ -110,7 +113,6 @@ BaselineExample.cycles = 0
 # %% {"code_folding": [0]}
 # The easiest way to begin creating the comparison example is to just copy the baseline example.
 # We can change the parameters we want to change later.
-from copy import deepcopy
 
 XtraCreditExample = deepcopy(BaselineExample)
 
@@ -133,10 +135,10 @@ In HARK, this is done by calling the solve() method of the ConsumerType.
 """
 
 # %% {"code_folding": [0]}
-### First solve the baseline example.
+# First solve the baseline example.
 BaselineExample.solve()
 
-### Now solve the comparison example of the consumer with a bit more credit
+# Now solve the comparison example of the consumer with a bit more credit
 XtraCreditExample.solve()
 
 # %% [markdown]
@@ -156,7 +158,7 @@ BaselineExample is $\texttt{BaselineExample.solution[0].cFunc}$
 
 
 # %% {"code_folding": [0]}
-## First, declare useful functions to plot later
+# First, declare useful functions to plot later
 
 
 def FirstDiffMPC_Income(x):
@@ -184,11 +186,9 @@ def FirstDiffMPC_Credit(x):
 
 
 # %% {"code_folding": [0]}
-## Now, plot the functions we want
+# Now, plot the functions we want
 # %matplotlib inline
 # Import a useful plotting function from HARK.utilities
-from HARK.utilities import plot_funcs
-import pylab as plt  # We need this module to change the y-axis on the graphs
 
 
 # Declare the upper limit for the graph

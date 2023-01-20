@@ -87,10 +87,15 @@ from HARK.ConsumptionSaving.ConsGenIncProcessModel import PersistentShockConsume
 from HARK.distribution import Uniform
 from HARK.utilities import get_lorenz_shares, calc_subpop_avg
 
-mystr = lambda number: "{:.4f}".format(number)
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
 
 # %% {"code_folding": []}
 # This cell makes a subclass of PersistentShockConsumerType including the MPC
+
+
 class PersistentShockConsumerTypeX(PersistentShockConsumerType):
     def getControls(self):
         cLvl = np.zeros(self.AgentCount) + np.nan
@@ -114,25 +119,32 @@ BaselineDict = {
     "Rfree": 1.01 / (1.0 - 1.0 / 160.0),  # Interest factor on assets
     "DiscFac": 0.97,  # Default intertemporal discount factor
     "LivPrb": [1.0 - 1.0 / 160.0],  # Survival probability
-    "AgentCount": 10000,  # Number of agents of this type (only matters for simulation)
+    # Number of agents of this type (only matters for simulation)
+    "AgentCount": 10000,
     "IndL": 10.0 / 9.0,  # Labor supply per individual (constant)
     "aNrmInitMean": np.log(
         0.00001
     ),  # Mean of log initial assets (only matters for simulation)
-    "aNrmInitStd": 0.0,  # Standard deviation of log initial assets (only for simulation)
-    "pLvlInitMean": 0.0,  # Mean of log initial permanent income (only matters for simulation)
-    "pLvlInitStd": 0.0,  # Standard deviation of log initial permanent income (only matters for simulation)
-    "PermGroFacAgg": 1.0,  # Aggregate permanent income growth factor (only matters for simulation)
+    # Standard deviation of log initial assets (only for simulation)
+    "aNrmInitStd": 0.0,
+    # Mean of log initial permanent income (only matters for simulation)
+    "pLvlInitMean": 0.0,
+    # Standard deviation of log initial permanent income (only matters for simulation)
+    "pLvlInitStd": 0.0,
+    # Aggregate permanent income growth factor (only matters for simulation)
+    "PermGroFacAgg": 1.0,
     "T_age": 400,  # Age after which simulated agents are automatically killed
     "T_cycle": 1,  # Number of periods in the cycle for this agent type
-    "T_sim": 1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_sim": 1200,
     "aXtraMin": 0.001,  # Minimum end-of-period "assets above minimum" value
     "aXtraMax": 30,  # Maximum end-of-period "assets above minimum" value
     "aXtraExtra": [
         0.005,
         0.01,
     ],  # Some other value of "assets above minimum" to add to the grid
-    "aXtraNestFac": 3,  # Exponential nesting factor when constructing "assets above minimum" grid
+    # Exponential nesting factor when constructing "assets above minimum" grid
+    "aXtraNestFac": 3,
     "aXtraCount": 48,  # Number of points in the grid of "assets above minimum"
     "PermShkCount": 7,  # Number of points in discrete approximation to permanent income shocks
     "TranShkCount": 7,  # Number of points in discrete approximation to transitory income shocks
@@ -148,8 +160,10 @@ BaselineDict = {
     "IncUnempRet": 0.0,  # "Unemployment" benefits when retired
     "tax_rate": 0.0,  # Flat income tax rate
     "T_retire": 0,  # Period of retirement (0 --> no retirement)
-    "BoroCnstArt": 0.0,  # Artificial borrowing constraint; imposed minimum level of end-of period assets
-    "CubicBool": False,  # Use cubic spline interpolation when True, linear interpolation when False
+    # Artificial borrowing constraint; imposed minimum level of end-of period assets
+    "BoroCnstArt": 0.0,
+    # Use cubic spline interpolation when True, linear interpolation when False
+    "CubicBool": False,
     "vFuncBool": True,  # Whether to calculate the value function during solution
     "cycles": 0,  # Make this type have an infinite horizon
     "pLvlPctiles": np.concatenate(
@@ -159,12 +173,15 @@ BaselineDict = {
             [0.97, 0.99, 0.995, 0.999],
         )
     ),
-    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth)
+    # Permanent income growth factor (no perm growth)
+    "PermGroFac": [1.000**0.25],
     "PrstIncCorr": 0.99,  # Serial correlation coefficient for persistence of income
 }
 
 # %% {"code_folding": []}
 # This cell defines a function to solve and simulate a consumer misperceiving the correlation of persistent income shocks
+
+
 def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_spread):
     """
     Solve and simulate a consumer type who misperceives the extent of serial correlation
@@ -216,7 +233,8 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
 
         # Make the consumer type *believe* he will face a different level of persistence
         ThisType.PrstIncCorr = CorrPcvd
-        ThisType.update_pLvlNextFunc()  # Now he *thinks* E[p_{t+1}] as a function of p_t is different than it is
+        # Now he *thinks* E[p_{t+1}] as a function of p_t is different than it is
+        ThisType.update_pLvlNextFunc()
 
         # Solve the consumer's problem with *perceived* persistence
         ThisType.solve()

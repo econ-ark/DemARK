@@ -473,17 +473,17 @@ mLvl_ntrl = ntrl.history["mNrm"]
 # Plots
 
 # Construct aggregate levels and growth rates
-## Cumulate levels and divide by number of agents to get average
+# Cumulate levels and divide by number of agents to get average
 CAvg_popn = np.cumsum(cLvl_popn, axis=1) / np.arange(1, max_agents + 1)
 CAvg_ntrl = np.cumsum(cLvl_ntrl, axis=1) / np.arange(1, max_agents + 1)
 MAvg_popn = np.cumsum(mLvl_popn, axis=1) / np.arange(1, max_agents + 1)
 MAvg_ntrl = np.cumsum(mLvl_ntrl, axis=1) / np.arange(1, max_agents + 1)
-## First difference the logs to get aggregate growth rates
+# First difference the logs to get aggregate growth rates
 CGro_popn = np.diff(np.log(CAvg_popn).T).T
 CGro_ntrl = np.diff(np.log(CAvg_ntrl).T).T
 MGro_popn = np.diff(np.log(MAvg_popn).T).T
 MGro_ntrl = np.diff(np.log(MAvg_ntrl).T).T
-## Calculate statistics for them
+# Calculate statistics for them
 CGro_popn_stats = sumstats(CGro_popn, sample_periods_dff)
 CGro_ntrl_stats = sumstats(CGro_ntrl, sample_periods_dff)
 MGro_popn_stats = sumstats(MGro_popn, sample_periods_dff)

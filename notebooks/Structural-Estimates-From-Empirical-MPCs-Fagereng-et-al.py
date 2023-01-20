@@ -82,7 +82,8 @@ from HARK.ConsumptionSaving.ConsIndShockModel import *
 init_infinite = {
     "CRRA": 1.0,  # Coefficient of relative risk aversion
     "Rfree": 1.01 / (1.0 - 1.0 / 160.0),  # Survival probability,
-    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    # Permanent income growth factor (no perm growth),
+    "PermGroFac": [1.000**0.25],
     "PermGroFacAgg": 1.0,
     "BoroCnstArt": 0.0,
     "CubicBool": False,
@@ -109,7 +110,8 @@ init_infinite = {
     "cycles": 0,
     "T_cycle": 1,
     "T_retire": 0,
-    "T_sim": 1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_sim": 1200,
     "T_age": 400,
     "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
     "aNrmInitMean": np.log(0.00001),
@@ -141,7 +143,8 @@ base_params[
     "T_age"
 ] = T_kill  # Kill off agents if they manage to achieve T_kill working years
 base_params["AgentCount"] = 10000
-base_params["pLvlInitMean"] = np.log(23.72)  # From Table 1, in thousands of USD
+# From Table 1, in thousands of USD
+base_params["pLvlInitMean"] = np.log(23.72)
 base_params[
     "T_sim"
 ] = T_kill  # No point simulating past when agents would be killed off
@@ -275,7 +278,12 @@ def FagerengObjFunc(center, spread, verbose=False):
 # Conduct the estimation
 
 guess = [0.92, 0.03]
-f_temp = lambda x: FagerengObjFunc(x[0], x[1])
+
+
+def f_temp(x):
+    return FagerengObjFunc(x[0], x[1])
+
+
 opt_params = minimize_nelder_mead(f_temp, guess, verbose=False)
 print(
     "Finished estimating for scaling factor of "

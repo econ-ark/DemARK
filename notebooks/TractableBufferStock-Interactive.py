@@ -13,7 +13,7 @@
 #   kernel_info:
 #     name: python3
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -57,6 +57,10 @@
 # %% code_folding=[0]
 # This cell has a bit of (uninteresting) initial setup.
 
+from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerType
+from HARK.utilities import plot_funcs
+import ipywidgets as widgets
+from ipywidgets import interact, interactive, fixed, interact_manual
 import matplotlib.pyplot as plt
 
 import numpy as np
@@ -64,15 +68,13 @@ import HARK
 import time
 from copy import deepcopy
 
-mystr = lambda number: "{:.3f}".format(number)
 
-from ipywidgets import interact, interactive, fixed, interact_manual
-import ipywidgets as widgets
-from HARK.utilities import plot_funcs
+def mystr(number):
+    return "{:.3f}".format(number)
+
 
 # %% code_folding=[0]
 # Import the model from the toolkit
-from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerType
 
 # %% [markdown]
 # The key assumption behind the model's tractability is that there is only a single, stark form of uncertainty:  So long as an employed consumer remains employed, that consumer's labor income $P$ will rise at a constant rate $\Gamma$:
@@ -197,7 +199,8 @@ def makeTBSplot(
     if show_targ:
         mTarg = MyTBStype.mTarg
         cTarg = MyTBStype.cTarg
-        targ_label = r"$\left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right) $"  # + mystr(mTarg) + '\n$\hat{c}^* = $ ' + mystr(cTarg)
+        # + mystr(mTarg) + '\n$\hat{c}^* = $ ' + mystr(cTarg)
+        targ_label = r"$\left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right) $"
         plt.annotate(
             targ_label,
             xy=(0.0, 0.0),
