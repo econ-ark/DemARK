@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.0
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.9.13
+#     version: 3.10.8
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -77,6 +77,16 @@
 # %% code_folding=[25]
 # This cell does some setup and imports generic tools used to produce the figures
 
+from HARK.utilities import get_lorenz_shares, get_percentiles
+from HARK.datasets import load_SCF_wealth_weights
+from HARK.distribution import Uniform
+from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
+from copy import copy, deepcopy
+import warnings
+from distutils.spawn import find_executable
+from matplotlib import rc
+import matplotlib.pyplot as plt
+from IPython import get_ipython  # In case it was run from python instead of ipython
 from tqdm import tqdm
 
 import numpy as np
@@ -90,18 +100,32 @@ Generator = False  # Is this notebook the master or is it generated?
 # Import related generic python packages
 
 # Set how many digits past the decimal point should be printed?
-mystr = lambda number: "{:.4f}".format(number)
-decfmt4 = lambda number: "{:.4f}".format(number)
-decfmt3 = lambda number: "{:.3f}".format(number)
-decfmt2 = lambda number: "{:.2f}".format(number)
-decfmt1 = lambda number: "{:.1f}".format(number)
+
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
+
+def decfmt4(number):
+    return "{:.4f}".format(number)
+
+
+def decfmt3(number):
+    return "{:.3f}".format(number)
+
+
+def decfmt2(number):
+    return "{:.2f}".format(number)
+
+
+def decfmt1(number):
+    return "{:.1f}".format(number)
+
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
 # But a terminal does not permit inline figures, so we need to test jupyter vs terminal
 # Google "how can I check if code is executed in the ipython notebook"
-
-from IPython import get_ipython  # In case it was run from python instead of ipython
 
 
 def in_ipynb():
@@ -128,16 +152,13 @@ else:
 
 # Import the plot-figure library matplotlib
 
-import matplotlib.pyplot as plt
 
 # In order to use LaTeX to manage all text layout in our figures, we import rc settings from matplotlib.
-from matplotlib import rc
 
 plt.rc("font", family="serif")
 
 # LaTeX is huge and takes forever to install on mybinder
 # so if it is not installed then do not use it
-from distutils.spawn import find_executable
 
 iflatexExists = False
 if find_executable("latex"):
@@ -146,16 +167,14 @@ if find_executable("latex"):
 plt.rc("text", usetex=iflatexExists)
 
 # The warnings package allows us to ignore some harmless but alarming warning messages
-import warnings
 
 warnings.filterwarnings("ignore")
 
-from copy import copy, deepcopy
 
 # %% [markdown]
 # ## Calibrating a Basic Version of cstwMPC
 #
-# To get started, let's reproduce a simplified version of the main results from cstwMPC.  
+# To get started, let's reproduce a simplified version of the main results from cstwMPC.
 #
 # In cstwMPC, the authors calibrated nearly all of the model parameters-- risk aversion, income shock process, etc-- to commonly used or previously estimated values.  The only parameter to be estimated is the distribution of $\beta$.  cstwMPC assumed that $\beta$ is uniformly distributed on $[\grave{\beta}-\nabla,\grave{\beta}+\nabla]$, approximated by a seven point distribution.
 #
@@ -164,7 +183,7 @@ from copy import copy, deepcopy
 # 1. The simulated aggregate capital-to-income ratio matches the true U.S. value.
 # 2. The sum of squared distances between the simulated and empirical Lorenz curves (at the 20th, 40th, 60th, and 80th percentiles) is minimized (conditional on item 1).
 #
-# cstwMPC's target empirical moments are a capital-to-income ratio of 10.26 and cumulative wealth shares as given in the table below.  Yes, you are reading the table correctly: The "poorest" 80 percent of households own 17.5 percent of wealth. 
+# cstwMPC's target empirical moments are a capital-to-income ratio of 10.26 and cumulative wealth shares as given in the table below.  Yes, you are reading the table correctly: The "poorest" 80 percent of households own 17.5 percent of wealth.
 #
 # | Net worth percentile | Cumulative wealth share |
 # |:---:|:---:|
@@ -177,13 +196,13 @@ from copy import copy, deepcopy
 
 # %% code_folding=[0, 4]
 # Import IndShockConsumerType
-from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 # Define a dictionary with calibrated parameters
 cstwMPC_calibrated_parameters = {
     "CRRA": 1.0,  # Coefficient of relative risk aversion
     "Rfree": 1.01 / (1.0 - 1.0 / 160.0),  # Survival probability,
-    "PermGroFac": [1.000**0.25],  # Permanent income growth factor (no perm growth),
+    # Permanent income growth factor (no perm growth),
+    "PermGroFac": [1.000**0.25],
     "PermGroFacAgg": 1.0,
     "BoroCnstArt": 0.0,
     "CubicBool": False,
@@ -210,7 +229,8 @@ cstwMPC_calibrated_parameters = {
     "cycles": 0,
     "T_cycle": 1,
     "T_retire": 0,
-    "T_sim": 1200,  # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    # Number of periods to simulate (idiosyncratic shocks model, perpetual youth)
+    "T_sim": 1200,
     "T_age": 400,
     "IndL": 10.0 / 9.0,  # Labor supply per individual (constant),
     "aNrmInitMean": np.log(0.00001),
@@ -227,7 +247,6 @@ cstwMPC_calibrated_parameters = {
 
 # %%
 # This cell constructs seven instances of IndShockConsumerType with different discount factors
-from HARK.distribution import Uniform
 
 BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 
@@ -237,7 +256,7 @@ DiscFac_mean = 0.9855583  # center of beta distribution
 DiscFac_spread = 0.0085  # spread of beta distribution
 DiscFac_dstn = (
     Uniform(DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread)
-    .approx(num_types)
+    .discretize(num_types)
     .atoms.flatten()
 )
 
@@ -254,7 +273,7 @@ for nn in range(num_types):
 #
 # Now let's solve and simulate each of our types of agents.  If you look in the parameter dictionary (or at any of the agent objects themselves), you will see that each one has an $\texttt{AgentCount}$ attribute of 10000. That is, these seven ex ante heterogeneous types each represent ten thousand individual agents that will experience ex post heterogeneity when they draw different income (and mortality) shocks over time.
 #
-# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population. 
+# In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.
 
 # %%
 # Progress bar keeps track interactively of how many have been made
@@ -266,7 +285,7 @@ for ThisType in tqdm(MyTypes):
 # %% [markdown]
 # To verify that you wrote that code correctly, let's check that the aggregate level of capital (total assets held by all households) to income ratio equals what we expected it would be.  To do that, let's combine the asset holdings of all types, take the mean, and see if we get the desired capital to income ratio of 10.26.
 #
-# NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0. 
+# NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0.
 
 # %%
 aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
@@ -280,8 +299,6 @@ print(
 
 # %%
 # Plot Lorenz curves for model with uniform distribution of time preference
-from HARK.datasets import load_SCF_wealth_weights
-from HARK.utilities import get_lorenz_shares, get_percentiles
 
 SCF_wealth, SCF_weights = load_SCF_wealth_weights()
 
@@ -300,7 +317,7 @@ plt.show(block=False)
 # %% [markdown]
 # ## Calculating the Lorenz Distance at Targets
 #
-# Now we want to construct a function that calculates the Euclidean distance between simulated and actual Lorenz curves at the four percentiles of interest: 20, 40, 60, and 80.  
+# Now we want to construct a function that calculates the Euclidean distance between simulated and actual Lorenz curves at the four percentiles of interest: 20, 40, 60, and 80.
 
 # %% [markdown]
 # ## The Distribution Of the Marginal Propensity to Consume

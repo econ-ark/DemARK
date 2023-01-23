@@ -2,14 +2,14 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
+#     cell_metadata_filter: ExecuteTime,collapsed,title,code_folding,tags,incorrectly_encoded_metadata,-autoscroll
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.4
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.10.8
 #   orig_nbformat: 4
 # ---
 
@@ -46,7 +46,8 @@ from copy import copy, deepcopy
 
 from HARK.distribution import calc_expectation
 from HARK.ConsumptionSaving.ConsIndShockModel import (
-    IndShockConsumerType,init_idiosyncratic_shocks
+    IndShockConsumerType,
+    init_idiosyncratic_shocks,
 )
 
 # %% [markdown] jp-MarkdownHeadingCollapsed=true tags=[] jp-MarkdownHeadingCollapsed=true
@@ -72,13 +73,13 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 #
 # Macroeconomic models with heterogeneous agents sometimes incorporate a microeconomic income process with a permanent component ($\pLvl_t$) that follows a geometric random walk. To find an aggregate characteristic of these economies such as aggregate consumption $\CLvl_t$, one must integrate over permanent income (and all the other relevant state variables):
 # \begin{equation*}
-# \CLvl_t = \int_{\pLvl} \int_{\mLvl} \mathrm{c}(\mLvl,\pLvl) \times f_t(\mLvl,\pLvl) \, d \mLvl\, d\pLvl, 
+# \CLvl_t = \int_{\pLvl} \int_{\mLvl} \mathrm{c}(\mLvl,\pLvl) \times f_t(\mLvl,\pLvl) \, d \mLvl\, d\pLvl,
 # \end{equation*}
 # where $\mLvl$ denotes any other state variables that consumption might depend on, $\cFunc(\cdot,\cdot)$ is the individual consumption function, and $f_t(\cdot,\cdot)$ is the joint density function of permanent income and the other state variables at time $t$.
 #
 # Under the usual assumption of Constant Relative Risk Aversion utility and standard assumptions about the budget constraint, [such models are homothetic](https://econ-ark.github.io/BufferStockTheory/BufferStockTheory3.html#The-Problem-Can-Be-Normalized-By-Permanent-Income). This means that for a state variable $\mLvl$ one can solve for a normalized policy function $\cFunc(\cdot)$ such that
 # \begin{equation*}
-#     \mathrm{c}(\mLvl,\pLvl) = \mathrm{c}\left(\mLvl/\pLvl\right)\times \pLvl 
+#     \mathrm{c}(\mLvl,\pLvl) = \mathrm{c}\left(\mLvl/\pLvl\right)\times \pLvl
 # \end{equation*}
 #
 #
@@ -97,7 +98,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 #
 # To further complicate matters, we usually do not have analytical expressions for $\cFunc(\cdot)$ or $f_t(\mLvl,\pLvl)$. What we often do in practice is to simulate a population $I$ of agents for a large number of periods $T$ using the model's policy functions and transition equations. The result is a set of observations $\{\mLvl_{i,t},\pLvl_{i,t}\}_{i\in I, 0\leq t\leq T}$ which we then use to approximate
 # \begin{equation*}
-# \CLvl_t \approx \frac{1}{|I|}\sum_{i \in I} \cFunc\left(\mLvl_{i,t}/\pLvl_{i,t}\right)\times \pLvl_{i,t}. 
+# \CLvl_t \approx \frac{1}{|I|}\sum_{i \in I} \cFunc\left(\mLvl_{i,t}/\pLvl_{i,t}\right)\times \pLvl_{i,t}.
 # \end{equation*}
 #
 # At least two features of the previous strategy are unpleasant:
@@ -123,7 +124,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 # - The individual agent's problem has two state variables:
 #     - Market resources $\mLvl_{i,t}$.
 #     - Permanent income $\pLvl_{i,t}$.
-#     
+#
 # - The agent's problem is homothetic in permanent income, so that we can define $m_t = \mLvl_t/\pLvl_t$ and find a normalized policy function $\cFunc(\cdot)$ such that
 # \begin{equation*}
 # \cFunc(\mNrm) \times \pLvl_t = \cFunc(\mLvl_t, \pLvl_t) \,\,\qquad \forall(\mLvl_t, \pLvl_t)
@@ -237,7 +238,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 #
 # ```python
 # if self.neutral_measure == True:
-#     PermShkDstn_t.pmf = PermShkDstn_t.X*PermShkDstn_t.pmf
+#     PermShkDstn_t.pmv = PermShkDstn_t.atoms*PermShkDstn_t.pmv
 # ```
 #
 # Simple!
@@ -295,22 +296,21 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 # to MBalLvl so we don't need a long burn in period
 burn_in = 200
 # Fixed intervals between sampling aggregates, Δt
-sample_every = 1 # periods - increase this if worried about serial correlation
+sample_every = 1  # periods - increase this if worried about serial correlation
 # How many times to sample the aggregates? n
-n_sample = 200 # times; minimum
+n_sample = 200  # times; minimum
 
 # Create a vector with all the times at which we'll sample
-sample_periods_lvl = \
-    np.arange(start = burn_in,
-              stop  = burn_in + \
-                      sample_every * n_sample,
-              step  = sample_every, dtype = int)
+sample_periods_lvl = np.arange(
+    start=burn_in, stop=burn_in + sample_every * n_sample, step=sample_every, dtype=int
+)
 # Corresponding periods when object is first difference not level
-sample_periods_dff = \
-    np.arange(start = burn_in,
-              stop  = burn_in + \
-                      sample_every * n_sample-1, # 1 fewer diff
-              step  = sample_every, dtype = int)
+sample_periods_dff = np.arange(
+    start=burn_in,
+    stop=burn_in + sample_every * n_sample - 1,  # 1 fewer diff
+    step=sample_every,
+    dtype=int,
+)
 
 # Maximum number of agents that we will use for our approximations
 max_agents = 100000
@@ -324,25 +324,35 @@ min_agents = 100
 # Now create a function that takes HARK's simulation output
 # and computes all the summary statistics we need
 
+
 def sumstats(sims, sample_periods):
     # sims will be an array in the shape of [economy].history elements
     # Columns are different agents and rows are different times.
-    
+
     # Subset the times at which we'll sample and transpose.
-    samples_lvl = pd.DataFrame(sims[sample_periods,].T)
+    samples_lvl = pd.DataFrame(
+        sims[
+            sample_periods,
+        ].T
+    )
 
     # Get averages over agents. This will tell us what our
     # aggregate estimate would be if we had each possible sim size
     avgs_lvl = samples_lvl.expanding(1).mean()
-    
+
     # Now get the mean and standard deviations across time with
     # every number of agents
-    mean_lvl = avgs_lvl.mean(axis = 1)
-    vars_lvl = avgs_lvl.std(axis = 1)**2
+    mean_lvl = avgs_lvl.mean(axis=1)
+    vars_lvl = avgs_lvl.std(axis=1) ** 2
 
     # Also return the full sample on the last simulation period
-    return {'mean_lvl': mean_lvl, 'vars_lvl': vars_lvl,
-            'dist_last': sims[-1,]}
+    return {
+        "mean_lvl": mean_lvl,
+        "vars_lvl": vars_lvl,
+        "dist_last": sims[
+            -1,
+        ],
+    }
 
 
 # %% [markdown]
@@ -354,10 +364,10 @@ def sumstats(sims, sample_periods):
 popn = IndShockConsumerType(**init_idiosyncratic_shocks)
 
 # Modify default parameters
-popn.T_sim = max(sample_periods_lvl)+1
+popn.T_sim = max(sample_periods_lvl) + 1
 popn.AgentCount = max_agents
-popn.track_vars = ['mNrm', 'cNrm', 'pLvl']
-popn.LivPrb=[1.0]
+popn.track_vars = ["mNrm", "cNrm", "pLvl"]
+popn.LivPrb = [1.0]
 popn.cycles = 0
 
 # Solve (but do not yet simulate)
@@ -376,26 +386,32 @@ popn.solve()
 
 # %% tags=[]
 # Two versions for different HARK versions
-try: # This works with HARK 2.0 pre-alpha
+try:  # This works with HARK 2.0 pre-alpha
     Bilt = popn.solution[0].Bilt
     APFac = Bilt.APFac
     GPFacRaw = Bilt.GPFacRaw
-    soln=popn.solution[0]
-    soln.check_GICSdl(soln,quietly=False)
-    soln.check_GICHrm(soln,quietly=False)
-except: # This one for HARK 0.12 or later
+    soln = popn.solution[0]
+    soln.check_GICSdl(soln, quietly=False)
+    soln.check_GICHrm(soln, quietly=False)
+except:  # This one for HARK 0.12 or later
     APFac = popn.thorn
     GPFacRaw = popn.GPFRaw
-    e_log_PermShk_popn = calc_expectation(popn.PermShkDstn[0], func = lambda x:   np.log(x))
-    e_log_PermShk_ntrl = calc_expectation(popn.PermShkDstn[0], func = lambda x: x*np.log(x))
+    e_log_PermShk_popn = calc_expectation(popn.PermShkDstn[0], func=lambda x: np.log(x))
+    e_log_PermShk_ntrl = calc_expectation(
+        popn.PermShkDstn[0], func=lambda x: x * np.log(x)
+    )
     szeidl_cond = np.log(GPFacRaw) < e_log_PermShk_popn
     harmen_cond = np.log(GPFacRaw) < e_log_PermShk_ntrl
     if szeidl_cond:
-        print("Szeidl's condition is satisfied, there is a stable invariant distribution of normalized market resources")
+        print(
+            "Szeidl's condition is satisfied, there is a stable invariant distribution of normalized market resources"
+        )
     else:
         print("Warning: Szeidl's condition is not satisfied")
     if harmen_cond:
-        print("Harmenberg's condition is satisfied, there is a stable invariant permanent-income-weighted distribution")
+        print(
+            "Harmenberg's condition is satisfied, there is a stable invariant permanent-income-weighted distribution"
+        )
     else:
         print("Warning: Harmenberg's condition is not satisfied")
 
@@ -408,21 +424,21 @@ except: # This one for HARK 0.12 or later
 # Base simulation
 
 # Start assets at m balanced growth (levels) point
-try: # Accommodate syntax for old and new versions of HARK
-    Bilt=popn.solution[0].Bilt
-    popn.aNrmInitMean = np.log(Bilt.mBalLvl-1)  
+try:  # Accommodate syntax for old and new versions of HARK
+    Bilt = popn.solution[0].Bilt
+    popn.aNrmInitMean = np.log(Bilt.mBalLvl - 1)
 except:
-    popn.aNrmInitMean = np.log(popn.solution[0].mNrmStE-1)
-    
-popn.aNrmInitStd = 0.
+    popn.aNrmInitMean = np.log(popn.solution[0].mNrmStE - 1)
+
+popn.aNrmInitStd = 0.0
 
 popn.initialize_sim()
 popn.simulate()
 
 # Retrieve history
-mNrm_popn = popn.history['mNrm']
-mLvl_popn = popn.history['mNrm'] * popn.history['pLvl']
-cLvl_popn = popn.history['cNrm'] * popn.history['pLvl']
+mNrm_popn = popn.history["mNrm"]
+mLvl_popn = popn.history["mNrm"] * popn.history["pLvl"]
+cLvl_popn = popn.history["cNrm"] * popn.history["pLvl"]
 
 # %% [markdown]
 # Update and simulate using Harmenberg's strategy. This time, not multiplying by permanent income.
@@ -440,9 +456,9 @@ ntrl.update_income_process()
 ntrl.initialize_sim()
 ntrl.simulate()
 
-# Retrieve history 
-cLvl_ntrl = ntrl.history['cNrm']
-mLvl_ntrl = ntrl.history['mNrm']
+# Retrieve history
+cLvl_ntrl = ntrl.history["cNrm"]
+mLvl_ntrl = ntrl.history["mNrm"]
 
 # %% [markdown]
 # # Now Compare the Variances of Simulated Outcomes
@@ -456,46 +472,66 @@ mLvl_ntrl = ntrl.history['mNrm']
 # %% code_folding=[0] tags=[]
 # Plots
 
-# Construct aggregate levels and growth rates 
-## Cumulate levels and divide by number of agents to get average
-CAvg_popn=np.cumsum(cLvl_popn, axis=1)/np.arange(1, max_agents+1)
-CAvg_ntrl=np.cumsum(cLvl_ntrl, axis=1)/np.arange(1, max_agents+1)
-MAvg_popn=np.cumsum(mLvl_popn, axis=1)/np.arange(1, max_agents+1)
-MAvg_ntrl=np.cumsum(mLvl_ntrl, axis=1)/np.arange(1, max_agents+1)
-## First difference the logs to get aggregate growth rates
-CGro_popn=np.diff(np.log(CAvg_popn).T).T
-CGro_ntrl=np.diff(np.log(CAvg_ntrl).T).T
-MGro_popn=np.diff(np.log(MAvg_popn).T).T
-MGro_ntrl=np.diff(np.log(MAvg_ntrl).T).T
-## Calculate statistics for them
-CGro_popn_stats=sumstats(CGro_popn, sample_periods_dff)
-CGro_ntrl_stats=sumstats(CGro_ntrl, sample_periods_dff)
-MGro_popn_stats=sumstats(MGro_popn, sample_periods_dff)
-MGro_ntrl_stats=sumstats(MGro_ntrl, sample_periods_dff)
+# Construct aggregate levels and growth rates
+# Cumulate levels and divide by number of agents to get average
+CAvg_popn = np.cumsum(cLvl_popn, axis=1) / np.arange(1, max_agents + 1)
+CAvg_ntrl = np.cumsum(cLvl_ntrl, axis=1) / np.arange(1, max_agents + 1)
+MAvg_popn = np.cumsum(mLvl_popn, axis=1) / np.arange(1, max_agents + 1)
+MAvg_ntrl = np.cumsum(mLvl_ntrl, axis=1) / np.arange(1, max_agents + 1)
+# First difference the logs to get aggregate growth rates
+CGro_popn = np.diff(np.log(CAvg_popn).T).T
+CGro_ntrl = np.diff(np.log(CAvg_ntrl).T).T
+MGro_popn = np.diff(np.log(MAvg_popn).T).T
+MGro_ntrl = np.diff(np.log(MAvg_ntrl).T).T
+# Calculate statistics for them
+CGro_popn_stats = sumstats(CGro_popn, sample_periods_dff)
+CGro_ntrl_stats = sumstats(CGro_ntrl, sample_periods_dff)
+MGro_popn_stats = sumstats(MGro_popn, sample_periods_dff)
+MGro_ntrl_stats = sumstats(MGro_ntrl, sample_periods_dff)
 
 # Count the agents
-nagents = np.arange(1,max_agents+1,1)
+nagents = np.arange(1, max_agents + 1, 1)
 
 # Plot
 fig, axs = plt.subplots(2, figsize=(10, 7), constrained_layout=True)
-fig.suptitle('Variances of Aggregate Growth Rates', fontsize=16)
-axs[0].plot(nagents[min_agents:], np.array(CGro_popn_stats['vars_lvl'])[min_agents:], label='Base')
-axs[0].plot(nagents[min_agents:], np.array(CGro_ntrl_stats['vars_lvl'])[min_agents:], label='Perm. Inc. Neutral')
-axs[0].set_yscale('log')
-axs[0].set_xscale('log')
-axs[0].set_title('Consumption', fontsize=14)
-axs[0].set_ylabel(r'$\Delta \log \left(\{\hat{C}_t\}_{t\in\mathcal{T}}\right)$', fontsize = 14)
-axs[0].set_xlabel('Number of Agents', fontsize=10)
+fig.suptitle("Variances of Aggregate Growth Rates", fontsize=16)
+axs[0].plot(
+    nagents[min_agents:],
+    np.array(CGro_popn_stats["vars_lvl"])[min_agents:],
+    label="Base",
+)
+axs[0].plot(
+    nagents[min_agents:],
+    np.array(CGro_ntrl_stats["vars_lvl"])[min_agents:],
+    label="Perm. Inc. Neutral",
+)
+axs[0].set_yscale("log")
+axs[0].set_xscale("log")
+axs[0].set_title("Consumption", fontsize=14)
+axs[0].set_ylabel(
+    r"$\Delta \log \left(\{\hat{C}_t\}_{t\in\mathcal{T}}\right)$", fontsize=14
+)
+axs[0].set_xlabel("Number of Agents", fontsize=10)
 axs[0].grid()
 axs[0].legend(fontsize=12)
 
-axs[1].plot(nagents[min_agents:], np.array(MGro_popn_stats['vars_lvl'])[min_agents:], label = 'Base')
-axs[1].plot(nagents[min_agents:], np.array(MGro_ntrl_stats['vars_lvl'])[min_agents:], label = 'Perm. Inc. Neutral')
-axs[1].set_yscale('log')
-axs[1].set_xscale('log')
-axs[1].set_title('Market Resources', fontsize=14)
-axs[1].set_ylabel(r'$\Delta \log \left(\{\hat{M}_t\}_{t\in\mathcal{T}}\right)$', fontsize = 14)
-axs[1].set_xlabel('Number of Agents', fontsize=10)
+axs[1].plot(
+    nagents[min_agents:],
+    np.array(MGro_popn_stats["vars_lvl"])[min_agents:],
+    label="Base",
+)
+axs[1].plot(
+    nagents[min_agents:],
+    np.array(MGro_ntrl_stats["vars_lvl"])[min_agents:],
+    label="Perm. Inc. Neutral",
+)
+axs[1].set_yscale("log")
+axs[1].set_xscale("log")
+axs[1].set_title("Market Resources", fontsize=14)
+axs[1].set_ylabel(
+    r"$\Delta \log \left(\{\hat{M}_t\}_{t\in\mathcal{T}}\right)$", fontsize=14
+)
+axs[1].set_xlabel("Number of Agents", fontsize=10)
 axs[1].grid()
 axs[1].legend(fontsize=12)
 
