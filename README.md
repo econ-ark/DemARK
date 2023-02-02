@@ -49,3 +49,9 @@ format. Over time, we intend to add the necessary metadata to all our jupyter no
 ## Issues
 
 Open an issue in this repository!
+
+## Trigger a test on demand
+
+If you have the proper permissions and want to test whether the DemARKs work with the latest development version of HARK, 
+
+[click on the last workflow run here](https://github.com/econ-ark/DemARK/actions/workflows/build.yml) and click the **Re-run all jobs** button
