@@ -10,4 +10,4 @@ statsmodels
 linearmodels
 tqdm
 nbval
-git+https://github.com/econ-ark/hark@master
+econ-ark==0.13.0
