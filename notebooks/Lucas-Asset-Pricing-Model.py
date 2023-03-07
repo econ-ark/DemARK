@@ -2,29 +2,40 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
 #     cell_metadata_json: true
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.11.2
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.8.16
 # ---
 
-# %% [markdown]
+# %% [markdown] {"jp-MarkdownHeadingCollapsed": true, "tags": []}
 # # Lucas Asset Pricing Model
 #
 # ## A notebook by [Christopher D. Carroll](http://www.econ2.jhu.edu/people/ccarroll/) and [Mateo Velásquez-Giraldo](https://mv77.github.io/)
 # ### Inspired by its [Quantecon counterpart](https://julia.quantecon.org/multi_agent_models/lucas_model.html)
 #
-# This notebook presents simple computational tools to solve Lucas' asset-pricing model when the logarithm of the asset's dividend follows an autoregressive process of order 1,
-#
+# This notebook presents simple computational tools to solve an instance of Lucas's asset-pricing model for which there is no analytical solution: The case when the logarithm of the asset's dividend follows an autoregressive process of order 1,
 # \begin{equation*}
-# \ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(\mu, \sigma).
+# \ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(\mu, \sigma^{2}).
 # \end{equation*}
 #
 # A presentation of this model can be found in [Christopher D. Carroll's lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/).
@@ -45,12 +56,13 @@
 #
 # As noted in the handout, there are some special circumstances in which it is possible to solve for $P^{*}$ analytically:
 #
-# | Shock Process | CRRA | Solution for Pricing Kernel |
-# | --- | --- | --- |
-# | bounded | 1 (log) | $P^*(d) = \frac{d}{\vartheta}$ |
-# | lognormal, mean 1 | $\rho$ | $P^*(d) = d_t^\rho\ e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}$ |
+# | Shock Process | Mean Restrictions  | CRRA | Solution for Pricing Kernel $P^*(d)$  |
+# | --- | :-- | :--  | :---:  |
+# | bounded, IID, $\mathbb{E}[d]=\bar{d}$  | $0 < d < \infty$ | 1 (log) | $\vartheta^{-1}d$  |
+# | lognormal, mean 1 | $\mu=-\sigma^{2}/2$  | $\rho$ | $\vartheta^{-1}{d_t^\rho}~e^{\rho(\rho-1)\sigma^2/2}$  |
+# | lognormal mean $e^{\gamma}=\mathbb{E}[d_{t+1}/d_{t}]$  | ${\mu~=-\sigma^{2}/2+\gamma}$ |$\rho$ |  $\vartheta^{-1}d_t^{\rho}e^{\rho\gamma+\rho(\rho-1)\sigma^2/2}$  |
 #
-# However, under less special circumstances, the only way to obtain the pricing function $P^{*}$ is by solving for it numerically, as outlined below.
+# However, under most circumstances, the only way to obtain the pricing function $P^{*}$ is by solving for it numerically, as outlined below.
 
 # %% [markdown]
 # # Finding the equilibrium pricing function.
@@ -80,15 +92,15 @@
 #
 # It turns out that $T$ is a [contraction mapping](https://en.wikipedia.org/wiki/Contraction_mapping). This is useful because it implies, through [Banach's fixed-point theorem](https://en.wikipedia.org/wiki/Contraction_mapping), that:
 # - $T$ has **exactly one** fixed point.
-# - Starting from an arbitrary function $f$, the sequence $\{T^n[f]\}_{n=1}^{\infty}$ converges to such fixed point.
+# - Starting from an arbitrary function $f$, the sequence $\{T^n[f]\}_{n=1}^{\infty}$ converges to that fixed point.
 #
 # For our purposes, this translates to:
-# - Our equilibrium pricing function not only exists, but it is unique.
+# - Our equilibrium pricing function not only exists, but is unique.
 # - We can get arbitrarily close to the equilibrium pricing function by making some initial guess $f$ and applying the operator $T$ to it repeatedly.
 #
 # The code below creates a representation of our model and implements a solution routine to find $P^*$. The main components of this routine are:
 #
-# - `priceOnePeriod`: this is operator $T$ from above. It takes a function $f$, computes $\beta~\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right]$ for a grid of $d_t$ values, and uses the result to construct a linear interpolator that approximates $T[f]$.
+# - `priceOnePeriod`: this is operator $T$ from above. It takes a function $f$, computes $\beta~\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right]$ for a grid of $d_t$ values, and uses the result to construct a piecewise linear interpolator that approximates $T[f]$.
 #
 # - `solve`: this is our iterative solution procedure. It generates an initial guess $f$ and applies `priceOnePeriod` to it iteratively. At each application, it constructs a measure of how much the candidate pricing function changed. Once changes between successive iterations are small enough, it declares that the solution has converged.
 
@@ -98,7 +110,7 @@
 # %% [markdown]
 # `Uninteresting setup:`
 
-# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}, "tags": []}
+# %% Preamble {"code_folding": [0], "tags": []}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -108,9 +120,9 @@ from HARK.rewards import CRRAutilityP
 from HARK.distribution import Normal, calc_expectation
 from HARK.interpolation import LinearInterp, ConstantFunction
 
+
 # %% Definitions {"code_folding": [0]}
 # A python class representing log-AR1 dividend processes.
-
 
 class DivProcess:
     def __init__(self, α, σ, μ=0.0, nApprox=7):
@@ -127,9 +139,9 @@ class DivProcess:
         """
         A method for creating a reasonable grid for log-dividends.
         """
-        uncond_sd = self.σ / np.sqrt(1 - self.α**2)
+        uncond_sdev = self.σ / np.sqrt(1 - self.α**2)
         uncond_mean = self.μ / (1 - self.α)
-        logDGrid = np.linspace(-5 * uncond_sd, 5 * uncond_sd, n) + uncond_mean
+        logDGrid = np.linspace(-5 * uncond_sdev, 5 * uncond_sdev, n) + uncond_mean
         return logDGrid
 
 
