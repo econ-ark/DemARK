@@ -2,14 +2,15 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       format_version: '1.3'
+#       jupytext_version: 1.14.5
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -23,7 +24,7 @@
 # This notebook presents simple computational tools to solve Lucas' asset-pricing model when the logarithm of the asset's dividend follows an autoregressive process of order 1,
 #
 # \begin{equation*}
-# \ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(\mu, \sigma).
+# \ln d_{t+1} = \gamma + \alpha \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(-\frac{\sigma^2}{2}, \sigma).
 # \end{equation*}
 #
 # A presentation of this model can be found in [Christopher D. Carroll's lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/). 
@@ -44,10 +45,10 @@
 #
 # As noted in the handout, there are some special circumstances in which it is possible to solve for $P^{*}$ analytically:
 #
-# | Shock Process | CRRA | Solution for Pricing Kernel | 
-# | --- | --- | --- |
-# | bounded | 1 (log) | $P^*(d) = \frac{d}{\vartheta}$ |
-# | lognormal, mean 1 | $\rho$ | $P^*(d) = d_t^\rho\ e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}$ |
+# | Shock Process     | CRRA    | Solution for Pricing Kernel                                          | 
+# | ---               | ---     | ---                                                                  |
+# | bounded           | 1 (log) | $P^*(d) = \frac{d}{\vartheta}$                                       |
+# | lognormal, mean 1 | $\rho$  | $P^*(d) = d_t^\rho\ e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}$ |
 #
 # However, under less special circumstances, the only way to obtain the pricing function $P^{*}$ is by solving for it numerically, as outlined below.
 
@@ -97,7 +98,7 @@
 # %% [markdown]
 # `Uninteresting setup:`
 
-# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}, "tags": []}
+# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -111,22 +112,23 @@ from HARK.interpolation import LinearInterp, ConstantFunction
 # A python class representing log-AR1 dividend processes.
 class DivProcess:
     
-    def __init__(self, α, σ, μ = 0.0, nApprox = 7):
+    def __init__(self, α, σ, γ = 0.0, nApprox = 7):
         
         self.α = α
         self.σ = σ
-        self.μ = μ
+        self.γ = γ
         self.nApprox = nApprox
         
         # Create a discrete approximation to the random shock
-        self.ShkAppDstn = Normal(mu = μ, sigma = σ).approx(N = nApprox)
+        self.ShkAppDstn = Normal(mu = -(σ**2)/2, sigma = σ).approx(N = nApprox)
         
     def getLogdGrid(self, n = 100):
         '''
         A method for creating a reasonable grid for log-dividends.
         '''
+        μ = self.γ - (self.σ**2)/2
         uncond_sd = self.σ / np.sqrt(1 - self.α**2)
-        uncond_mean = self.μ/(1-self.α)
+        uncond_mean = μ/(1-self.α)
         logDGrid = np.linspace(-5*uncond_sd, 5*uncond_sd, n) + uncond_mean
         return(logDGrid)
         
@@ -152,7 +154,7 @@ class LucasEconomy:
             
             # Find dividends
             d_now = np.exp(log_d_now)    
-            log_d_next = self.DivProcess.α * log_d_now + shock
+            log_d_next = self.DivProcess.γ + self.DivProcess.α * log_d_now + shock
             d_next = np.exp(log_d_next)
             
             # Payoff and sdf
@@ -221,7 +223,7 @@ class LucasEconomy:
 # # Creating and solving an example economy with AR1 dividends
 #
 # An economy is fully specified by:
-# - **The dividend process for the assets (trees)**: we assume that $\ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}$. We must create a dividend process specifying $\alpha$ and $\sigma_{\varepsilon}$.
+# - **The dividend process for the assets (trees)**: we assume that $\ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}$, $\varepsilon_{t+1}\sim\mathcal{N}(-\sigma^2/2,\sigma)$. We must create a dividend process specifying $\alpha$ and $\sigma_{\varepsilon}$.
 # - **The coefficient of relative risk aversion (CRRA).**
 # - **The time-discount factor ($\beta$).**
 
@@ -313,7 +315,7 @@ plt.ylabel('$P^*(d_t)$')
 # %% {"code_folding": [0]}
 # Create an i.i.d. dividend process
 σ = 0.1
-iidDivs = DivProcess(α = 0.0, μ = -σ**2/2, σ = σ)
+iidDivs = DivProcess(α = 0.0, σ = σ)
 
 # And an economy that embeds it
 CRRA = 2
