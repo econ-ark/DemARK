@@ -1,14 +1,14 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: ExecuteTime,-autoscroll,collapsed
+#     cell_metadata_filter: ExecuteTime,collapsed,jupyter,tags,title,-autoscroll
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.13.4
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.8
+#     version: 3.10.8
 #   orig_nbformat: 4
 # ---
 
@@ -35,6 +35,9 @@
 # We first load some tools from the [HARK toolkit](https://github.com/econ-ark/HARK).
 
 # %% jupyter={"source_hidden": true} tags=[]
+import statsmodels.api as sm
+from linearmodels.panel.model import PanelOLS
+from HARK.distribution import calc_expectation
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     IndShockConsumerType,
     init_lifecycle,
@@ -157,7 +160,6 @@ Agent.simulate()
 #
 
 # %% Compute expectations jupyter={"source_hidden": true} tags=[]
-from HARK.distribution import calc_expectation
 
 exp = [
     calc_expectation(Agent.IncShkDstn[i], func=lambda x: x[0] * x[1])
@@ -200,10 +202,8 @@ Data["Y_change"] = Data.groupby("id")["Y"].diff(1)
 # We now estimate an analogous regression in our simulated population.
 
 # %% jupyter={"source_hidden": true} tags=[]
-from linearmodels.panel.model import PanelOLS
-import statsmodels.api as sm
 
-Data = Data.set_index(["id","Age"])
+Data = Data.set_index(["id", "Age"])
 
 # Create the variables they actually use
 Data["ExpBin"] = 0
@@ -226,11 +226,7 @@ print(fe_res)
 # %% tags=[]
 # %%capture
 params_no_transitory = copy(params)
-params_no_transitory.update(
-    {
-        "TranShkStd": [0.0] * len(params["TranShkStd"])
-    }
-)
+params_no_transitory.update({"TranShkStd": [0.0] * len(params["TranShkStd"])})
 
 # Create agent
 Agent_nt = IndShockConsumerType(**params_no_transitory)
@@ -285,7 +281,7 @@ Data["ChangeBin"] = 0
 Data.loc[Data["Y_change"] > 0, "ChangeBin"] = 1
 Data.loc[Data["Y_change"] < 0, "ChangeBin"] = -1
 
-Data = Data.set_index(["id","Age"])
+Data = Data.set_index(["id", "Age"])
 mod = PanelOLS(Data.ExpBin, sm.add_constant(Data.ChangeBin), entity_effects=True)
 fe_res = mod.fit()
 print(fe_res)

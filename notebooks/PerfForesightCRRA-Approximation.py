@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.10.2
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.5
+#     version: 3.10.8
 # ---
 
 # %% [markdown]
@@ -34,17 +34,25 @@
 # %% {"code_folding": []}
 # Initial notebook set up
 # %matplotlib inline
+from HARK.ConsumptionSaving.ConsIndShockModel import (
+    PerfForesightConsumerType,
+    init_perfect_foresight,
+)  # Import the consumer type
+from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
-import HARK 
+import HARK
 from copy import deepcopy
-mystr = lambda number : "{:.4f}".format(number)
-from HARK.utilities import plot_funcs
+
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
 
 # These last two will make our charts look nice
-plt.style.use('seaborn-darkgrid')
-palette = plt.get_cmap('Dark2')
+plt.style.use("seaborn-darkgrid")
+palette = plt.get_cmap("Dark2")
 
 # %% [markdown]
 # [PerfectForesightCRRA](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/Consumption/PerfForesightCRRA) derives a number of results as approximations; for instance, the exact formula for the consumption function is derived as $$c_t = \left(\frac{R - (R\beta)^{1/\rho}}{R}\right)o_t$$
@@ -59,7 +67,7 @@ palette = plt.get_cmap('Dark2')
 # 1. Starting with the default parameterization of the model, show how the approximation quality changes with values of other parameters
 # 1. Explain, mathematically, why you get the patterns you do for how the solutions deteriorate as you change the parameter values
 #
-# Hints: 
+# Hints:
 #
 # 1. [MathFactsList](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/MathFacts/MathFactsList.pdf) describes the conditions under which the approximations will be good; you want to find conditions under which the approximations get bad
 # 2. An interesting question is the extent to which the size of approximation errors is related to the degree of impatience according to alternative metrics
@@ -67,24 +75,27 @@ palette = plt.get_cmap('Dark2')
 # %%
 # Set up a HARK Perfect Foresight Consumer called PFagent
 
-from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType, init_perfect_foresight # Import the consumer type
 
 # Now we need to give our consumer parameter values that allow us to solve the consumer's problem
 
 # Invoke it to create a dictionary called Paramod (Params that we will modify)
-Paramod = deepcopy(init_perfect_foresight) # deepcopy prevents later overwriting
+# deepcopy prevents later overwriting
+Paramod = deepcopy(init_perfect_foresight)
 
 # Extract the parameters from the dictionary to make them easy to reference
-CRRA       = Paramod['CRRA']                # Coefficient of relative risk aversion
-Rfree      = Paramod['Rfree']               # Interest factor on assets
-DiscFac    = Paramod['DiscFac']             # Intertemporal discount factor
-PermGroFac = Paramod['PermGroFac']          # Permanent income growth factor
-LivPrb     = Paramod['LivPrb']     = [1.0]  # Survival probability of 100 percent
-cycles     = Paramod['cycles']     = 0      # This says that it is an infinite horizon model
+CRRA = Paramod["CRRA"]  # Coefficient of relative risk aversion
+Rfree = Paramod["Rfree"]  # Interest factor on assets
+DiscFac = Paramod["DiscFac"]  # Intertemporal discount factor
+PermGroFac = Paramod["PermGroFac"]  # Permanent income growth factor
+LivPrb = Paramod["LivPrb"] = [1.0]  # Survival probability of 100 percent
+# This says that it is an infinite horizon model
+cycles = Paramod["cycles"] = 0
 
 # %%
-# Now let's pass our dictionary to our consumer class to create an instance 
-PFagent = PerfForesightConsumerType(**Paramod) # Any parameters we did not modify get their default values
+# Now let's pass our dictionary to our consumer class to create an instance
+PFagent = PerfForesightConsumerType(
+    **Paramod
+)  # Any parameters we did not modify get their default values
 
 # Solve the agent's problem
 PFagent.solve()
@@ -93,54 +104,68 @@ PFagent.solve()
 # Plot the consumption function approximation versus the "true" consumption function
 
 # Set out some range of market resources that we want to plot consumption for
-mMin = 0 
+mMin = 0
 mMax = 10
 numPoints = 100
-m_range = np.linspace(mMin, mMax, numPoints) # This creates an array of points in the given range
+m_range = np.linspace(
+    mMin, mMax, numPoints
+)  # This creates an array of points in the given range
 
-wealthHmn = PFagent.solution[0].hNrm # normalized human wealth is constructed when we .solve()
-wealthMkt = m_range                  # bank balances plus current income
-wealthTot = wealthHmn+wealthMkt      # Total wealth is the sum of human and market 
+wealthHmn = PFagent.solution[
+    0
+].hNrm  # normalized human wealth is constructed when we .solve()
+wealthMkt = m_range  # bank balances plus current income
+wealthTot = wealthHmn + wealthMkt  # Total wealth is the sum of human and market
 
 # Feed our range of market resources into our consumption function in order to get consumption at each point
 # (Remember, after doing .solve(), the consumption function is stored as PFagent.solution[0].cFunc)
-cHARK = PFagent.solution[0].cFunc(m_range) # Because the input m_range is an array, the output cHARK is too
-cMax  = cHARK[-1]*1.2 # The last point will be the largest; add 20 percent for visual appeal
+cHARK = PFagent.solution[0].cFunc(
+    m_range
+)  # Because the input m_range is an array, the output cHARK is too
+cMax = (
+    cHARK[-1] * 1.2
+)  # The last point will be the largest; add 20 percent for visual appeal
 
 # Use matplotlib package (imported in first cell) to plot the consumption function
-plt.figure(figsize=(9,6)) # set the figure size
-plt.plot(m_range, cHARK, 'b', label='Consumption Function from HARK') # m on the x axis vs c on the y axis
+plt.figure(figsize=(9, 6))  # set the figure size
+plt.plot(
+    m_range, cHARK, "b", label="Consumption Function from HARK"
+)  # m on the x axis vs c on the y axis
 # 'b' is for blue
-plt.xlabel('Market resources m') # x axis label
-plt.ylabel('Consumption c') # y axis label
-plt.ylim(0,cMax)
+plt.xlabel("Market resources m")  # x axis label
+plt.ylabel("Consumption c")  # y axis label
+plt.ylim(0, cMax)
 
-# The plot is named plt and it hangs around like a variable 
+# The plot is named plt and it hangs around like a variable
 # but is not displayed until you do a plt.show()
 
 # Construct the approximate consumption function
-# Also, recall that in the "true" consumption function what matters is total wealth, 
+# Also, recall that in the "true" consumption function what matters is total wealth,
 # not just market resources so we need to add in human wealth
 
-# Use the values of R, beta, and rho that we used above to construct rates 
-rfree=Rfree-1
-discRte=(1/DiscFac)-1 # See handout for why this is approximately the time preference rate
-cApprox = wealthTot*(rfree - (1/CRRA)*(rfree-discRte)) 
-plt.plot(m_range, cApprox, 'k', label='c function approximated') # Add true consumption function line
-plt.legend() # show the legend
+# Use the values of R, beta, and rho that we used above to construct rates
+rfree = Rfree - 1
+discRte = (
+    1 / DiscFac
+) - 1  # See handout for why this is approximately the time preference rate
+cApprox = wealthTot * (rfree - (1 / CRRA) * (rfree - discRte))
+plt.plot(
+    m_range, cApprox, "k", label="c function approximated"
+)  # Add true consumption function line
+plt.legend()  # show the legend
 
-plt.show() # show the plot
+plt.show()  # show the plot
 
 # %% [markdown]
 # The size of the error looks pretty stable, which we can show by calculating it in percentage terms
 
 # %%
 # Plot the deviations
-approximationError = 100*(cHARK - cApprox)/cHARK
-plt.figure(figsize=(9,6)) #set the figure size
-plt.plot(m_range, approximationError, label='cHARK - cApprox')
-plt.xlabel('Market resources') # x axis label
-plt.ylabel('Percent deviation of approximation') # y axis label
+approximationError = 100 * (cHARK - cApprox) / cHARK
+plt.figure(figsize=(9, 6))  # set the figure size
+plt.plot(m_range, approximationError, label="cHARK - cApprox")
+plt.xlabel("Market resources")  # x axis label
+plt.ylabel("Percent deviation of approximation")  # y axis label
 plt.legend()
 plt.show()
 
@@ -161,38 +186,40 @@ Rfree_min = Rfree
 Rfree_max = Rfree**20
 Rfree_array = np.linspace(Rfree_min, Rfree_max, howMany)
 
-Pat_array  = (Rfree_array*DiscFac)**(1/CRRA)
-PatR_array = Pat_array/Rfree_array
+Pat_array = (Rfree_array * DiscFac) ** (1 / CRRA)
+PatR_array = Pat_array / Rfree_array
 
 # %%
 # Set the time preference factor to match the interest factor so that $(R \beta) = 1$
 
-Paramod['DiscFac'] = 1/Rfree
+Paramod["DiscFac"] = 1 / Rfree
 
 # %%
 # Plot average deviation from true consumption function
-PFagent = PerfForesightConsumerType(**Paramod) # construct a consumer with our previous parameters
+PFagent = PerfForesightConsumerType(
+    **Paramod
+)  # construct a consumer with our previous parameters
 
-plt.figure(figsize=(9,6)) #set the figure size
+plt.figure(figsize=(9, 6))  # set the figure size
 mean_dev = np.zeros(30)
 
 for i in range(len(Rfree_array)):
     PFagent.Rfree = Rfree_array[i]
-    
+
     # Now we just copy the lines of code from above that we want
     PFagent.solve()
-    cHARK     = PFagent.solution[0].cFunc(m_range)
+    cHARK = PFagent.solution[0].cFunc(m_range)
     wealthHmn = PFagent.solution[0].hNrm
-    wealthTot = wealthHmn+m_range
-    rfree=Rfree-1
-    discRte=(1/DiscFac)-1 
-    cApprox   = wealthTot*(rfree - (1/CRRA)*(rfree-discRte)) 
-    deviation = np.mean(np.abs(cApprox/cHARK))
+    wealthTot = wealthHmn + m_range
+    rfree = Rfree - 1
+    discRte = (1 / DiscFac) - 1
+    cApprox = wealthTot * (rfree - (1 / CRRA) * (rfree - discRte))
+    deviation = np.mean(np.abs(cApprox / cHARK))
     mean_dev[i] = deviation
-    
-plt.plot(Rfree_array,mean_dev)
-plt.xlabel('Return Factor') # x axis label
-plt.ylabel(' Average deviation along consumption function') # y axis label
+
+plt.plot(Rfree_array, mean_dev)
+plt.xlabel("Return Factor")  # x axis label
+plt.ylabel(" Average deviation along consumption function")  # y axis label
 plt.show()
 
 # %% [markdown]

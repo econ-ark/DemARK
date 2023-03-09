@@ -7,8 +7,8 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       format_version: '1.3'
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.9
+#     version: 3.10.8
 # ---
 
 # %% [markdown]
@@ -38,17 +38,24 @@
 # Preliminaries
 
 # %matplotlib inline
+from HARK.ConsumptionSaving.ConsIndShockModel import (
+    PerfForesightConsumerType,
+)  # Import the consumer type
+from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
-import HARK 
+import HARK
 from copy import deepcopy
-mystr = lambda number : "{:.4f}".format(number)
-from HARK.utilities import plot_funcs
+
+
+def mystr(number):
+    return "{:.4f}".format(number)
+
 
 # These last two will make our charts look nice
-plt.style.use('seaborn-darkgrid')
-palette = plt.get_cmap('Dark2')
+plt.style.use("seaborn-darkgrid")
+palette = plt.get_cmap("Dark2")
 
 # %% [markdown]
 # ## 1. Creating an agent
@@ -57,30 +64,31 @@ palette = plt.get_cmap('Dark2')
 
 # %%
 # Set up a HARK Perfect Foresight Consumer called PFsavrate
-from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType # Import the consumer type
 
 # Now we need to "fill" our consumer with parameters that allow us to solve the consumer's problem
 
 # First we need to set out a dictionary
-ρ = CRRA = 2.            # Coefficient of relative risk aversion
-Rfree = 1.03             # Interest factor on assets
-β = DiscFac = 0.97       # Intertemporal discount factor
-LivPrb = [1.0]           # Survival probability
+ρ = CRRA = 2.0  # Coefficient of relative risk aversion
+Rfree = 1.03  # Interest factor on assets
+β = DiscFac = 0.97  # Intertemporal discount factor
+LivPrb = [1.0]  # Survival probability
 Γ = PermGroFac = [1.01]  # Permanent income growth factor
-AgentCount = 1           # Number of agents of this type (only matters for simulation# Number of periods in the cycle for this agent type
-cycles = 0               # Agent is infinitely lived
-T_cycle = 1              # Every period is the same
+# Number of agents of this type (only matters for simulation# Number of periods in the cycle for this agent type
+AgentCount = 1
+cycles = 0  # Agent is infinitely lived
+T_cycle = 1  # Every period is the same
 
 # Make a dictionary to specify a perfect foresight consumer type
-dict_wealth = { 'CRRA': CRRA,
-                'Rfree': Rfree,
-                'DiscFac': DiscFac,
-                'LivPrb': LivPrb,
-                'PermGroFac': PermGroFac,
-                'AgentCount': AgentCount,
-                'cycles' : cycles,
-                'T_cycle' : T_cycle,
-                }
+dict_wealth = {
+    "CRRA": CRRA,
+    "Rfree": Rfree,
+    "DiscFac": DiscFac,
+    "LivPrb": LivPrb,
+    "PermGroFac": PermGroFac,
+    "AgentCount": AgentCount,
+    "cycles": cycles,
+    "T_cycle": T_cycle,
+}
 
 # Now lets pass our dictionary to our consumer class
 PFsavrate = PerfForesightConsumerType(**dict_wealth)
@@ -97,7 +105,11 @@ PFsavrate.solve()
 test_m = 4
 test_c = PFsavrate.solution[0].cFunc(test_m)
 
-print("When normalized market resources are m={}, the agent's normalized consumption should be c={}".format(test_m,test_c))
+print(
+    "When normalized market resources are m={}, the agent's normalized consumption should be c={}".format(
+        test_m, test_c
+    )
+)
 
 # %% [markdown]
 # We are now ready to think about the saving rate of the consumer.
@@ -117,18 +129,18 @@ print("When normalized market resources are m={}, the agent's normalized consump
 # \end{split}
 # \end{equation}
 #
-# We now have an expression for the saving rate as a function of the previous period's end-of-period normalized assets $a_t$. The cell below calculates and plots this relationship for different levels of $a_t$. 
+# We now have an expression for the saving rate as a function of the previous period's end-of-period normalized assets $a_t$. The cell below calculates and plots this relationship for different levels of $a_t$.
 
 # %%
 # Create a grid for a
-a_tm1 = np.linspace(-1,4)
+a_tm1 = np.linspace(-1, 4)
 
 # Compute income components at every a
-cap_income_t = a_tm1*(Rfree-1)/Γ
+cap_income_t = a_tm1 * (Rfree - 1) / Γ
 lab_income_t = 1
 
 # and market resources
-m_t = a_tm1 * Rfree/Γ + 1
+m_t = a_tm1 * Rfree / Γ + 1
 
 # Consumption
 c_t = PFsavrate.solution[0].cFunc(m_t)
@@ -138,5 +150,5 @@ c_t = PFsavrate.solution[0].cFunc(m_t)
 
 # And now the plot
 plt.plot(a_tm1, sav_rate_t)
-plt.xlabel(r'$a_{t-1}$')
-plt.ylabel('Saving Rate')
+plt.xlabel(r"$a_{t-1}$")
+plt.ylabel("Saving Rate")
