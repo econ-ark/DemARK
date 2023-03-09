@@ -23,10 +23,10 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.16
+#     version: 3.10.9
 # ---
 
-# %% [markdown] {"jp-MarkdownHeadingCollapsed": true, "tags": []}
+# %% [markdown] {"jp-MarkdownHeadingCollapsed": true}
 # # Lucas Asset Pricing Model
 #
 # ## A notebook by [Christopher D. Carroll](http://www.econ2.jhu.edu/people/ccarroll/) and [Mateo Velásquez-Giraldo](https://mv77.github.io/)
@@ -50,7 +50,7 @@
 # The equilibrium pricing equation is a relationship between the price and the dividend (a "pricing kernel") $P^{*}(d)$ such that, if everyone _believes_ that to be the pricing kernel, everyone's Euler equation will be satisfied:
 #
 # \begin{equation*}
-# P^*(d_t) = \left(\frac{1}{1+\vartheta}\right)\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right]
+# P^*(d_t) =   \left(\frac{1}{1+\vartheta}\right)\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right]
 # \end{equation*}
 #
 # As noted in the handout, there are some special circumstances in which it is possible to solve for $P^{*}$ analytically:
@@ -109,7 +109,7 @@
 # %% [markdown]
 # `Uninteresting setup:`
 
-# %% Preamble {"code_folding": [0], "tags": []}
+# %% Preamble {"code_folding": [0]}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -133,7 +133,7 @@ class DivProcess:
         self.nApprox = nApprox
 
         # Create a discrete approximation to the random shock
-        self.ShkAppDstn = Normal(mu = -(σ**2)/2, sigma = σ).approx(N = nApprox)
+        self.ShkAppDstn = Normal(mu = -(σ**2)/2, sigma = σ).discretize(N = nApprox)
         
     def getLogdGrid(self, n = 100):
         '''
@@ -386,7 +386,7 @@ def aSolIID(d):
 
 plt.figure()
 for n in ns:
-    iidDivs = DivProcess(α=0.0, μ=-(σ**2) / 2, σ=σ, nApprox=n)
+    iidDivs = DivProcess(α=0.0, σ=σ, nApprox=n)
     iidEcon = LucasEconomy(CRRA=CRRA, DiscFac=Disc, DivProcess=iidDivs)
     iidEcon.solve()
     plt.plot(dGrid, iidEcon.EqPfun(dGrid), label="Num.Sol. $n^\#$ = {}".format(n))
