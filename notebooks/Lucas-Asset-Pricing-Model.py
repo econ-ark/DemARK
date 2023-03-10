@@ -42,7 +42,7 @@
 # Those notes [use the Bellman equation to derive](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) a relationship between the price of the asset in the current period $t$ and the next period $t+1$:
 #
 # \begin{equation*}
-# P_{t} =
+# P_{t} =  
 # \overbrace{\left(\frac{1}{1+\vartheta}\right)}
 # ^{\beta}\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P_{t+1} + d_{t+1}) \right]
 # \end{equation*}
@@ -362,6 +362,48 @@ plt.xlabel("$d_t$")
 plt.ylabel("$P^*(d_t)$")
 
 # %% [markdown]
+# # Dividends that are a geometric random walk with drift
+#
+# The notes also show that if the dividend process is
+# \begin{equation*}
+# \ln d_{t+1} = \gamma + \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(-\frac{\sigma^2}{2}, \sigma).
+# \end{equation*}
+# so that $E_t[d_{t+1}/d_t] = e^\gamma$, then we have
+# \begin{equation*}
+#  P^*(d_t) = d_t^\rho\times e^{(\rho-1)\left(\rho\sigma^2/2 - \gamma\right)}\frac{\beta}{1-\beta}.
+# \end{equation*}
+
+# %%
+CRRA = 2
+Disc = 0.9
+σ = 0.1
+γ = 0.3
+
+# Create a random walk dividend process
+# (it turns out that the whole model can be normalized by d_t, and
+# in normalized, terms the dividend proces becomes iid again)
+rw_divs = DivProcess(γ=γ, α = 0, σ = σ)
+
+# And an economy that embeds it
+rw_econ = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = rw_divs)
+rw_econ.solve()
+
+# Generate a function with our analytical solution
+a_sol_factor = np.exp((CRRA-1)*(CRRA*σ**2/2 - γ))
+a_sol_rw = lambda d: d**(CRRA) * a_sol_factor * Disc/(1 - Disc)
+
+# Get a grid for d over which to compare them
+dGrid = np.exp(rw_divs.getLogdGrid())
+
+# Plot both
+plt.figure()
+plt.plot(dGrid, a_sol_rw(dGrid), '*',label = 'Analytical solution')
+plt.plot(dGrid, rw_econ.EqPfun(dGrid), label = 'Numerical solution')
+plt.legend()
+plt.xlabel('$d_t$')
+plt.ylabel('$P^*(d_t)$')
+
+# %% [markdown]
 # # Testing our approximation of the dividend process
 #
 # Hidden in the solution method implemented above is the fact that, in order to make expectations easy to compute, we discretize the random shock $\varepsilon_t$, which is to say, we create a discrete variable $\tilde{\varepsilon}$ that approximates the behavior of $\varepsilon_t$. This is done using a [Gauss-Hermite quadrature](https://en.wikipedia.org/wiki/Gauss%E2%80%93Hermite_quadrature).
@@ -375,14 +417,12 @@ Disc = 0.9
 σ = 0.1
 ns = [1, 2, 10]
 
-#
-dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1))
-fact = dTil * Disc
-
+dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1.0))
 
 def aSolIID(d):
     return d**CRRA * dTil * Disc / (1 - Disc)
 
+dGrid = np.exp(iidDivs.getLogdGrid())
 
 plt.figure()
 for n in ns:
