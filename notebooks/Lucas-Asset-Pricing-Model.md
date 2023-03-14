@@ -21,6 +21,6 @@ date-released:
 github_repo_url: https://github.com/econ-ark/DemARK
 notebooks:
   -
-    notebooks/LucasAssetPrice.ipynb
+    notebooks/Lucas-Asset-Pricing-Model.ipynb
 dashboards:
 ---
