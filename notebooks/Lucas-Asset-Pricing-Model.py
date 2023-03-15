@@ -23,7 +23,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.10.9
+#     version: 3.9.13
 # ---
 
 # %% [markdown] {"jp-MarkdownHeadingCollapsed": true}
@@ -39,7 +39,7 @@
 #
 # A presentation of this model can be found in [Christopher D. Carroll's lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/).
 #
-# Those notes [use the Bellman equation to derive](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) a relationship between the price of the asset in the current period $t$ and the next period $t+1$:
+# Those notes use [the Bellman equation](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) to derive a relationship between the price of the asset in the current period $t$ and the next period $t+1$:
 #
 # \begin{equation*}
 # P_{t} =  
@@ -109,7 +109,7 @@
 # %% [markdown]
 # `Uninteresting setup:`
 
-# %% Preamble {"code_folding": [0]}
+# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -289,9 +289,9 @@ plt.ylabel("$P_t$")
 # # Testing our analytical solutions
 
 # %% [markdown]
-# ## 1. Log-utility
+# ## Case 1: Log Utility
 #
-# The lecture notes show that with log-utility (a CRRA of $1$), the pricing kernel has a closed form expression: $$P^*(d_t) = \frac{d_t}{\vartheta}$$.
+# The lecture notes show that with logarithmic utility (a CRRA of $1$), the pricing kernel has a closed form expression: $$P^*(d_t) = \frac{d_t}{\vartheta}$$.
 #
 # We now compare our numerical solution with this analytical expression.
 
@@ -321,11 +321,11 @@ plt.xlabel("$d_t$")
 plt.ylabel("$P^*(d_t)$")
 
 # %% [markdown]
-#  ## 2. I.I.D dividends
+#  ## Case 2: I.I.D dividends
 #
-#  We also found that, if $\ln d_{t+n}\sim \mathcal{N}(-\sigma^2/2, \sigma^2)$ for all $n$, the pricing kernel is exactly
+#  The [notes also show](https://llorracc.github.io/LucasAssetPrice/#when-dividends-are-IID) that, if $\ln d_{t+n}\sim \mathcal{N}(-\sigma^2/2, \sigma^2)$ for all $n$, the pricing kernel is exactly
 #  \begin{equation*}
-#  P^*(d_t) = d_t^\rho\times e^{\rho(\rho-1)\sigma^2/2}\frac{\beta}{1-\beta}.
+#  P^*(d_t) = d_t^\rho\times e^{\rho(\rho-1)\sigma^2/2}\overbrace{\frac{\beta}{1-\beta}}^{=\vartheta}
 #  \end{equation*}
 #
 #  We now our numerical solution for this case.
@@ -345,7 +345,6 @@ iidEcon.solve()
 # Generate a function with our analytical solution
 dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1))
 
-
 def aSolIID(d):
     return d**CRRA * dTil * Disc / (1 - Disc)
 
@@ -360,6 +359,7 @@ plt.plot(dGrid, iidEcon.EqPfun(dGrid), label="Numerical solution")
 plt.legend()
 plt.xlabel("$d_t$")
 plt.ylabel("$P^*(d_t)$")
+plt.show()
 
 # %% [markdown]
 # # Dividends that are a geometric random walk with drift
@@ -436,3 +436,4 @@ plt.plot(dGrid, aSolIID(dGrid), "*", label="Analytical solution")
 plt.legend()
 plt.xlabel("$d_t$")
 plt.ylabel("$P^*(d_t)$")
+plt.show()
