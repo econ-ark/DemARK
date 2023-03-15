@@ -145,7 +145,7 @@ class DivProcess:
         logDGrid = np.linspace(-5*uncond_sd, 5*uncond_sd, n) + uncond_mean
         return(logDGrid)
         
-# A class representing economies with Lucas' trees.
+# A class representing economies with Lucas trees.
 class LucasEconomy:
     """
     A representation of an economy in which there are Lucas trees
@@ -252,19 +252,23 @@ economy = LucasEconomy(CRRA=2, DiscFac=0.95, DivProcess=DivProc)
 # %% [markdown]
 # Once created, the economy can be 'solved', which means finding the equilibrium price kernel. The distribution of dividends at period $t+1$ depends on the value of dividends at $t$, which also determines the resources agents have available to buy trees. Thus, $d_t$ is a state variable for the economy. The pricing function gives the price of trees that equates their demand and supply at every level of current dividends $d_t$.
 
+# %%
+dir(economy.solve())
+
 # %% Solution {"code_folding": [0]}
-# Solve the economy
+# Solve the economy, displaying the error term for each iteration
 economy.solve(disp=True)
 
 # After the economy is solved, we can use its Equilibrium price function
-d = 1
-print("P({}) = {}".format(d, economy.EqPfun(d)))
+# to tell us the price if the dividend is 1
+dvdnd = 1
+print("P({}) = {:.6}".format(dvdnd, economy.EqPfun(dvdnd)))
 
 
 # %% [markdown]
 # ## The effect of risk aversion.
 #
-# [The notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/) discuss the surprising implication that an increase in the coefficient of relative risk aversion $\rho$ leads to higher prices for the risky trees! This is demonstrated below.
+# [The notes](https://llorracc.github.io/LucasAssetPrice/#a-surprise) discuss the surprising implication that an increase in the coefficient of relative risk aversion $\rho$ leads to higher prices for the risky trees! This is demonstrated below.
 
 # %% {"code_folding": [0]}
 # Create two economies with different risk aversion
@@ -362,7 +366,7 @@ plt.ylabel("$P^*(d_t)$")
 plt.show()
 
 # %% [markdown]
-# # Dividends that are a geometric random walk with drift
+# ## Case 3: Dividends that are a geometric random walk with drift
 #
 # The notes also show that if the dividend process is
 # \begin{equation*}
@@ -370,8 +374,13 @@ plt.show()
 # \end{equation*}
 # so that $E_t[d_{t+1}/d_t] = e^\gamma$, then we have
 # \begin{equation*}
-#  P^*(d_t) = d_t^\rho\times e^{(\rho-1)\left(\rho\sigma^2/2 - \gamma\right)}\frac{\beta}{1-\beta}.
+#  P^*(d_t) = d_t^\rho\times e^{(\rho-1)\left(\rho\sigma^2/2 - \gamma\right)}\overbrace{\frac{\beta}{1-\beta}}^{\vartheta}
 # \end{equation*}
+# which, when $\rho=1$, reduces (as it should) to 
+# \begin{equation*}
+#  \frac{P^*(d_t)}{d_t} = \vartheta
+# \end{equation*}
+#
 
 # %%
 CRRA = 2
@@ -402,6 +411,7 @@ plt.plot(dGrid, rw_econ.EqPfun(dGrid), label = 'Numerical solution')
 plt.legend()
 plt.xlabel('$d_t$')
 plt.ylabel('$P^*(d_t)$')
+plt.show()
 
 # %% [markdown]
 # # Testing our approximation of the dividend process
