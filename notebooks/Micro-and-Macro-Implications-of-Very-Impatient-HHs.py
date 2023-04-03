@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.10.8
+#     version: 3.8.16
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -48,7 +48,7 @@
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/micro-and-macro-implications-of-very-impatient-hhs#launch)
 
-# %% [markdown] tags=[] jp-MarkdownHeadingCollapsed=true tags=[]
+# %% [markdown] tags=[] jp-MarkdownHeadingCollapsed=true
 # ## Introduction
 #
 # Buffer stock saving models of the kind implemented in $\texttt{ConsIndShockType}$ say that, if a standard ['Growth Impatience Condition'](https://econ-ark.github.io/BufferStockTheory/#GICRaw), holds:
@@ -241,9 +241,15 @@ cstwMPC_calibrated_parameters = {
 }
 
 # %% [markdown]
+# # Creating an ex-ante distribution of heterogeneous agents
+#
 # Now let's make several instances of our class of agents and give them different values of $\beta$, following cstwMPC's estimated distribution.  In our specification of interest, we will use $\grave{\beta}=0.9855583$ and $\nabla = 0.0085$.
 #
 # NB: Reported parameter estimates in cstwMPC use a model with aggregate shocks and wage and interest rates determined dynamically (a heterogeneous agents DSGE model); this is the $\texttt{AggShockConsumerType}$ in HARK.  The estimated parameters are slightly different in this exercise, as we are ignoring general equilibrium aspects and only using the $\texttt{IndShockConsumerType}$
+#
+# ### Method 1: "Brute force" approach 
+#
+# There are two methods for accomplishing this. The first is a more "brute force" approach: We specify a uniform distribution and discretize it for the number of household types we would like to see in the model. From there, We place each of the household types with a different time preference factor in a list. Finally, a for-loop is used to compute the solution for each household's optimization problem.
 
 # %%
 # This cell constructs seven instances of IndShockConsumerType with different discount factors
@@ -254,6 +260,7 @@ BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 num_types = 7  # number of types we want
 DiscFac_mean = 0.9855583  # center of beta distribution
 DiscFac_spread = 0.0085  # spread of beta distribution
+
 DiscFac_dstn = (
     Uniform(DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread)
     .discretize(num_types)
@@ -269,11 +276,42 @@ for nn in range(num_types):
     MyTypes.append(NewType)
 
 # %% [markdown]
+# ### Method 2: The new `AgentPopulation` class
+#
+# The second approach incorporates a new class defined in the  HARK toolkit: `AgentPopulation`. This class will create a new iterable object `AgentPopulation`, which takes two arguments. The first is the dictionary which defines the AgentType. The second is a distribution over the parameter value for which the user would like to see ex-ante heterogeneity in. From there, the `approx_distributions` method is called on the object to discretize the distribution given the specified number of discrete points. Finally, the `create_distributed_agents` method is called to create the distribution of agents, for which the standard solution method calls can be used to solve each agents problem.
+
+# %%
+# This cell constructs seven instances of IndShockConsumerType with different discount factors
+
+from HARK.core import AgentPopulation
+
+# Specify the distribution of the discount factor
+num_types = 7  # number of types we want
+DiscFac_mean = 0.9855583  # center of beta distribution
+DiscFac_spread = 0.0085  # spread of beta distribution
+
+cstwMPC_calibrated_parameters["DiscFac"] = Uniform(DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread)
+
+SubPops = AgentPopulation(IndShockConsumerType, cstwMPC_calibrated_parameters)
+SubPops.approx_distributions({"DiscFac": num_types})
+SubPops.create_distributed_agents()
+
+
+
+# %% [markdown]
 # ## Solving and Simulating the Baseline Agents
 #
 # Now let's solve and simulate each of our types of agents.  If you look in the parameter dictionary (or at any of the agent objects themselves), you will see that each one has an $\texttt{AgentCount}$ attribute of 10000. That is, these seven ex ante heterogeneous types each represent ten thousand individual agents that will experience ex post heterogeneity when they draw different income (and mortality) shocks over time.
 #
 # In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods $\texttt{solve}$, $\texttt{initialize_sim}$, and $\texttt{simulate}$ in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.
+#
+# After solving the model, we will check that the aggregate level of capital (total assets held by all households) to income ratio equals what we expected it would be. This will serve as a verification that the code is written correctly. To do this, we combine the asset holdings of all types, take the mean, and compare it to the desired capital to income ratio of 10.26.
+#
+# NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0.
+#
+# ### 1. Solution for the "brute force" approach
+#
+# Here is the output for the solution to the first approach to the problem, as well as a computation of the mean level of assets across the agent types. As you can see, the model does a good job of matching the aggregate capital-to-output ratio found in the data, as cited by Carroll et al. (2017).
 
 # %%
 # Progress bar keeps track interactively of how many have been made
@@ -281,11 +319,6 @@ for ThisType in tqdm(MyTypes):
     ThisType.solve()
     ThisType.initialize_sim()
     ThisType.simulate()
-
-# %% [markdown]
-# To verify that you wrote that code correctly, let's check that the aggregate level of capital (total assets held by all households) to income ratio equals what we expected it would be.  To do that, let's combine the asset holdings of all types, take the mean, and see if we get the desired capital to income ratio of 10.26.
-#
-# NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0.
 
 # %%
 aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in MyTypes])
@@ -295,10 +328,32 @@ print(
 )
 
 # %% [markdown]
-# ## Plotting the Lorenz Curve
+# ### 2. Solution using the `AgentPopulation` class
+#
+# We now conduct the same exercise for the new tool implemented in HARK. As you can see, both the out for the solution and the mean level of assets are nearly identical to the output when using the "brute force" approach. 
+#
+# Note: As an aside, the working theory for why these two approaches give nearly-but-not-perfectly-identical solution outputs is that, the "brute force" approach requires the user to specify the random seed when creating the discretized distribution of agents. The approach using `AgentPopulation`, on the other hand, specifies the random seed for the user during the implementation of the code. As you may know from the basics of programming in Python, the random seed's main function is for reproducibility of results when using random number generators. In order for this theory to be tested, the `AgentPopulation` tool in HARK must be updated to allow for users to fix the random seed in this way.
 
 # %%
-# Plot Lorenz curves for model with uniform distribution of time preference
+SubPops.solve()
+SubPops.initialize_sim()
+SubPops.simulate()
+
+# %%
+aLvl_all_ap = np.concatenate([ThisSubPop.state_now["aLvl"] for ThisSubPop in SubPops])
+print(
+    "The ratio of aggregate capital to permanent income is "
+    + decfmt2(np.mean(aLvl_all_ap))
+)
+
+
+# %% [markdown]
+# ## Plotting the Lorenz Curve
+#
+# Next, we conduct the exercise of matching the inequality in the observable distribution of wealth using the distribution of assets that arises from the model we've constructed with ex-ante heterogeneity in the time preference factor. As you can see from the plots below, the matching exercise is again nearly identical from the two approaches.
+
+# %%
+# Compute Lorenz shares using the brute force approach
 
 SCF_wealth, SCF_weights = load_SCF_wealth_weights()
 
@@ -308,16 +363,40 @@ SCF_Lorenz_points = get_lorenz_shares(
     SCF_wealth, weights=SCF_weights, percentiles=pctiles
 )
 sim_Lorenz_points = get_lorenz_shares(sim_wealth, percentiles=pctiles)
+
+# Compute Lorenz shares using the `AgentPopulation` approach
+
+sim_wealth_ap = np.concatenate([ThisSubPop.state_now["aLvl"] for ThisSubPop in SubPops])
+SCF_Lorenz_points_ap = get_lorenz_shares(
+    SCF_wealth, weights=SCF_weights, percentiles=pctiles
+)
+sim_Lorenz_points_ap = get_lorenz_shares(sim_wealth_ap, percentiles=pctiles)
+
+# Plot Lorenz curves for model with uniform distribution of time preference using both methods
+
+plt.subplot(1, 2, 1)
 plt.plot(pctiles, SCF_Lorenz_points, "--k")
 plt.plot(pctiles, sim_Lorenz_points, "-b")
+plt.title('Brute force approach')
 plt.xlabel("Percentile of net worth")
 plt.ylabel("Cumulative share of wealth")
+
+plt.subplot(1, 2, 2)
+plt.plot(pctiles, SCF_Lorenz_points, "--k")
+plt.plot(pctiles, sim_Lorenz_points_ap, "-b")
+plt.title('Using AgentPopulation class')
+# plt.xlabel("Percentile of net worth")
+# plt.ylabel("Cumulative share of wealth")
+
+plt.tight_layout()
 plt.show(block=False)
 
 # %% [markdown]
 # ## Calculating the Lorenz Distance at Targets
 #
 # Now we want to construct a function that calculates the Euclidean distance between simulated and actual Lorenz curves at the four percentiles of interest: 20, 40, 60, and 80.
+#
+# NB: For some reason, this step is not completed in the code. We leave this cell here, as this exercise should probably be performed as well.
 
 # %% [markdown]
 # ## The Distribution Of the Marginal Propensity to Consume
@@ -325,6 +404,10 @@ plt.show(block=False)
 # For many macroeconomic purposes, the distribution of the MPC $\kappa$ is more important than the distribution of wealth.  Ours is a quarterly model, and MPC's are typically reported on an annual basis; we can compute a (very) approximate annual MPC from the quraterly ones as $\kappa_{Y} \approx 1.0 - (1.0 - \kappa_{Q})^4$
 #
 # In the cell below, we retrieve the MPCs from our simulated consumers and show that the 10th percentile in the MPC distribution is only about 6 percent, while at the 90th percentile it is almost 0.5
+#
+# ### 1. MPC distribution from the "brute force" approach
+#
+# Again, we first show the computation from the "brute force approach". This is done in the following code block.
 
 # %%
 # Retrieve the MPC's
@@ -347,6 +430,31 @@ print(
 )
 
 # %% [markdown]
+# ### 2. MPC distribution from the `AgentPopulation` approach
+#
+# Next, we compare this distribution of marginal propensities to consume with the one from the analogous computation when the `AgentPopulation` class is used. Notably, the distribution of MPCs in this case is nearly identical, with the only difference being at the 90th percentile.
+
+# %%
+# Retrieve the MPC's
+percentiles = np.linspace(0.1, 0.9, 9)
+MPC_sim_ap = np.concatenate([ThisSubPop.MPCnow for ThisSubPop in SubPops])
+MPCpercentiles_quarterly_ap = get_percentiles(MPC_sim_ap, percentiles=percentiles)
+MPCpercentiles_annual_ap = 1.0 - (1.0 - MPCpercentiles_quarterly_ap) ** 4
+
+print(
+    "The MPC at the 10th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual_ap[0]))
+)
+print(
+    "The MPC at the 50th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual_ap[4]))
+)
+print(
+    "The MPC at the 90th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual_ap[-1]))
+)
+
+# %% [markdown]
 # ## Adding Very Impatient Households
 #
 # Now that we have some tools for examining both microeconomic (the MPC across the population) and macroeconomic (the distribution and overall level of wealth) outcomes from our model, we are all set to conduct our experiment.
@@ -358,6 +466,8 @@ print(
 # 1. Replicate the list of agents using $\texttt{deepcopy}$.
 # 2. Set the $\beta$ of the most impatient type to $0.80$ (for the copied set of agents).
 # 3. Solve and simulate the most impatient type (for the copied set of agents).
+#
+# We conduct this exercise for both approaches again. The code is essentially identical, other than the naming conventions used for variables in each case. Notice that the output from each of the final two code blocks are exactly identical!
 
 # %%
 # Follow the instructions above to make another list of agents that includes *very* impatient households.
