@@ -61,16 +61,12 @@
 
 # %% {"code_folding": []}
 # Some initial setup
-from HARK.utilities import plot_funcs_der, plot_funcs
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 import pandas_datareader.data as web
-from copy import deepcopy
 import statsmodels.formula.api as sm
 import scipy.stats as stats
 import datetime as dt
 import pandas as pd
-import sys
-import os
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -104,6 +100,7 @@ pd.core.common.is_list_like = pd.api.types.is_list_like
 # %% [markdown]
 # #### The Keynesian Consumption Function
 
+
 # %% {"code_folding": []}
 class KeynesianConsumer:
     """
@@ -117,7 +114,6 @@ class KeynesianConsumer:
     """
 
     def __init__(self):
-
         Keynesian = (
             PerfForesightConsumerType()
         )  # set up a consumer type and use default parameteres
@@ -302,6 +298,7 @@ result.summary()
 #
 # Therefore, to find consumption at a total level of income $Y$, we will use $\texttt{P} \times \texttt{cFunc(Y/P)}$.
 
+
 # %% {"code_folding": []}
 class FriedmanPIHConsumer:
     """
@@ -315,7 +312,6 @@ class FriedmanPIHConsumer:
     """
 
     def __init__(self, Rfree=1.001, CRRA=2):
-
         FriedmanPIH = (
             PerfForesightConsumerType()
         )  # set up a consumer type and use default parameteres

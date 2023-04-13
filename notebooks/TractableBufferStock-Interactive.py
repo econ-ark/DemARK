@@ -58,15 +58,11 @@
 # This cell has a bit of (uninteresting) initial setup.
 
 from HARK.ConsumptionSaving.TractableBufferStockModel import TractableConsumerType
-from HARK.utilities import plot_funcs
 import ipywidgets as widgets
-from ipywidgets import interact, interactive, fixed, interact_manual
+from ipywidgets import interact, fixed
 import matplotlib.pyplot as plt
 
 import numpy as np
-import HARK
-import time
-from copy import deepcopy
 
 
 def mystr(number):
