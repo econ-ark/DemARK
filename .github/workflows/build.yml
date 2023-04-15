@@ -30,4 +30,4 @@ jobs:
             pytest
       - name: Test with nbval
         run: |
-          pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb  notebooks/
+          python -m pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb  notebooks/
