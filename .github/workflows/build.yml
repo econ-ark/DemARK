@@ -25,7 +25,7 @@ jobs:
       - name: Setup mamba environment to run notebooks
         uses: mamba-org/provision-with-micromamba@main
         with:
-          environment-file: binder/environment.yaml
+          environment-file: binder/environment.yml
           extra-specs: |
             pytest
       - name: Test with nbval
