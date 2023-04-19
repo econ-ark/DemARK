@@ -1,0 +1,980 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Making Structural Estimates From Empirical Results &#8212; DemARK</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al';</script>
+    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Tractable Buffer Stock Model" href="TractableBufferStock-Interactive.html" />
+    <link rel="prev" title="Perfect Foresight CRRA Model - Saving Rate" href="PerfForesightCRRA-SavingRate.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    DemARK
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Alternative-Combos-Of-Parameter-Values.html">Alternative Combinations of Parameter Values</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="ChangeLiqConstr.html">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chinese-Growth.html">Do Precautionary Motives Explain China’s High Saving Rate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DCEGM-Upper-Envelope.html">DCEGM Upper Envelope</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="DiamondOLG.html">The Diamond OLG Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FisherTwoPeriod.html">The Fisher Two-Period Optimal Consumption Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html">A Gentle Introduction to HARK: Buffer Stock Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html">A Gentle Introduction to HARK: The Perfect Foresight Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Harmenberg-Aggregation.html">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="IncExpectationExample.html">The Persistent Shock Model and Income Expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="KeynesFriedmanModigliani.html">Introduction: Keynes, Friedman, Modigliani</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LC-Model-Expected-Vs-Realized-Income-Growth.html">Expectated vs Realized Income Growth in A Standard Life Cycle Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LifeCycleModelTheoryVsData.html">The Life Cycle Model: Theory vs Data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Lucas-Asset-Pricing-Model.html">Lucas Asset Pricing Model</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html">The MPC out of Credit vs the MPC Out of Income</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-Approximation.html">Perfect Foresight CRRA Model - Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Making Structural Estimates From Empirical Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TractableBufferStock-Interactive.html">The Tractable Buffer Stock Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Making Structural Estimates From Empirical Results</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="making-structural-estimates-from-empirical-results">
+<h1>Making Structural Estimates From Empirical Results<a class="headerlink" href="#making-structural-estimates-from-empirical-results" title="Permalink to this headline">#</a></h1>
+<p><a class="reference external" href="https://econ-ark.org/materials/structural-estimates-from-empirical-mpcs-fagereng-et-al#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
+<p>This notebook conducts a quick and dirty structural estimation based on Table 9 of <a class="reference external" href="https://economicdynamics.org/meetpapers/2017/paper_65.pdf">“MPC Heterogeneity and Household Balance Sheets” by Fagereng, Holm, and Natvik</a> <cite data-cite="6202365/SUE56C4B"></cite>, who use Norweigian administrative data on income, household assets, and lottery winnings to examine the MPC from transitory income shocks (lottery prizes).  Their Table 9 reports an estimated MPC broken down by quartiles of bank deposits and
+prize size; this table is reproduced here as <span class="math notranslate nohighlight">\(\texttt{MPC_target_base}\)</span>.  In this demo, we use the Table 9 estimates as targets in a simple structural estimation, seeking to minimize the sum of squared differences between simulated and estimated MPCs by changing the (uniform) distribution of discount factors.  The essential question is how well their results be rationalized by a simple one-asset consumption-saving model. (Note that the paper was later published under a different <a class="reference external" href="https://www.aeaweb.org/articles?id=10.1257/mac.20190211">version</a> which unfortunately excluded table 9.)</p>
+<p>The function that estimates discount factors includes several options for estimating different specifications:</p>
+<ol class="arabic simple">
+<li><p>TypeCount : Integer number of discount factors in discrete distribution; can be set to 1 to turn off <em>ex ante</em> heterogeneity (and to discover that the model has no chance to fit the data well without such heterogeneity).</p></li>
+<li><p>AdjFactor : Scaling factor for the target MPCs; user can try to fit estimated MPCs scaled down by (e.g.) 50%.</p></li>
+<li><p>T_kill    : Maximum number of years the (perpetually young) agents are allowed to live.  Because this is quick and dirty, it’s also the number of periods to simulate.</p></li>
+<li><p>Splurge   : Amount of lottery prize that an individual will automatically spend in a moment of excitement (perhaps ancient tradition in Norway requires a big party when you win the lottery), before beginning to behave according to the optimal consumption function.  The patterns in Table 9 can be fit much better when this is set around $700 –&gt; 0.7.  That doesn’t seem like an unreasonable amount of money to spend on a memorable party.</p></li>
+<li><p>do_secant : Boolean indicator for whether to use “secant MPC”, which is average MPC over the range of the prize.  MNW believes authors’ regressions are estimating this rather than point MPC.  When False, structural estimation uses point MPC after receiving prize.  NB: This is incompatible with Splurge &gt; 0.</p></li>
+<li><p>drop_corner : Boolean for whether to include target MPC in the top left corner, which is greater than 1.  Authors discuss reasons why the MPC from a transitory shock <em>could</em> exceed 1.  Option is included here because this target tends to push the estimate around a bit.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import python tools</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import needed tools from HARK</span>
+
+<span class="kn">from</span> <span class="nn">HARK.distribution</span> <span class="kn">import</span> <span class="n">Uniform</span>
+<span class="kn">from</span> <span class="nn">HARK.utilities</span> <span class="kn">import</span> <span class="n">get_percentiles</span>
+<span class="kn">from</span> <span class="nn">HARK.parallel</span> <span class="kn">import</span> <span class="n">multi_thread_commands</span>
+<span class="kn">from</span> <span class="nn">HARK.estimation</span> <span class="kn">import</span> <span class="n">minimize_nelder_mead</span>
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="n">init_infinite</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;CRRA&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Coefficient of relative risk aversion</span>
+    <span class="s2">&quot;Rfree&quot;</span><span class="p">:</span> <span class="mf">1.01</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">160.0</span><span class="p">),</span>  <span class="c1"># Survival probability,</span>
+    <span class="c1"># Permanent income growth factor (no perm growth),</span>
+    <span class="s2">&quot;PermGroFac&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.000</span><span class="o">**</span><span class="mf">0.25</span><span class="p">],</span>
+    <span class="s2">&quot;PermGroFacAgg&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s2">&quot;BoroCnstArt&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;CubicBool&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;vFuncBool&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;PermShkStd&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="mi">11</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="p">],</span>  <span class="c1"># Standard deviation of permanent shocks to income</span>
+    <span class="s2">&quot;PermShkCount&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># Number of points in permanent income shock grid</span>
+    <span class="s2">&quot;TranShkStd&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="p">],</span>  <span class="c1"># Standard deviation of transitory shocks to income,</span>
+    <span class="s2">&quot;TranShkCount&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># Number of points in transitory income shock grid</span>
+    <span class="s2">&quot;UnempPrb&quot;</span><span class="p">:</span> <span class="mf">0.07</span><span class="p">,</span>  <span class="c1"># Probability of unemployment while working</span>
+    <span class="s2">&quot;IncUnemp&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>  <span class="c1"># Unemployment benefit replacement rate</span>
+    <span class="s2">&quot;UnempPrbRet&quot;</span><span class="p">:</span> <span class="mf">0.07</span><span class="p">,</span>
+    <span class="s2">&quot;IncUnempRet&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="s2">&quot;aXtraMin&quot;</span><span class="p">:</span> <span class="mf">0.00001</span><span class="p">,</span>  <span class="c1"># Minimum end-of-period assets in grid</span>
+    <span class="s2">&quot;aXtraMax&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>  <span class="c1"># Maximum end-of-period assets in grid</span>
+    <span class="s2">&quot;aXtraCount&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>  <span class="c1"># Number of points in assets grid</span>
+    <span class="s2">&quot;aXtraExtra&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">],</span>
+    <span class="s2">&quot;aXtraNestFac&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># Number of times to &#39;exponentially nest&#39; when constructing assets grid</span>
+    <span class="s2">&quot;LivPrb&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">160.0</span><span class="p">],</span>  <span class="c1"># Survival probability</span>
+    <span class="s2">&quot;DiscFac&quot;</span><span class="p">:</span> <span class="mf">0.97</span><span class="p">,</span>  <span class="c1"># Default intertemporal discount factor; dummy value, will be overwritten</span>
+    <span class="s2">&quot;cycles&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;T_cycle&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;T_retire&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="c1"># Number of periods to simulate (idiosyncratic shocks model, perpetual youth)</span>
+    <span class="s2">&quot;T_sim&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span>
+    <span class="s2">&quot;T_age&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="s2">&quot;IndL&quot;</span><span class="p">:</span> <span class="mf">10.0</span> <span class="o">/</span> <span class="mf">9.0</span><span class="p">,</span>  <span class="c1"># Labor supply per individual (constant),</span>
+    <span class="s2">&quot;aNrmInitMean&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">),</span>
+    <span class="s2">&quot;aNrmInitStd&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;pLvlInitMean&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;pLvlInitStd&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;AgentCount&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set key problem-specific parameters</span>
+
+<span class="n">TypeCount</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1"># Number of consumer types with heterogeneous discount factors</span>
+<span class="n">AdjFactor</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Factor by which to scale all of MPCs in Table 9</span>
+<span class="n">T_kill</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Don&#39;t let agents live past this age</span>
+<span class="n">Splurge</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Consumers automatically spend this amount of any lottery prize</span>
+<span class="n">do_secant</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># If True, calculate MPC by secant, else point MPC</span>
+<span class="n">drop_corner</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># If True, ignore upper left corner when calculating distance</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set standard HARK parameter values</span>
+
+<span class="n">base_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">init_infinite</span><span class="p">)</span>
+<span class="n">base_params</span><span class="p">[</span><span class="s2">&quot;LivPrb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.975</span><span class="p">]</span>
+<span class="n">base_params</span><span class="p">[</span><span class="s2">&quot;Rfree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.04</span> <span class="o">/</span> <span class="n">base_params</span><span class="p">[</span><span class="s2">&quot;LivPrb&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">base_params</span><span class="p">[</span><span class="s2">&quot;PermShkStd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">]</span>
+<span class="n">base_params</span><span class="p">[</span><span class="s2">&quot;TranShkStd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">]</span>
+<span class="n">base_params</span><span class="p">[</span>
+    <span class="s2">&quot;T_age&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="n">T_kill</span>  <span class="c1"># Kill off agents if they manage to achieve T_kill working years</span>
+<span class="n">base_params</span><span class="p">[</span><span class="s2">&quot;AgentCount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c1"># From Table 1, in thousands of USD</span>
+<span class="n">base_params</span><span class="p">[</span><span class="s2">&quot;pLvlInitMean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">23.72</span><span class="p">)</span>
+<span class="n">base_params</span><span class="p">[</span>
+    <span class="s2">&quot;T_sim&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="n">T_kill</span>  <span class="c1"># No point simulating past when agents would be killed off</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the MPC targets from Fagereng et al Table 9; element i,j is lottery quartile i, deposit quartile j</span>
+
+<span class="n">MPC_target_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mf">1.047</span><span class="p">,</span> <span class="mf">0.745</span><span class="p">,</span> <span class="mf">0.720</span><span class="p">,</span> <span class="mf">0.490</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.762</span><span class="p">,</span> <span class="mf">0.640</span><span class="p">,</span> <span class="mf">0.559</span><span class="p">,</span> <span class="mf">0.437</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.663</span><span class="p">,</span> <span class="mf">0.546</span><span class="p">,</span> <span class="mf">0.390</span><span class="p">,</span> <span class="mf">0.386</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.354</span><span class="p">,</span> <span class="mf">0.325</span><span class="p">,</span> <span class="mf">0.242</span><span class="p">,</span> <span class="mf">0.216</span><span class="p">],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">MPC_target</span> <span class="o">=</span> <span class="n">AdjFactor</span> <span class="o">*</span> <span class="n">MPC_target_base</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the four lottery sizes, in thousands of USD; these are eyeballed centers/averages</span>
+
+<span class="n">lottery_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.625</span><span class="p">,</span> <span class="mf">3.3741</span><span class="p">,</span> <span class="mf">7.129</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make several consumer types to be used during estimation</span>
+
+<span class="n">BaseType</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">base_params</span><span class="p">)</span>
+<span class="n">EstTypeList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TypeCount</span><span class="p">):</span>
+    <span class="n">EstTypeList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">BaseType</span><span class="p">))</span>
+    <span class="n">EstTypeList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">j</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the objective function</span>
+
+
+<span class="k">def</span> <span class="nf">FagerengObjFunc</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">spread</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Objective function for the quick and dirty structural estimation to fit</span>
+<span class="sd">    Fagereng, Holm, and Natvik&#39;s Table 9 results with a basic infinite horizon</span>
+<span class="sd">    consumption-saving model (with permanent and transitory income shocks).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    center : float</span>
+<span class="sd">        Center of the uniform distribution of discount factors.</span>
+<span class="sd">    spread : float</span>
+<span class="sd">        Width of the uniform distribution of discount factors.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        When True, print to screen MPC table for these parameters.  When False,</span>
+<span class="sd">        print (center, spread, distance).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distance : float</span>
+<span class="sd">        Euclidean distance between simulated MPCs and (adjusted) Table 9 MPCs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Give our consumer types the requested discount factor distribution</span>
+    <span class="n">beta_set</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Uniform</span><span class="p">(</span><span class="n">bot</span><span class="o">=</span><span class="n">center</span> <span class="o">-</span> <span class="n">spread</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">center</span> <span class="o">+</span> <span class="n">spread</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">discretize</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">TypeCount</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TypeCount</span><span class="p">):</span>
+        <span class="n">EstTypeList</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">DiscFac</span> <span class="o">=</span> <span class="n">beta_set</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+    <span class="c1"># Solve and simulate all consumer types, then gather their wealth levels</span>
+    <span class="n">multi_thread_commands</span><span class="p">(</span>
+        <span class="n">EstTypeList</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;solve()&quot;</span><span class="p">,</span> <span class="s2">&quot;initialize_sim()&quot;</span><span class="p">,</span> <span class="s2">&quot;simulate()&quot;</span><span class="p">,</span> <span class="s2">&quot;unpack_cFunc()&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">WealthNow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;aLvl&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ThisType</span> <span class="ow">in</span> <span class="n">EstTypeList</span><span class="p">])</span>
+
+    <span class="c1"># Get wealth quartile cutoffs and distribute them to each consumer type</span>
+    <span class="n">quartile_cuts</span> <span class="o">=</span> <span class="n">get_percentiles</span><span class="p">(</span><span class="n">WealthNow</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">ThisType</span> <span class="ow">in</span> <span class="n">EstTypeList</span><span class="p">:</span>
+        <span class="n">WealthQ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ThisType</span><span class="o">.</span><span class="n">AgentCount</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">WealthQ</span><span class="p">[</span><span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;aLvl&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">quartile_cuts</span><span class="p">[</span><span class="n">n</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">ThisType</span><span class="o">.</span><span class="n">WealthQ</span> <span class="o">=</span> <span class="n">WealthQ</span>
+
+    <span class="c1"># Keep track of MPC sets in lists of lists of arrays</span>
+    <span class="n">MPC_set_list</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]],</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Calculate the MPC for each of the four lottery sizes for all agents</span>
+    <span class="k">for</span> <span class="n">ThisType</span> <span class="ow">in</span> <span class="n">EstTypeList</span><span class="p">:</span>
+        <span class="n">ThisType</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">c_base</span> <span class="o">=</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">controls</span><span class="p">[</span><span class="s2">&quot;cNrm&quot;</span><span class="p">]</span>
+        <span class="n">MPC_this_type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">ThisType</span><span class="o">.</span><span class="n">AgentCount</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>  <span class="c1"># Get MPC for all agents of this type</span>
+            <span class="n">Llvl</span> <span class="o">=</span> <span class="n">lottery_size</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">Lnrm</span> <span class="o">=</span> <span class="n">Llvl</span> <span class="o">/</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">do_secant</span><span class="p">:</span>
+                <span class="n">SplurgeNrm</span> <span class="o">=</span> <span class="n">Splurge</span> <span class="o">/</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span>
+                <span class="n">mAdj</span> <span class="o">=</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;mNrm&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">Lnrm</span> <span class="o">-</span> <span class="n">SplurgeNrm</span>
+                <span class="n">cAdj</span> <span class="o">=</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">cFunc</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">mAdj</span><span class="p">)</span> <span class="o">+</span> <span class="n">SplurgeNrm</span>
+                <span class="n">MPC_this_type</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cAdj</span> <span class="o">-</span> <span class="n">c_base</span><span class="p">)</span> <span class="o">/</span> <span class="n">Lnrm</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mAdj</span> <span class="o">=</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;mNrm&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">Lnrm</span>
+                <span class="n">MPC_this_type</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">cAdj</span> <span class="o">=</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">cFunc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">mAdj</span><span class="p">)</span>
+
+        <span class="c1"># Sort the MPCs into the proper MPC sets</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="n">these</span> <span class="o">=</span> <span class="n">ThisType</span><span class="o">.</span><span class="n">WealthQ</span> <span class="o">==</span> <span class="n">q</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">MPC_set_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">q</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MPC_this_type</span><span class="p">[</span><span class="n">these</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
+
+    <span class="c1"># Calculate average within each MPC set</span>
+    <span class="n">simulated_MPC_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="n">MPC_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">MPC_set_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">q</span><span class="p">])</span>
+            <span class="n">simulated_MPC_means</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">MPC_array</span><span class="p">)</span>
+
+    <span class="c1"># Calculate Euclidean distance between simulated MPC averages and Table 9 targets</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">simulated_MPC_means</span> <span class="o">-</span> <span class="n">MPC_target</span>
+    <span class="k">if</span> <span class="n">drop_corner</span><span class="p">:</span>
+        <span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">diff</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">simulated_MPC_means</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">spread</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">distance</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conduct the estimation</span>
+
+<span class="n">guess</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">f_temp</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">FagerengObjFunc</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="n">opt_params</span> <span class="o">=</span> <span class="n">minimize_nelder_mead</span><span class="p">(</span><span class="n">f_temp</span><span class="p">,</span> <span class="n">guess</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Finished estimating for scaling factor of &quot;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">AdjFactor</span><span class="p">)</span>
+    <span class="o">+</span> <span class="s1">&#39; and &quot;splurge amount&quot; of $&#39;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">Splurge</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimal (beta,nabla) is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">opt_params</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, simulated MPCs are:&quot;</span><span class="p">)</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">FagerengObjFunc</span><span class="p">(</span><span class="n">opt_params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">opt_params</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distance from Fagereng et al Table 9 is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.92 0.03 1.1196898999208695
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9660000000000001 0.03 1.8557370146227716
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.92 0.0315 1.1205388789300468
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.874 0.0315 0.7762009314641924
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8280000000000001 0.03225 0.6794629566371587
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8280000000000002 0.03075 0.6812764349781586
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7360000000000001 0.033 0.7910782500357644
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.782 0.03225 0.7014801262548661
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8740000000000001 0.03075 0.7769177311941948
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.805 0.031875 0.678458631376897
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8049999999999998 0.033375 0.6766778040100673
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7934999999999997 0.03468750000000001 0.6842925413106543
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7819999999999998 0.033 0.7005977272821908
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8165 0.0324375 0.6747927160969063
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8164999999999997 0.033937499999999995 0.6730511351615504
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8222499999999997 0.03496874999999999 0.6729548684813017
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8337499999999999 0.03403125 0.6818984152434335
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8121874999999998 0.0335390625 0.6738051373790596
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8179374999999995 0.036070312499999986 0.6705629741922413
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8186562499999992 0.03788671874999998 0.6681951147478101
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8287187499999991 0.03931640624999997 0.6708742365404755
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8251249999999986 0.04223437499999996 0.664296531186165
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8265624999999979 0.04586718749999995 0.6598362485225537
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.816499999999998 0.044437499999999956 0.6588191494676393
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8103906249999975 0.04699804687499996 0.6560435981007817
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8182968749999961 0.05497851562499993 0.6429622106958305
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8181171874999946 0.0635244140624999 0.6283719404390292
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8019453124999942 0.06465527343749991 0.6317158378919988
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8096718749999914 0.08118164062499984 0.5987059095800153
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8093124999999883 0.09827343749999978 0.568156578319748
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8254843749999887 0.09714257812499977 0.5764414055133065
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8166796874999824 0.13189160156249966 0.5323676419241254
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8159609374999763 0.16607519531249954 0.5904223685318511
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.800507812499982 0.13302246093749967 0.5163117765181638
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7880195312499785 0.15096240234374964 0.5047124560283467
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7953867187499726 0.18458056640624948 0.561713252792566
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7988681640624766 0.16300378417968706 0.5108506441527562
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7702080078124727 0.182074584960937 0.5287581823368501
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.78182592773435 0.16952883911132766 0.5070351369307667
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7709772949218519 0.15748745727539024 0.5280528475238498
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7918954467773205 0.16162470245361285 0.5017035822390946
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.798089050292949 0.14305826568603486 0.5061860549357587
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7940232696532993 0.14967590904235806 0.5028256236143316
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7978991851806412 0.16033820915222124 0.50630503455952
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7904894447326442 0.15330635404586754 0.5021984920087688
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7883616218566655 0.16525514745712233 0.5024660695309078
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7897770338058239 0.16136033785343126 0.5012012963060823
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911830358505002 0.16967868626117658 0.5077537001985432
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7906628425121082 0.15739943709969478 0.5010198321545948
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7885444295406117 0.15713507249951317 0.5016005431575811
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7893821838497889 0.15825747998803807 0.5011177990197707
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7902679925560732 0.1542965792343016 0.5019956034989638
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7898997734933861 0.15959439819864885 0.500990160961901
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911804321557053 0.15873635531030555 0.500941067297672
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7920795563086636 0.15897579297143927 0.5010530968741752
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7904173631369834 0.16093131640925962 0.5011231702147279
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.790601472668327 0.158282406927086 0.5009608820931559
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7918821313306463 0.15742436403874271 0.5010716288897102
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7903953629527012 0.1590518896586723 0.5009804079463754
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7913865418713313 0.15796687257871925 0.5010066892811854
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7906431576823587 0.15878063538868403 0.5009717523935839
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911387471416738 0.15823812684870753 0.5009681043577296
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7910148497768451 0.15837375398370165 0.5009669832514086
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7907670550471874 0.1586450082536899 0.5009566726168534
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7913460145345657 0.15909895663690948 0.5009794669723294
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7907876081348867 0.15848654435454188 0.5009538516244134
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7912009852434047 0.1585778914111575 0.5009527296683954
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7915938092642233 0.15882770236692115 0.5009772796966898
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7909891584172208 0.15857183385763668 0.5009391718629085
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7909686053295214 0.15873029775678474 0.5009633296184927
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911428902649338 0.1586159929975643 0.500947448709877
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7910267003079923 0.15869219617037794 0.5009522371916169
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911138427756984 0.1586350437907677 0.5009511323341338
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.791084795286463 0.15865409458397112 0.5009431227606921
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7910660243410773 0.15859391342760049 0.5009656806073183
+Finished estimating for scaling factor of 1.0 and &quot;splurge amount&quot; of $0.0
+Optimal (beta,nabla) is [0.79098916 0.15857183], simulated MPCs are:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.77304235 0.68123007 0.56397879 0.40685965]
+ [0.74299194 0.66281567 0.55224436 0.39833641]
+ [0.70298354 0.63332607 0.529786   0.38134206]
+ [0.56111798 0.50265972 0.41152609 0.294467  ]]
+Distance from Fagereng et al Table 9 is 0.5009391718629085
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="PerfForesightCRRA-SavingRate.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Perfect Foresight CRRA Model - Saving Rate</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="TractableBufferStock-Interactive.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The Tractable Buffer Stock Model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Econ-ARK Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

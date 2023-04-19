@@ -1,0 +1,691 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>The MPC out of Credit vs the MPC Out of Income &#8212; DemARK</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income';</script>
+    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Micro- and Macroeconomic Implications of Very Impatient Households" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html" />
+    <link rel="prev" title="Lucas Asset Pricing Model" href="Lucas-Asset-Pricing-Model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    DemARK
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Alternative-Combos-Of-Parameter-Values.html">Alternative Combinations of Parameter Values</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="ChangeLiqConstr.html">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chinese-Growth.html">Do Precautionary Motives Explain China’s High Saving Rate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DCEGM-Upper-Envelope.html">DCEGM Upper Envelope</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="DiamondOLG.html">The Diamond OLG Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FisherTwoPeriod.html">The Fisher Two-Period Optimal Consumption Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html">A Gentle Introduction to HARK: Buffer Stock Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html">A Gentle Introduction to HARK: The Perfect Foresight Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Harmenberg-Aggregation.html">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="IncExpectationExample.html">The Persistent Shock Model and Income Expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="KeynesFriedmanModigliani.html">Introduction: Keynes, Friedman, Modigliani</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LC-Model-Expected-Vs-Realized-Income-Growth.html">Expectated vs Realized Income Growth in A Standard Life Cycle Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LifeCycleModelTheoryVsData.html">The Life Cycle Model: Theory vs Data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Lucas-Asset-Pricing-Model.html">Lucas Asset Pricing Model</a></li>
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The MPC out of Credit vs the MPC Out of Income</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-Approximation.html">Perfect Foresight CRRA Model - Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html">Making Structural Estimates From Empirical Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TractableBufferStock-Interactive.html">The Tractable Buffer Stock Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The MPC out of Credit vs the MPC Out of Income</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-mpc-out-of-credit-vs-the-mpc-out-of-income">
+<h1>The MPC out of Credit vs the MPC Out of Income<a class="headerlink" href="#the-mpc-out-of-credit-vs-the-mpc-out-of-income" title="Permalink to this headline">#</a></h1>
+<p><a class="reference external" href="https://econ-ark.org/materials/mpc-out-of-credit-vs-mpc-out-of-income#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
+<p>This notebook compares the Marginal Propensity to Consume (MPC) out of an increase in a credit limit, and the MPC out of transitory shock to income.</p>
+<p>The notebook is heavily commented to help newcomers, and does some things (like importing modules in the body of the code rather than at the top), that are typically deprecated by Python programmers.  This is all to make the code easier to read and understand.</p>
+<p>The notebook illustrates one simple way to use HARK: import and solve a model for different parameter values, to see how parameters affect the solution.</p>
+<p>The first step is to create the ConsumerType we want to solve the model for.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the HARK ConsumerType we want</span>
+<span class="c1"># Here, we bring in an agent making a consumption/savings decision every period, subject</span>
+<span class="c1"># to transitory and permanent income shocks.</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># We need this module to change the y-axis on the graphs</span>
+<span class="kn">from</span> <span class="nn">HARK.utilities</span> <span class="kn">import</span> <span class="n">plot_funcs</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="n">KinkedRconsumerType</span>
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="n">IndShockConsumerType</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now, create an instance of the consumer type using the default parameter values</span>
+<span class="c1"># We create the instance of the consumer type by calling IndShockConsumerType()</span>
+<span class="c1"># We use the default parameter values by passing **Params.init_idiosyncratic_shocks as an argument</span>
+<span class="n">BaselineExample</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: we&#39;ve created an instance of a very standard consumer type, and many assumptions go</span>
+<span class="c1"># into making this kind of consumer.  As with any structural model, these assumptions matter.</span>
+<span class="c1"># For example, this consumer pays the same interest rate on</span>
+<span class="c1"># debt as she earns on savings.  If instead we wanted to solve the problem of a consumer</span>
+<span class="c1"># who pays a higher interest rate on debt than she earns on savings, this would be really easy,</span>
+<span class="c1"># since this is a model that is also solved in HARK.  All we would have to do is import that model</span>
+<span class="c1"># and instantiate an instance of that ConsumerType instead.  As a homework assignment, we leave it</span>
+<span class="c1"># to you to uncomment the two lines of code below, and see how the results change!</span>
+
+
+<span class="n">BaselineExample</span> <span class="o">=</span> <span class="n">KinkedRconsumerType</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The next step is to change the values of parameters as we want.</p>
+<p>To see all the parameters used in the model, along with their default values, see <span class="math notranslate nohighlight">\(\texttt{ConsumerParameters.py}\)</span></p>
+<p>Parameter values are stored as attributes of the <span class="math notranslate nohighlight">\(\texttt{ConsumerType}\)</span> the values are used for. For example, the risk-free interest rate <span class="math notranslate nohighlight">\(\texttt{Rfree}\)</span> is stored as <span class="math notranslate nohighlight">\(\texttt{BaselineExample.Rfree}\)</span>. Because we created <span class="math notranslate nohighlight">\(\texttt{BaselineExample}\)</span> using the default parameters values at the moment <span class="math notranslate nohighlight">\(\texttt{BaselineExample.Rfree}\)</span> is set to the default value of <span class="math notranslate nohighlight">\(\texttt{Rfree}\)</span> (which, at the time this demo was written, was 1.03).  Therefore, to change the risk-free interest rate used in <span class="math notranslate nohighlight">\(\texttt{BaselineExample}\)</span> to (say) 1.02, all we need to do is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change the Default Riskfree Interest Rate</span>
+<span class="n">BaselineExample</span><span class="o">.</span><span class="n">Rfree</span> <span class="o">=</span> <span class="mf">1.02</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change some parameter values</span>
+<span class="n">BaselineExample</span><span class="o">.</span><span class="n">Rfree</span> <span class="o">=</span> <span class="mf">1.02</span>  <span class="c1"># change the risk-free interest rate</span>
+<span class="n">BaselineExample</span><span class="o">.</span><span class="n">CRRA</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># change  the coefficient of relative risk aversion</span>
+<span class="n">BaselineExample</span><span class="o">.</span><span class="n">BoroCnstArt</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.3</span>  <span class="c1"># change the artificial borrowing constraint</span>
+<span class="n">BaselineExample</span><span class="o">.</span><span class="n">DiscFac</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mf">0.5</span>  <span class="c1"># chosen so that target debt-to-permanent-income_ratio is about .1</span>
+<span class="p">)</span>
+<span class="c1"># i.e. BaselineExample.solution[0].cFunc(.9) ROUGHLY = 1.</span>
+
+<span class="c1"># There is one more parameter value we need to change.  This one is more complicated than the rest.</span>
+<span class="c1"># We could solve the problem for a consumer with an infinite horizon of periods that (ex-ante)</span>
+<span class="c1"># are all identical.  We could also solve the problem for a consumer with a fininite lifecycle,</span>
+<span class="c1"># or for a consumer who faces an infinite horizon of periods that cycle (e.g., a ski instructor</span>
+<span class="c1"># facing an infinite series of winters, with lots of income, and summers, with very little income.)</span>
+<span class="c1"># The way to differentiate is through the &quot;cycles&quot; attribute, which indicates how often the</span>
+<span class="c1"># sequence of periods needs to be solved.  The default value is 1, for a consumer with a finite</span>
+<span class="c1"># lifecycle that is only experienced 1 time.  A consumer who lived that life twice in a row, and</span>
+<span class="c1"># then died, would have cycles = 2.  But neither is what we want.  Here, we need to set cycles = 0,</span>
+<span class="c1"># to tell HARK that we are solving the model for an infinite horizon consumer.</span>
+
+
+<span class="c1"># Note that another complication with the cycles attribute is that it does not come from</span>
+<span class="c1"># Params.init_idiosyncratic_shocks.  Instead it is a keyword argument to the  __init__() method of</span>
+<span class="c1"># IndShockConsumerType.</span>
+<span class="n">BaselineExample</span><span class="o">.</span><span class="n">cycles</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now, create another consumer to compare the BaselineExample to.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The easiest way to begin creating the comparison example is to just copy the baseline example.</span>
+<span class="c1"># We can change the parameters we want to change later.</span>
+
+<span class="n">XtraCreditExample</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">BaselineExample</span><span class="p">)</span>
+
+<span class="c1"># Now, change whatever parameters we want.</span>
+<span class="c1"># Here, we want to see what happens if we give the consumer access to more credit.</span>
+<span class="c1"># Remember, parameters are stored as attributes of the consumer they are used for.</span>
+<span class="c1"># So, to give the consumer more credit, we just need to relax their borrowing constraint a tiny bit.</span>
+
+<span class="c1"># Declare how much we want to increase credit by</span>
+<span class="n">credit_change</span> <span class="o">=</span> <span class="mf">0.0001</span>
+
+<span class="c1"># Now increase the consumer&#39;s credit limit.</span>
+<span class="c1"># We do this by decreasing the artificial borrowing constraint.</span>
+<span class="n">XtraCreditExample</span><span class="o">.</span><span class="n">BoroCnstArt</span> <span class="o">=</span> <span class="n">BaselineExample</span><span class="o">.</span><span class="n">BoroCnstArt</span> <span class="o">-</span> <span class="n">credit_change</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we are ready to solve the consumers’ problems.
+In HARK, this is done by calling the solve() method of the ConsumerType.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First solve the baseline example.</span>
+<span class="n">BaselineExample</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="c1"># Now solve the comparison example of the consumer with a bit more credit</span>
+<span class="n">XtraCreditExample</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that we have the solutions to the 2 different problems, we can compare them.</p>
+<p>We are going to compare the consumption functions for the two different consumers.
+Policy functions (including consumption functions) in HARK are stored as attributes
+of the <em>solution</em> of the ConsumerType.  The solution, in turn, is a list, indexed by the time
+period the solution is for.  Since in this demo we are working with infinite-horizon models
+where every period is the same, there is only one time period and hence only one solution.
+e.g. BaselineExample.solution[0] is the solution for the BaselineExample.  If BaselineExample
+had 10 time periods, we could access the 5th with BaselineExample.solution[4] (remember, Python
+counts from 0!)  Therefore, the consumption function cFunc from the solution to the
+BaselineExample is <span class="math notranslate nohighlight">\(\texttt{BaselineExample.solution[0].cFunc}\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, declare useful functions to plot later</span>
+
+
+<span class="k">def</span> <span class="nf">FirstDiffMPC_Income</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Approximate the MPC out of income by giving the agent a tiny bit more income,</span>
+    <span class="c1"># and plotting the proportion of the change that is reflected in increased consumption</span>
+
+    <span class="c1"># First, declare how much we want to increase income by</span>
+    <span class="c1"># Change income by the same amount we change credit, so that the two MPC</span>
+    <span class="c1"># approximations are comparable</span>
+    <span class="n">income_change</span> <span class="o">=</span> <span class="n">credit_change</span>
+
+    <span class="c1"># Now, calculate the approximate MPC out of income</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">BaselineExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">income_change</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">BaselineExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">/</span> <span class="n">income_change</span>
+
+
+<span class="k">def</span> <span class="nf">FirstDiffMPC_Credit</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Approximate the MPC out of credit by plotting how much more of the increased credit the agent</span>
+    <span class="c1"># with higher credit spends</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">XtraCreditExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">BaselineExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">/</span> <span class="n">credit_change</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now, plot the functions we want</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="c1"># Import a useful plotting function from HARK.utilities</span>
+
+
+<span class="c1"># Declare the upper limit for the graph</span>
+<span class="n">x_max</span> <span class="o">=</span> <span class="mf">10.0</span>
+
+
+<span class="c1"># Note that plot_funcs takes four arguments: (1) a list of the arguments to plot,</span>
+<span class="c1"># (2) the lower bound for the plots, (3) the upper bound for the plots, and (4) keywords to pass</span>
+<span class="c1"># to the legend for the plot.</span>
+
+<span class="c1"># Plot the consumption functions to compare them</span>
+<span class="c1"># The only difference is that the XtraCredit function has a credit limit that is looser</span>
+<span class="c1"># by a tiny amount</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The XtraCredit consumption function allows the consumer to spend a tiny bit more&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The difference is so small that the baseline is obscured by the XtraCredit solution&quot;</span>
+<span class="p">)</span>
+<span class="n">plot_funcs</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">BaselineExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">,</span> <span class="n">XtraCreditExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">],</span>
+    <span class="n">BaselineExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mNrmMin</span><span class="p">,</span>
+    <span class="n">x_max</span><span class="p">,</span>
+    <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Baseline&quot;</span><span class="p">,</span> <span class="s2">&quot;XtraCredit&quot;</span><span class="p">]},</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Plot the MPCs to compare them</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MPC out of Credit v MPC out of Income&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">])</span>
+<span class="n">plot_funcs</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">FirstDiffMPC_Credit</span><span class="p">,</span> <span class="n">FirstDiffMPC_Income</span><span class="p">],</span>
+    <span class="n">BaselineExample</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mNrmMin</span><span class="p">,</span>
+    <span class="n">x_max</span><span class="p">,</span>
+    <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;MPC out of Credit&quot;</span><span class="p">,</span> <span class="s2">&quot;MPC out of Income&quot;</span><span class="p">]},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The XtraCredit consumption function allows the consumer to spend a tiny bit more
+The difference is so small that the baseline is obscured by the XtraCredit solution
+</pre></div>
+</div>
+<img alt="../_images/102a76396469786de59dab8d423f2a0d6b1198b87d16aabcb90847f9675f1715.png" src="../_images/102a76396469786de59dab8d423f2a0d6b1198b87d16aabcb90847f9675f1715.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MPC out of Credit v MPC out of Income
+</pre></div>
+</div>
+<img alt="../_images/770b20e4e2595acab2db9306b0f34423bbe415c2f113d4dad07fe5de49167841.png" src="../_images/770b20e4e2595acab2db9306b0f34423bbe415c2f113d4dad07fe5de49167841.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Lucas-Asset-Pricing-Model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lucas Asset Pricing Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Micro- and Macroeconomic Implications of Very Impatient Households</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Econ-ARK Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

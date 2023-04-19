@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Expectated vs Realized Income Growth in A Standard Life Cycle Model &#8212; DemARK</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/LC-Model-Expected-Vs-Realized-Income-Growth';</script>
+    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Life Cycle Model: Theory vs Data" href="LifeCycleModelTheoryVsData.html" />
+    <link rel="prev" title="Introduction: Keynes, Friedman, Modigliani" href="KeynesFriedmanModigliani.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    DemARK
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Alternative-Combos-Of-Parameter-Values.html">Alternative Combinations of Parameter Values</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="ChangeLiqConstr.html">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chinese-Growth.html">Do Precautionary Motives Explain China’s High Saving Rate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DCEGM-Upper-Envelope.html">DCEGM Upper Envelope</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="DiamondOLG.html">The Diamond OLG Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FisherTwoPeriod.html">The Fisher Two-Period Optimal Consumption Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html">A Gentle Introduction to HARK: Buffer Stock Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html">A Gentle Introduction to HARK: The Perfect Foresight Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Harmenberg-Aggregation.html">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="IncExpectationExample.html">The Persistent Shock Model and Income Expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="KeynesFriedmanModigliani.html">Introduction: Keynes, Friedman, Modigliani</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Expectated vs Realized Income Growth in A Standard Life Cycle Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LifeCycleModelTheoryVsData.html">The Life Cycle Model: Theory vs Data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Lucas-Asset-Pricing-Model.html">Lucas Asset Pricing Model</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html">The MPC out of Credit vs the MPC Out of Income</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-Approximation.html">Perfect Foresight CRRA Model - Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html">Making Structural Estimates From Empirical Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TractableBufferStock-Interactive.html">The Tractable Buffer Stock Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Expectated vs Realized Income Growth in A Standard Life Cycle Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="expectated-vs-realized-income-growth-in-a-standard-life-cycle-model">
+<h1>Expectated vs Realized Income Growth in A Standard Life Cycle Model<a class="headerlink" href="#expectated-vs-realized-income-growth-in-a-standard-life-cycle-model" title="Permalink to this headline">#</a></h1>
+<p>This notebook uses the income process in <a class="reference external" href="https://academic.oup.com/rfs/article/18/2/491/1599892?login=true">Cocco, Gomes &amp; Maenhout (2005)</a> to demonstrate that estimates of a regression of expected income changes on realized income changes are sensitive to the size of transitory shocks.</p>
+<p>We first load some tools from the <a class="reference external" href="https://github.com/econ-ark/HARK">HARK toolkit</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">linearmodels.panel.model</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
+<span class="kn">from</span> <span class="nn">HARK.distribution</span> <span class="kn">import</span> <span class="n">calc_expectation</span>
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">IndShockConsumerType</span><span class="p">,</span>
+    <span class="n">init_lifecycle</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">HARK.Calibration.Income.IncomeTools</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">parse_income_spec</span><span class="p">,</span>
+    <span class="n">parse_time_params</span><span class="p">,</span>
+    <span class="n">CGM_income</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">HARK.datasets.life_tables.us_ssa.SSATools</span> <span class="kn">import</span> <span class="n">parse_ssa_life_table</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now create a population of agents with the income process of <a class="reference external" href="https://academic.oup.com/rfs/article/18/2/491/1599892?login=true">Cocco, Gomes &amp; Maenhout (2005)</a>, which is implemented as a default calibration in the toolkit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">birth_age</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="n">death_age</span> <span class="o">=</span> <span class="mi">66</span>
+<span class="n">adjust_infl_to</span> <span class="o">=</span> <span class="mi">1992</span>
+<span class="n">income_calib</span> <span class="o">=</span> <span class="n">CGM_income</span>
+<span class="n">education</span> <span class="o">=</span> <span class="s2">&quot;HS&quot;</span>
+
+<span class="c1"># Income specification</span>
+<span class="n">income_params</span> <span class="o">=</span> <span class="n">parse_income_spec</span><span class="p">(</span>
+    <span class="n">age_min</span><span class="o">=</span><span class="n">birth_age</span><span class="p">,</span>
+    <span class="n">age_max</span><span class="o">=</span><span class="n">death_age</span><span class="p">,</span>
+    <span class="n">adjust_infl_to</span><span class="o">=</span><span class="n">adjust_infl_to</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">income_calib</span><span class="p">[</span><span class="n">education</span><span class="p">],</span>
+    <span class="n">SabelhausSong</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># We need survival probabilities only up to death_age-1, because survival</span>
+<span class="c1"># probability at death_age is 1.</span>
+<span class="n">liv_prb</span> <span class="o">=</span> <span class="n">parse_ssa_life_table</span><span class="p">(</span>
+    <span class="n">female</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cross_sec</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2004</span><span class="p">,</span> <span class="n">min_age</span><span class="o">=</span><span class="n">birth_age</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">death_age</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="c1"># Parameters related to the number of periods implied by the calibration</span>
+<span class="n">time_params</span> <span class="o">=</span> <span class="n">parse_time_params</span><span class="p">(</span><span class="n">age_birth</span><span class="o">=</span><span class="n">birth_age</span><span class="p">,</span> <span class="n">age_death</span><span class="o">=</span><span class="n">death_age</span><span class="p">)</span>
+
+<span class="c1"># Update all the new parameters</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">init_lifecycle</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">time_params</span><span class="p">)</span>
+<span class="c1"># params.update(dist_params)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">income_params</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;LivPrb&quot;</span><span class="p">:</span> <span class="n">liv_prb</span><span class="p">,</span>
+        <span class="s2">&quot;pLvlInitStd&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;PermGroFacAgg&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="s2">&quot;UnempPrb&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;UnempPrbRet&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;track_vars&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">,</span> <span class="s2">&quot;t_age&quot;</span><span class="p">,</span> <span class="s2">&quot;PermShk&quot;</span><span class="p">,</span> <span class="s2">&quot;TranShk&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;AgentCount&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="s2">&quot;T_sim&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">Agent</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="n">Agent</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We simulate a population of agents</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="c1"># Run the simulations</span>
+<span class="n">Agent</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">Agent</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(\newcommand{\Ex}{\mathbb{E}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\PermShk}{\psi}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\pLvl}{\mathbf{p}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\pLvl}{P}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\yLvl}{\mathbf{y}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\yLvl}{Y}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\PermGroFac}{\Gamma}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\UnempPrb}{\wp}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\TranShk}{\theta}\)</span></p>
+<p>We assume a standard income process with transitory and permanent shocks:  The consumer’s Permanent noncapital income <span class="math notranslate nohighlight">\(\pLvl\)</span> grows by a predictable factor <span class="math notranslate nohighlight">\(\PermGroFac\)</span> and is subject to an unpredictable multiplicative shock <span class="math notranslate nohighlight">\(\Ex_{t}[\PermShk_{t+1}]=1\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b3821789-e1bc-4631-9bb7-480456707f61">
+<span class="eqno">(18)<a class="headerlink" href="#equation-b3821789-e1bc-4631-9bb7-480456707f61" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+\pLvl_{t+1} &amp; = &amp; \pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}, \notag
+\end{eqnarray}\]</div>
+<p>and, if the consumer is employed, actual income <span class="math notranslate nohighlight">\(Y\)</span> is permanent income multiplied by a transitory shock <span class="math notranslate nohighlight">\(\Ex_{t}[\TranShk_{t+1}]=1\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-85beb1ea-6487-4944-ae04-4f2133ab0523">
+<span class="eqno">(19)<a class="headerlink" href="#equation-85beb1ea-6487-4944-ae04-4f2133ab0523" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+\yLvl_{t+1} &amp; = &amp; \pLvl_{t+1} \TranShk_{t+1}, \notag
+\end{eqnarray}\]</div>
+<!--- There is also a probability $\UnempPrb$ that the consumer will be temporarily unemployed and experience income of $\TranShk^{\large u}  = 0$.  We construct $\TranShk^{\large e}$ so that its mean value is $1/(1-\UnempPrb)$ because in that case the mean level of the transitory shock (accounting for both unemployed and employed states) is exactly
+
+\begin{eqnarray}
+\Ex_{t}[\TranShk_{t+1}] & = & \TranShk^{\large{u}}  \times \UnempPrb + (1-\UnempPrb) \times \Ex_{t}[\TranShk^{\large{e}}_{t+1}] \notag
+\\ & = & 0 \times \UnempPrb + (1-\UnempPrb) \times 1/(1-\UnempPrb)  \notag
+\\ & = & 1. \notag
+\end{eqnarray}
+--->
+<p><span class="math notranslate nohighlight">\(\Gamma_{t}\)</span> captures the predictable life cycle profile of income growth (faster when young, slower when old).  See <a class="reference external" href="https://github.com/econ-ark/CGMPortfolio/blob/master/Code/Python/CGMPortfolio.ipynb">our replication of CGM-2005</a> for a detailed account of how these objects map to CGM’s notation.</p>
+<p>Now define <span class="math notranslate nohighlight">\(\newcommand{\yLog}{y}\newcommand{\pLog}{p}\yLog = \log \yLvl,\pLog=\log \pLvl\)</span> and similarly for other variables.</p>
+<p>Using this notation, we construct all the necessary inputs to the regressors. The main input is the expected income growth of every agent at every time period, which is given by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-30a6a462-46dc-4f85-abfb-5e5d22189178">
+<span class="eqno">(20)<a class="headerlink" href="#equation-30a6a462-46dc-4f85-abfb-5e5d22189178" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\begin{split}
+\Ex_t[\yLvl_{t+1}/\yLvl_{t}] &amp;= \mathbb{E}_t[\left(\frac{\theta_{t+1}\pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}}{\theta_{t}P_{t}}\right)]\\
+ &amp;= \left(\frac{\PermGroFac_{t+1}}{\theta_{t}}\right)\\
+\Ex_t[\yLog_{t+1} - \yLog_{t}] &amp; = \log \Gamma_{t+1}-\log \theta_t
+\end{split}
+\end{equation}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">calc_expectation</span><span class="p">(</span><span class="n">Agent</span><span class="o">.</span><span class="n">IncShkDstn</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Agent</span><span class="o">.</span><span class="n">T_cycle</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">exp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;exp_prod&quot;</span><span class="p">:</span> <span class="n">exp</span><span class="p">,</span>
+        <span class="s2">&quot;PermGroFac&quot;</span><span class="p">:</span> <span class="n">Agent</span><span class="o">.</span><span class="n">PermGroFac</span><span class="p">,</span>
+        <span class="s2">&quot;Age&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">birth_age</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Agent</span><span class="o">.</span><span class="n">T_cycle</span><span class="p">)],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Age&quot;</span><span class="p">:</span> <span class="n">Agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;t_age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">+</span> <span class="n">birth_age</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;pLvl&quot;</span><span class="p">:</span> <span class="n">Agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="s2">&quot;PermShk&quot;</span><span class="p">:</span> <span class="n">Agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;PermShk&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="s2">&quot;TranShk&quot;</span><span class="p">:</span> <span class="n">Agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;TranShk&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+<span class="p">}</span>
+
+<span class="n">Data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+
+<span class="c1"># Create an individual id</span>
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">pLvl</span> <span class="o">*</span> <span class="n">Data</span><span class="o">.</span><span class="n">TranShk</span>
+
+<span class="c1"># Find Et[Yt+1 - Yt]</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exp_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Age&quot;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpIncChange&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;PermGroFac&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;exp_prod&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;TranShk&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y_change&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A corresponding version of this relationship can be estimated in simulated data:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+        \Ex_t[\Delta y_{i,t+1}] = \gamma_{0} + \gamma_{1} \Delta y_{i,t} + f_i + \epsilon_{i,t}
+\end{equation*}\]</div>
+<p>We now estimate an analogous regression in our simulated population.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">])</span>
+
+<span class="c1"># Create the variables they actually use</span>
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpIncChange&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ExpBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpIncChange&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ExpBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ChangeBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y_change&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ChangeBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y_change&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ChangeBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">ExpBin</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">ChangeBin</span><span class="p">),</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fe_res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fe_res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                          PanelOLS Estimation Summary                           
+================================================================================
+Dep. Variable:                 ExpBin   R-squared:                        0.1955
+Estimator:                   PanelOLS   R-squared (Between):             -0.0730
+No. Observations:              100000   R-squared (Within):               0.1955
+Date:                Fri, Jan 20 2023   R-squared (Overall):              0.1889
+Time:                        15:52:35   Log-likelihood                -1.288e+05
+Cov. Estimator:            Unadjusted                                           
+                                        F-statistic:                   2.371e+04
+Entities:                        2422   P-value                           0.0000
+Avg Obs:                       41.288   Distribution:                 F(1,97577)
+Min Obs:                       2.0000                                           
+Max Obs:                       46.000   F-statistic (robust):          2.371e+04
+                                        P-value                           0.0000
+Time periods:                      45   Distribution:                 F(1,97577)
+Avg Obs:                       2222.2                                           
+Min Obs:                       1951.0                                           
+Max Obs:                       2425.0                                           
+                                                                                
+                             Parameter Estimates                              
+==============================================================================
+            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          0.1368     0.0028     48.687     0.0000      0.1313      0.1423
+ChangeBin     -0.4404     0.0029    -153.98     0.0000     -0.4460     -0.4348
+==============================================================================
+
+F-test for Poolability: 1.2900
+P-value: 0.0000
+Distribution: F(2421,97577)
+
+Included effects: Entity
+</pre></div>
+</div>
+</div>
+</div>
+<p>The estimated <span class="math notranslate nohighlight">\(\hat{\gamma}_{1}\)</span> is negative because in usual life-cycle calibrations, transitory shocks are volatile enough that mean reversion of transitory fluctuations is a stronger force than persistent trends in income age-profiles.</p>
+<p>However, with less volatile transitory shocks, the regression coefficient would be positive. We demonstrate this by shutting off transitory shocks, simulating another population of agents, and re-running the regression.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="n">params_no_transitory</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">params_no_transitory</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;TranShkStd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;TranShkStd&quot;</span><span class="p">])})</span>
+
+<span class="c1"># Create agent</span>
+<span class="n">Agent_nt</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">params_no_transitory</span><span class="p">)</span>
+<span class="n">Agent_nt</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="c1"># Run the simulations</span>
+<span class="n">Agent_nt</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">Agent_nt</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">calc_expectation</span><span class="p">(</span><span class="n">Agent_nt</span><span class="o">.</span><span class="n">IncShkDstn</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Agent_nt</span><span class="o">.</span><span class="n">T_cycle</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">exp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;exp_prod&quot;</span><span class="p">:</span> <span class="n">exp</span><span class="p">,</span>
+        <span class="s2">&quot;PermGroFac&quot;</span><span class="p">:</span> <span class="n">Agent_nt</span><span class="o">.</span><span class="n">PermGroFac</span><span class="p">,</span>
+        <span class="s2">&quot;Age&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">birth_age</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Agent</span><span class="o">.</span><span class="n">T_cycle</span><span class="p">)],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Age&quot;</span><span class="p">:</span> <span class="n">Agent_nt</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;t_age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">+</span> <span class="n">birth_age</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;pLvl&quot;</span><span class="p">:</span> <span class="n">Agent_nt</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="s2">&quot;PermShk&quot;</span><span class="p">:</span> <span class="n">Agent_nt</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;PermShk&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="s2">&quot;TranShk&quot;</span><span class="p">:</span> <span class="n">Agent_nt</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;TranShk&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+<span class="p">}</span>
+
+<span class="n">Data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+
+<span class="c1"># Create an individual id</span>
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">pLvl</span> <span class="o">*</span> <span class="n">Data</span><span class="o">.</span><span class="n">TranShk</span>
+
+<span class="c1"># Find Et[Yt+1 - Yt]</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exp_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Age&quot;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpIncChange&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span>
+    <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;PermGroFac&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;exp_prod&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">Data</span><span class="p">[</span><span class="s2">&quot;TranShk&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y_change&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create variables</span>
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpIncChange&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ExpBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ExpIncChange&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ExpBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">Data</span><span class="p">[</span><span class="s2">&quot;ChangeBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y_change&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ChangeBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s2">&quot;Y_change&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ChangeBin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">Data</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">])</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">ExpBin</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">ChangeBin</span><span class="p">),</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fe_res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fe_res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                          PanelOLS Estimation Summary                           
+================================================================================
+Dep. Variable:                 ExpBin   R-squared:                        0.0086
+Estimator:                   PanelOLS   R-squared (Between):             -0.0259
+No. Observations:              100000   R-squared (Within):               0.0086
+Date:                Fri, Jan 20 2023   R-squared (Overall):              0.0088
+Time:                        15:52:39   Log-likelihood                -1.394e+05
+Cov. Estimator:            Unadjusted                                           
+                                        F-statistic:                      848.82
+Entities:                        2422   P-value                           0.0000
+Avg Obs:                       41.288   Distribution:                 F(1,97577)
+Min Obs:                       2.0000                                           
+Max Obs:                       46.000   F-statistic (robust):             848.82
+                                        P-value                           0.0000
+Time periods:                      45   Distribution:                 F(1,97577)
+Avg Obs:                       2222.2                                           
+Min Obs:                       1951.0                                           
+Max Obs:                       2425.0                                           
+                                                                                
+                             Parameter Estimates                              
+==============================================================================
+            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          0.1129     0.0031     36.103     0.0000      0.1067      0.1190
+ChangeBin      0.0934     0.0032     29.135     0.0000      0.0871      0.0997
+==============================================================================
+
+F-test for Poolability: 1.1591
+P-value: 0.0000
+Distribution: F(2421,97577)
+
+Included effects: Entity
+</pre></div>
+</div>
+</div>
+</div>
+<p>The estimated <span class="math notranslate nohighlight">\(\hat{\gamma}_{1}\)</span> when there are no transitory shocks is positive.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="KeynesFriedmanModigliani.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction: Keynes, Friedman, Modigliani</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="LifeCycleModelTheoryVsData.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The Life Cycle Model: Theory vs Data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Econ-ARK Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

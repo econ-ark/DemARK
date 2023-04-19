@@ -1,0 +1,925 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Do Precautionary Motives Explain China’s High Saving Rate? &#8212; DemARK</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Chinese-Growth';</script>
+    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DCEGM Upper Envelope" href="DCEGM-Upper-Envelope.html" />
+    <link rel="prev" title="What Happens To the Consumption Function When A Liquidity Constraint is Tightened?" href="ChangeLiqConstr.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    DemARK
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Alternative-Combos-Of-Parameter-Values.html">Alternative Combinations of Parameter Values</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="ChangeLiqConstr.html">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Do Precautionary Motives Explain China’s High Saving Rate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DCEGM-Upper-Envelope.html">DCEGM Upper Envelope</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="DiamondOLG.html">The Diamond OLG Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FisherTwoPeriod.html">The Fisher Two-Period Optimal Consumption Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html">A Gentle Introduction to HARK: Buffer Stock Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html">A Gentle Introduction to HARK: The Perfect Foresight Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Harmenberg-Aggregation.html">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="IncExpectationExample.html">The Persistent Shock Model and Income Expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="KeynesFriedmanModigliani.html">Introduction: Keynes, Friedman, Modigliani</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LC-Model-Expected-Vs-Realized-Income-Growth.html">Expectated vs Realized Income Growth in A Standard Life Cycle Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LifeCycleModelTheoryVsData.html">The Life Cycle Model: Theory vs Data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Lucas-Asset-Pricing-Model.html">Lucas Asset Pricing Model</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html">The MPC out of Credit vs the MPC Out of Income</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-Approximation.html">Perfect Foresight CRRA Model - Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html">Making Structural Estimates From Empirical Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TractableBufferStock-Interactive.html">The Tractable Buffer Stock Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/Chinese-Growth.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Do Precautionary Motives Explain China’s High Saving Rate?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thought-experiment">The Thought Experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-baseline-model">The Baseline Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#but-with-a-different-consumertype">But With A Different ConsumerType</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-growth-process">Set Up the Growth Process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-and-initialize-the-agents">Import and initialize the Agents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-experiment">Setting Up the Experiment</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="do-precautionary-motives-explain-china-s-high-saving-rate">
+<h1>Do Precautionary Motives Explain China’s High Saving Rate?<a class="headerlink" href="#do-precautionary-motives-explain-china-s-high-saving-rate" title="Permalink to this headline">#</a></h1>
+<p><a class="reference external" href="https://econ-ark.org/materials/chinese-growth#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
+<p>The notebook <a class="reference external" href="http://econ-ark.org/notebooks/">Nondurables-During-Great-Recession</a> shows that the collapse in consumer spending in the U.S. during the Great Recession could easily have been caused by a moderate and plausible increase in the degree of uncertainty.</p>
+<p>But that exercise might make you worry that invoking difficult-to-measure “uncertainty” can explain anything (e.g. “the stock market fell today because the risk aversion of the representative agent increased”).</p>
+<p>The next exercise is designed to show that there are limits to the phenomena that can be explained by invoking plausible changes in uncertainty.</p>
+<p>The specific question is whether a high degree of uncertainty can explain China’s very high saving rate (approximately 25 percent), as some papers have proposed.  Specifically, we ask “what beliefs about uncertainty would Chinese consumers need to hold in order to generate a saving rate of 25 percent, given the rapid pace of Chinese growth?”</p>
+<section id="the-thought-experiment">
+<h2>The Thought Experiment<a class="headerlink" href="#the-thought-experiment" title="Permalink to this headline">#</a></h2>
+<p>In more detail, our consumers will initially live in a stationary, low-growth environment (intended to approximate China before 1978).  Then, unexpectedly, income growth will surge at the same time that income uncertainty increases (intended to approximate the effect of economic reforms in China since 1978.)  Consumers believe the high-growth, high-uncertainty state is highly persistent, but that ultimately growth will slow to a “normal” pace matching that of other advanced countries.</p>
+</section>
+<section id="the-baseline-model">
+<h2>The Baseline Model<a class="headerlink" href="#the-baseline-model" title="Permalink to this headline">#</a></h2>
+<p>We want the model to have these elements:</p>
+<ol class="arabic simple">
+<li><p>“Standard” infinite horizon consumption/savings model, with mortality and permanent and temporary shocks to income</p></li>
+<li><p>The capacity to provide a reasonable match to the distribution of wealth inequality in advanced economies</p></li>
+<li><p>Ex-ante heterogeneity in consumers’ discount factors (to capture wealth inequality)</p></li>
+</ol>
+<p>All of these are features of the model in the paper <a class="reference external" href="http://econ.jhu.edu/people/ccarroll/papers/cstwMPC">“The Distribution of Wealth and the Marginal Propensity to Consume” by Carroll, Slacalek, Tokuoka, and White (2017)</a>, for which all of the computational results were produced using the HARK toolkit.  The results for that paper are available in the <span class="math notranslate nohighlight">\(\texttt{cstwMPC}\)</span> directory.</p>
+</section>
+<section id="but-with-a-different-consumertype">
+<h2>But With A Different ConsumerType<a class="headerlink" href="#but-with-a-different-consumertype" title="Permalink to this headline">#</a></h2>
+<p>One feature that was not present in that model is important here:</p>
+<ul class="simple">
+<li><p>A Markov state that represents the state of the Chinese economy (to be detailed later)</p></li>
+</ul>
+<p>HARK’s <span class="math notranslate nohighlight">\(\texttt{MarkovConsumerType}\)</span> is the right tool for this experiment.  So we need to prepare the parameters to create that ConsumerType, and then create it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initial imports and notebook setup, click arrow to show</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize the cstwMPC parameters</span>
+<span class="n">init_China_parameters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;CRRA&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Coefficient of relative risk aversion</span>
+    <span class="s2">&quot;Rfree&quot;</span><span class="p">:</span> <span class="mf">1.01</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">160.0</span><span class="p">),</span>  <span class="c1"># Survival probability,</span>
+    <span class="s2">&quot;PermGroFac&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.000</span><span class="o">**</span><span class="mf">0.25</span><span class="p">],</span>  <span class="c1"># Permanent income growth factor (no perm growth),</span>
+    <span class="s2">&quot;PermGroFacAgg&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s2">&quot;BoroCnstArt&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;CubicBool&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;vFuncBool&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;PermShkStd&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="mi">11</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="p">],</span>  <span class="c1"># Standard deviation of permanent shocks to income</span>
+    <span class="s2">&quot;PermShkCount&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># Number of points in permanent income shock grid</span>
+    <span class="s2">&quot;TranShkStd&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="p">],</span>  <span class="c1"># Standard deviation of transitory shocks to income,</span>
+    <span class="s2">&quot;TranShkCount&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># Number of points in transitory income shock grid</span>
+    <span class="s2">&quot;UnempPrb&quot;</span><span class="p">:</span> <span class="mf">0.07</span><span class="p">,</span>  <span class="c1"># Probability of unemployment while working</span>
+    <span class="s2">&quot;IncUnemp&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>  <span class="c1"># Unemployment benefit replacement rate</span>
+    <span class="s2">&quot;UnempPrbRet&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;IncUnempRet&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;aXtraMin&quot;</span><span class="p">:</span> <span class="mf">0.00001</span><span class="p">,</span>  <span class="c1"># Minimum end-of-period assets in grid</span>
+    <span class="s2">&quot;aXtraMax&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>  <span class="c1"># Maximum end-of-period assets in grid</span>
+    <span class="s2">&quot;aXtraCount&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>  <span class="c1"># Number of points in assets grid,</span>
+    <span class="s2">&quot;aXtraExtra&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">],</span>
+    <span class="s2">&quot;aXtraNestFac&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># Number of times to &#39;exponentially nest&#39; when constructing assets grid</span>
+    <span class="s2">&quot;LivPrb&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">160.0</span><span class="p">],</span>  <span class="c1"># Survival probability</span>
+    <span class="s2">&quot;DiscFac&quot;</span><span class="p">:</span> <span class="mf">0.97</span><span class="p">,</span>  <span class="c1"># Default intertemporal discount factor, # dummy value, will be overwritten</span>
+    <span class="s2">&quot;cycles&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;T_cycle&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;T_retire&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;T_sim&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span>  <span class="c1"># Number of periods to simulate (idiosyncratic shocks model, perpetual youth)</span>
+    <span class="s2">&quot;T_age&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="s2">&quot;IndL&quot;</span><span class="p">:</span> <span class="mf">10.0</span> <span class="o">/</span> <span class="mf">9.0</span><span class="p">,</span>  <span class="c1"># Labor supply per individual (constant),</span>
+    <span class="s2">&quot;aNrmInitMean&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">),</span>
+    <span class="s2">&quot;aNrmInitStd&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;pLvlInitMean&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;pLvlInitStd&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;AgentCount&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># will be overwritten by parameter distributor</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="set-up-the-growth-process">
+<h2>Set Up the Growth Process<a class="headerlink" href="#set-up-the-growth-process" title="Permalink to this headline">#</a></h2>
+<p>For a Markov model, we need a Markov transition array.  Here, we create that array.
+Remember, for this simple example, we just have a low-growth state, and a high-growth state</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">StateCount</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># number of Markov states</span>
+<span class="n">ProbGrowthEnds</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">160.0</span>
+<span class="p">)</span>  <span class="c1"># probability agents assign to the high-growth state ending</span>
+<span class="n">MrkvArray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="n">ProbGrowthEnds</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ProbGrowthEnds</span><span class="p">]]</span>
+<span class="p">)</span>  <span class="c1"># Markov array</span>
+<span class="n">init_China_parameters</span><span class="p">[</span><span class="s2">&quot;MrkvArray&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">MrkvArray</span>
+<span class="p">]</span>  <span class="c1"># assign the Markov array as a parameter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>One other parameter needs to change: the number of agents in simulation.  We want to increase this, because later on when we vastly increase the variance of the permanent income shock, things get wonky.  (We need to change this value here, before we have used the parameters to initialize the <span class="math notranslate nohighlight">\(\texttt{MarkovConsumerType}\)</span>, because this parameter is used during initialization.)</p>
+<p>Other parameters that are not used during initialization can also be assigned here, by changing the appropriate value in the <span class="math notranslate nohighlight">\(\texttt{init_China_parameters_dictionary}\)</span>; however, they can also be changed later, by altering the appropriate attribute of the initialized <span class="math notranslate nohighlight">\(\texttt{MarkovConsumerType}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">init_China_parameters</span><span class="p">[</span><span class="s2">&quot;AgentCount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-and-initialize-the-agents">
+<h2>Import and initialize the Agents<a class="headerlink" href="#import-and-initialize-the-agents" title="Permalink to this headline">#</a></h2>
+<p>Here, we bring in an agent making a consumption/savings decision every period, subject to transitory and permanent income shocks, AND a Markov shock</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsMarkovModel</span> <span class="kn">import</span> <span class="n">MarkovConsumerType</span>
+
+<span class="n">ChinaExample</span> <span class="o">=</span> <span class="n">MarkovConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">init_China_parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Currently, Markov states can differ in their interest factor, permanent growth factor, survival probability, and income distribution.  Each of these needs to be specifically set.</p>
+<p>Do that here, except shock distribution, which will be done later (because we want to examine the consequences of different shock distributions).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GrowthFastAnn</span> <span class="o">=</span> <span class="mf">1.06</span>  <span class="c1"># Six percent annual growth</span>
+<span class="n">GrowthSlowAnn</span> <span class="o">=</span> <span class="mf">1.00</span>  <span class="c1"># Stagnation</span>
+<span class="n">ChinaExample</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span>
+    <span class="n">PermGroFac</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">GrowthSlowAnn</span><span class="p">,</span> <span class="n">GrowthFastAnn</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.25</span><span class="p">)])</span>
+    <span class="p">],</span>  <span class="c1"># needs to be a list, with 0th element of shape of shape (StateCount,)</span>
+    <span class="n">Rfree</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="n">StateCount</span> <span class="o">*</span> <span class="p">[</span><span class="n">init_China_parameters</span><span class="p">[</span><span class="s2">&quot;Rfree&quot;</span><span class="p">]]</span>
+    <span class="p">),</span>  <span class="c1"># needs to be an array, of shape (StateCount,)</span>
+    <span class="n">LivPrb</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">StateCount</span> <span class="o">*</span> <span class="p">[</span><span class="n">init_China_parameters</span><span class="p">[</span><span class="s2">&quot;LivPrb&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="p">],</span>  <span class="c1"># needs to be a list, with 0th element of shape of shape (StateCount,)</span>
+    <span class="n">cycles</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">ChinaExample</span><span class="o">.</span><span class="n">track_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;aNrm&quot;</span><span class="p">,</span> <span class="s2">&quot;cNrm&quot;</span><span class="p">,</span> <span class="s2">&quot;pLvl&quot;</span><span class="p">]</span>  <span class="c1"># Names of variables to be tracked</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, add in ex-ante heterogeneity in consumers’ discount factors.</p>
+<p>The cstwMPC parameters do not define a single discount factor; instead, there is ex-ante heterogeneity in the discount factor.  To prepare to create this ex-ante heterogeneity, first create the desired number of consumer types:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_consumer_types</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># declare the number of types we want</span>
+<span class="n">ChineseConsumerTypes</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># initialize an empty list</span>
+
+<span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_consumer_types</span><span class="p">):</span>
+    <span class="c1"># Now create the types, and append them to the list ChineseConsumerTypes</span>
+    <span class="n">newType</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">ChinaExample</span><span class="p">)</span>
+    <span class="n">ChineseConsumerTypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newType</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, generate the desired ex-ante heterogeneity, by giving the different consumer types each their own discount factor.</p>
+<p>First, decide the discount factors to assign:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">HARK.distribution</span> <span class="kn">import</span> <span class="n">Uniform</span>
+
+<span class="n">bottomDiscFac</span> <span class="o">=</span> <span class="mf">0.9800</span>
+<span class="n">topDiscFac</span> <span class="o">=</span> <span class="mf">0.9934</span>
+<span class="n">DiscFac_list</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">bot</span><span class="o">=</span><span class="n">bottomDiscFac</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">topDiscFac</span><span class="p">)</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">num_consumer_types</span><span class="p">)</span><span class="o">.</span><span class="n">X</span>
+
+<span class="c1"># Now, assign the discount factors we want to the ChineseConsumerTypes</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_consumer_types</span><span class="p">):</span>
+    <span class="n">ChineseConsumerTypes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">DiscFac</span> <span class="o">=</span> <span class="n">DiscFac_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="setting-up-the-experiment">
+<h2>Setting Up the Experiment<a class="headerlink" href="#setting-up-the-experiment" title="Permalink to this headline">#</a></h2>
+<p>The experiment is performed by a function we will now write.</p>
+<p>Recall that all parameters have been assigned appropriately, except for the income process.</p>
+<p>This is because we want to see how much uncertainty needs to accompany the high-growth state to generate the desired high savings rate.</p>
+<p>Therefore, among other things, this function will have to initialize and assign the appropriate income process.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First create the income distribution in the low-growth state, which we will not change</span>
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="n">IndShockConsumerType</span>
+
+<span class="n">low_growth_model</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">()</span>
+<span class="n">LowGrowthIncomeDstn</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">low_growth_model</span><span class="o">.</span><span class="n">construct_lognormal_income_process_unemployment</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Remember the standard deviation of the permanent income shock in the low-growth state for later</span>
+<span class="n">LowGrowth_PermShkStd</span> <span class="o">=</span> <span class="n">low_growth_model</span><span class="o">.</span><span class="n">PermShkStd</span>
+
+
+<span class="k">def</span> <span class="nf">calcNatlSavingRate</span><span class="p">(</span><span class="n">PrmShkVar_multiplier</span><span class="p">,</span> <span class="n">RNG_seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function actually performs the experiment we want.</span>
+
+<span class="sd">    Remember this experiment is: get consumers into the steady-state associated with the low-growth</span>
+<span class="sd">    regime. Then, give them an unanticipated shock that increases the income growth rate</span>
+<span class="sd">    and permanent income uncertainty at the same time.  What happens to the path for</span>
+<span class="sd">    the national saving rate?  Can an increase in permanent income uncertainty</span>
+<span class="sd">    explain the high Chinese saving rate since economic reforms began?</span>
+
+<span class="sd">    The inputs are:</span>
+<span class="sd">        * PrmShkVar_multiplier, the number by which we want to multiply the variance</span>
+<span class="sd">          of the permanent shock in the low-growth state to get the variance of the</span>
+<span class="sd">          permanent shock in the high-growth state</span>
+<span class="sd">        * RNG_seed, an integer to seed the random number generator for simulations.  This useful</span>
+<span class="sd">          because we are going to run this function for different values of PrmShkVar_multiplier,</span>
+<span class="sd">          and we may not necessarily want the simulated agents in each run to experience</span>
+<span class="sd">          the same (normalized) shocks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># First, make a deepcopy of the ChineseConsumerTypes (each with their own discount factor),</span>
+    <span class="c1"># because we are going to alter them</span>
+    <span class="n">ChineseConsumerTypesNew</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">ChineseConsumerTypes</span><span class="p">)</span>
+
+    <span class="c1"># Set the uncertainty in the high-growth state to the desired amount, keeping in mind</span>
+    <span class="c1"># that PermShkStd is a list of length 1</span>
+    <span class="n">PrmShkStd_multiplier</span> <span class="o">=</span> <span class="n">PrmShkVar_multiplier</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="n">low_growth_model</span><span class="o">.</span><span class="n">PermShkStd</span> <span class="o">=</span> <span class="p">[</span><span class="n">LowGrowth_PermShkStd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">PrmShkStd_multiplier</span><span class="p">]</span>
+
+    <span class="c1"># Construct the appropriate income distributions</span>
+    <span class="n">HighGrowthIncomeDstn</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">low_growth_model</span><span class="o">.</span><span class="n">construct_lognormal_income_process_unemployment</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># To calculate the national saving rate, we need national income and national consumption</span>
+    <span class="c1"># To get those, we are going to start national income and consumption at 0, and then</span>
+    <span class="c1"># loop through each agent type and see how much they contribute to income and consumption.</span>
+    <span class="n">NatlIncome</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">NatlCons</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">ChineseConsumerTypeNew</span> <span class="ow">in</span> <span class="n">ChineseConsumerTypesNew</span><span class="p">:</span>
+        <span class="c1">### For each consumer type (i.e. each discount factor), calculate total income</span>
+        <span class="c1">### and consumption</span>
+
+        <span class="c1"># First give each ConsumerType their own random number seed</span>
+        <span class="n">RNG_seed</span> <span class="o">+=</span> <span class="mi">19</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">RNG_seed</span>
+
+        <span class="c1"># Set the income distribution in each Markov state appropriately</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">IncShkDstn</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="n">LowGrowthIncomeDstn</span><span class="p">,</span> <span class="n">HighGrowthIncomeDstn</span><span class="p">]</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Solve the problem for this ChineseConsumerTypeNew</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Now we are ready to simulate.</span>
+<span class="sd">        </span>
+<span class="sd">        This case will be a bit different than most, because agents&#39; *perceptions* of the probability</span>
+<span class="sd">        of changes in the Chinese economy will differ from the actual probability of changes.  </span>
+<span class="sd">        Specifically, agents think there is a 0% chance of moving out of the low-growth state, and </span>
+<span class="sd">        that there is a  (1./160) chance of moving out of the high-growth state.  In reality, we </span>
+<span class="sd">        want the Chinese economy to reach the low growth steady state, and then move into the </span>
+<span class="sd">        high growth state with probability 1.  Then we want it to persist in the high growth </span>
+<span class="sd">        state for 40 years. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">## Now, simulate 500 quarters to get to steady state, then 40 years of high growth</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">T_sim</span> <span class="o">=</span> <span class="mi">660</span>
+
+        <span class="c1"># Ordinarily, the simulate method for a MarkovConsumerType randomly draws Markov states</span>
+        <span class="c1"># according to the transition probabilities in MrkvArray *independently* for each simulated</span>
+        <span class="c1"># agent.  In this case, however, we want the discrete state to be *perfectly coordinated*</span>
+        <span class="c1"># across agents-- it represents a macroeconomic state, not a microeconomic one!  In fact,</span>
+        <span class="c1"># we don&#39;t want a random history at all, but rather a specific, predetermined history: 125</span>
+        <span class="c1"># years of low growth, followed by 40 years of high growth.</span>
+
+        <span class="c1"># To do this, we&#39;re going to &quot;hack&quot; our consumer type a bit.  First, we set the attribute</span>
+        <span class="c1"># MrkvPrbsInit so that all of the initial Markov states are in the low growth state.  Then</span>
+        <span class="c1"># we initialize the simulation and run it for 500 quarters.  However, as we do not</span>
+        <span class="c1"># want the Markov state to change during this time, we change its MrkvArray to always be in</span>
+        <span class="c1"># the low growth state with probability 1.</span>
+
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">MrkvPrbsInit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="p">)</span>  <span class="c1"># All consumers born in low growth state</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">MrkvArray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span>
+        <span class="p">)</span>  <span class="c1"># Stay in low growth state</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>  <span class="c1"># Clear the history and make all newborn agents</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>  <span class="c1"># Simulate 500 quarders of data</span>
+
+        <span class="c1"># Now we want the high growth state to occur for the next 160 periods.  We change the initial</span>
+        <span class="c1"># Markov probabilities so that any agents born during this time (to replace an agent who</span>
+        <span class="c1"># died) is born in the high growth state.  Moreover, we change the MrkvArray to *always* be</span>
+        <span class="c1"># in the high growth state with probability 1.  Then we simulate 160 more quarters.</span>
+
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">MrkvPrbsInit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+        <span class="p">)</span>  <span class="c1"># All consumers born in low growth state</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">MrkvArray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]</span>
+        <span class="p">)</span>  <span class="c1"># Stay in low growth state</span>
+        <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">160</span><span class="p">)</span>  <span class="c1"># Simulate 160 quarders of data</span>
+
+        <span class="c1"># Now, get the aggregate income and consumption of this ConsumerType over time</span>
+        <span class="n">IncomeOfThisConsumerType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;aNrm&quot;</span><span class="p">]</span>
+                <span class="o">*</span> <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span>
+                <span class="o">*</span> <span class="p">(</span><span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">Rfree</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">],</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">ConsOfThisConsumerType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;cNrm&quot;</span><span class="p">]</span>
+            <span class="o">*</span> <span class="n">ChineseConsumerTypeNew</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">],</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add the income and consumption of this ConsumerType to national income and consumption</span>
+        <span class="n">NatlIncome</span> <span class="o">+=</span> <span class="n">IncomeOfThisConsumerType</span>
+        <span class="n">NatlCons</span> <span class="o">+=</span> <span class="n">ConsOfThisConsumerType</span>
+
+    <span class="c1"># After looping through all the ConsumerTypes, calculate and return the path of the national</span>
+    <span class="c1"># saving rate</span>
+    <span class="n">NatlSavingRate</span> <span class="o">=</span> <span class="p">(</span><span class="n">NatlIncome</span> <span class="o">-</span> <span class="n">NatlCons</span><span class="p">)</span> <span class="o">/</span> <span class="n">NatlIncome</span>
+
+    <span class="k">return</span> <span class="n">NatlSavingRate</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can use the function we just defined to calculate the path of the national saving rate following the economic reforms, for a given value of the increase to the variance of permanent income accompanying the reforms.  We are going to graph this path for various values for this increase.</p>
+<p>Remember, we want to see if a plausible value for this increase in uncertainty can explain the high Chinese saving rate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Declare the number of periods before the reforms to plot in the graph</span>
+<span class="n">quarters_before_reform_to_plot</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="c1"># Declare the quarters we want to plot results for</span>
+<span class="n">quarters_to_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">quarters_before_reform_to_plot</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Create a list to hold the paths of the national saving rate</span>
+<span class="n">NatlSavingsRates</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Create a list of floats to multiply the variance of the permanent shock to income by</span>
+<span class="n">PermShkVarMultipliers</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">11.0</span><span class="p">)</span>
+
+<span class="c1"># Loop through the desired multipliers, then get the path of the national saving rate</span>
+<span class="c1"># following economic reforms, assuming that the variance of the permanent income shock</span>
+<span class="c1"># was multiplied by the given multiplier</span>
+<span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">PermShkVarMultiplier</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">PermShkVarMultipliers</span><span class="p">):</span>
+    <span class="n">NatlSavingsRates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">calcNatlSavingRate</span><span class="p">(</span><span class="n">PermShkVarMultiplier</span><span class="p">,</span> <span class="n">RNG_seed</span><span class="o">=</span><span class="n">index</span><span class="p">)[</span>
+            <span class="o">-</span><span class="mi">160</span> <span class="o">-</span> <span class="n">quarters_before_reform_to_plot</span> <span class="p">:</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██        | 1/5 [17:06&lt;1:08:27, 1026.84s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ve calculated the path of the national saving rate as we wanted. All that’s left is to graph the results!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Natl Saving Rate&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Quarters Since Economic Reforms&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">quarters_to_plot</span><span class="p">,</span>
+    <span class="n">NatlSavingsRates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PermShkVarMultipliers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; x variance&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">quarters_to_plot</span><span class="p">,</span>
+    <span class="n">NatlSavingsRates</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PermShkVarMultipliers</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; x variance&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">quarters_to_plot</span><span class="p">,</span>
+    <span class="n">NatlSavingsRates</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PermShkVarMultipliers</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; x variance&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">quarters_to_plot</span><span class="p">,</span>
+    <span class="n">NatlSavingsRates</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PermShkVarMultipliers</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; x variance&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">quarters_to_plot</span><span class="p">,</span>
+    <span class="n">NatlSavingsRates</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PermShkVarMultipliers</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; x variance&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.102</span><span class="p">),</span>
+    <span class="n">loc</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span>
+    <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># put the legend on top</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The figure shows that, if the rate of growth increases the way Chinese growth did, but is not accompanied by any change in the degree of uncertainty, the model’s predicted saving rate declines drastically, from an initial (calibrated) value of about 0.1 (ten percent) to close to zero.  For this model to have any hope of predicting an increase in the saving rate, it is clear that the increase in uncertainty that accompanies the increase in growth will have to be substantial.</p>
+<p>The red line shows that a mere doubling of uncertainty from its baseline value is not enough: The steady state saving rate is still below its slow-growth value.</p>
+<p>When we assume that the degree of uncertainty quadruples, the model does finally predict that the new steady-state saving rate will be higher than before, but not much higher, and not remotely approaching 25 percent.</p>
+<p>Only when the degree of uncertainty increases by a factor of 8 is the model capable of producing a new equilbrium saving rate in the ballpark of the Chinese value.</p>
+<p>But this is getting close to a point where the model starts to break down (for both numerical and conceptual reasons), as shown by the erratic path of the saving rate when we multiply the initial variance by 11.</p>
+<p>We do not have historical data on the magnitude of permanent income shocks in China in the pre-1978 period; it would be remarkable if the degree of uncertainty increased by such a large amount, but in the absence of good data it is hard to know for sure.</p>
+<p>What the experiment does demonstrate, though, is that it is <em>not</em> the case that “it is easy to explain anything by invoking some plausible but unmeasurable change in uncertainty.”  Substantial differences in the degree of permanent (or highly persistent) income uncertainty across countries, across periods, and across people have been measured in the literature, and those differences could in principle be compared to differences in saving rates to get a firmer fix on the quantitative importance of the “precautionary saving” explanation in the Chinese context.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ChangeLiqConstr.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DCEGM-Upper-Envelope.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">DCEGM Upper Envelope</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thought-experiment">The Thought Experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-baseline-model">The Baseline Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#but-with-a-different-consumertype">But With A Different ConsumerType</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-growth-process">Set Up the Growth Process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-and-initialize-the-agents">Import and initialize the Agents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-experiment">Setting Up the Experiment</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Econ-ARK Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

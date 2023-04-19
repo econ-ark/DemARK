@@ -1,0 +1,1078 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>A Demonstration of the Harmenberg (2021) Aggregation Method &#8212; DemARK</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Harmenberg-Aggregation';</script>
+    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Persistent Shock Model and Income Expectations" href="IncExpectationExample.html" />
+    <link rel="prev" title="A Gentle Introduction to HARK: The Perfect Foresight Model" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    DemARK
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Alternative-Combos-Of-Parameter-Values.html">Alternative Combinations of Parameter Values</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="ChangeLiqConstr.html">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chinese-Growth.html">Do Precautionary Motives Explain China’s High Saving Rate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DCEGM-Upper-Envelope.html">DCEGM Upper Envelope</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="DiamondOLG.html">The Diamond OLG Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FisherTwoPeriod.html">The Fisher Two-Period Optimal Consumption Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html">A Gentle Introduction to HARK: Buffer Stock Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html">A Gentle Introduction to HARK: The Perfect Foresight Model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="IncExpectationExample.html">The Persistent Shock Model and Income Expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="KeynesFriedmanModigliani.html">Introduction: Keynes, Friedman, Modigliani</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LC-Model-Expected-Vs-Realized-Income-Growth.html">Expectated vs Realized Income Growth in A Standard Life Cycle Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LifeCycleModelTheoryVsData.html">The Life Cycle Model: Theory vs Data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Lucas-Asset-Pricing-Model.html">Lucas Asset Pricing Model</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html">The MPC out of Credit vs the MPC Out of Income</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-Approximation.html">Perfect Foresight CRRA Model - Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html">Making Structural Estimates From Empirical Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TractableBufferStock-Interactive.html">The Tractable Buffer Stock Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/Harmenberg-Aggregation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>A Demonstration of the Harmenberg (2021) Aggregation Method</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#authors-christopher-d-carroll-mateo-velasquez-giraldo">Authors: Christopher D. Carroll, Mateo Velásquez-Giraldo</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#description-of-the-problem">Description of the problem</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#description-of-the-method">Description of the method</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-insight">First insight</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#second-insight">Second insight</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#harmenberg-s-method-in-hark">Harmenberg’s method in HARK</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#farther-down-in-the-notebook-code-like-this-solves-the-standard-model">Farther down in the notebook, code like this solves the standard model:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#later-code-like-this-simulates-using-the-permanent-income-neutral-measure">Later, code like this simulates using the permanent-income-neutral measure</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-efficiency-gain-from-using-harmenberg-s-method">The efficiency gain from using Harmenberg’s method</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-compare-the-variances-of-simulated-outcomes">Now Compare the Variances of Simulated Outcomes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#harmenberg-s-method-produces-large-gains-in-efficiency">Harmenberg’s Method Produces Large Gains in Efficiency</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="a-demonstration-of-the-harmenberg-2021-aggregation-method">
+<h1>A Demonstration of the Harmenberg (2021) Aggregation Method<a class="headerlink" href="#a-demonstration-of-the-harmenberg-2021-aggregation-method" title="Permalink to this headline">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.jedc.2021.104185">“Aggregating heterogeneous-agent models with permanent income shocks”</a></p></li>
+</ul>
+</section>
+<section id="authors-christopher-d-carroll-mateo-velasquez-giraldo">
+<h1>Authors: <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/">Christopher D. Carroll</a>, <a class="reference external" href="https://mv77.github.io/">Mateo Velásquez-Giraldo</a><a class="headerlink" href="#authors-christopher-d-carroll-mateo-velasquez-giraldo" title="Permalink to this headline">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Set</span> <span class="pre">Up</span> <span class="pre">the</span> <span class="pre">Computational</span> <span class="pre">Environment:</span> <span class="pre">(in</span> <span class="pre">JupyterLab,</span> <span class="pre">click</span> <span class="pre">the</span> <span class="pre">dots)</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preliminaries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">from</span> <span class="nn">HARK.distribution</span> <span class="kn">import</span> <span class="n">calc_expectation</span>
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">IndShockConsumerType</span><span class="p">,</span>
+    <span class="n">init_idiosyncratic_shocks</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="description-of-the-problem">
+<h1>Description of the problem<a class="headerlink" href="#description-of-the-problem" title="Permalink to this headline">#</a></h1>
+<p><span class="math notranslate nohighlight">\(\newcommand{\pLvl}{\mathbf{p}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\mLvl}{\mathbf{m}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\mNrm}{m}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\CLvl}{\mathbf{C}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\MLvl}{\mathbf{M}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\CLvlest}{\widehat{\CLvl}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\MLvlest}{\widehat{\MLvl}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\mpLvlDstn}{\mu}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\mWgtDstnMarg}{\tilde{\mu}^{m}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\PermGroFac}{\pmb{\Phi}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\PermShk}{\pmb{\Psi}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\def}{:=}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\kernel}{\Lambda}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\pShkNeutDstn}{\tilde{f}_{\PermShk}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\Ex}{\mathbb{E}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\cFunc}{\mathrm{c}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\Rfree}{\mathsf{R}}\)</span></p>
+<p>Macroeconomic models with heterogeneous agents sometimes incorporate a microeconomic income process with a permanent component (<span class="math notranslate nohighlight">\(\pLvl_t\)</span>) that follows a geometric random walk. To find an aggregate characteristic of these economies such as aggregate consumption <span class="math notranslate nohighlight">\(\CLvl_t\)</span>, one must integrate over permanent income (and all the other relevant state variables):</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\CLvl_t = \int_{\pLvl} \int_{\mLvl} \mathrm{c}(\mLvl,\pLvl) \times f_t(\mLvl,\pLvl) \, d \mLvl\, d\pLvl,
+\end{equation*}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mLvl\)</span> denotes any other state variables that consumption might depend on, <span class="math notranslate nohighlight">\(\cFunc(\cdot,\cdot)\)</span> is the individual consumption function, and <span class="math notranslate nohighlight">\(f_t(\cdot,\cdot)\)</span> is the joint density function of permanent income and the other state variables at time <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>Under the usual assumption of Constant Relative Risk Aversion utility and standard assumptions about the budget constraint, <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/BufferStockTheory3.html#The-Problem-Can-Be-Normalized-By-Permanent-Income">such models are homothetic</a>. This means that for a state variable <span class="math notranslate nohighlight">\(\mLvl\)</span> one can solve for a normalized policy function <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span> such that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+    \mathrm{c}(\mLvl,\pLvl) = \mathrm{c}\left(\mLvl/\pLvl\right)\times \pLvl
+\end{equation*}\]</div>
+<p>In practice, this implies that one can defined a normalized state vector <span class="math notranslate nohighlight">\(\mNrm = \mLvl/\pLvl\)</span> and solve for the normalized policy function. This eliminates one dimension of the optimization problem problem, <span class="math notranslate nohighlight">\(\pLvl\)</span>.</p>
+<p>While convenient for the solution of the agents’ optimization problem, homotheticity has not simplified our aggregation calculations as we still have</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\begin{split}
+\CLvl_t =&amp; \int \int \cFunc(\mLvl,\pLvl) \times f_t(\mLvl,\pLvl) \, d\mLvl\, d\pLvl\\
+=&amp; \int \int \cFunc\left(\frac{1}{\pLvl}\times \mLvl\right)\times \pLvl \times f_t(\mLvl,\pLvl) \, d\mLvl\, d\pLvl,
+\end{split}
+\end{equation*}\]</div>
+<p>which depends on <span class="math notranslate nohighlight">\(\pLvl\)</span>.</p>
+<p>To further complicate matters, we usually do not have analytical expressions for <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span> or <span class="math notranslate nohighlight">\(f_t(\mLvl,\pLvl)\)</span>. What we often do in practice is to simulate a population <span class="math notranslate nohighlight">\(I\)</span> of agents for a large number of periods <span class="math notranslate nohighlight">\(T\)</span> using the model’s policy functions and transition equations. The result is a set of observations <span class="math notranslate nohighlight">\(\{\mLvl_{i,t},\pLvl_{i,t}\}_{i\in I, 0\leq t\leq T}\)</span> which we then use to approximate</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\CLvl_t \approx \frac{1}{|I|}\sum_{i \in I} \cFunc\left(\mLvl_{i,t}/\pLvl_{i,t}\right)\times \pLvl_{i,t}.
+\end{equation*}\]</div>
+<p>At least two features of the previous strategy are unpleasant:</p>
+<ul class="simple">
+<li><p>We have to simulate the distribution of permanent income, even though the model’s solution does not depend on it.</p></li>
+<li><p>As a geometric random walk, permanent income might have an unbounded distribution. Since <span class="math notranslate nohighlight">\(\pLvl_{i,t}\)</span> appears multiplicatively in our approximation, agents with high permanent incomes will be the most important in determining levels of aggregate variables. Therefore, it is important for our simulated population to achieve a good approximation of the distribution of permanent income among the small number of agents with very high permanent income, which will require us to use many agents (large <span class="math notranslate nohighlight">\(I\)</span>, requiring considerable computational resources).</p></li>
+</ul>
+<p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub">Harmenberg (2021)</a> solves both problems. His solution constructs a distribution <span class="math notranslate nohighlight">\(\tilde{f}(\cdot)\)</span> of the normalized state vector that he calls <strong>the permanent-income-weighted distribution</strong> and which has the convenient property that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\begin{split}
+\CLvl_t =&amp; \int \int \cFunc\left(\frac{1}{\pLvl}\times \mLvl\right)\times \pLvl \times f_t(\mLvl,\pLvl) \, d\mLvl\, d\pLvl\\
+=&amp; \int \cFunc\left(\mNrm\right) \times \tilde{f}(\mNrm) \, d\mNrm.
+\end{split}
+\end{equation*}\]</div>
+<p>Therefore, his solution allows us to calculate aggregate variables without the need to keep track of the distribution of permanent income. Additionally, the method eliminates the issue of a small number of agents in the tail having an outsized influence in our approximation and this makes it much more precise.</p>
+<p>This notebook briefly describes Harmenberg’s method and demonstrates its implementation in the HARK toolkit.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="description-of-the-method">
+<h1>Description of the method<a class="headerlink" href="#description-of-the-method" title="Permalink to this headline">#</a></h1>
+<p>To illustrate Harmenberg’s idea, consider a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory">buffer stock saving</a> model in which:</p>
+<ul class="simple">
+<li><p>The individual agent’s problem has two state variables:</p>
+<ul>
+<li><p>Market resources <span class="math notranslate nohighlight">\(\mLvl_{i,t}\)</span>.</p></li>
+<li><p>Permanent income <span class="math notranslate nohighlight">\(\pLvl_{i,t}\)</span>.</p></li>
+</ul>
+</li>
+<li><p>The agent’s problem is homothetic in permanent income, so that we can define <span class="math notranslate nohighlight">\(m_t = \mLvl_t/\pLvl_t\)</span> and find a normalized policy function <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span> such that</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\cFunc(\mNrm) \times \pLvl_t = \cFunc(\mLvl_t, \pLvl_t) \,\,\qquad \forall(\mLvl_t, \pLvl_t)
+\end{equation*}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\cFunc(\cdot,\cdot)\)</span> is the optimal consumption function.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\pLvl_t\)</span> evolves according to $<span class="math notranslate nohighlight">\(\pLvl_{t+1} = \PermGroFac \PermShk_{t+1} \pLvl_t,\)</span><span class="math notranslate nohighlight">\( where \)</span>\PermShk_{t+1}<span class="math notranslate nohighlight">\( is a shock with density function \)</span>f_{\PermShk}(\cdot)<span class="math notranslate nohighlight">\( satisfying \)</span>\Ex_t[\PermShk_{t+1}] = 1$.</p></li>
+</ul>
+<p>To compute aggregate consumption <span class="math notranslate nohighlight">\(\CLvl_t\)</span> in this model, we would follow the approach from above</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\CLvl_t = \int \int \cFunc(\mNrm)\times\pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\mNrm \, d\pLvl,
+\end{equation*}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mpLvlDstn_t(\mNrm,\pLvl)\)</span> is the measure of agents with normalized resources <span class="math notranslate nohighlight">\(\mNrm\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl\)</span>.</p>
+<section id="first-insight">
+<h2>First insight<a class="headerlink" href="#first-insight" title="Permalink to this headline">#</a></h2>
+<p>The first of Harmenberg’s insights is that the previous integral can be rearranged as</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\CLvl_t = \int_{\mNrm} \cFunc(\mNrm)\left(\int \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl\right) \, d\mNrm.
+\end{equation*}\]</div>
+<p>The inner integral, <span class="math notranslate nohighlight">\(\int_{\pLvl} \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl\)</span>, is a function of <span class="math notranslate nohighlight">\(\mNrm\)</span> and it measures <em>the total amount of permanent income accruing to agents with normalized market resources of</em> <span class="math notranslate nohighlight">\(\mNrm\)</span>. De-trending this object by the deterministic component of growth in permanent income <span class="math notranslate nohighlight">\(\PermGroFac\)</span>, Harmenberg defines the <em>permanent-income-weighted distribution</em> <span class="math notranslate nohighlight">\(\mWgtDstnMarg(\cdot)\)</span> as</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\mWgtDstnMarg_{t}(\mNrm) \def \PermGroFac^{-t}\int_{\pLvl} \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl.
+\end{equation*}\]</div>
+<p>The definition allows us to rewrite</p>
+<div class="amsmath math notranslate nohighlight" id="equation-63fd8908-8290-49a9-9ee2-caf03f47a986">
+<span class="eqno">(13)<a class="headerlink" href="#equation-63fd8908-8290-49a9-9ee2-caf03f47a986" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
+\CLvl_{t} = \PermGroFac^t \int_{m} \cFunc(\mNrm) \times \mWgtDstnMarg_t(\mNrm) \, dm.
+\end{equation}\]</div>
+<p>There are no computational advances yet: We have merely hidden the joint distribution of <span class="math notranslate nohighlight">\((\mNrm,\pLvl)\)</span> inside the <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> object we have defined. This helps us notice that <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span>.</p>
+</section>
+<section id="second-insight">
+<h2>Second insight<a class="headerlink" href="#second-insight" title="Permalink to this headline">#</a></h2>
+<p>Harmenberg’s second insight produces a simple way of generating simulated counterparts of <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> without having to simulate permanent incomes.</p>
+<p>We start with the density function of <span class="math notranslate nohighlight">\(\mNrm_{t+1}\)</span> given <span class="math notranslate nohighlight">\(\mNrm_t\)</span> and <span class="math notranslate nohighlight">\(\PermShk_{t+1}\)</span>, <span class="math notranslate nohighlight">\(\kernel(\mNrm_{t+1}|\mNrm_t,\PermShk_{t+1})\)</span>. This density will depend on the model’s transition equations and draws of random variables like transitory shocks to income in <span class="math notranslate nohighlight">\(t+1\)</span> or random returns to savings between <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(t+1\)</span>. If we can simulate those things, then we can sample from <span class="math notranslate nohighlight">\(\kernel(\cdot|\mNrm_t,\PermShk_{t+1})\)</span>.</p>
+<p>Harmenberg shows that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}\label{eq:transition}
+\texttt{transition:    }\mWgtDstnMarg_{t+1}(\mNrm_{t+1}) = \int \kernel(\mNrm_{t+1}|\mNrm_t, \PermShk_t) \pShkNeutDstn(\PermShk_{t+1}) \mWgtDstnMarg_t(\mNrm_t)\, d\mNrm_t\, d\PermShk_{t+1},
+\end{equation*}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\pShkNeutDstn\)</span> is an altered density function for the permanent income shocks <span class="math notranslate nohighlight">\(\PermShk\)</span>, which he calls the <em>permanent-income-neutral</em> measure, and which relates to the original density <span class="math notranslate nohighlight">\(f_{\PermShk}\)</span> through $<span class="math notranslate nohighlight">\(\pShkNeutDstn(\PermShk_{t+1})\def \PermShk_{t+1}f_{\PermShk}(\PermShk_{t+1})\,\,\, \forall \PermShk_{t+1}.\)</span>$</p>
+<p>What’s remarkable about this equation is that it gives us a way to obtain a distribution <span class="math notranslate nohighlight">\(\mWgtDstnMarg_{t+1}\)</span> from <span class="math notranslate nohighlight">\(\mWgtDstnMarg_t\)</span>:</p>
+<ul class="simple">
+<li><p>Start with a population whose <span class="math notranslate nohighlight">\(\mNrm\)</span> is distributed according to <span class="math notranslate nohighlight">\(\mWgtDstnMarg_t\)</span>.</p></li>
+<li><p>Give that population permanent income shocks with distribution <span class="math notranslate nohighlight">\(\pShkNeutDstn\)</span>.</p></li>
+<li><p>Apply the transition equations and other shocks of the model to obtain <span class="math notranslate nohighlight">\(\mNrm_{t+1}\)</span> from <span class="math notranslate nohighlight">\(\mNrm_{t}\)</span> and <span class="math notranslate nohighlight">\(\PermShk_{t+1}\)</span> for every agent.</p></li>
+<li><p>The distribution of <span class="math notranslate nohighlight">\(\mNrm\)</span> across the resulting population will be <span class="math notranslate nohighlight">\(\mWgtDstnMarg_{t+1}\)</span>.</p></li>
+</ul>
+<p>Notice that the only change in these steps from what how we would usually simulate the model is that we now draw permanent income shocks from <span class="math notranslate nohighlight">\(\pShkNeutDstn\)</span> instead of <span class="math notranslate nohighlight">\(f_{\PermShk}\)</span>. Therefore, with this procedure we can approximate <span class="math notranslate nohighlight">\(\mWgtDstnMarg_t\)</span> and compute aggregates using formulas like the equation <code class="docutils literal notranslate"><span class="pre">transition</span></code>, all without tracking permanent income and with few changes to the code we use to simulate the model.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="harmenberg-s-method-in-hark">
+<h1>Harmenberg’s method in HARK<a class="headerlink" href="#harmenberg-s-method-in-hark" title="Permalink to this headline">#</a></h1>
+<p>Harmenberg’s method for simulating under the permanent-income-neutral measure is available in <a class="reference external" href="https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsIndShockModel.py">HARK’s <code class="docutils literal notranslate"><span class="pre">IndShockConsumerType</span></code> class</a> and the (many) models that inherit its income process, such as <a class="reference external" href="https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsPortfolioModel.py"><code class="docutils literal notranslate"><span class="pre">PortfolioConsumerType</span></code></a>.</p>
+<p>As the cell below illustrates, using Harmenberg’s method in <a class="reference external" href="https://github.com/econ-ark/HARK">HARK</a> simply requires setting an agent’s property <code class="docutils literal notranslate"><span class="pre">agent.neutral_measure</span> <span class="pre">=</span> <span class="pre">True</span></code> and then computing the discrete approximation to the income process. After these steps, <code class="docutils literal notranslate"><span class="pre">agent.simulate</span></code> will simulate the model using Harmenberg’s permanent-income-neutral measure.</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Implementation</span> <span class="pre">in</span> <span class="pre">HARK:</span></code></p>
+<section id="farther-down-in-the-notebook-code-like-this-solves-the-standard-model">
+<h2>Farther down in the notebook, code like this solves the standard model:<a class="headerlink" href="#farther-down-in-the-notebook-code-like-this-solves-the-standard-model" title="Permalink to this headline">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a population with the default parametrization</span>
+
+<span class="n">popn</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># Specify which variables to track in the simulation</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">track_vars</span><span class="o">=</span><span class="p">[</span>
+    <span class="s1">&#39;mNrm&#39;</span><span class="p">,</span>  <span class="c1"># mLvl normalized by permanent income (mLvl = market resources)</span>
+    <span class="s1">&#39;cNrm&#39;</span><span class="p">,</span>  <span class="c1"># cLvl normalized by permanent income (cLvl = consumption)</span>
+    <span class="s1">&#39;pLvl&#39;</span><span class="p">]</span>  <span class="c1"># pLvl: permanent income</span>
+
+<span class="n">popn</span><span class="o">.</span><span class="n">cycles</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># No life cycles -- an infinite horizon</span>
+
+<span class="c1"># Solve for the consumption function</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="c1"># Simulate under the base measure</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="later-code-like-this-simulates-using-the-permanent-income-neutral-measure">
+<h2>Later, code like this simulates using the permanent-income-neutral measure<a class="headerlink" href="#later-code-like-this-simulates-using-the-permanent-income-neutral-measure" title="Permalink to this headline">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Harmenberg permanent-income-neutral simulation</span>
+
+<span class="c1"># Make a clone of the population weighted solution</span>
+<span class="n">ntrl</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">popn</span><span class="p">)</span>
+
+<span class="c1"># Change the income process to use the neutral measure</span>
+
+<span class="n">ntrl</span><span class="o">.</span><span class="n">neutral_measure</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">ntrl</span><span class="o">.</span><span class="n">update_income_process</span><span class="p">()</span>
+
+<span class="c1"># Simulate</span>
+<span class="n">ntrl</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">ntrl</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>All we had to do differently to simulate using the permanent-income-neutral measure was to set the agent’s property <code class="docutils literal notranslate"><span class="pre">neutral_measure=True</span></code>.</p>
+<p>This is implemented when the function <code class="docutils literal notranslate"><span class="pre">update_income_process</span></code> re-constructs the agent’s income process. The specific lines that achieve the change of measure in HARK are in <a class="reference external" href="https://github.com/econ-ark/HARK/blob/760df611a6ec2ff147d00b7d866dbab6fc4e18a1/HARK/ConsumptionSaving/ConsIndShockModel.py#L2734-L2735">this link</a>, or reproduced here:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">neutral_measure</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">PermShkDstn_t</span><span class="o">.</span><span class="n">pmv</span> <span class="o">=</span> <span class="n">PermShkDstn_t</span><span class="o">.</span><span class="n">atoms</span><span class="o">*</span><span class="n">PermShkDstn_t</span><span class="o">.</span><span class="n">pmv</span>
+</pre></div>
+</div>
+<p>Simple!</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-efficiency-gain-from-using-harmenberg-s-method">
+<h1>The efficiency gain from using Harmenberg’s method<a class="headerlink" href="#the-efficiency-gain-from-using-harmenberg-s-method" title="Permalink to this headline">#</a></h1>
+<p>To demonstrate the gain in efficiency from using Harmenberg’s method, we will set up the following experiment.</p>
+<p>Consider an economy populated by <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/">Buffer-Stock</a> savers, whose individual-level state variables are market resources <span class="math notranslate nohighlight">\(\mLvl_t\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl_t\)</span>. Such agents have a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#The-Problem-Can-Be-Normalized-By-Permanent-Income">homothetic consumption function</a>, so that we can define normalized market resources <span class="math notranslate nohighlight">\(\mNrm_t \def \mLvl_t / \pLvl_t\)</span>, solve for a normalized consumption function <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span>, and express the consumption function as <span class="math notranslate nohighlight">\(\cFunc(\mLvl,\pLvl) = \cFunc(\mNrm)\times\pLvl\)</span>.</p>
+<p>Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of <span class="math notranslate nohighlight">\(\mNrm\)</span> and <span class="math notranslate nohighlight">\(\pLvl\)</span> characterized by the density function <span class="math notranslate nohighlight">\(f(\cdot,\cdot)\)</span>. Under these conditions, define the stable level of aggregate market resources and consumption as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-34a72595-945e-4104-9a36-bd8048146337">
+<span class="eqno">(14)<a class="headerlink" href="#equation-34a72595-945e-4104-9a36-bd8048146337" title="Permalink to this equation">#</a></span>\[\begin{equation}
+    \MLvl \def \int \int \mNrm \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl, \,\,\,    \CLvl \def \int \int \cFunc(\mNrm) \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl.
+\end{equation}\]</div>
+<p>If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources <span class="math notranslate nohighlight">\(\MLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\MLvl\)</span> and <span class="math notranslate nohighlight">\(\CLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\CLvl\)</span>. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+    \MLvlest_t \approx \MLvlest_{t+n} \approx \MLvl \,\,
+    \text{and} \,\,
+    \CLvlest_t \approx \CLvlest_{t+n} \approx \CLvl, \,\,
+    \text{for } n&gt;0 \text{ and } t \text{ large enough}.
+\end{equation*}\]</div>
+<p>In practice, however, we rely on approximations using a finite number of agents <span class="math notranslate nohighlight">\(I\)</span>. Our estimates of aggregate market resources and consumption at time <span class="math notranslate nohighlight">\(t\)</span> are</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a58239dc-81c6-4f01-9be9-e92ce8407c5d">
+<span class="eqno">(15)<a class="headerlink" href="#equation-a58239dc-81c6-4f01-9be9-e92ce8407c5d" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\pLvl_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(m_{i,t})\times\pLvl_{i,t},
+\end{equation}\]</div>
+<p>under the basic simulation strategy or</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0b63364c-dd1e-4ceb-a3c1-b921f1590f90">
+<span class="eqno">(16)<a class="headerlink" href="#equation-0b63364c-dd1e-4ceb-a3c1-b921f1590f90" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(\tilde{m}_{i,t}),
+\end{equation}\]</div>
+<p>if we use Harmenberg’s method to simulate the distribution of normalized market resources under the permanent-income neutral measure.</p>
+<p>If we do not use enough agents, our distributions of agents over state variables will be noisy at approximating their continuous counterparts. Additionally, they will depend on the sequences of shocks that the agents receive. With a finite sample, the stochasticity of the draws will cause fluctuations in <span class="math notranslate nohighlight">\(\MLvlest_t\)</span> and <span class="math notranslate nohighlight">\(\CLvlest_t\)</span>. Therefore an informal way to measure the precision of our approximations is to examine the amplitude of these fluctuations.</p>
+<p>First, some setup.</p>
+<ol class="arabic simple">
+<li><p>Simulate the economy for a sufficiently long “burn in” time <span class="math notranslate nohighlight">\(T_0\)</span>.</p></li>
+<li><p>Sample our aggregate estimates at regular intervals after <span class="math notranslate nohighlight">\(T_0\)</span>. Letting the sampling times be <span class="math notranslate nohighlight">\(\mathcal{T}\def \{T_0 + \Delta t\times n\}_{n=0,1,...,N}\)</span>, obtain <span class="math notranslate nohighlight">\(\{\MLvlest_t\}_{t\in\mathcal{T}}\)</span> and <span class="math notranslate nohighlight">\(\{\CLvlest_t\}_{t\in\mathcal{T}}\)</span>.</p></li>
+<li><p>Compute the variance of approximation samples <span class="math notranslate nohighlight">\(\text{Var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)\)</span> and <span class="math notranslate nohighlight">\(\text{Var}\left(\{\CLvlest_t\}_{t\in\mathcal{T}}\right)\)</span>.</p>
+<ul class="simple">
+<li><p>Other measures of uncertainty (like standard deviation) could also be computed</p></li>
+<li><p>But variance is the natural choice <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/papers/candcwithstickye/#Utility-Costs-Of-Sticky-Expectations">because it is closely related to expected welfare</a></p></li>
+</ul>
+</li>
+</ol>
+<p>We will now perform exactly this exercise, examining the fluctuations in aggregates when they are approximated using the basic simulation strategy and Harmenberg’s permanent-income-neutral measure. Since each approximation can be made arbitrarily good by increasing the number of agents it uses, we will examine the variances of aggregates for various sample sizes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Setup</span> <span class="pre">computational</span> <span class="pre">environment:</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># How long to run the economies without sampling? T_0</span>
+<span class="c1"># Because we start the population at mBalLvl which turns out to be close</span>
+<span class="c1"># to MBalLvl so we don&#39;t need a long burn in period</span>
+<span class="n">burn_in</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="c1"># Fixed intervals between sampling aggregates, Δt</span>
+<span class="n">sample_every</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># periods - increase this if worried about serial correlation</span>
+<span class="c1"># How many times to sample the aggregates? n</span>
+<span class="n">n_sample</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># times; minimum</span>
+
+<span class="c1"># Create a vector with all the times at which we&#39;ll sample</span>
+<span class="n">sample_periods_lvl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">burn_in</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">burn_in</span> <span class="o">+</span> <span class="n">sample_every</span> <span class="o">*</span> <span class="n">n_sample</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">sample_every</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span>
+<span class="p">)</span>
+<span class="c1"># Corresponding periods when object is first difference not level</span>
+<span class="n">sample_periods_dff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">burn_in</span><span class="p">,</span>
+    <span class="n">stop</span><span class="o">=</span><span class="n">burn_in</span> <span class="o">+</span> <span class="n">sample_every</span> <span class="o">*</span> <span class="n">n_sample</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># 1 fewer diff</span>
+    <span class="n">step</span><span class="o">=</span><span class="n">sample_every</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Maximum number of agents that we will use for our approximations</span>
+<span class="n">max_agents</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="c1"># Minimum number of agents for comparing methods in plots</span>
+<span class="n">min_agents</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Define</span> <span class="pre">tool</span> <span class="pre">to</span> <span class="pre">calculate</span> <span class="pre">summary</span> <span class="pre">statistics:</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now create a function that takes HARK&#39;s simulation output</span>
+<span class="c1"># and computes all the summary statistics we need</span>
+
+
+<span class="k">def</span> <span class="nf">sumstats</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="n">sample_periods</span><span class="p">):</span>
+    <span class="c1"># sims will be an array in the shape of [economy].history elements</span>
+    <span class="c1"># Columns are different agents and rows are different times.</span>
+
+    <span class="c1"># Subset the times at which we&#39;ll sample and transpose.</span>
+    <span class="n">samples_lvl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sims</span><span class="p">[</span><span class="n">sample_periods</span><span class="p">,]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Get averages over agents. This will tell us what our</span>
+    <span class="c1"># aggregate estimate would be if we had each possible sim size</span>
+    <span class="n">avgs_lvl</span> <span class="o">=</span> <span class="n">samples_lvl</span><span class="o">.</span><span class="n">expanding</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="c1"># Now get the mean and standard deviations across time with</span>
+    <span class="c1"># every number of agents</span>
+    <span class="n">mean_lvl</span> <span class="o">=</span> <span class="n">avgs_lvl</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">vars_lvl</span> <span class="o">=</span> <span class="n">avgs_lvl</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="c1"># Also return the full sample on the last simulation period</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;mean_lvl&quot;</span><span class="p">:</span> <span class="n">mean_lvl</span><span class="p">,</span>
+        <span class="s2">&quot;vars_lvl&quot;</span><span class="p">:</span> <span class="n">vars_lvl</span><span class="p">,</span>
+        <span class="s2">&quot;dist_last&quot;</span><span class="p">:</span> <span class="n">sims</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,],</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now configure and solve a buffer-stock agent with a default parametrization.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create and solve agent</span>
+
+<span class="n">popn</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">init_idiosyncratic_shocks</span><span class="p">)</span>
+
+<span class="c1"># Modify default parameters</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">T_sim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sample_periods_lvl</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">AgentCount</span> <span class="o">=</span> <span class="n">max_agents</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">track_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mNrm&quot;</span><span class="p">,</span> <span class="s2">&quot;cNrm&quot;</span><span class="p">,</span> <span class="s2">&quot;pLvl&quot;</span><span class="p">]</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">LivPrb</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">cycles</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Solve (but do not yet simulate)</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.993777 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.984539 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994384 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 1.000611 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 0.990704 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.951076 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.215875 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.972061 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990388 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Under the basic simulation strategy, we have to de-normalize market resources and consumption multiplying them by permanent income. Only then we construct our statistics of interest.</p>
+<p>Note that our time-sampling strategy requires that, after enough time has passed, the economy settles on a stable distribution of its agents across states. How can we know this will be the case? <a class="reference external" href="http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf">Szeidl (2013)</a> and <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub">Harmenberg (2021)</a> provide conditions that can give us some reassurance.<span class="math notranslate nohighlight">\(\newcommand{\Rfree}{\mathsf{R}}\)</span></p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf">Szeidl (2013)</a> shows that if $<span class="math notranslate nohighlight">\(\log \left[\frac{(\Rfree\beta)^{1/\rho}}{\PermGroFac}
+\right] &lt; \Ex[\log \PermShk],\)</span><span class="math notranslate nohighlight">\( then there is a stable invariant distribution of normalized market resources \)</span>\mNrm$.</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub">Harmenberg (2021)</a> repurposes the Szeidl proof to argue that if the same condition is satisfied when the expectation is taken with respect to the permanent-income-neutral measure (<span class="math notranslate nohighlight">\(\pShkNeutDstn\)</span>), then there is a stable invariant permanent-income-weighted distribution (<span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span>)</p></li>
+</ol>
+<p>We now check both conditions with our parametrization.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Two versions for different HARK versions</span>
+<span class="k">try</span><span class="p">:</span>  <span class="c1"># This works with HARK 2.0 pre-alpha</span>
+    <span class="n">Bilt</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Bilt</span>
+    <span class="n">APFac</span> <span class="o">=</span> <span class="n">Bilt</span><span class="o">.</span><span class="n">APFac</span>
+    <span class="n">GPFacRaw</span> <span class="o">=</span> <span class="n">Bilt</span><span class="o">.</span><span class="n">GPFacRaw</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">soln</span><span class="o">.</span><span class="n">check_GICSdl</span><span class="p">(</span><span class="n">soln</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">soln</span><span class="o">.</span><span class="n">check_GICHrm</span><span class="p">(</span><span class="n">soln</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>  <span class="c1"># This one for HARK 0.12 or later</span>
+    <span class="n">APFac</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">thorn</span>
+    <span class="n">GPFacRaw</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">GPFRaw</span>
+    <span class="n">e_log_PermShk_popn</span> <span class="o">=</span> <span class="n">calc_expectation</span><span class="p">(</span><span class="n">popn</span><span class="o">.</span><span class="n">PermShkDstn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">e_log_PermShk_ntrl</span> <span class="o">=</span> <span class="n">calc_expectation</span><span class="p">(</span>
+        <span class="n">popn</span><span class="o">.</span><span class="n">PermShkDstn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">szeidl_cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">GPFacRaw</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">e_log_PermShk_popn</span>
+    <span class="n">harmen_cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">GPFacRaw</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">e_log_PermShk_ntrl</span>
+    <span class="k">if</span> <span class="n">szeidl_cond</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Szeidl&#39;s condition is satisfied, there is a stable invariant distribution of normalized market resources&quot;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Szeidl&#39;s condition is not satisfied&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">harmen_cond</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-income-weighted distribution&quot;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Harmenberg&#39;s condition is not satisfied&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Szeidl&#39;s condition is satisfied, there is a stable invariant distribution of normalized market resources
+Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-income-weighted distribution
+</pre></div>
+</div>
+</div>
+</div>
+<p>Knowing that the conditions are satisfied, we are ready to perform our experiments.</p>
+<p>First, we simulate using the traditional approach.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Base simulation</span>
+
+<span class="c1"># Start assets at m balanced growth (levels) point</span>
+<span class="k">try</span><span class="p">:</span>  <span class="c1"># Accommodate syntax for old and new versions of HARK</span>
+    <span class="n">Bilt</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Bilt</span>
+    <span class="n">popn</span><span class="o">.</span><span class="n">aNrmInitMean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Bilt</span><span class="o">.</span><span class="n">mBalLvl</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">popn</span><span class="o">.</span><span class="n">aNrmInitMean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">popn</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mNrmStE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">popn</span><span class="o">.</span><span class="n">aNrmInitStd</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">popn</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">popn</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="c1"># Retrieve history</span>
+<span class="n">mNrm_popn</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;mNrm&quot;</span><span class="p">]</span>
+<span class="n">mLvl_popn</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;mNrm&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">popn</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span>
+<span class="n">cLvl_popn</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;cNrm&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">popn</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;pLvl&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Update and simulate using Harmenberg’s strategy. This time, not multiplying by permanent income.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Harmenberg permanent income neutral simulation</span>
+
+<span class="c1"># Start by duplicating the previous setup</span>
+<span class="n">ntrl</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">popn</span><span class="p">)</span>
+
+<span class="c1"># Recompute income process to use neutral measure</span>
+<span class="n">ntrl</span><span class="o">.</span><span class="n">neutral_measure</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">ntrl</span><span class="o">.</span><span class="n">update_income_process</span><span class="p">()</span>
+
+<span class="n">ntrl</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">ntrl</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="c1"># Retrieve history</span>
+<span class="n">cLvl_ntrl</span> <span class="o">=</span> <span class="n">ntrl</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;cNrm&quot;</span><span class="p">]</span>
+<span class="n">mLvl_ntrl</span> <span class="o">=</span> <span class="n">ntrl</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;mNrm&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="now-compare-the-variances-of-simulated-outcomes">
+<h1>Now Compare the Variances of Simulated Outcomes<a class="headerlink" href="#now-compare-the-variances-of-simulated-outcomes" title="Permalink to this headline">#</a></h1>
+<p>Harmenberg (2021) and Szeidl (2013) prove that with an infinite population size, models of this kind will have constant and identical growth rates of aggregate consumption, market resources, and noncapital income.</p>
+<p>A method of comparing the efficiency of the two methods is therefore to calculate the variance of the simulated aggregate variables, and see how many agents must be simulated using each of them in order to achieve a given variance.  (An infinite number of agents would be required to achieve zero variance).</p>
+<p>The plots below show the (logs of) the estimated variances for the two methods as a function of the (logs of) the number of agents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plots</span>
+
+<span class="c1"># Construct aggregate levels and growth rates</span>
+<span class="c1"># Cumulate levels and divide by number of agents to get average</span>
+<span class="n">CAvg_popn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">cLvl_popn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_agents</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">CAvg_ntrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">cLvl_ntrl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_agents</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">MAvg_popn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">mLvl_popn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_agents</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">MAvg_ntrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">mLvl_ntrl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_agents</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># First difference the logs to get aggregate growth rates</span>
+<span class="n">CGro_popn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">CAvg_popn</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">CGro_ntrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">CAvg_ntrl</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">MGro_popn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">MAvg_popn</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">MGro_ntrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">MAvg_ntrl</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="c1"># Calculate statistics for them</span>
+<span class="n">CGro_popn_stats</span> <span class="o">=</span> <span class="n">sumstats</span><span class="p">(</span><span class="n">CGro_popn</span><span class="p">,</span> <span class="n">sample_periods_dff</span><span class="p">)</span>
+<span class="n">CGro_ntrl_stats</span> <span class="o">=</span> <span class="n">sumstats</span><span class="p">(</span><span class="n">CGro_ntrl</span><span class="p">,</span> <span class="n">sample_periods_dff</span><span class="p">)</span>
+<span class="n">MGro_popn_stats</span> <span class="o">=</span> <span class="n">sumstats</span><span class="p">(</span><span class="n">MGro_popn</span><span class="p">,</span> <span class="n">sample_periods_dff</span><span class="p">)</span>
+<span class="n">MGro_ntrl_stats</span> <span class="o">=</span> <span class="n">sumstats</span><span class="p">(</span><span class="n">MGro_ntrl</span><span class="p">,</span> <span class="n">sample_periods_dff</span><span class="p">)</span>
+
+<span class="c1"># Count the agents</span>
+<span class="n">nagents</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_agents</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Variances of Aggregate Growth Rates&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">nagents</span><span class="p">[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">CGro_popn_stats</span><span class="p">[</span><span class="s2">&quot;vars_lvl&quot;</span><span class="p">])[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">nagents</span><span class="p">[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">CGro_ntrl_stats</span><span class="p">[</span><span class="s2">&quot;vars_lvl&quot;</span><span class="p">])[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Perm. Inc. Neutral&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Consumption&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;$\Delta \log \left(\{\hat</span><span class="si">{C}</span><span class="s2">_t\}_{t\in\mathcal</span><span class="si">{T}</span><span class="s2">}\right)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Agents&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">nagents</span><span class="p">[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">MGro_popn_stats</span><span class="p">[</span><span class="s2">&quot;vars_lvl&quot;</span><span class="p">])[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">nagents</span><span class="p">[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">MGro_ntrl_stats</span><span class="p">[</span><span class="s2">&quot;vars_lvl&quot;</span><span class="p">])[</span><span class="n">min_agents</span><span class="p">:],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Perm. Inc. Neutral&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Market Resources&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;$\Delta \log \left(\{\hat</span><span class="si">{M}</span><span class="s2">_t\}_{t\in\mathcal</span><span class="si">{T}</span><span class="s2">}\right)$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Agents&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ad19f9433ce0883ee8a6c1a6e0454b08fe1f0d1afd92db53c0a24e7c225e721a.png" src="../_images/ad19f9433ce0883ee8a6c1a6e0454b08fe1f0d1afd92db53c0a24e7c225e721a.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="harmenberg-s-method-produces-large-gains-in-efficiency">
+<h1>Harmenberg’s Method Produces Large Gains in Efficiency<a class="headerlink" href="#harmenberg-s-method-produces-large-gains-in-efficiency" title="Permalink to this headline">#</a></h1>
+<p>The number of agents required to achieve a given variance is revealed by choosing that variance and then finding the points on the horizontal axis that correspond to the two methods.</p>
+<p>The upper variance plot shows that the efficiency gains are very large for consumption: The horizontal gap between the two loci is generally more than two orders of magnitude.  That is, Harmenberg’s method requires less than <strong>one-hundredth</strong> as many agents as the standard method would require for a given precision.  Alternatively, for a given number of agents it is typically more than 10 times as precise.</p>
+<p>The improvement in variance is smaller for market resources, likely because in a buffer stock model the point of consumers’ actions is to use assets to absorb shocks.  But even for <span class="math notranslate nohighlight">\(\MLvl\)</span>, the Harmenberg method attains any given level of precision (<span class="math notranslate nohighlight">\(\text{var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)\)</span>) with roughly <strong>one tenth</strong> of the agents needed by the standard method to achieve that same level.</p>
+<p>Of course, these results apply only to the particular configuration of parameter values that is the default in the HARK toolkit (but which were chosen long before Harmenberg developed his method).  The degree of improvement will vary depending on the calibration – for example, if the magnitude of permanent shocks is small or zero, the method will yield little or no improvement.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Execute the line below to see that there&#39;s little drift from mBalLvl as starting point</span>
+<span class="c1"># (after setting burn_in to zero above).  This means burn_in does not need to be large:</span>
+
+<span class="c1"># plt.plot(np.arange(1,len(np.mean(MAvg_ntrl,axis=1))+1),np.mean(MAvg_ntrl,axis=1).T)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Gentle-Intro-To-HARK-PerfForesightCRRA.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">A Gentle Introduction to HARK: The Perfect Foresight Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="IncExpectationExample.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The Persistent Shock Model and Income Expectations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#authors-christopher-d-carroll-mateo-velasquez-giraldo">Authors: Christopher D. Carroll, Mateo Velásquez-Giraldo</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#description-of-the-problem">Description of the problem</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#description-of-the-method">Description of the method</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-insight">First insight</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#second-insight">Second insight</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#harmenberg-s-method-in-hark">Harmenberg’s method in HARK</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#farther-down-in-the-notebook-code-like-this-solves-the-standard-model">Farther down in the notebook, code like this solves the standard model:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#later-code-like-this-simulates-using-the-permanent-income-neutral-measure">Later, code like this simulates using the permanent-income-neutral measure</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-efficiency-gain-from-using-harmenberg-s-method">The efficiency gain from using Harmenberg’s method</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-compare-the-variances-of-simulated-outcomes">Now Compare the Variances of Simulated Outcomes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#harmenberg-s-method-produces-large-gains-in-efficiency">Harmenberg’s Method Produces Large Gains in Efficiency</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Econ-ARK Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

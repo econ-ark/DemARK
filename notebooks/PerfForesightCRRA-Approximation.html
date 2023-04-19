@@ -1,0 +1,699 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Perfect Foresight CRRA Model - Approximation &#8212; DemARK</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/PerfForesightCRRA-Approximation';</script>
+    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Perfect Foresight CRRA Model - Saving Rate" href="PerfForesightCRRA-SavingRate.html" />
+    <link rel="prev" title="Spending on Nondurables During the Great Recession" href="Nondurables-During-Great-Recession.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    DemARK
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Alternative-Combos-Of-Parameter-Values.html">Alternative Combinations of Parameter Values</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="ChangeLiqConstr.html">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chinese-Growth.html">Do Precautionary Motives Explain China’s High Saving Rate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DCEGM-Upper-Envelope.html">DCEGM Upper Envelope</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="DiamondOLG.html">The Diamond OLG Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FisherTwoPeriod.html">The Fisher Two-Period Optimal Consumption Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html">A Gentle Introduction to HARK: Buffer Stock Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html">A Gentle Introduction to HARK: The Perfect Foresight Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Harmenberg-Aggregation.html">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="IncExpectationExample.html">The Persistent Shock Model and Income Expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="KeynesFriedmanModigliani.html">Introduction: Keynes, Friedman, Modigliani</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LC-Model-Expected-Vs-Realized-Income-Growth.html">Expectated vs Realized Income Growth in A Standard Life Cycle Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LifeCycleModelTheoryVsData.html">The Life Cycle Model: Theory vs Data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Lucas-Asset-Pricing-Model.html">Lucas Asset Pricing Model</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html">The MPC out of Credit vs the MPC Out of Income</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Perfect Foresight CRRA Model - Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html">Making Structural Estimates From Empirical Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TractableBufferStock-Interactive.html">The Tractable Buffer Stock Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/PerfForesightCRRA-Approximation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Perfect Foresight CRRA Model - Approximation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="perfect-foresight-crra-model-approximation">
+<h1>Perfect Foresight CRRA Model - Approximation<a class="headerlink" href="#perfect-foresight-crra-model-approximation" title="Permalink to this headline">#</a></h1>
+<p><a class="reference external" href="https://econ-ark.org/materials/perfforesightcrra-approximation#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initial notebook set up</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PerfForesightConsumerType</span><span class="p">,</span>
+    <span class="n">init_perfect_foresight</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># Import the consumer type</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+
+<span class="k">def</span> <span class="nf">mystr</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+
+
+<span class="c1"># These last two will make our charts look nice</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-darkgrid&quot;</span><span class="p">)</span>
+<span class="n">palette</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;Dark2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\alujan\AppData\Local\Temp\ipykernel_210708\2954920071.py:20: MatplotlibDeprecationWarning: The seaborn styles shipped by Matplotlib are deprecated since 3.6, as they no longer correspond to the styles shipped by seaborn. However, they will remain available as &#39;seaborn-v0_8-&lt;style&gt;&#39;. Alternatively, directly use the seaborn API instead.
+  plt.style.use(&quot;seaborn-darkgrid&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/Consumption/PerfForesightCRRA">PerfectForesightCRRA</a> derives a number of results as approximations; for instance, the exact formula for the consumption function is derived as $<span class="math notranslate nohighlight">\(c_t = \left(\frac{R - (R\beta)^{1/\rho}}{R}\right)o_t\)</span><span class="math notranslate nohighlight">\(
+and approximated by \)</span><span class="math notranslate nohighlight">\(c_t \approx (r-\rho^{-1}(r-\theta))o_t\)</span>$.</p>
+<p>Your task is to make a series of plots that show how the quality of the approximation deteriorates as you change various model parameters. The notebook aims to make this easier by showing that under the baseline parameter values, the percentage amount of the error is pretty much constant across different values of market resources, so you can assume that is generically true.</p>
+<p>To get you started, we show how to conduct the exercise under particularly simple parameterization (the Deaton/Friedman model where <span class="math notranslate nohighlight">\(R = \frac{1}{\beta}\)</span>, in which the only relevant parameter is the interest rate).</p>
+<p>Your specific assignment is:</p>
+<ol class="arabic simple">
+<li><p>Starting with the default parameterization of the model, show how the approximation quality changes with values of other parameters</p></li>
+<li><p>Explain, mathematically, why you get the patterns you do for how the solutions deteriorate as you change the parameter values</p></li>
+</ol>
+<p>Hints:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/MathFacts/MathFactsList.pdf">MathFactsList</a> describes the conditions under which the approximations will be good; you want to find conditions under which the approximations get bad</p></li>
+<li><p>An interesting question is the extent to which the size of approximation errors is related to the degree of impatience according to alternative metrics</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up a HARK Perfect Foresight Consumer called PFagent</span>
+
+
+<span class="c1"># Now we need to give our consumer parameter values that allow us to solve the consumer&#39;s problem</span>
+
+<span class="c1"># Invoke it to create a dictionary called Paramod (Params that we will modify)</span>
+<span class="c1"># deepcopy prevents later overwriting</span>
+<span class="n">Paramod</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">init_perfect_foresight</span><span class="p">)</span>
+
+<span class="c1"># Extract the parameters from the dictionary to make them easy to reference</span>
+<span class="n">CRRA</span> <span class="o">=</span> <span class="n">Paramod</span><span class="p">[</span><span class="s2">&quot;CRRA&quot;</span><span class="p">]</span>  <span class="c1"># Coefficient of relative risk aversion</span>
+<span class="n">Rfree</span> <span class="o">=</span> <span class="n">Paramod</span><span class="p">[</span><span class="s2">&quot;Rfree&quot;</span><span class="p">]</span>  <span class="c1"># Interest factor on assets</span>
+<span class="n">DiscFac</span> <span class="o">=</span> <span class="n">Paramod</span><span class="p">[</span><span class="s2">&quot;DiscFac&quot;</span><span class="p">]</span>  <span class="c1"># Intertemporal discount factor</span>
+<span class="n">PermGroFac</span> <span class="o">=</span> <span class="n">Paramod</span><span class="p">[</span><span class="s2">&quot;PermGroFac&quot;</span><span class="p">]</span>  <span class="c1"># Permanent income growth factor</span>
+<span class="n">LivPrb</span> <span class="o">=</span> <span class="n">Paramod</span><span class="p">[</span><span class="s2">&quot;LivPrb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>  <span class="c1"># Survival probability of 100 percent</span>
+<span class="c1"># This says that it is an infinite horizon model</span>
+<span class="n">cycles</span> <span class="o">=</span> <span class="n">Paramod</span><span class="p">[</span><span class="s2">&quot;cycles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now let&#39;s pass our dictionary to our consumer class to create an instance</span>
+<span class="n">PFagent</span> <span class="o">=</span> <span class="n">PerfForesightConsumerType</span><span class="p">(</span>
+    <span class="o">**</span><span class="n">Paramod</span>
+<span class="p">)</span>  <span class="c1"># Any parameters we did not modify get their default values</span>
+
+<span class="c1"># Solve the agent&#39;s problem</span>
+<span class="n">PFagent</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the consumption function approximation versus the &quot;true&quot; consumption function</span>
+
+<span class="c1"># Set out some range of market resources that we want to plot consumption for</span>
+<span class="n">mMin</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mMax</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">numPoints</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">m_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+    <span class="n">mMin</span><span class="p">,</span> <span class="n">mMax</span><span class="p">,</span> <span class="n">numPoints</span>
+<span class="p">)</span>  <span class="c1"># This creates an array of points in the given range</span>
+
+<span class="n">wealthHmn</span> <span class="o">=</span> <span class="n">PFagent</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span>
+    <span class="mi">0</span>
+<span class="p">]</span><span class="o">.</span><span class="n">hNrm</span>  <span class="c1"># normalized human wealth is constructed when we .solve()</span>
+<span class="n">wealthMkt</span> <span class="o">=</span> <span class="n">m_range</span>  <span class="c1"># bank balances plus current income</span>
+<span class="n">wealthTot</span> <span class="o">=</span> <span class="n">wealthHmn</span> <span class="o">+</span> <span class="n">wealthMkt</span>  <span class="c1"># Total wealth is the sum of human and market</span>
+
+<span class="c1"># Feed our range of market resources into our consumption function in order to get consumption at each point</span>
+<span class="c1"># (Remember, after doing .solve(), the consumption function is stored as PFagent.solution[0].cFunc)</span>
+<span class="n">cHARK</span> <span class="o">=</span> <span class="n">PFagent</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">(</span>
+    <span class="n">m_range</span>
+<span class="p">)</span>  <span class="c1"># Because the input m_range is an array, the output cHARK is too</span>
+<span class="n">cMax</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">cHARK</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.2</span>
+<span class="p">)</span>  <span class="c1"># The last point will be the largest; add 20 percent for visual appeal</span>
+
+<span class="c1"># Use matplotlib package (imported in first cell) to plot the consumption function</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># set the figure size</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">m_range</span><span class="p">,</span> <span class="n">cHARK</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Consumption Function from HARK&quot;</span>
+<span class="p">)</span>  <span class="c1"># m on the x axis vs c on the y axis</span>
+<span class="c1"># &#39;b&#39; is for blue</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Market resources m&quot;</span><span class="p">)</span>  <span class="c1"># x axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Consumption c&quot;</span><span class="p">)</span>  <span class="c1"># y axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cMax</span><span class="p">)</span>
+
+<span class="c1"># The plot is named plt and it hangs around like a variable</span>
+<span class="c1"># but is not displayed until you do a plt.show()</span>
+
+<span class="c1"># Construct the approximate consumption function</span>
+<span class="c1"># Also, recall that in the &quot;true&quot; consumption function what matters is total wealth,</span>
+<span class="c1"># not just market resources so we need to add in human wealth</span>
+
+<span class="c1"># Use the values of R, beta, and rho that we used above to construct rates</span>
+<span class="n">rfree</span> <span class="o">=</span> <span class="n">Rfree</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">discRte</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="n">DiscFac</span>
+<span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># See handout for why this is approximately the time preference rate</span>
+<span class="n">cApprox</span> <span class="o">=</span> <span class="n">wealthTot</span> <span class="o">*</span> <span class="p">(</span><span class="n">rfree</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">CRRA</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">rfree</span> <span class="o">-</span> <span class="n">discRte</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">m_range</span><span class="p">,</span> <span class="n">cApprox</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;c function approximated&quot;</span>
+<span class="p">)</span>  <span class="c1"># Add true consumption function line</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>  <span class="c1"># show the legend</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  <span class="c1"># show the plot</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6125382adb153fdb12b4f0b977e17b40056c13f7a6c9de4004e29a722bf8e20b.png" src="../_images/6125382adb153fdb12b4f0b977e17b40056c13f7a6c9de4004e29a722bf8e20b.png" />
+</div>
+</div>
+<p>The size of the error looks pretty stable, which we can show by calculating it in percentage terms</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the deviations</span>
+<span class="n">approximationError</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">cHARK</span> <span class="o">-</span> <span class="n">cApprox</span><span class="p">)</span> <span class="o">/</span> <span class="n">cHARK</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># set the figure size</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m_range</span><span class="p">,</span> <span class="n">approximationError</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;cHARK - cApprox&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Market resources&quot;</span><span class="p">)</span>  <span class="c1"># x axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percent deviation of approximation&quot;</span><span class="p">)</span>  <span class="c1"># y axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8d794b54428d8217ba4b6cc7b14fd9a53c666ab54fb9a202bdfa711560492b26.png" src="../_images/8d794b54428d8217ba4b6cc7b14fd9a53c666ab54fb9a202bdfa711560492b26.png" />
+</div>
+</div>
+<p>Now we want to calculate how the approximation quality depends on the interest factor.  We proceed as follows:</p>
+<ol class="arabic simple">
+<li><p>Create arrays of R values, such that the return patience factor is increasing as you descend through the array</p></li>
+<li><p>Set up a for loop in which we will:</p>
+<ol class="arabic simple">
+<li><p>Input the new value of <span class="math notranslate nohighlight">\(R\)</span></p></li>
+<li><p>Solve the HARK model for the consumption function</p></li>
+<li><p>Calculate the approximate consumption function</p></li>
+<li><p>Save the average deviation between the two functions</p></li>
+</ol>
+</li>
+<li><p>Then we can plot average deviation against the <span class="math notranslate nohighlight">\(R\)</span> factor</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create array of Rfree values, and calculate the patience factor</span>
+<span class="n">howMany</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">Rfree_min</span> <span class="o">=</span> <span class="n">Rfree</span>
+<span class="n">Rfree_max</span> <span class="o">=</span> <span class="n">Rfree</span><span class="o">**</span><span class="mi">20</span>
+<span class="n">Rfree_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Rfree_min</span><span class="p">,</span> <span class="n">Rfree_max</span><span class="p">,</span> <span class="n">howMany</span><span class="p">)</span>
+
+<span class="n">Pat_array</span> <span class="o">=</span> <span class="p">(</span><span class="n">Rfree_array</span> <span class="o">*</span> <span class="n">DiscFac</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">CRRA</span><span class="p">)</span>
+<span class="n">PatR_array</span> <span class="o">=</span> <span class="n">Pat_array</span> <span class="o">/</span> <span class="n">Rfree_array</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the time preference factor to match the interest factor so that $(R \beta) = 1$</span>
+
+<span class="n">Paramod</span><span class="p">[</span><span class="s2">&quot;DiscFac&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Rfree</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot average deviation from true consumption function</span>
+<span class="n">PFagent</span> <span class="o">=</span> <span class="n">PerfForesightConsumerType</span><span class="p">(</span>
+    <span class="o">**</span><span class="n">Paramod</span>
+<span class="p">)</span>  <span class="c1"># construct a consumer with our previous parameters</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># set the figure size</span>
+<span class="n">mean_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Rfree_array</span><span class="p">)):</span>
+    <span class="n">PFagent</span><span class="o">.</span><span class="n">Rfree</span> <span class="o">=</span> <span class="n">Rfree_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># Now we just copy the lines of code from above that we want</span>
+    <span class="n">PFagent</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+    <span class="n">cHARK</span> <span class="o">=</span> <span class="n">PFagent</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cFunc</span><span class="p">(</span><span class="n">m_range</span><span class="p">)</span>
+    <span class="n">wealthHmn</span> <span class="o">=</span> <span class="n">PFagent</span><span class="o">.</span><span class="n">solution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hNrm</span>
+    <span class="n">wealthTot</span> <span class="o">=</span> <span class="n">wealthHmn</span> <span class="o">+</span> <span class="n">m_range</span>
+    <span class="n">rfree</span> <span class="o">=</span> <span class="n">Rfree</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">discRte</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">DiscFac</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">cApprox</span> <span class="o">=</span> <span class="n">wealthTot</span> <span class="o">*</span> <span class="p">(</span><span class="n">rfree</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">CRRA</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">rfree</span> <span class="o">-</span> <span class="n">discRte</span><span class="p">))</span>
+    <span class="n">deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cApprox</span> <span class="o">/</span> <span class="n">cHARK</span><span class="p">))</span>
+    <span class="n">mean_dev</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">deviation</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Rfree_array</span><span class="p">,</span> <span class="n">mean_dev</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Return Factor&quot;</span><span class="p">)</span>  <span class="c1"># x axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot; Average deviation along consumption function&quot;</span><span class="p">)</span>  <span class="c1"># y axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/239762ba40798db7eb57d01c3687103dc1f7f3ebce6c255db576c4e701c0c773.png" src="../_images/239762ba40798db7eb57d01c3687103dc1f7f3ebce6c255db576c4e701c0c773.png" />
+</div>
+</div>
+<p>So, when the return factor gets to roughly 1.4, the error in the approximation is almost 80 percent.  It looks like the value for <span class="math notranslate nohighlight">\(R\)</span> where the approximation almost exactly matches the truth is about 1.035.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Nondurables-During-Great-Recession.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Spending on Nondurables During the Great Recession</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="PerfForesightCRRA-SavingRate.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Perfect Foresight CRRA Model - Saving Rate</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Econ-ARK Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

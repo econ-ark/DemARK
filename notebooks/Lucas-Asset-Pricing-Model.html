@@ -1,0 +1,1340 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Lucas Asset Pricing Model &#8212; DemARK</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Lucas-Asset-Pricing-Model';</script>
+    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The MPC out of Credit vs the MPC Out of Income" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html" />
+    <link rel="prev" title="The Life Cycle Model: Theory vs Data" href="LifeCycleModelTheoryVsData.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    DemARK
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Alternative-Combos-Of-Parameter-Values.html">Alternative Combinations of Parameter Values</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="ChangeLiqConstr.html">What Happens To the Consumption Function When A Liquidity Constraint is Tightened?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chinese-Growth.html">Do Precautionary Motives Explain China’s High Saving Rate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DCEGM-Upper-Envelope.html">DCEGM Upper Envelope</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="DiamondOLG.html">The Diamond OLG Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FisherTwoPeriod.html">The Fisher Two-Period Optimal Consumption Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html">A Gentle Introduction to HARK: Buffer Stock Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html">A Gentle Introduction to HARK: The Perfect Foresight Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Harmenberg-Aggregation.html">A Demonstration of the Harmenberg (2021) Aggregation Method</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="IncExpectationExample.html">The Persistent Shock Model and Income Expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="KeynesFriedmanModigliani.html">Introduction: Keynes, Friedman, Modigliani</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LC-Model-Expected-Vs-Realized-Income-Growth.html">Expectated vs Realized Income Growth in A Standard Life Cycle Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LifeCycleModelTheoryVsData.html">The Life Cycle Model: Theory vs Data</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lucas Asset Pricing Model</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html">The MPC out of Credit vs the MPC Out of Income</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Micro-and-Macro-Implications-of-Very-Impatient-HHs.html">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-Approximation.html">Perfect Foresight CRRA Model - Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html">Making Structural Estimates From Empirical Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TractableBufferStock-Interactive.html">The Tractable Buffer Stock Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/Lucas-Asset-Pricing-Model.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lucas Asset Pricing Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lucas Asset Pricing Model</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-notebook-by-christopher-d-carroll-and-mateo-velasquez-giraldo">A notebook by Christopher D. Carroll and Mateo Velásquez-Giraldo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspired-by-its-quantecon-counterpart">Inspired by its Quantecon counterpart</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-equilibrium-pricing-function">Finding the equilibrium pricing function.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-computational-representation-of-the-problem-and-its-solution">A computational representation of the problem and its solution.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-and-solving-an-example-economy-with-ar1-dividends">Creating and solving an example economy with AR1 dividends</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effect-of-risk-aversion">The effect of risk aversion.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-our-analytical-solutions">Testing our analytical solutions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-log-utility">Case 1: Log Utility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-i-i-d-dividends">Case 2: I.I.D dividends</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-dividends-that-are-a-geometric-random-walk-with-drift">Case 3: Dividends that are a geometric random walk with drift</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-our-approximation-of-the-dividend-process">Testing our approximation of the dividend process</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lucas-asset-pricing-model">
+<h1>Lucas Asset Pricing Model<a class="headerlink" href="#lucas-asset-pricing-model" title="Permalink to this headline">#</a></h1>
+<section id="a-notebook-by-christopher-d-carroll-and-mateo-velasquez-giraldo">
+<h2>A notebook by <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/">Christopher D. Carroll</a> and <a class="reference external" href="https://mv77.github.io/">Mateo Velásquez-Giraldo</a><a class="headerlink" href="#a-notebook-by-christopher-d-carroll-and-mateo-velasquez-giraldo" title="Permalink to this headline">#</a></h2>
+<section id="inspired-by-its-quantecon-counterpart">
+<h3>Inspired by its <a class="reference external" href="https://julia.quantecon.org/multi_agent_models/lucas_model.html">Quantecon counterpart</a><a class="headerlink" href="#inspired-by-its-quantecon-counterpart" title="Permalink to this headline">#</a></h3>
+<p>This notebook presents simple computational tools to solve an instance of Lucas’s asset-pricing model for which there is no analytical solution: The case when the logarithm of the asset’s dividend follows an autoregressive process of order 1,</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\ln d_{t+1} = \gamma + \alpha \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(-\frac{\sigma^2}{2}, \sigma).
+\end{equation*}\]</div>
+<p>A presentation of this model can be found in <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/">Christopher D. Carroll’s lecture notes</a>.</p>
+<p>Those notes use <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc">the Bellman equation</a> to derive a relationship between the price of the asset in the current period <span class="math notranslate nohighlight">\(t\)</span> and the next period <span class="math notranslate nohighlight">\(t+1\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+P_{t} =
+\overbrace{\left(\frac{1}{1+\vartheta}\right)}
+^{\beta}\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P_{t+1} + d_{t+1}) \right]
+\end{equation*}\]</div>
+<p>The equilibrium pricing equation is a relationship between the price and the dividend (a “pricing kernel”) <span class="math notranslate nohighlight">\(P^{*}(d)\)</span> such that, if everyone <em>believes</em> that to be the pricing kernel, everyone’s Euler equation will be satisfied:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+P^*(d_t) =   \left(\frac{1}{1+\vartheta}\right)\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right]
+\end{equation*}\]</div>
+<p>As noted in the handout, there are some special circumstances in which it is possible to solve for <span class="math notranslate nohighlight">\(P^{*}\)</span> analytically:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Shock Process</p></th>
+<th class="text-left head"><p>Mean Restrictions</p></th>
+<th class="text-left head"><p>CRRA</p></th>
+<th class="text-center head"><p>Solution for Pricing Kernel <span class="math notranslate nohighlight">\(P^*(d)\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>bounded, IID, <span class="math notranslate nohighlight">\(\mathbb{E}[d]=\bar{d}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(0 &lt; d &lt; \infty\)</span></p></td>
+<td class="text-left"><p>1 (log)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\vartheta^{-1}d\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>lognormal, mean 1</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\mu=-\sigma^{2}/2\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\vartheta^{-1}{d_t^\rho}~e^{\rho(\rho-1)\sigma^2/2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>lognormal mean <span class="math notranslate nohighlight">\(e^{\gamma}=\mathbb{E}[d_{t+1}/d_{t}]\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\({\mu~=-\sigma^{2}/2+\gamma}\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\vartheta^{-1}d_t^{\rho}e^{\rho\gamma+\rho(\rho-1)\sigma^2/2}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>However, under most circumstances, the only way to obtain the pricing function <span class="math notranslate nohighlight">\(P^{*}\)</span> is by solving for it numerically, as outlined below.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="finding-the-equilibrium-pricing-function">
+<h1>Finding the equilibrium pricing function.<a class="headerlink" href="#finding-the-equilibrium-pricing-function" title="Permalink to this headline">#</a></h1>
+<p>We know that the equilibrium pricing function must satisfy the equation above. Let’s define an operator that allows us to evaluate whether any candidate pricing function satisfies this requirement.</p>
+<p>Let <span class="math notranslate nohighlight">\(T\)</span> be an operator which takes as argument a function and returns another function (these are usually called <a class="reference external" href="https://en.wikipedia.org/wiki/Functional_(mathematics)">functionals or higher-order functions</a>). For some function <span class="math notranslate nohighlight">\(f\)</span>, denote with <span class="math notranslate nohighlight">\(T[f]\)</span> the function that results from applying <span class="math notranslate nohighlight">\(T\)</span> to <span class="math notranslate nohighlight">\(f\)</span>. Then, for any real number <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(T[f](x)\)</span> will be the real number that one obtains when the function <span class="math notranslate nohighlight">\(T[f]\)</span> is given <span class="math notranslate nohighlight">\(x\)</span> as an input.</p>
+<p>We define our particular operator as follows. For any function <span class="math notranslate nohighlight">\(g:\mathbb{R}\rightarrow\mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(T[g]\)</span> is obtained as</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\forall~d_t \in \mathbb{R},\,\,\,\, T[g](d_t) := \beta~\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right].
+\end{equation*}\]</div>
+<p>We can use <span class="math notranslate nohighlight">\(T\)</span> to re-express our pricing equation. If <span class="math notranslate nohighlight">\(P^*(\bullet)\)</span> is our equilibrium pricing funtion, it must satisfy</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\forall~d_t,\,\,\,\,P^*(d_t) = \beta\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P^*(d_{t+1}) + d_{t+1}) \right] = T[P^*](d_t).
+\end{equation*}\]</div>
+<p>or, expressed differently,</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+P^* = T[P^*].
+\end{equation*}\]</div>
+<p>Our equilibrium pricing function is therefore a <em>fixed point</em> of the operator <span class="math notranslate nohighlight">\(T\)</span>.</p>
+<p>It turns out that <span class="math notranslate nohighlight">\(T\)</span> is a <a class="reference external" href="https://en.wikipedia.org/wiki/Contraction_mapping">contraction mapping</a>. This is useful because it implies, through <a class="reference external" href="https://en.wikipedia.org/wiki/Contraction_mapping">Banach’s fixed-point theorem</a>, that:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(T\)</span> has <strong>exactly one</strong> fixed point.</p></li>
+<li><p>Starting from an arbitrary function <span class="math notranslate nohighlight">\(f\)</span>, the sequence <span class="math notranslate nohighlight">\(\{T^n[f]\}_{n=1}^{\infty}\)</span> converges to that fixed point.</p></li>
+</ul>
+<p>For our purposes, this translates to:</p>
+<ul class="simple">
+<li><p>Our equilibrium pricing function not only exists, but is unique.</p></li>
+<li><p>We can get arbitrarily close to the equilibrium pricing function by making some initial guess <span class="math notranslate nohighlight">\(f\)</span> and applying the operator <span class="math notranslate nohighlight">\(T\)</span> to it repeatedly.</p></li>
+</ul>
+<p>The code below creates a representation of our model and implements a solution routine to find <span class="math notranslate nohighlight">\(P^*\)</span>. The main components of this routine are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">priceOnePeriod</span></code>: this is operator <span class="math notranslate nohighlight">\(T\)</span> from above. It takes a function <span class="math notranslate nohighlight">\(f\)</span>, computes <span class="math notranslate nohighlight">\(\beta~\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (f(d_{t+1}) + d_{t+1}) \right]\)</span> for a grid of <span class="math notranslate nohighlight">\(d_t\)</span> values, and uses the result to construct a piecewise linear interpolator that approximates <span class="math notranslate nohighlight">\(T[f]\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">solve</span></code>: this is our iterative solution procedure. It generates an initial guess <span class="math notranslate nohighlight">\(f\)</span> and applies <code class="docutils literal notranslate"><span class="pre">priceOnePeriod</span></code> to it iteratively. At each application, it constructs a measure of how much the candidate pricing function changed. Once changes between successive iterations are small enough, it declares that the solution has converged.</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="a-computational-representation-of-the-problem-and-its-solution">
+<h1>A computational representation of the problem and its solution.<a class="headerlink" href="#a-computational-representation-of-the-problem-and-its-solution" title="Permalink to this headline">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Uninteresting</span> <span class="pre">setup:</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+
+<span class="kn">from</span> <span class="nn">HARK.rewards</span> <span class="kn">import</span> <span class="n">CRRAutilityP</span>
+<span class="kn">from</span> <span class="nn">HARK.distribution</span> <span class="kn">import</span> <span class="n">Normal</span><span class="p">,</span> <span class="n">calc_expectation</span>
+<span class="kn">from</span> <span class="nn">HARK.interpolation</span> <span class="kn">import</span> <span class="n">LinearInterp</span><span class="p">,</span> <span class="n">ConstantFunction</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A python class representing log-AR1 dividend processes.</span>
+
+
+<span class="k">class</span> <span class="nc">DivProcess</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">σ</span><span class="p">,</span> <span class="n">γ</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">nApprox</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">α</span> <span class="o">=</span> <span class="n">α</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">σ</span> <span class="o">=</span> <span class="n">σ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">γ</span> <span class="o">=</span> <span class="n">γ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nApprox</span> <span class="o">=</span> <span class="n">nApprox</span>
+
+        <span class="c1"># Create a discrete approximation to the random shock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ShkAppDstn</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">mu</span><span class="o">=-</span><span class="p">(</span><span class="n">σ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">σ</span><span class="p">)</span><span class="o">.</span><span class="n">discretize</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">nApprox</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getLogdGrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A method for creating a reasonable grid for log-dividends.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">μ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">γ</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">σ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">uncond_sd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">σ</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">α</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">uncond_mean</span> <span class="o">=</span> <span class="n">μ</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">α</span><span class="p">)</span>
+        <span class="n">logDGrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span> <span class="o">*</span> <span class="n">uncond_sd</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">uncond_sd</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">uncond_mean</span>
+        <span class="k">return</span> <span class="n">logDGrid</span>
+
+
+<span class="c1"># A class representing economies with Lucas trees.</span>
+<span class="k">class</span> <span class="nc">LucasEconomy</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A representation of an economy in which there are Lucas trees</span>
+<span class="sd">    whose dividends&#39; logarithm follows an AR1 process.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">CRRA</span><span class="p">,</span> <span class="n">DiscFac</span><span class="p">,</span> <span class="n">DivProcess</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CRRA</span> <span class="o">=</span> <span class="n">CRRA</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DiscFac</span> <span class="o">=</span> <span class="n">DiscFac</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DivProcess</span> <span class="o">=</span> <span class="n">DivProcess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uP</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">CRRAutilityP</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CRRA</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">priceOnePeriod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Pfunc_next</span><span class="p">,</span> <span class="n">logDGrid</span><span class="p">):</span>
+        <span class="c1"># Create a function that, given current dividends</span>
+        <span class="c1"># and the value of next period&#39;s shock, returns</span>
+        <span class="c1"># the discounted value derived from the asset next period.</span>
+        <span class="k">def</span> <span class="nf">discounted_value</span><span class="p">(</span><span class="n">shock</span><span class="p">,</span> <span class="n">log_d_now</span><span class="p">):</span>
+            <span class="c1"># Find dividends</span>
+            <span class="n">d_now</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_d_now</span><span class="p">)</span>
+            <span class="n">log_d_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DivProcess</span><span class="o">.</span><span class="n">γ</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">DivProcess</span><span class="o">.</span><span class="n">α</span> <span class="o">*</span> <span class="n">log_d_now</span> <span class="o">+</span> <span class="n">shock</span>
+            <span class="n">d_next</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_d_next</span><span class="p">)</span>
+
+            <span class="c1"># Payoff and sdf</span>
+            <span class="n">payoff_next</span> <span class="o">=</span> <span class="n">Pfunc_next</span><span class="p">(</span><span class="n">log_d_next</span><span class="p">)</span> <span class="o">+</span> <span class="n">d_next</span>
+            <span class="n">SDF</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DiscFac</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">uP</span><span class="p">(</span><span class="n">d_next</span> <span class="o">/</span> <span class="n">d_now</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">SDF</span> <span class="o">*</span> <span class="n">payoff_next</span>
+
+        <span class="c1"># The price at a given d_t is the expectation of the discounted value.</span>
+        <span class="c1"># Compute it at every d in our grid. The expectation is taken over next</span>
+        <span class="c1"># period&#39;s shocks</span>
+        <span class="n">prices_now</span> <span class="o">=</span> <span class="n">calc_expectation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">DivProcess</span><span class="o">.</span><span class="n">ShkAppDstn</span><span class="p">,</span> <span class="n">discounted_value</span><span class="p">,</span> <span class="n">logDGrid</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create new interpolating price function</span>
+        <span class="n">Pfunc_now</span> <span class="o">=</span> <span class="n">LinearInterp</span><span class="p">(</span><span class="n">logDGrid</span><span class="p">,</span> <span class="n">prices_now</span><span class="p">,</span> <span class="n">lower_extrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Pfunc_now</span>
+
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Pfunc_0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logDGrid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Initialize the norm</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">tol</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Initialize Pfunc if initial guess is not provided</span>
+        <span class="k">if</span> <span class="n">Pfunc_0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">Pfunc_0</span> <span class="o">=</span> <span class="n">ConstantFunction</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="c1"># Create a grid for log-dividends if one is not provided</span>
+        <span class="k">if</span> <span class="n">logDGrid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logDGrid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DivProcess</span><span class="o">.</span><span class="n">getLogdGrid</span><span class="p">()</span>
+
+        <span class="c1"># Initialize function and compute prices on the grid</span>
+        <span class="n">Pf_0</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">Pfunc_0</span><span class="p">)</span>
+        <span class="n">P_0</span> <span class="o">=</span> <span class="n">Pf_0</span><span class="p">(</span><span class="n">logDGrid</span><span class="p">)</span>
+
+        <span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">norm</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">it</span> <span class="o">&lt;</span> <span class="n">maxIter</span><span class="p">:</span>
+            <span class="c1"># Apply the pricing equation</span>
+            <span class="n">Pf_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">priceOnePeriod</span><span class="p">(</span><span class="n">Pf_0</span><span class="p">,</span> <span class="n">logDGrid</span><span class="p">)</span>
+            <span class="c1"># Find new prices on the grid</span>
+            <span class="n">P_next</span> <span class="o">=</span> <span class="n">Pf_next</span><span class="p">(</span><span class="n">logDGrid</span><span class="p">)</span>
+            <span class="c1"># Measure the change between price vectors</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">P_0</span> <span class="o">-</span> <span class="n">P_next</span><span class="p">)</span>
+            <span class="c1"># Update price function and vector</span>
+            <span class="n">Pf_0</span> <span class="o">=</span> <span class="n">Pf_next</span>
+            <span class="n">P_0</span> <span class="o">=</span> <span class="n">P_next</span>
+            <span class="n">it</span> <span class="o">=</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="c1"># Print iteration information</span>
+            <span class="k">if</span> <span class="n">disp</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iter:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;   Norm = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">norm</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">disp</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">norm</span> <span class="o">&lt;=</span> <span class="n">tol</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Price function converged!&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Maximum iterations exceeded!&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">EqlogPfun</span> <span class="o">=</span> <span class="n">Pf_0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EqPfun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">EqlogPfun</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="creating-and-solving-an-example-economy-with-ar1-dividends">
+<h1>Creating and solving an example economy with AR1 dividends<a class="headerlink" href="#creating-and-solving-an-example-economy-with-ar1-dividends" title="Permalink to this headline">#</a></h1>
+<p>An economy is fully specified by:</p>
+<ul class="simple">
+<li><p><strong>The dividend process for the assets (trees)</strong>: we assume that <span class="math notranslate nohighlight">\(\ln d_{t+1} = \alpha \ln d_t + \varepsilon_{t+1}\)</span>, <span class="math notranslate nohighlight">\(\varepsilon_{t+1}\sim\mathcal{N}(-\sigma^2/2,\sigma)\)</span>. We must create a dividend process specifying <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\sigma_{\varepsilon}\)</span>.</p></li>
+<li><p><strong>The coefficient of relative risk aversion (CRRA).</strong></p></li>
+<li><p><strong>The time-discount factor (<span class="math notranslate nohighlight">\(\beta\)</span>).</strong></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a log-AR1 process for dividends</span>
+<span class="n">DivProc</span> <span class="o">=</span> <span class="n">DivProcess</span><span class="p">(</span><span class="n">α</span><span class="o">=</span><span class="mf">0.90</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c1"># Create an example economy</span>
+<span class="n">economy</span> <span class="o">=</span> <span class="n">LucasEconomy</span><span class="p">(</span><span class="n">CRRA</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">DiscFac</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">DivProcess</span><span class="o">=</span><span class="n">DivProc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once created, the economy can be ‘solved’, which means finding the equilibrium price kernel. The distribution of dividends at period <span class="math notranslate nohighlight">\(t+1\)</span> depends on the value of dividends at <span class="math notranslate nohighlight">\(t\)</span>, which also determines the resources agents have available to buy trees. Thus, <span class="math notranslate nohighlight">\(d_t\)</span> is a state variable for the economy. The pricing function gives the price of trees that equates their demand and supply at every level of current dividends <span class="math notranslate nohighlight">\(d_t\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">dir</span><span class="p">(</span><span class="n">economy</span><span class="o">.</span><span class="n">solve</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;__bool__&#39;,
+ &#39;__class__&#39;,
+ &#39;__delattr__&#39;,
+ &#39;__dir__&#39;,
+ &#39;__doc__&#39;,
+ &#39;__eq__&#39;,
+ &#39;__format__&#39;,
+ &#39;__ge__&#39;,
+ &#39;__getattribute__&#39;,
+ &#39;__gt__&#39;,
+ &#39;__hash__&#39;,
+ &#39;__init__&#39;,
+ &#39;__init_subclass__&#39;,
+ &#39;__le__&#39;,
+ &#39;__lt__&#39;,
+ &#39;__ne__&#39;,
+ &#39;__new__&#39;,
+ &#39;__reduce__&#39;,
+ &#39;__reduce_ex__&#39;,
+ &#39;__repr__&#39;,
+ &#39;__setattr__&#39;,
+ &#39;__sizeof__&#39;,
+ &#39;__str__&#39;,
+ &#39;__subclasshook__&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solve the economy, displaying the error term for each iteration</span>
+<span class="n">economy</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># After the economy is solved, we can use its Equilibrium price function</span>
+<span class="c1"># to tell us the price if the dividend is 1</span>
+<span class="n">dvdnd</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(</span><span class="si">{}</span><span class="s2">) = </span><span class="si">{:.6}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dvdnd</span><span class="p">,</span> <span class="n">economy</span><span class="o">.</span><span class="n">EqPfun</span><span class="p">(</span><span class="n">dvdnd</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter:1   Norm = 14.343105940863438
+Iter:2   Norm = 14.614867281705969
+Iter:3   Norm = 14.814622331196347
+Iter:4   Norm = 14.939364249843893
+Iter:5   Norm = 14.989619417063066
+Iter:6   Norm = 14.968432855040835
+Iter:7   Norm = 14.880572667620445
+Iter:8   Norm = 14.73192747401416
+Iter:9   Norm = 14.5290204755816
+Iter:10   Norm = 14.27863885462821
+Iter:11   Norm = 13.987555448796957
+Iter:12   Norm = 13.662325970904492
+Iter:13   Norm = 13.30914799799349
+Iter:14   Norm = 12.933769279361973
+Iter:15   Norm = 12.541434778119806
+Iter:16   Norm = 12.136863389363524
+Iter:17   Norm = 11.724246791512222
+Iter:18   Norm = 11.3072642486562
+Iter:19   Norm = 10.889108394490156
+Iter:20   Norm = 10.472518082357029
+Iter:21   Norm = 10.059815280329316
+Iter:22   Norm = 9.652943734511783
+Iter:23   Norm = 9.25350773099282
+Iter:24   Norm = 8.862809773368157
+Iter:25   Norm = 8.48188637549298
+Iter:26   Norm = 8.111541464653387
+Iter:27   Norm = 7.7523771140274755
+Iter:28   Norm = 7.404821488811609
+Iter:29   Norm = 7.069154009563305
+Iter:30   Norm = 6.745527819188141
+Iter:31   Norm = 6.433989694880894
+Iter:32   Norm = 6.134497580005323
+Iter:33   Norm = 5.846935928796918
+Iter:34   Norm = 5.571129063207804
+Iter:35   Norm = 5.3068527395357386
+Iter:36   Norm = 5.053844115275647
+Iter:37   Norm = 4.811810295859226
+Iter:38   Norm = 4.580435628061414
+Iter:39   Norm = 4.35938789292628
+Iter:40   Norm = 4.148323536854981
+Iter:41   Norm = 3.9468920655415816
+Iter:42   Norm = 3.7547397120884503
+Iter:43   Norm = 3.5715124781037875
+Iter:44   Norm = 3.3968586350059375
+Iter:45   Norm = 3.2304307621839126
+Iter:46   Norm = 3.071887389099922
+Iter:47   Norm = 2.9208942998374487
+Iter:48   Norm = 2.777125550947049
+Iter:49   Norm = 2.640264246662137
+Iter:50   Norm = 2.5100031095739097
+Iter:51   Norm = 2.386044879600499
+Iter:52   Norm = 2.2681025694850123
+Iter:53   Norm = 2.155899601045682
+Iter:54   Norm = 2.0491698429087717
+Iter:55   Norm = 1.9476575674272236
+Iter:56   Norm = 1.8511173418644893
+Iter:57   Norm = 1.7593138666580268
+Iter:58   Norm = 1.6720217716244028
+Iter:59   Norm = 1.5890253792862707
+Iter:60   Norm = 1.5101184430586014
+Iter:61   Norm = 1.4351038667928828
+Iter:62   Norm = 1.363793411118631
+Iter:63   Norm = 1.2960073911145968
+Iter:64   Norm = 1.2315743690705407
+Iter:65   Norm = 1.1703308454399977
+Iter:66   Norm = 1.1121209505264502
+Iter:67   Norm = 1.0567961389685383
+Iter:68   Norm = 1.0042148886880011
+Iter:69   Norm = 0.9542424056244498
+Iter:70   Norm = 0.9067503352924983
+Iter:71   Norm = 0.8616164819572144
+Iter:72   Norm = 0.8187245360206581
+Iter:73   Norm = 0.777963810043276
+Iter:74   Norm = 0.7392289836834668
+Iter:75   Norm = 0.7024198577214341
+Iter:76   Norm = 0.6674411172382658
+Iter:77   Norm = 0.6342021039411868
+Iter:78   Norm = 0.6026165975626967
+Iter:79   Norm = 0.5726026062095593
+Iter:80   Norm = 0.5440821654963962
+Iter:81   Norm = 0.5169811462657237
+Iter:82   Norm = 0.4912290706735445
+Iter:83   Norm = 0.4667589363978985
+Iter:84   Norm = 0.4435070487169933
+Iter:85   Norm = 0.4214128601936726
+Iter:86   Norm = 0.4004188176968129
+Iter:87   Norm = 0.3804702164882442
+Iter:88   Norm = 0.3615150611045506
+Iter:89   Norm = 0.3435039327629058
+Iter:90   Norm = 0.3263898630258407
+Iter:91   Norm = 0.31012821346310765
+Iter:92   Norm = 0.29467656105468776
+Iter:93   Norm = 0.2799945890862761
+Iter:94   Norm = 0.2660439832949582
+Iter:95   Norm = 0.25278833303012815
+Iter:96   Norm = 0.24019303720337937
+Iter:97   Norm = 0.22822521480791
+Iter:98   Norm = 0.21685361979728987
+Iter:99   Norm = 0.20604856012012812
+Iter:100   Norm = 0.19578182071639585
+Iter:101   Norm = 0.18602659028841215
+Iter:102   Norm = 0.17675739166718749
+Iter:103   Norm = 0.16795001560347053
+Iter:104   Norm = 0.15958145781813754
+Iter:105   Norm = 0.15162985915675387
+Iter:106   Norm = 0.1440744486970465
+Iter:107   Norm = 0.13689548966716145
+Iter:108   Norm = 0.1300742280379501
+Iter:109   Norm = 0.12359284365898582
+Iter:110   Norm = 0.11743440381385287
+Iter:111   Norm = 0.11158281907722682
+Iter:112   Norm = 0.10602280136008792
+Iter:113   Norm = 0.10073982403586114
+Iter:114   Norm = 0.09572008404578435
+Iter:115   Norm = 0.0909504658848579
+Iter:116   Norm = 0.0864185073769838
+Iter:117   Norm = 0.08211236714997107
+Iter:118   Norm = 0.07802079372733338
+Iter:119   Norm = 0.07413309615584324
+Iter:120   Norm = 0.07043911609432163
+Iter:121   Norm = 0.06692920128960896
+Iter:122   Norm = 0.06359418037266722
+Iter:123   Norm = 0.06042533890809722
+Iter:124   Norm = 0.05741439663543477
+Iter:125   Norm = 0.0545534858432239
+Iter:126   Norm = 0.051835130819407375
+Iter:127   Norm = 0.049252228324352464
+Iter:128   Norm = 0.04679802903643069
+Iter:129   Norm = 0.044466119920942716
+Iter:130   Norm = 0.042250407477211725
+Iter:131   Norm = 0.04014510181974677
+Iter:132   Norm = 0.03814470155214248
+Iter:133   Norm = 0.03624397939440211
+Iter:134   Norm = 0.034437968526057114
+Iter:135   Norm = 0.03272194960919093
+Iter:136   Norm = 0.031091438458342748
+Iter:137   Norm = 0.029542174324351838
+Iter:138   Norm = 0.028070108761446153
+Iter:139   Norm = 0.026671395049848928
+Iter:140   Norm = 0.025342378144174213
+Iter:141   Norm = 0.024079585123427883
+Iter:142   Norm = 0.022879716116433774
+Iter:143   Norm = 0.021739635679333895
+Iter:144   Norm = 0.02065636460273195
+Iter:145   Norm = 0.019627072127074915
+Iter:146   Norm = 0.018649068545738362
+Iter:147   Norm = 0.017719798176789193
+Iter:148   Norm = 0.01683683268482979
+Iter:149   Norm = 0.015997864735639244
+Iter:150   Norm = 0.01520070196686856
+Iter:151   Norm = 0.014443261259225083
+Iter:152   Norm = 0.013723563293187878
+Iter:153   Norm = 0.01303972737681467
+Iter:154   Norm = 0.012389966531127358
+Iter:155   Norm = 0.011772582820773338
+Iter:156   Norm = 0.011185962916940791
+Iter:157   Norm = 0.010628573881535102
+Iter:158   Norm = 0.010098959161585905
+Iter:159   Norm = 0.009595734782818088
+Iter:160   Norm = 0.009117585733336245
+Iter:161   Norm = 0.008663262527128218
+Iter:162   Norm = 0.008231577939249562
+Iter:163   Norm = 0.007821403903161793
+Iter:164   Norm = 0.007431668562943249
+Iter:165   Norm = 0.007061353472601577
+Iter:166   Norm = 0.006709490934445101
+Iter:167   Norm = 0.0063751614704834645
+Iter:168   Norm = 0.0060574914196175065
+Iter:169   Norm = 0.005755650654653111
+Iter:170   Norm = 0.005468850413060355
+Iter:171   Norm = 0.005196341235746825
+Iter:172   Norm = 0.00493741100867157
+Iter:173   Norm = 0.004691383101924792
+Iter:174   Norm = 0.004457614601628931
+Iter:175   Norm = 0.00423549462978277
+Iter:176   Norm = 0.004024442748050179
+Iter:177   Norm = 0.0038239074409148017
+Iter:178   Norm = 0.003633364674561328
+Iter:179   Norm = 0.003452316527389656
+Iter:180   Norm = 0.003280289888824077
+Iter:181   Norm = 0.003116835223200215
+Iter:182   Norm = 0.002961525394787359
+Iter:183   Norm = 0.0028139545518069764
+Iter:184   Norm = 0.0026737370658110695
+Iter:185   Norm = 0.0025405065238630438
+Iter:186   Norm = 0.002413914771256878
+Iter:187   Norm = 0.0022936310015267115
+Iter:188   Norm = 0.00217934089206645
+Iter:189   Norm = 0.002070745782833111
+Iter:190   Norm = 0.001967561895684455
+Iter:191   Norm = 0.0018695195931025907
+Iter:192   Norm = 0.0017763626732679354
+Iter:193   Norm = 0.0016878477009184716
+Iter:194   Norm = 0.0016037433708348343
+Iter:195   Norm = 0.0015238299036204762
+Iter:196   Norm = 0.0014478984713628658
+Iter:197   Norm = 0.0013757506520023714
+Iter:198   Norm = 0.0013071979105124451
+Iter:199   Norm = 0.001242061106642273
+Iter:200   Norm = 0.001180170026421574
+Iter:201   Norm = 0.0011213629375867195
+Iter:202   Norm = 0.0010654861669943203
+Iter:203   Norm = 0.0010123936987897616
+Iter:204   Norm = 0.000961946792948954
+Iter:205   Norm = 0.0009140136229792023
+Iter:206   Norm = 0.0008684689310162017
+Iter:207   Norm = 0.000825193700814404
+Iter:208   Norm = 0.0007840748466052515
+Iter:209   Norm = 0.0007450049175907054
+Iter:210   Norm = 0.0007078818171714935
+Iter:211   Norm = 0.0006726085362399303
+Iter:212   Norm = 0.0006390928994438927
+Iter:213   Norm = 0.0006072473245845859
+Iter:214   Norm = 0.0005769885936142892
+Iter:215   Norm = 0.0005482376350670938
+Iter:216   Norm = 0.0005209193176860744
+Iter:217   Norm = 0.0004949622539935965
+Iter:218   Norm = 0.0004702986134931324
+Iter:219   Norm = 0.0004468639458287134
+Iter:220   Norm = 0.00042459701210610814
+Iter:221   Norm = 0.0004034396248758427
+Iter:222   Norm = 0.0003833364962208804
+Iter:223   Norm = 0.0003642350931570935
+Iter:224   Norm = 0.00034608550027206037
+Iter:225   Norm = 0.00032884028958557384
+Iter:226   Norm = 0.0003124543962632851
+Iter:227   Norm = 0.00029688500116376195
+Iter:228   Norm = 0.0002820914186545989
+Iter:229   Norm = 0.0002680349905641573
+Iter:230   Norm = 0.0002546789849526282
+Iter:231   Norm = 0.00024198850022569054
+Iter:232   Norm = 0.00022993037390888185
+Iter:233   Norm = 0.0002184730960412357
+Iter:234   Norm = 0.00020758672669099641
+Iter:235   Norm = 0.00019724281794847868
+Iter:236   Norm = 0.00018741433927534293
+Iter:237   Norm = 0.00017807560719459206
+Iter:238   Norm = 0.00016920221788795464
+Iter:239   Norm = 0.00016077098371868116
+Iter:240   Norm = 0.00015275987235209654
+Iter:241   Norm = 0.00014514794933393412
+Iter:242   Norm = 0.000137915323368988
+Iter:243   Norm = 0.00013104309441994732
+Iter:244   Norm = 0.00012451330402438656
+Iter:245   Norm = 0.00011830888870680162
+Iter:246   Norm = 0.00011241363534546826
+Iter:247   Norm = 0.00010681213854175861
+Iter:248   Norm = 0.00010148976060541115
+Iter:249   Norm = 9.643259320452332e-05
+Iter:250   Norm = 9.162742109229409e-05
+Iter:251   Norm = 8.706168754797528e-05
+Iter:252   Norm = 8.272346146074223e-05
+Iter:253   Norm = 7.86014062770816e-05
+Iter:254   Norm = 7.468475039850255e-05
+Iter:255   Norm = 7.096325889092601e-05
+Iter:256   Norm = 6.742720680376835e-05
+Iter:257   Norm = 6.4067353890438e-05
+Iter:258   Norm = 6.0874920142952114e-05
+Iter:259   Norm = 5.784156328112338e-05
+Iter:260   Norm = 5.495935660648073e-05
+Iter:261   Norm = 5.2220768368362004e-05
+Iter:262   Norm = 4.9618642119478945e-05
+Iter:263   Norm = 4.714617814567987e-05
+Iter:264   Norm = 4.479691539580191e-05
+Iter:265   Norm = 4.256471481217405e-05
+Iter:266   Norm = 4.044374335830097e-05
+Iter:267   Norm = 3.842845849333558e-05
+Iter:268   Norm = 3.65135938982983e-05
+Iter:269   Norm = 3.469414573857619e-05
+Iter:270   Norm = 3.296535951104323e-05
+Iter:271   Norm = 3.132271754394994e-05
+Iter:272   Norm = 2.976192733783344e-05
+Iter:273   Norm = 2.8278910250457216e-05
+Iter:274   Norm = 2.68697908851335e-05
+Iter:275   Norm = 2.5530887090597235e-05
+Iter:276   Norm = 2.4258699914108744e-05
+Iter:277   Norm = 2.3049905014596405e-05
+Iter:278   Norm = 2.1901343551848986e-05
+Iter:279   Norm = 2.081001414924194e-05
+Iter:280   Norm = 1.9773064941147656e-05
+Iter:281   Norm = 1.8787786265809366e-05
+Iter:282   Norm = 1.7851603348882715e-05
+Iter:283   Norm = 1.6962069821228414e-05
+Iter:284   Norm = 1.6116861097587836e-05
+Iter:285   Norm = 1.53137686383757e-05
+Iter:286   Norm = 1.4550693709896469e-05
+Iter:287   Norm = 1.382564231138543e-05
+Iter:288   Norm = 1.3136719720665099e-05
+Iter:289   Norm = 1.2482125700600421e-05
+Iter:290   Norm = 1.1860149674182694e-05
+Iter:291   Norm = 1.1269166261449788e-05
+Iter:292   Norm = 1.0707631197088599e-05
+Iter:293   Norm = 1.0174077048776084e-05
+Iter:294   Norm = 9.667109545835579e-06
+Price function converged!
+P(1) = 20.1571
+</pre></div>
+</div>
+</div>
+</div>
+<section id="the-effect-of-risk-aversion">
+<h2>The effect of risk aversion.<a class="headerlink" href="#the-effect-of-risk-aversion" title="Permalink to this headline">#</a></h2>
+<p><a class="reference external" href="https://llorracc.github.io/LucasAssetPrice/#a-surprise">The notes</a> discuss the surprising implication that an increase in the coefficient of relative risk aversion <span class="math notranslate nohighlight">\(\rho\)</span> leads to higher prices for the risky trees! This is demonstrated below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create two economies with different risk aversion</span>
+<span class="n">Disc</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">LowCRRAEcon</span> <span class="o">=</span> <span class="n">LucasEconomy</span><span class="p">(</span><span class="n">CRRA</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">DiscFac</span><span class="o">=</span><span class="n">Disc</span><span class="p">,</span> <span class="n">DivProcess</span><span class="o">=</span><span class="n">DivProc</span><span class="p">)</span>
+<span class="n">HighCRRAEcon</span> <span class="o">=</span> <span class="n">LucasEconomy</span><span class="p">(</span><span class="n">CRRA</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">DiscFac</span><span class="o">=</span><span class="n">Disc</span><span class="p">,</span> <span class="n">DivProcess</span><span class="o">=</span><span class="n">DivProc</span><span class="p">)</span>
+
+<span class="c1"># Solve both</span>
+<span class="n">LowCRRAEcon</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="n">HighCRRAEcon</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="c1"># Plot the pricing functions for both</span>
+<span class="n">dGrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">LowCRRAEcon</span><span class="o">.</span><span class="n">EqPfun</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Low CRRA&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">HighCRRAEcon</span><span class="o">.</span><span class="n">EqPfun</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;High CRRA&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$d_t$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$P_t$&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$P_t$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/d484f242ad8a958717b60c3ed7a0a9f58a8f4bd11e3caf29705fe4a4d13e0972.png" src="../_images/d484f242ad8a958717b60c3ed7a0a9f58a8f4bd11e3caf29705fe4a4d13e0972.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="testing-our-analytical-solutions">
+<h1>Testing our analytical solutions<a class="headerlink" href="#testing-our-analytical-solutions" title="Permalink to this headline">#</a></h1>
+<section id="case-1-log-utility">
+<h2>Case 1: Log Utility<a class="headerlink" href="#case-1-log-utility" title="Permalink to this headline">#</a></h2>
+<p>The lecture notes show that with logarithmic utility (a CRRA of <span class="math notranslate nohighlight">\(1\)</span>), the pricing kernel has a closed form expression: $<span class="math notranslate nohighlight">\(P^*(d_t) = \frac{d_t}{\vartheta}\)</span>$.</p>
+<p>We now compare our numerical solution with this analytical expression.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an economy with log utility and the same dividend process from before</span>
+<span class="n">logUtilEcon</span> <span class="o">=</span> <span class="n">LucasEconomy</span><span class="p">(</span><span class="n">CRRA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">DiscFac</span><span class="o">=</span><span class="n">Disc</span><span class="p">,</span> <span class="n">DivProcess</span><span class="o">=</span><span class="n">DivProc</span><span class="p">)</span>
+<span class="c1"># Solve it</span>
+<span class="n">logUtilEcon</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="c1"># Generate a function with our analytical solution</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Disc</span> <span class="o">-</span> <span class="mi">1</span>
+
+
+<span class="k">def</span> <span class="nf">aSol</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span> <span class="o">/</span> <span class="n">theta</span>
+
+
+<span class="c1"># Get a grid for d over which to compare them</span>
+<span class="n">dGrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">DivProc</span><span class="o">.</span><span class="n">getLogdGrid</span><span class="p">())</span>
+
+<span class="c1"># Plot both</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">aSol</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Analytical solution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">logUtilEcon</span><span class="o">.</span><span class="n">EqPfun</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Numerical solution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$d_t$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$P^*(d_t)$&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$P^*(d_t)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/a93a2147a6ea447e2fffa4c694afa6c1a861503dc4edd42ee7a5d34476e287c6.png" src="../_images/a93a2147a6ea447e2fffa4c694afa6c1a861503dc4edd42ee7a5d34476e287c6.png" />
+</div>
+</div>
+</section>
+<section id="case-2-i-i-d-dividends">
+<h2>Case 2: I.I.D dividends<a class="headerlink" href="#case-2-i-i-d-dividends" title="Permalink to this headline">#</a></h2>
+<p>The <a class="reference external" href="https://llorracc.github.io/LucasAssetPrice/#when-dividends-are-IID">notes also show</a> that, if <span class="math notranslate nohighlight">\(\ln d_{t+n}\sim \mathcal{N}(-\sigma^2/2, \sigma^2)\)</span> for all <span class="math notranslate nohighlight">\(n\)</span>, the pricing kernel is exactly</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+ P^*(d_t) = d_t^\rho\times e^{\rho(\rho-1)\sigma^2/2}\overbrace{\frac{\beta}{1-\beta}}^{=\vartheta}
+ \end{equation*}\]</div>
+<p>We now our numerical solution for this case.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an i.i.d. dividend process</span>
+<span class="n">σ</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">iidDivs</span> <span class="o">=</span> <span class="n">DivProcess</span><span class="p">(</span><span class="n">α</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="n">σ</span><span class="p">)</span>
+
+<span class="c1"># And an economy that embeds it</span>
+<span class="n">CRRA</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">Disc</span> <span class="o">=</span> <span class="mf">0.9</span>
+
+<span class="n">iidEcon</span> <span class="o">=</span> <span class="n">LucasEconomy</span><span class="p">(</span><span class="n">CRRA</span><span class="o">=</span><span class="n">CRRA</span><span class="p">,</span> <span class="n">DiscFac</span><span class="o">=</span><span class="n">Disc</span><span class="p">,</span> <span class="n">DivProcess</span><span class="o">=</span><span class="n">iidDivs</span><span class="p">)</span>
+<span class="n">iidEcon</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="c1"># Generate a function with our analytical solution</span>
+<span class="n">dTil</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">σ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">CRRA</span> <span class="o">*</span> <span class="p">(</span><span class="n">CRRA</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">aSolIID</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span><span class="o">**</span><span class="n">CRRA</span> <span class="o">*</span> <span class="n">dTil</span> <span class="o">*</span> <span class="n">Disc</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Disc</span><span class="p">)</span>
+
+
+<span class="c1"># Get a grid for d over which to compare them</span>
+<span class="n">dGrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">iidDivs</span><span class="o">.</span><span class="n">getLogdGrid</span><span class="p">())</span>
+
+<span class="c1"># Plot both</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">aSolIID</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Analytical solution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">iidEcon</span><span class="o">.</span><span class="n">EqPfun</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Numerical solution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$d_t$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$P^*(d_t)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/791b64e3889350af30f6cd98aaa20b1b778d9601b59bc3fe6629da30b3d7baed.png" src="../_images/791b64e3889350af30f6cd98aaa20b1b778d9601b59bc3fe6629da30b3d7baed.png" />
+</div>
+</div>
+</section>
+<section id="case-3-dividends-that-are-a-geometric-random-walk-with-drift">
+<h2>Case 3: Dividends that are a geometric random walk with drift<a class="headerlink" href="#case-3-dividends-that-are-a-geometric-random-walk-with-drift" title="Permalink to this headline">#</a></h2>
+<p>The notes also show that if the dividend process is</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\ln d_{t+1} = \gamma + \ln d_t + \varepsilon_{t+1}, \qquad \varepsilon \sim \mathcal{N}(-\frac{\sigma^2}{2}, \sigma).
+\end{equation*}\]</div>
+<p>so that <span class="math notranslate nohighlight">\(E_t[d_{t+1}/d_t] = e^\gamma\)</span>, then we have</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+ P^*(d_t) = d_t^\rho\times e^{(\rho-1)\left(\rho\sigma^2/2 - \gamma\right)}\overbrace{\frac{\beta}{1-\beta}}^{\vartheta}
+\end{equation*}\]</div>
+<p>which, when <span class="math notranslate nohighlight">\(\rho=1\)</span>, reduces (as it should) to</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+ \frac{P^*(d_t)}{d_t} = \vartheta
+\end{equation*}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CRRA</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">Disc</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">σ</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">γ</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+<span class="c1"># Create a random walk dividend process</span>
+<span class="c1"># (it turns out that the whole model can be normalized by d_t, and</span>
+<span class="c1"># in normalized, terms the dividend proces becomes iid again)</span>
+<span class="n">rw_divs</span> <span class="o">=</span> <span class="n">DivProcess</span><span class="p">(</span><span class="n">γ</span><span class="o">=</span><span class="n">γ</span><span class="p">,</span> <span class="n">α</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="n">σ</span><span class="p">)</span>
+
+<span class="c1"># And an economy that embeds it</span>
+<span class="n">rw_econ</span> <span class="o">=</span> <span class="n">LucasEconomy</span><span class="p">(</span><span class="n">CRRA</span><span class="o">=</span><span class="n">CRRA</span><span class="p">,</span> <span class="n">DiscFac</span><span class="o">=</span><span class="n">Disc</span><span class="p">,</span> <span class="n">DivProcess</span><span class="o">=</span><span class="n">rw_divs</span><span class="p">)</span>
+<span class="n">rw_econ</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="c1"># Generate a function with our analytical solution</span>
+<span class="n">a_sol_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">CRRA</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">CRRA</span> <span class="o">*</span> <span class="n">σ</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">γ</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">a_sol_rw</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span><span class="o">**</span><span class="n">CRRA</span> <span class="o">*</span> <span class="n">a_sol_factor</span> <span class="o">*</span> <span class="n">Disc</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Disc</span><span class="p">)</span>
+
+
+<span class="c1"># Get a grid for d over which to compare them</span>
+<span class="n">dGrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">rw_divs</span><span class="o">.</span><span class="n">getLogdGrid</span><span class="p">())</span>
+
+<span class="c1"># Plot both</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">a_sol_rw</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Analytical solution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">rw_econ</span><span class="o">.</span><span class="n">EqPfun</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Numerical solution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$d_t$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$P^*(d_t)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e84876a80c6d2371bf9a08299f402a2616991a550e262929366db14105e99633.png" src="../_images/e84876a80c6d2371bf9a08299f402a2616991a550e262929366db14105e99633.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="testing-our-approximation-of-the-dividend-process">
+<h1>Testing our approximation of the dividend process<a class="headerlink" href="#testing-our-approximation-of-the-dividend-process" title="Permalink to this headline">#</a></h1>
+<p>Hidden in the solution method implemented above is the fact that, in order to make expectations easy to compute, we discretize the random shock <span class="math notranslate nohighlight">\(\varepsilon_t\)</span>, which is to say, we create a discrete variable <span class="math notranslate nohighlight">\(\tilde{\varepsilon}\)</span> that approximates the behavior of <span class="math notranslate nohighlight">\(\varepsilon_t\)</span>. This is done using a <a class="reference external" href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Hermite_quadrature">Gauss-Hermite quadrature</a>.</p>
+<p>A parameter for the numerical solution is the number of different values that we allow our discrete approximation <span class="math notranslate nohighlight">\(\tilde{\varepsilon}\)</span> to take, <span class="math notranslate nohighlight">\(n^{\#}\)</span>. We would expect a higher <span class="math notranslate nohighlight">\(n^#\)</span> to improve our solution, as the discrete approximation of <span class="math notranslate nohighlight">\(\varepsilon_t\)</span> improves. We test this below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase CRRA to make the effect of uncertainty more evident.</span>
+<span class="n">CRRA</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">Disc</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">σ</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">dTil</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">σ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">CRRA</span> <span class="o">*</span> <span class="p">(</span><span class="n">CRRA</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">aSolIID</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span><span class="o">**</span><span class="n">CRRA</span> <span class="o">*</span> <span class="n">dTil</span> <span class="o">*</span> <span class="n">Disc</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Disc</span><span class="p">)</span>
+
+
+<span class="n">dGrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">iidDivs</span><span class="o">.</span><span class="n">getLogdGrid</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">:</span>
+    <span class="n">iidDivs</span> <span class="o">=</span> <span class="n">DivProcess</span><span class="p">(</span><span class="n">α</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="n">σ</span><span class="p">,</span> <span class="n">nApprox</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">iidEcon</span> <span class="o">=</span> <span class="n">LucasEconomy</span><span class="p">(</span><span class="n">CRRA</span><span class="o">=</span><span class="n">CRRA</span><span class="p">,</span> <span class="n">DiscFac</span><span class="o">=</span><span class="n">Disc</span><span class="p">,</span> <span class="n">DivProcess</span><span class="o">=</span><span class="n">iidDivs</span><span class="p">)</span>
+    <span class="n">iidEcon</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">iidEcon</span><span class="o">.</span><span class="n">EqPfun</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Num.Sol. $n^\#$ = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="c1"># Plot both</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dGrid</span><span class="p">,</span> <span class="n">aSolIID</span><span class="p">(</span><span class="n">dGrid</span><span class="p">),</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Analytical solution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$d_t$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$P^*(d_t)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a0d18f0b8747a5c0b01f319d2e1d7a155c1350609565fbb6cfc62319fbb0f6ad.png" src="../_images/a0d18f0b8747a5c0b01f319d2e1d7a155c1350609565fbb6cfc62319fbb0f6ad.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="LifeCycleModelTheoryVsData.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The Life Cycle Model: Theory vs Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The MPC out of Credit vs the MPC Out of Income</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lucas Asset Pricing Model</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-notebook-by-christopher-d-carroll-and-mateo-velasquez-giraldo">A notebook by Christopher D. Carroll and Mateo Velásquez-Giraldo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspired-by-its-quantecon-counterpart">Inspired by its Quantecon counterpart</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-equilibrium-pricing-function">Finding the equilibrium pricing function.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-computational-representation-of-the-problem-and-its-solution">A computational representation of the problem and its solution.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-and-solving-an-example-economy-with-ar1-dividends">Creating and solving an example economy with AR1 dividends</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effect-of-risk-aversion">The effect of risk aversion.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-our-analytical-solutions">Testing our analytical solutions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-log-utility">Case 1: Log Utility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-i-i-d-dividends">Case 2: I.I.D dividends</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-dividends-that-are-a-geometric-random-walk-with-drift">Case 3: Dividends that are a geometric random walk with drift</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-our-approximation-of-the-dividend-process">Testing our approximation of the dividend process</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Econ-ARK Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
