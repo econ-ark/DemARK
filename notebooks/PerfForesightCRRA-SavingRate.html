@@ -248,6 +248,37 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=tree/DemARK/notebooks/notebooks/PerfForesightCRRA-SavingRate.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-download-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
     <i class="fas fa-download"></i>
@@ -460,13 +491,13 @@ document.write(`
 </div>
 <p>We are now ready to think about the saving rate of the consumer.</p>
 <p>Remember that the saving rate of an agent at time <span class="math notranslate nohighlight">\(t\)</span> is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-78f24d6d-d307-4092-b5c9-e0727a6f550b">
-<span class="eqno">(22)<a class="headerlink" href="#equation-78f24d6d-d307-4092-b5c9-e0727a6f550b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-7f5ff958-4d2a-4869-a8ba-fca39816be9c">
+<span class="eqno">(22)<a class="headerlink" href="#equation-7f5ff958-4d2a-4869-a8ba-fca39816be9c" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \text{Saving Rate}_t = \frac{\text{Capital Income}_t + \text{Labor Income}_t - \text{Consumption_t}}{\text{Capital Income}_t + \text{Labor Income}_t}
 \end{equation}\]</div>
 <p>Dividing both the numerator and denominator by the agent’s permanent income <span class="math notranslate nohighlight">\(\textbf{P}_t\)</span> and adopting the notation in <a class="reference external" href="https://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/PerfForesightCRRA/">the course’s lecture notes</a> we have</p>
-<div class="amsmath math notranslate nohighlight" id="equation-09687deb-0fe7-4ae6-a84b-bf77a0b8e771">
-<span class="eqno">(23)<a class="headerlink" href="#equation-09687deb-0fe7-4ae6-a84b-bf77a0b8e771" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bdad5065-27cf-442a-80ba-c4c2d3b6e17e">
+<span class="eqno">(23)<a class="headerlink" href="#equation-bdad5065-27cf-442a-80ba-c4c2d3b6e17e" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 \text{Saving Rate}_t &amp;= \frac{a_{t-1}*r/\Gamma + 1 - c(m_t)}{a_{t-1}*r/\Gamma + 1}\\
 &amp;=\frac{a_{t-1}*r/\Gamma + 1 - c(a_{t-1}*R/\Gamma + 1)}{a_{t-1}*r/\Gamma + 1}

@@ -248,6 +248,37 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=tree/DemARK/notebooks/notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-download-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
     <i class="fas fa-download"></i>
@@ -449,13 +480,13 @@ document.write(`
 <span class="math notranslate nohighlight">\(\newcommand{\UnempPrb}{\wp}\)</span>
 <span class="math notranslate nohighlight">\(\newcommand{\TranShk}{\theta}\)</span></p>
 <p>We assume a standard income process with transitory and permanent shocks:  The consumer’s Permanent noncapital income <span class="math notranslate nohighlight">\(\pLvl\)</span> grows by a predictable factor <span class="math notranslate nohighlight">\(\PermGroFac\)</span> and is subject to an unpredictable multiplicative shock <span class="math notranslate nohighlight">\(\Ex_{t}[\PermShk_{t+1}]=1\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b3821789-e1bc-4631-9bb7-480456707f61">
-<span class="eqno">(18)<a class="headerlink" href="#equation-b3821789-e1bc-4631-9bb7-480456707f61" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-b678e5ca-a8db-45be-80c8-82188605d6e1">
+<span class="eqno">(18)<a class="headerlink" href="#equation-b678e5ca-a8db-45be-80c8-82188605d6e1" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \pLvl_{t+1} &amp; = &amp; \pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}, \notag
 \end{eqnarray}\]</div>
 <p>and, if the consumer is employed, actual income <span class="math notranslate nohighlight">\(Y\)</span> is permanent income multiplied by a transitory shock <span class="math notranslate nohighlight">\(\Ex_{t}[\TranShk_{t+1}]=1\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-85beb1ea-6487-4944-ae04-4f2133ab0523">
-<span class="eqno">(19)<a class="headerlink" href="#equation-85beb1ea-6487-4944-ae04-4f2133ab0523" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-12934cba-3258-4453-97ec-daf4ee2e7264">
+<span class="eqno">(19)<a class="headerlink" href="#equation-12934cba-3258-4453-97ec-daf4ee2e7264" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \yLvl_{t+1} &amp; = &amp; \pLvl_{t+1} \TranShk_{t+1}, \notag
 \end{eqnarray}\]</div>
 <!--- There is also a probability $\UnempPrb$ that the consumer will be temporarily unemployed and experience income of $\TranShk^{\large u}  = 0$.  We construct $\TranShk^{\large e}$ so that its mean value is $1/(1-\UnempPrb)$ because in that case the mean level of the transitory shock (accounting for both unemployed and employed states) is exactly
@@ -469,8 +500,8 @@ document.write(`
 <p><span class="math notranslate nohighlight">\(\Gamma_{t}\)</span> captures the predictable life cycle profile of income growth (faster when young, slower when old).  See <a class="reference external" href="https://github.com/econ-ark/CGMPortfolio/blob/master/Code/Python/CGMPortfolio.ipynb">our replication of CGM-2005</a> for a detailed account of how these objects map to CGM’s notation.</p>
 <p>Now define <span class="math notranslate nohighlight">\(\newcommand{\yLog}{y}\newcommand{\pLog}{p}\yLog = \log \yLvl,\pLog=\log \pLvl\)</span> and similarly for other variables.</p>
 <p>Using this notation, we construct all the necessary inputs to the regressors. The main input is the expected income growth of every agent at every time period, which is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-30a6a462-46dc-4f85-abfb-5e5d22189178">
-<span class="eqno">(20)<a class="headerlink" href="#equation-30a6a462-46dc-4f85-abfb-5e5d22189178" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0580d97b-4312-4127-99c7-dc5ee4a25261">
+<span class="eqno">(20)<a class="headerlink" href="#equation-0580d97b-4312-4127-99c7-dc5ee4a25261" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 \Ex_t[\yLvl_{t+1}/\yLvl_{t}] &amp;= \mathbb{E}_t[\left(\frac{\theta_{t+1}\pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}}{\theta_{t}P_{t}}\right)]\\
  &amp;= \left(\frac{\PermGroFac_{t+1}}{\theta_{t}}\right)\\
