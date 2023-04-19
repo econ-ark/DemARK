@@ -19,15 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Install dependencies
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
+      - uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: |
-          pip install -r binder/requirements.txt
+      - name: Setup mamba environment to run notebooks
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: binder/environment.yml
+          extra-specs: |
+            jupyter-book
 
       # Build the book
       - name: Build the book
