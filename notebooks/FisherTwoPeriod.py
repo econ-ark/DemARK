@@ -3144,8 +3144,7 @@
 # %%
 # Some initial setup
 import ipywidgets as widgets
-from ipywidgets import interact, interactive, fixed, interact_manual
-from HARK.utilities import plot_funcs_der, plot_funcs
+from ipywidgets import interact, fixed
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 import numpy as np
 from copy import deepcopy
@@ -3175,7 +3174,6 @@ def mystr(number):
 
 
 def FisherPlot(Y1, Y2, B1, R, c1Max, c2Max):
-
     # Basic setup of perfect foresight consumer
 
     # We first create an instance of the class
@@ -3312,7 +3310,6 @@ interact(
     c2Max=c2Max_widget,
 )
 
-
 # %% [markdown]
 # ### Second plot: interest rate shifts with lifetime income earned in first period.
 
@@ -3320,9 +3317,9 @@ interact(
 # This follows the same process as the previous plot, but now the problem
 # is solved at two different interest rates in order to illustrate their effect.
 
+
 # Define a function that plots something given some bits
 def FisherPlot1(Y1, Y2, B1, RHi, RLo, c1Max, c2Max):
-
     # Basic setup of perfect foresight consumer
     PFexample = (
         PerfForesightConsumerType()
@@ -3506,16 +3503,15 @@ interact(
     c2Max=c2Max_widget1,
 )
 
-
 # %% [markdown]
 # ### Third plot: interest rate shifts with lifetime income earned in second period
 
 # %%
 # This follows the same process, but we now fix Y_1 at 0
 
+
 # Define a function that plots something given some bits
 def FisherPlot2(Y1, Y2, B1, RHi, RLo, c1Max, c2Max):
-
     # Basic setup of perfect foresight consumer
     PFexample = (
         PerfForesightConsumerType()
@@ -3713,10 +3709,10 @@ interact(
 #
 # For this exercise, we assume that no income is received in the second period. The relevant parameter is therefore $M_1$, the total market resources before consumption in period 1.
 
+
 # %%
 # Create plotting function
 def FisherPlot3(M1, R, Beta, CRRA, c1Max, c2Max):
-
     # Basic setup of perfect foresight consumer
 
     # We first create an instance of the class

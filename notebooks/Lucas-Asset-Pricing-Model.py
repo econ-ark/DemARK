@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.14.4
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -26,7 +26,7 @@
 #     version: 3.9.13
 # ---
 
-# %% [markdown] {"jp-MarkdownHeadingCollapsed": true}
+# %% [markdown] {"jp-MarkdownHeadingCollapsed": true, "tags": []}
 # # Lucas Asset Pricing Model
 #
 # ## A notebook by [Christopher D. Carroll](http://www.econ2.jhu.edu/people/ccarroll/) and [Mateo Velásquez-Giraldo](https://mv77.github.io/)
@@ -42,7 +42,7 @@
 # Those notes use [the Bellman equation](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/LucasAssetPrice/#pofc) to derive a relationship between the price of the asset in the current period $t$ and the next period $t+1$:
 #
 # \begin{equation*}
-# P_{t} =  
+# P_{t} =
 # \overbrace{\left(\frac{1}{1+\vartheta}\right)}
 # ^{\beta}\mathbb{E}_{t}\left[ \frac{u^{\prime}(d_{t+1})}{u^{\prime}(d_t)} (P_{t+1} + d_{t+1}) \right]
 # \end{equation*}
@@ -109,7 +109,7 @@
 # %% [markdown]
 # `Uninteresting setup:`
 
-# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}}
+# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}, "tags": []}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -119,32 +119,31 @@ from HARK.rewards import CRRAutilityP
 from HARK.distribution import Normal, calc_expectation
 from HARK.interpolation import LinearInterp, ConstantFunction
 
-
 # %% Definitions {"code_folding": [0]}
 # A python class representing log-AR1 dividend processes.
 
+
 class DivProcess:
-    
-    def __init__(self, α, σ, γ = 0.0, nApprox = 7):
-        
+    def __init__(self, α, σ, γ=0.0, nApprox=7):
         self.α = α
         self.σ = σ
         self.γ = γ
         self.nApprox = nApprox
 
         # Create a discrete approximation to the random shock
-        self.ShkAppDstn = Normal(mu = -(σ**2)/2, sigma = σ).discretize(N = nApprox)
-        
-    def getLogdGrid(self, n = 100):
-        '''
+        self.ShkAppDstn = Normal(mu=-(σ**2) / 2, sigma=σ).discretize(N=nApprox)
+
+    def getLogdGrid(self, n=100):
+        """
         A method for creating a reasonable grid for log-dividends.
-        '''
-        μ = self.γ - (self.σ**2)/2
+        """
+        μ = self.γ - (self.σ**2) / 2
         uncond_sd = self.σ / np.sqrt(1 - self.α**2)
-        uncond_mean = μ/(1-self.α)
-        logDGrid = np.linspace(-5*uncond_sd, 5*uncond_sd, n) + uncond_mean
-        return(logDGrid)
-        
+        uncond_mean = μ / (1 - self.α)
+        logDGrid = np.linspace(-5 * uncond_sd, 5 * uncond_sd, n) + uncond_mean
+        return logDGrid
+
+
 # A class representing economies with Lucas trees.
 class LucasEconomy:
     """
@@ -153,21 +152,18 @@ class LucasEconomy:
     """
 
     def __init__(self, CRRA, DiscFac, DivProcess):
-
         self.CRRA = CRRA
         self.DiscFac = DiscFac
         self.DivProcess = DivProcess
         self.uP = lambda c: CRRAutilityP(c, self.CRRA)
 
     def priceOnePeriod(self, Pfunc_next, logDGrid):
-
         # Create a function that, given current dividends
         # and the value of next period's shock, returns
         # the discounted value derived from the asset next period.
         def discounted_value(shock, log_d_now):
-
             # Find dividends
-            d_now = np.exp(log_d_now)    
+            d_now = np.exp(log_d_now)
             log_d_next = self.DivProcess.γ + self.DivProcess.α * log_d_now + shock
             d_next = np.exp(log_d_next)
 
@@ -190,7 +186,6 @@ class LucasEconomy:
         return Pfunc_now
 
     def solve(self, Pfunc_0=None, logDGrid=None, tol=1e-5, maxIter=500, disp=False):
-
         # Initialize the norm
         norm = tol + 1
 
@@ -208,7 +203,6 @@ class LucasEconomy:
 
         it = 0
         while norm > tol and it < maxIter:
-
             # Apply the pricing equation
             Pf_next = self.priceOnePeriod(Pf_0, logDGrid)
             # Find new prices on the grid
@@ -252,7 +246,7 @@ economy = LucasEconomy(CRRA=2, DiscFac=0.95, DivProcess=DivProc)
 # %% [markdown]
 # Once created, the economy can be 'solved', which means finding the equilibrium price kernel. The distribution of dividends at period $t+1$ depends on the value of dividends at $t$, which also determines the resources agents have available to buy trees. Thus, $d_t$ is a state variable for the economy. The pricing function gives the price of trees that equates their demand and supply at every level of current dividends $d_t$.
 
-# %%
+# %% {"tags": []}
 dir(economy.solve())
 
 # %% Solution {"code_folding": [0]}
@@ -270,7 +264,7 @@ print("P({}) = {:.6}".format(dvdnd, economy.EqPfun(dvdnd)))
 #
 # [The notes](https://llorracc.github.io/LucasAssetPrice/#a-surprise) discuss the surprising implication that an increase in the coefficient of relative risk aversion $\rho$ leads to higher prices for the risky trees! This is demonstrated below.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [0], "tags": []}
 # Create two economies with different risk aversion
 Disc = 0.95
 LowCRRAEcon = LucasEconomy(CRRA=2, DiscFac=Disc, DivProcess=DivProc)
@@ -337,7 +331,7 @@ plt.ylabel("$P^*(d_t)$")
 # %% {"code_folding": [0]}
 # Create an i.i.d. dividend process
 σ = 0.1
-iidDivs = DivProcess(α = 0.0, σ = σ)
+iidDivs = DivProcess(α=0.0, σ=σ)
 
 # And an economy that embeds it
 CRRA = 2
@@ -348,6 +342,7 @@ iidEcon.solve()
 
 # Generate a function with our analytical solution
 dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1))
+
 
 def aSolIID(d):
     return d**CRRA * dTil * Disc / (1 - Disc)
@@ -376,7 +371,7 @@ plt.show()
 # \begin{equation*}
 #  P^*(d_t) = d_t^\rho\times e^{(\rho-1)\left(\rho\sigma^2/2 - \gamma\right)}\overbrace{\frac{\beta}{1-\beta}}^{\vartheta}
 # \end{equation*}
-# which, when $\rho=1$, reduces (as it should) to 
+# which, when $\rho=1$, reduces (as it should) to
 # \begin{equation*}
 #  \frac{P^*(d_t)}{d_t} = \vartheta
 # \end{equation*}
@@ -391,26 +386,30 @@ Disc = 0.9
 # Create a random walk dividend process
 # (it turns out that the whole model can be normalized by d_t, and
 # in normalized, terms the dividend proces becomes iid again)
-rw_divs = DivProcess(γ=γ, α = 0, σ = σ)
+rw_divs = DivProcess(γ=γ, α=0, σ=σ)
 
 # And an economy that embeds it
-rw_econ = LucasEconomy(CRRA = CRRA, DiscFac = Disc, DivProcess = rw_divs)
+rw_econ = LucasEconomy(CRRA=CRRA, DiscFac=Disc, DivProcess=rw_divs)
 rw_econ.solve()
 
 # Generate a function with our analytical solution
-a_sol_factor = np.exp((CRRA-1)*(CRRA*σ**2/2 - γ))
-a_sol_rw = lambda d: d**(CRRA) * a_sol_factor * Disc/(1 - Disc)
+a_sol_factor = np.exp((CRRA - 1) * (CRRA * σ**2 / 2 - γ))
+
+
+def a_sol_rw(d):
+    return d**CRRA * a_sol_factor * Disc / (1 - Disc)
+
 
 # Get a grid for d over which to compare them
 dGrid = np.exp(rw_divs.getLogdGrid())
 
 # Plot both
 plt.figure()
-plt.plot(dGrid, a_sol_rw(dGrid), '*',label = 'Analytical solution')
-plt.plot(dGrid, rw_econ.EqPfun(dGrid), label = 'Numerical solution')
+plt.plot(dGrid, a_sol_rw(dGrid), "*", label="Analytical solution")
+plt.plot(dGrid, rw_econ.EqPfun(dGrid), label="Numerical solution")
 plt.legend()
-plt.xlabel('$d_t$')
-plt.ylabel('$P^*(d_t)$')
+plt.xlabel("$d_t$")
+plt.ylabel("$P^*(d_t)$")
 plt.show()
 
 # %% [markdown]
@@ -420,7 +419,7 @@ plt.show()
 #
 # A parameter for the numerical solution is the number of different values that we allow our discrete approximation $\tilde{\varepsilon}$ to take, $n^{\#}$. We would expect a higher $n^#$ to improve our solution, as the discrete approximation of $\varepsilon_t$ improves. We test this below.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [0], "tags": []}
 # Increase CRRA to make the effect of uncertainty more evident.
 CRRA = 10
 Disc = 0.9
@@ -429,8 +428,10 @@ ns = [1, 2, 10]
 
 dTil = np.exp((σ**2) / 2 * CRRA * (CRRA - 1.0))
 
+
 def aSolIID(d):
     return d**CRRA * dTil * Disc / (1 - Disc)
+
 
 dGrid = np.exp(iidDivs.getLogdGrid())
 

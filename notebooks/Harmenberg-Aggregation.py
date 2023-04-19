@@ -24,7 +24,6 @@
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
 #     version: 3.10.8
-#   orig_nbformat: 4
 # ---
 
 # %% [markdown]
@@ -42,7 +41,7 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from copy import copy, deepcopy
+from copy import deepcopy
 
 from HARK.distribution import calc_expectation
 from HARK.ConsumptionSaving.ConsIndShockModel import (
@@ -330,11 +329,7 @@ def sumstats(sims, sample_periods):
     # Columns are different agents and rows are different times.
 
     # Subset the times at which we'll sample and transpose.
-    samples_lvl = pd.DataFrame(
-        sims[
-            sample_periods,
-        ].T
-    )
+    samples_lvl = pd.DataFrame(sims[sample_periods,].T)
 
     # Get averages over agents. This will tell us what our
     # aggregate estimate would be if we had each possible sim size
@@ -349,9 +344,7 @@ def sumstats(sims, sample_periods):
     return {
         "mean_lvl": mean_lvl,
         "vars_lvl": vars_lvl,
-        "dist_last": sims[
-            -1,
-        ],
+        "dist_last": sims[-1,],
     }
 
 

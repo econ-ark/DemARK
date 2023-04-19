@@ -23,7 +23,6 @@
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
 #     version: 3.10.8
-#   orig_nbformat: 4
 # ---
 
 # %% [markdown] tags=[]
@@ -50,8 +49,6 @@ from HARK.Calibration.Income.IncomeTools import (
 )
 
 from HARK.datasets.life_tables.us_ssa.SSATools import parse_ssa_life_table
-from HARK.datasets.SCF.WealthIncomeDist.SCFDistTools import income_wealth_dists_from_scf
-import matplotlib.pyplot as plt
 import pandas as pd
 from copy import copy
 
@@ -160,7 +157,6 @@ Agent.simulate()
 #
 
 # %% Compute expectations jupyter={"source_hidden": true} tags=[]
-
 exp = [
     calc_expectation(Agent.IncShkDstn[i], func=lambda x: x[0] * x[1])
     for i in range(Agent.T_cycle)
@@ -202,7 +198,6 @@ Data["Y_change"] = Data.groupby("id")["Y"].diff(1)
 # We now estimate an analogous regression in our simulated population.
 
 # %% jupyter={"source_hidden": true} tags=[]
-
 Data = Data.set_index(["id", "Age"])
 
 # Create the variables they actually use

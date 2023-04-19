@@ -44,7 +44,6 @@ from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
-import HARK
 from copy import deepcopy
 
 
@@ -138,7 +137,6 @@ IndShockDictionary = {
 # You can see all the **attributes** of an object in Python by using the `dir()` command. From the output of that command below, you can see that many of the model variables are now attributes of this object, along with many other attributes that are outside the scope of this tutorial.
 
 # %%
-
 pfc = PerfForesightConsumerType()
 dir(pfc)
 
@@ -146,7 +144,6 @@ dir(pfc)
 # In python terminology, `IndShockConsumerType` is a **superclass** of `PerfForesightConsumerType`. This means that it builds on the functionality of its parent type (including, for example, the definition of the utility function). You can find the superclasses of a type in Python using the `__bases__` attribute:
 
 # %%
-
 IndShockConsumerType.__bases__
 
 # %%

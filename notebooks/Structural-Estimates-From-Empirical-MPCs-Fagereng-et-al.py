@@ -63,8 +63,6 @@
 # %% {"code_folding": [0]}
 # Import python tools
 
-import sys
-import os
 
 import numpy as np
 from copy import deepcopy

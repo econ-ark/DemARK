@@ -1453,8 +1453,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 import seaborn as sns
 from matplotlib import rc, rcParams
 import ipywidgets as widgets
-from ipywidgets import interact, interactive, fixed, interact_manual, Layout
-from copy import deepcopy
+from ipywidgets import interact, fixed
 from matplotlib import pyplot as plt
 import numpy as np
 import scipy as sp
@@ -1473,7 +1472,7 @@ sns.set_style("white", {"axes.edgecolor": "black"})
 years_per_gen = 30
 
 
-# %% tags=[] jupyter={"source_hidden": true}
+# %% jupyter={"source_hidden": true} tags=[]
 # Define a function that plots something given some inputs
 def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, Initialk):
     """Inputs:
@@ -1519,7 +1518,6 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, Initialk):
     kt_ar = Initialk
     ktp1_ar = 0.0
     for i in range(3):
-
         # Compute Next Period's capital using HARK
         wage = (1 - Epsilon) * kt_ar**Epsilon
         c = PFagent.solution[0].cFunc(wage)
@@ -1570,7 +1568,7 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, Initialk):
     return None
 
 
-# %% tags=[] jupyter={"source_hidden": true}
+# %% jupyter={"source_hidden": true} tags=[]
 # Define some widgets to control the plot
 
 # Define a slider for Epsilon
@@ -1636,6 +1634,7 @@ interact(
 # %% [markdown]
 # ### Gross and Net Per Capita Output as a Function of k
 
+
 # %% jupyter={"source_hidden": true}
 # Define a function that plots something given some inputs
 def plot2(Epsilon, PopGrowth, YearsPerGeneration):
@@ -1650,7 +1649,7 @@ def plot2(Epsilon, PopGrowth, YearsPerGeneration):
     # Define some parameters
     xi = PopGrowth**YearsPerGeneration
     Xi = xi - 1
-    kBarForcZero = Xi ** (1 / (Epsilon - 1))
+    Xi ** (1 / (Epsilon - 1))
 
     # Plot the production function and depreciation/dilution curves
     kt_range = np.linspace(0, kMax, 500)
@@ -1724,6 +1723,7 @@ interact(
 #
 # Suppose that initially this economy had no Social Security system and we are interested in the eﬀects of introducing a Pay-As-You-Go Social Security system that is expected to remain a constant size from generation to generation from now on: $z_{2,t+1} =  − z_{1,t+1}$    while $z_{1,t+1} =  z_{1,t}$, so that taxes are greater than transfers when young and transfers are greater than taxes when old.
 
+
 # %% jupyter={"source_hidden": true}
 # Define a function that plots something given some inputs
 def plot3(Epsilon, DiscFac, z, Rfree, YearsPerGeneration):
@@ -1785,7 +1785,7 @@ def plot3(Epsilon, DiscFac, z, Rfree, YearsPerGeneration):
         # Compute Next Period's capital using HARK
         wage = (1 - Epsilon) * kt_PAYG**Epsilon
         net_wage = (1 - z) * wage  # Agent has to pay transfers
-        c = PFagent.solution[0].cFunc(net_wage)
+        PFagent.solution[0].cFunc(net_wage)
         k1 = (wage * (Beta / (1 + Beta)) - transfers) / (
             xi
         )  # capital accumulation differs

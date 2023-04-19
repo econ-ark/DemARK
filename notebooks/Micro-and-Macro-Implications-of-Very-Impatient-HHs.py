@@ -81,19 +81,15 @@ from HARK.utilities import get_lorenz_shares, get_percentiles
 from HARK.datasets import load_SCF_wealth_weights
 from HARK.distribution import Uniform
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
-from copy import copy, deepcopy
+from copy import deepcopy
 import warnings
 from distutils.spawn import find_executable
-from matplotlib import rc
 import matplotlib.pyplot as plt
 from IPython import get_ipython  # In case it was run from python instead of ipython
 from tqdm import tqdm
 
 import numpy as np
 from copy import deepcopy
-
-import HARK  # Prevents import error from Demos repo
-from HARK.utilities import plot_funcs
 
 
 Generator = False  # Is this notebook the master or is it generated?

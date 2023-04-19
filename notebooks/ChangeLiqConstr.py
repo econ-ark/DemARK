@@ -41,7 +41,7 @@
 import matplotlib.pyplot as plt
 from copy import deepcopy
 from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
-from HARK.utilities import plot_funcs_der, plot_funcs
+from HARK.utilities import plot_funcs
 
 
 def mystr(number):

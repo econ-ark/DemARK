@@ -74,7 +74,7 @@
 from matplotlib import pyplot as plt
 import warnings
 import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl
-from HARK.utilities import plot_funcs_der, plot_funcs  # Some tools
+from HARK.utilities import plot_funcs  # Some tools
 import pandas as pd
 
 import numpy as np
