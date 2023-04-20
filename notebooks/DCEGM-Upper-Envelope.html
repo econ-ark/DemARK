@@ -256,7 +256,25 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=tree/DemARK/notebooks/notebooks/DCEGM-Upper-Envelope.ipynb&branch=master" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/econ-ark/DemARK/master?urlpath=lab/tree/./notebooks/DCEGM-Upper-Envelope.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=lab/tree/DemARK/./notebooks/DCEGM-Upper-Envelope.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onJupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -593,12 +611,12 @@ Consider the following example output.</p>
 <section id="the-agent-without-a-will">
 <h2>The agent without a will<a class="headerlink" href="#the-agent-without-a-will" title="Permalink to this headline">#</a></h2>
 <p>An agent who does not have a will simply consumes all of his available resources. Therefore, his value and consumption functions will be:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b86f1f64-f839-4169-b858-024ec9c123e3">
-<span class="eqno">(1)<a class="headerlink" href="#equation-b86f1f64-f839-4169-b858-024ec9c123e3" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8394a992-2c76-4d79-ade8-e8373206e8d0">
+<span class="eqno">(1)<a class="headerlink" href="#equation-8394a992-2c76-4d79-ade8-e8373206e8d0" title="Permalink to this equation">#</a></span>\[\begin{equation}
 V_3(m_3,W=0) = u(m_3)
 \end{equation}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-d2ae930b-d931-46c4-acaa-c2b67ed1b20b">
-<span class="eqno">(2)<a class="headerlink" href="#equation-d2ae930b-d931-46c4-acaa-c2b67ed1b20b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-32f4d6e8-398b-4bf3-bf98-5d5338ebb2c9">
+<span class="eqno">(2)<a class="headerlink" href="#equation-32f4d6e8-398b-4bf3-bf98-5d5338ebb2c9" title="Permalink to this equation">#</a></span>\[\begin{equation}
 c_3(m_3, W=0) = m_3
 \end{equation}\]</div>
 <p>Where <span class="math notranslate nohighlight">\(u(\cdot)\)</span> gives the utility from consumption. We assume a CRRA specification <span class="math notranslate nohighlight">\(u(c) = \frac{c^{1-\rho}}{1-\rho}\)</span>.</p>
@@ -606,13 +624,13 @@ c_3(m_3, W=0) = m_3
 <section id="the-agent-with-a-will">
 <h2>The agent with a will<a class="headerlink" href="#the-agent-with-a-will" title="Permalink to this headline">#</a></h2>
 <p>An agent who wrote a will decides how to allocate his available resources <span class="math notranslate nohighlight">\(m_3\)</span> between his consumption and a bequest. We assume an additive specification for the utility of a given consumption-bequest combination that follows a particular case in <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/Why.pdf">Carroll (2000)</a>. The component of utility from leaving a bequest <span class="math notranslate nohighlight">\(x\)</span> is assumed to be <span class="math notranslate nohighlight">\(\ln (x+1)\)</span>. Therefore, the agent’s value function is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3f152a06-f3f9-4e9a-9dfd-701092816266">
-<span class="eqno">(3)<a class="headerlink" href="#equation-3f152a06-f3f9-4e9a-9dfd-701092816266" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-cc8c6342-65de-48ac-8b06-09fd4bbfe577">
+<span class="eqno">(3)<a class="headerlink" href="#equation-cc8c6342-65de-48ac-8b06-09fd4bbfe577" title="Permalink to this equation">#</a></span>\[\begin{equation}
 V_3(m_3, W=1) = \max_{0\leq c_3 \leq m_3} u(c_3) + \ln(m_3 - c_3 + 1)
 \end{equation}\]</div>
 <p>For ease of exposition we consider the case <span class="math notranslate nohighlight">\(\rho = 2\)</span>, where <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/Why.pdf">Carroll (2000)</a> shows that the optimal consumption level is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-afdda68a-d7d2-4ffc-8bdb-a48637eea0d5">
-<span class="eqno">(4)<a class="headerlink" href="#equation-afdda68a-d7d2-4ffc-8bdb-a48637eea0d5" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ef7b4bcb-9b9f-415b-b3cb-e985cef3aca1">
+<span class="eqno">(4)<a class="headerlink" href="#equation-ef7b4bcb-9b9f-415b-b3cb-e985cef3aca1" title="Permalink to this equation">#</a></span>\[\begin{equation}
 c_3(m_3, W=1) = \min \left[m_3, \frac{-1 + \sqrt{1 + 4(m_3+1)}}{2} \right].
 \end{equation}\]</div>
 <p>The consumption function shows that <span class="math notranslate nohighlight">\(m_3=1\)</span> is the level of resources at which an important change of behavior occurs: agents leave bequests only for <span class="math notranslate nohighlight">\(m_3 &gt; 1\)</span>. Since an important change of behavior happens at this point, we call it a ‘kink-point’ and add it to our grids.</p>
@@ -705,8 +723,8 @@ c_3(m_3, W=1) = \min \left[m_3, \frac{-1 + \sqrt{1 + 4(m_3+1)}}{2} \right].
 <section id="an-agent-who-decides-not-to-write-a-will">
 <h2>An agent who decides not to write a will<a class="headerlink" href="#an-agent-who-decides-not-to-write-a-will" title="Permalink to this headline">#</a></h2>
 <p>After deciding not to write a will, an agent solves the optimization problem expressed in the following conditional value function</p>
-<div class="amsmath math notranslate nohighlight" id="equation-40ceb481-9ab6-44a2-ae88-cd879bde117b">
-<span class="eqno">(5)<a class="headerlink" href="#equation-40ceb481-9ab6-44a2-ae88-cd879bde117b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f92df4d5-841f-4d7d-91ad-058edf50b815">
+<span class="eqno">(5)<a class="headerlink" href="#equation-f92df4d5-841f-4d7d-91ad-058edf50b815" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 \nu (m_2|w=0) &amp;= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=0)\\
 s.t.&amp;\\
@@ -750,8 +768,8 @@ m_3 &amp;= m_2 - c + w
 <section id="an-agent-who-decides-to-write-a-will">
 <h2>An agent who decides to write a will<a class="headerlink" href="#an-agent-who-decides-to-write-a-will" title="Permalink to this headline">#</a></h2>
 <p>An agent who decides to write a will also solves for his consumption dinamically. We assume that the lawyer that helps the agent write his will takes some fraction <span class="math notranslate nohighlight">\(\tau\)</span> of his total resources in period 3. Therefore, the evolution of resources is given by <span class="math notranslate nohighlight">\(m_3 = (1-\tau)(m_2 - c_2 + w)\)</span>. The conditional value function of the agent is therefore:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-66e10309-2567-4e57-b617-f38f4cec0e2c">
-<span class="eqno">(6)<a class="headerlink" href="#equation-66e10309-2567-4e57-b617-f38f4cec0e2c" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-1e81d7d4-4dd4-4234-b09f-fa0ba76219ad">
+<span class="eqno">(6)<a class="headerlink" href="#equation-1e81d7d4-4dd4-4234-b09f-fa0ba76219ad" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 \nu (m_2|w=1) &amp;= \max_{0\leq c \leq m_2} u(c) + \beta V_3(m_3,W=1)\\
 s.t.&amp;\\
@@ -794,16 +812,16 @@ m_3 &amp;= (1-\tau)(m_2 - c + w)
 <section id="the-decision-whether-to-write-a-will-or-not">
 <h2>The decision whether to write a will or not<a class="headerlink" href="#the-decision-whether-to-write-a-will-or-not" title="Permalink to this headline">#</a></h2>
 <p>With the conditional value functions at hand, we can now express and solve the decision of whether to write a will or not, and obtain the unconditional value and consumption functions.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0bd77e94-e6c1-4934-aeac-4bb7b857ac26">
-<span class="eqno">(7)<a class="headerlink" href="#equation-0bd77e94-e6c1-4934-aeac-4bb7b857ac26" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3ea20f5f-fccb-45f3-8e5b-9e0baf3b85f0">
+<span class="eqno">(7)<a class="headerlink" href="#equation-3ea20f5f-fccb-45f3-8e5b-9e0baf3b85f0" title="Permalink to this equation">#</a></span>\[\begin{equation}
 V_2(m_2) = \max \{ \nu (m_2|w=0), \nu (m_2|w=1) \}
 \end{equation}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-32a4daf2-ee8b-4d7b-a5d2-5fbd6c095e2c">
-<span class="eqno">(8)<a class="headerlink" href="#equation-32a4daf2-ee8b-4d7b-a5d2-5fbd6c095e2c" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d80604e5-d2e3-4261-b57e-416e2d01c651">
+<span class="eqno">(8)<a class="headerlink" href="#equation-d80604e5-d2e3-4261-b57e-416e2d01c651" title="Permalink to this equation">#</a></span>\[\begin{equation}
 w^*(m_2) = \arg \max_{w \in \{0,1\}} \{ \nu (m_2|w=w) \}
 \end{equation}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-bade2c1c-55d8-4f7d-bb8f-aed70747f0f2">
-<span class="eqno">(9)<a class="headerlink" href="#equation-bade2c1c-55d8-4f7d-bb8f-aed70747f0f2" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3454744e-bb07-41bb-b7fb-7cfaf1d3409d">
+<span class="eqno">(9)<a class="headerlink" href="#equation-3454744e-bb07-41bb-b7fb-7cfaf1d3409d" title="Permalink to this equation">#</a></span>\[\begin{equation}
 c_2(m_2) = c_2(m_2|w=w^*(m_2))
 \end{equation}\]</div>
 <p>We now construct these objects.</p>
@@ -880,8 +898,8 @@ c_2(m_2) = c_2(m_2|w=w^*(m_2))
 <section class="tex2jax_ignore mathjax_ignore" id="the-first-period">
 <h1>The first period<a class="headerlink" href="#the-first-period" title="Permalink to this headline">#</a></h1>
 <p>In the first period, the agent simply observes his market resources and decides what fraction of them to consume. His problem is represented by the following value function</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1c2bf993-b123-4fc7-a1d4-2bcdf045387b">
-<span class="eqno">(10)<a class="headerlink" href="#equation-1c2bf993-b123-4fc7-a1d4-2bcdf045387b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3d369378-1669-4c64-855c-84ae7146617f">
+<span class="eqno">(10)<a class="headerlink" href="#equation-3d369378-1669-4c64-855c-84ae7146617f" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 V (m_1) &amp;= \max_{0\leq c \leq m_1} u(c) + \beta V_2(m_2)\\
 s.t.&amp;\\
