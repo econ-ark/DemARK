@@ -258,7 +258,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/econ-ark/DemARK/master?urlpath=lab/tree/./notebooks/TractableBufferStock-Interactive.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/econ-ark/DemARK/master?urlpath=lab/tree/notebooks/TractableBufferStock-Interactive.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onBinder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -276,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=lab/tree/DemARK/./notebooks/TractableBufferStock-Interactive.ipynb&branch=master" target="_blank"
+      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=lab/tree/DemARK/notebooks/TractableBufferStock-Interactive.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onJupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -289,6 +289,42 @@ const thebe_selector_output = ".output, .cell_output"
   </span>
 <span class="btn__text-container">JupyterHub</span>
 </a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/econ-ark/DemARK/blob/master/notebooks/TractableBufferStock-Interactive.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
 </li>
       
   </ul>
@@ -440,8 +476,8 @@ document.write(`
 </div>
 </div>
 <p>The key assumption behind the model’s tractability is that there is only a single, stark form of uncertainty:  So long as an employed consumer remains employed, that consumer’s labor income <span class="math notranslate nohighlight">\(P\)</span> will rise at a constant rate <span class="math notranslate nohighlight">\(\Gamma\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d6c86eaf-d572-4a0f-862e-c89c3894e8a7">
-<span class="eqno">(24)<a class="headerlink" href="#equation-d6c86eaf-d572-4a0f-862e-c89c3894e8a7" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d4ef8887-9696-460b-9ef6-a9f751a8eeef">
+<span class="eqno">(24)<a class="headerlink" href="#equation-d4ef8887-9696-460b-9ef6-a9f751a8eeef" title="Permalink to this equation">#</a></span>\[\begin{align}
 P_{t+1} &amp;= \Gamma P_{t}
 \end{align}\]</div>
 <p>But, between any period and the next, there is constant hazard <span class="math notranslate nohighlight">\(p\)</span> that the consumer will transition to the “unemployed” state. Unemployment is irreversible, like retirement or disability.  When unemployed, the consumer receives a fixed amount of income (for simplicity, zero).  (See the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/TractableBufferStock/">linked handout</a> for details of the model).</p>
@@ -456,8 +492,8 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 <p>where <span class="math notranslate nohighlight">\(\mathcal{R} = R/\Gamma\)</span>, and <span class="math notranslate nohighlight">\(\mathbb{1}_{t+1} = 1\)</span> if the consumer is employed (and zero if unemployed).</p>
 <p>Under plausible parameter values the model has a target level of <span class="math notranslate nohighlight">\(\hat{m} = M/P\)</span> (market resources to permanent income) with an analytical solution that exhibits plausible relationships among all of the parameters.</p>
 <p>Defining <span class="math notranslate nohighlight">\(\gamma = \log \Gamma\)</span> and <span class="math notranslate nohighlight">\(r = \log R\)</span>, the handout shows that an approximation of the target is given by the formula:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5294e761-901d-42ec-9a5f-43b516d7d20f">
-<span class="eqno">(25)<a class="headerlink" href="#equation-5294e761-901d-42ec-9a5f-43b516d7d20f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f54d7995-c384-4051-b91c-bc4126798098">
+<span class="eqno">(25)<a class="headerlink" href="#equation-f54d7995-c384-4051-b91c-bc4126798098" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{m} &amp; \approx 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
 \end{align}\]</div>
 <div class="cell docutils container">
@@ -478,15 +514,15 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 <section id="target-wealth">
 <h2>Target Wealth<a class="headerlink" href="#target-wealth" title="Permalink to this headline">#</a></h2>
 <p>Whether the model exhibits a “target” or “stable” level of the wealth-to-permanent-income ratio for employed consumers depends on whether the ‘Growth Impatience Condition’ (the GIC) holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-97c0d0e6-3d12-4cbe-8274-5e344dd1ba6c">
-<span class="eqno">(26)<a class="headerlink" href="#equation-97c0d0e6-3d12-4cbe-8274-5e344dd1ba6c" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
+<div class="amsmath math notranslate nohighlight" id="equation-4ca0a27f-3be5-4c9e-b23b-34b0486df54e">
+<span class="eqno">(26)<a class="headerlink" href="#equation-4ca0a27f-3be5-4c9e-b23b-34b0486df54e" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
  \left(\frac{(R \beta (1-\mho))^{1/\rho}}{\Gamma}\right)  &amp; &lt;  1
 \\ \left(\frac{(R \beta (1-\mho))^{1/\rho}}{G (1-\mho)}\right)  &amp;&lt;  1
 \\ \left(\frac{(R \beta)^{1/\rho}}{G} (1-\mho)^{-\rho}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>and recall (from <a class="reference external" href="https://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">PerfForesightCRRA</a>) that the perfect foresight ‘Growth Impatience Factor’ is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-932802f9-fdf8-4412-a357-942261fdeeca">
-<span class="eqno">(27)<a class="headerlink" href="#equation-932802f9-fdf8-4412-a357-942261fdeeca" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
+<div class="amsmath math notranslate nohighlight" id="equation-79a7e0ae-a360-4b79-a92c-23e169b00c27">
+<span class="eqno">(27)<a class="headerlink" href="#equation-79a7e0ae-a360-4b79-a92c-23e169b00c27" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
 \left(\frac{(R \beta)^{1/\rho}}{G}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>so since <span class="math notranslate nohighlight">\(\mho &gt; 0\)</span>, uncertainty makes it harder to be ‘impatient.’  To understand this, think of someone who, in the perfect foresight model, was ‘poised’: Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of ‘patience.’  So, in the presence of uncertainty, the conditions on parameters other than <span class="math notranslate nohighlight">\(\mho\)</span> must be stronger in order to guarantee ‘impatience’ in the sense of wanting to spend enough for your wealth to decline <em>despite</em> the extra precautionary motive.</p>
@@ -715,7 +751,7 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
     {
         requestKernel: true,
         binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
+            repo: "econ-ark/DemARK",
             ref: "master",
         },
         codeMirrorConfig: {

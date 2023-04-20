@@ -256,7 +256,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/econ-ark/DemARK/master?urlpath=lab/tree/./notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/econ-ark/DemARK/master?urlpath=lab/tree/notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onBinder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -274,7 +274,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=lab/tree/DemARK/./notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb&branch=master" target="_blank"
+      <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=lab/tree/DemARK/notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onJupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -287,6 +287,42 @@ const thebe_selector_output = ".output, .cell_output"
   </span>
 <span class="btn__text-container">JupyterHub</span>
 </a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/econ-ark/DemARK/blob/master/notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
 </li>
       
   </ul>
@@ -422,8 +458,8 @@ document.write(`
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
 <p>Buffer stock saving models of the kind implemented in <span class="math notranslate nohighlight">\(\texttt{ConsIndShockType}\)</span> say that, if a standard <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#GICRaw">‘Growth Impatience Condition’</a>, holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-08546194-104c-4a06-8f41-c0e3c1ba6b56">
-<span class="eqno">(21)<a class="headerlink" href="#equation-08546194-104c-4a06-8f41-c0e3c1ba6b56" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-6f4a4fc8-8473-4e03-9d15-21abc5921aef">
+<span class="eqno">(21)<a class="headerlink" href="#equation-6f4a4fc8-8473-4e03-9d15-21abc5921aef" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \newcommand{\Rfree}{\mathsf{R}}\newcommand{\DiscFac}{\beta}\newcommand{\PermGroFac}{\Gamma}\newcommand{\PermShk}{\psi}\newcommand{\CRRA}{\rho}
 \left(\frac{(\Rfree\DiscFac)^{1/\CRRA}\mathbb{E}[\PermShk^{-1}]}{\PermGroFac}\right) &amp; &lt; &amp; 1
 \end{eqnarray}\]</div>
@@ -1074,7 +1110,7 @@ The MPC at the 90th percentile of the distribution is 0.97
     {
         requestKernel: true,
         binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
+            repo: "econ-ark/DemARK",
             ref: "master",
         },
         codeMirrorConfig: {
