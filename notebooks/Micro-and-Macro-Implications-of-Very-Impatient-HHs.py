@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: ExecuteTime,collapsed,code_folding,incorrectly_encoded_metadata,tags,-autoscroll
+#     cell_metadata_filter: ExecuteTime,collapsed,code_folding,incorrectly_encoded_metadata,tags,jp-MarkdownHeadingCollapsed,-autoscroll
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
@@ -48,7 +48,7 @@
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/micro-and-macro-implications-of-very-impatient-hhs#launch)
 
-# %% [markdown] tags=[] jp-MarkdownHeadingCollapsed=true
+# %% [markdown] jp-MarkdownHeadingCollapsed=true
 # ## Introduction
 #
 # Buffer stock saving models of the kind implemented in $\texttt{ConsIndShockType}$ say that, if a standard ['Growth Impatience Condition'](https://econ-ark.github.io/BufferStockTheory/#GICRaw), holds:
@@ -241,6 +241,9 @@ cstwMPC_calibrated_parameters = {
 }
 
 # %% [markdown]
+# * Start with importing the predefined dictionaries for agent types from the HARK toolkit. Then only show the parameters that are actually different from the imported dictionary.
+
+# %% [markdown]
 # # Creating an ex-ante distribution of heterogeneous agents
 #
 # Now let's make several instances of our class of agents and give them different values of $\beta$, following cstwMPC's estimated distribution.  In our specification of interest, we will use $\grave{\beta}=0.9855583$ and $\nabla = 0.0085$.
@@ -260,6 +263,8 @@ BaselineType = IndShockConsumerType(**cstwMPC_calibrated_parameters)
 num_types = 7  # number of types we want
 DiscFac_mean = 0.9855583  # center of beta distribution
 DiscFac_spread = 0.0085  # spread of beta distribution
+
+# Here's how to use the tools to create time preference heterogeneity manually
 
 DiscFac_dstn = (
     Uniform(DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread)
@@ -295,8 +300,6 @@ cstwMPC_calibrated_parameters["DiscFac"] = Uniform(DiscFac_mean - DiscFac_spread
 SubPops = AgentPopulation(IndShockConsumerType, cstwMPC_calibrated_parameters)
 SubPops.approx_distributions({"DiscFac": num_types})
 SubPops.create_distributed_agents()
-
-
 
 # %% [markdown]
 # ## Solving and Simulating the Baseline Agents
@@ -338,6 +341,8 @@ print(
 SubPops.solve()
 SubPops.initialize_sim()
 SubPops.simulate()
+
+# time this second solution method
 
 # %%
 aLvl_all_ap = np.concatenate([ThisSubPop.state_now["aLvl"] for ThisSubPop in SubPops])
@@ -494,4 +499,33 @@ print(
 print(
     "The MPC at the 90th percentile of the distribution is "
     + str(decfmt2(MPCpercentiles_annual[-1]))
+)
+
+# these last two slides need an edit if this is the wealth distribution.
+
+# %%
+# Follow the instructions above to make another list of agents that includes *very* impatient households.
+NewSubPops = deepcopy(SubPops)
+NewSubPops[0].DiscFac = 0.8
+NewSubPops[0].solve()
+NewSubPops[0].initialize_sim()
+NewSubPops[0].simulate()
+
+# Retrieve the MPC's
+percentiles = np.linspace(0.1, 0.9, 9)
+MPC_sim_ap = np.concatenate([ThisSubPop.MPCnow for ThisSubPop in NewSubPops])
+MPCpercentiles_quarterly_ap = get_percentiles(MPC_sim_ap, percentiles=percentiles)
+MPCpercentiles_annual_ap = 1.0 - (1.0 - MPCpercentiles_quarterly_ap) ** 4
+
+print(
+    "The MPC at the 10th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual_ap[0]))
+)
+print(
+    "The MPC at the 50th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual_ap[4]))
+)
+print(
+    "The MPC at the 90th percentile of the distribution is "
+    + str(decfmt2(MPCpercentiles_annual_ap[-1]))
 )
