@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -1444,7 +1444,7 @@
 # %% [markdown]
 # ### Convergence of OLG Economy to Steady State
 
-# %% tags=[]
+# %%
 # Some initial setup
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     PerfForesightConsumerType,
@@ -1472,7 +1472,7 @@ sns.set_style("white", {"axes.edgecolor": "black"})
 years_per_gen = 30
 
 
-# %% jupyter={"source_hidden": true} tags=[]
+# %% jupyter={"source_hidden": true}
 # Define a function that plots something given some inputs
 def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, Initialk):
     """Inputs:
@@ -1568,7 +1568,7 @@ def plot1(Epsilon, DiscFac, PopGrowth, YearsPerGeneration, Initialk):
     return None
 
 
-# %% jupyter={"source_hidden": true} tags=[]
+# %% jupyter={"source_hidden": true}
 # Define some widgets to control the plot
 
 # Define a slider for Epsilon
@@ -1619,7 +1619,7 @@ Initialk_widget1 = widgets.FloatSlider(
     style={"description_width": "initial"},
 )
 
-# %% tags=[]
+# %%
 # Make the widget
 interact(
     plot1,
@@ -1885,7 +1885,7 @@ z_widget3 = widgets.FloatSlider(
 )
 
 
-# %% tags=[]
+# %%
 # Make the widget
 interact(
     plot3,
