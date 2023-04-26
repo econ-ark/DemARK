@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernel_info:
 #     name: python3
 #   kernelspec:
@@ -128,7 +128,7 @@ MyTBStype = TractableConsumerType(**TBS_dictionary)
 # \end{align}
 # so since $\mho > 0$, uncertainty makes it harder to be 'impatient.'  To understand this, think of someone who, in the perfect foresight model, was 'poised': Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of 'patience.'  So, in the presence of uncertainty, the conditions on parameters other than $\mho$ must be stronger in order to guarantee 'impatience' in the sense of wanting to spend enough for your wealth to decline _despite_ the extra precautionary motive.
 
-# %% code_folding=[3] jupyter={"source_hidden": true} tags=[]
+# %% code_folding=[3] jupyter={"source_hidden": true}
 # Define a function that plots the employed consumption function and sustainable consumption function
 # for given parameter values
 

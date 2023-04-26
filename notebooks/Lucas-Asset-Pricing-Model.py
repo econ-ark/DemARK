@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -26,7 +26,7 @@
 #     version: 3.9.13
 # ---
 
-# %% [markdown] {"jp-MarkdownHeadingCollapsed": true, "tags": []}
+# %% [markdown] {"jp-MarkdownHeadingCollapsed": true}
 # # Lucas Asset Pricing Model
 #
 # ## A notebook by [Christopher D. Carroll](http://www.econ2.jhu.edu/people/ccarroll/) and [Mateo Velásquez-Giraldo](https://mv77.github.io/)
@@ -109,7 +109,7 @@
 # %% [markdown]
 # `Uninteresting setup:`
 
-# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}, "tags": []}
+# %% Preamble {"code_folding": [0], "jupyter": {"source_hidden": true}}
 # Setup
 import numpy as np
 import matplotlib.pyplot as plt
@@ -246,7 +246,7 @@ economy = LucasEconomy(CRRA=2, DiscFac=0.95, DivProcess=DivProc)
 # %% [markdown]
 # Once created, the economy can be 'solved', which means finding the equilibrium price kernel. The distribution of dividends at period $t+1$ depends on the value of dividends at $t$, which also determines the resources agents have available to buy trees. Thus, $d_t$ is a state variable for the economy. The pricing function gives the price of trees that equates their demand and supply at every level of current dividends $d_t$.
 
-# %% {"tags": []}
+# %%
 dir(economy.solve())
 
 # %% Solution {"code_folding": [0]}
@@ -264,7 +264,7 @@ print("P({}) = {:.6}".format(dvdnd, economy.EqPfun(dvdnd)))
 #
 # [The notes](https://llorracc.github.io/LucasAssetPrice/#a-surprise) discuss the surprising implication that an increase in the coefficient of relative risk aversion $\rho$ leads to higher prices for the risky trees! This is demonstrated below.
 
-# %% {"code_folding": [0], "tags": []}
+# %% {"code_folding": [0]}
 # Create two economies with different risk aversion
 Disc = 0.95
 LowCRRAEcon = LucasEconomy(CRRA=2, DiscFac=Disc, DivProcess=DivProc)
@@ -419,7 +419,7 @@ plt.show()
 #
 # A parameter for the numerical solution is the number of different values that we allow our discrete approximation $\tilde{\varepsilon}$ to take, $n^{\#}$. We would expect a higher $n^#$ to improve our solution, as the discrete approximation of $\varepsilon_t$ improves. We test this below.
 
-# %% {"code_folding": [0], "tags": []}
+# %% {"code_folding": [0]}
 # Increase CRRA to make the effect of uncertainty more evident.
 CRRA = 10
 Disc = 0.9
