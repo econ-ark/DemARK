@@ -197,6 +197,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html">The MPC out of Credit vs the MPC Out of Income</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Micro- and Macroeconomic Implications of Very Impatient Households</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="Nondurables-During-Great-Recession.html">Spending on Nondurables During the Great Recession</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-Approximation.html">Perfect Foresight CRRA Model - Approximation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerfForesightCRRA-SavingRate.html">Perfect Foresight CRRA Model - Saving Rate</a></li>
@@ -433,14 +434,31 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Micro- and Macroeconomic Implications of Very Impatient Households</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrating-a-basic-version-of-cstwmpc">Calibrating a Basic Version of cstwMPC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-and-simulating-the-baseline-agents">Solving and Simulating the Baseline Agents</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-ex-ante-distribution-of-heterogeneous-agents">Creating an ex-ante distribution of heterogeneous agents</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-brute-force-approach">Method 1: “Brute force” approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-the-new-agentpopulation-class">Method 2: The new <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-and-simulating-the-baseline-agents">Solving and Simulating the Baseline Agents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-for-the-brute-force-approach">1. Solution for the “brute force” approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-using-the-agentpopulation-class">2. Solution using the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> class</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-lorenz-curve">Plotting the Lorenz Curve</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-the-lorenz-distance-at-targets">Calculating the Lorenz Distance at Targets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-distribution-of-the-marginal-propensity-to-consume">The Distribution Of the Marginal Propensity to Consume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-distribution-of-the-marginal-propensity-to-consume">The Distribution Of the Marginal Propensity to Consume</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-distribution-from-the-brute-force-approach">1. MPC distribution from the “brute force” approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-distribution-from-the-agentpopulation-approach">2. MPC distribution from the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> approach</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-very-impatient-households">Adding Very Impatient Households</a></li>
 </ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -458,8 +476,8 @@ document.write(`
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
 <p>Buffer stock saving models of the kind implemented in <span class="math notranslate nohighlight">\(\texttt{ConsIndShockType}\)</span> say that, if a standard <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#GICRaw">‘Growth Impatience Condition’</a>, holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9b57962b-2063-4f08-8758-c71bc69fdbf4">
-<span class="eqno">(21)<a class="headerlink" href="#equation-9b57962b-2063-4f08-8758-c71bc69fdbf4" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-d101321a-3b4f-4775-8f18-ebb135a2b979">
+<span class="eqno">(21)<a class="headerlink" href="#equation-d101321a-3b4f-4775-8f18-ebb135a2b979" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \newcommand{\Rfree}{\mathsf{R}}\newcommand{\DiscFac}{\beta}\newcommand{\PermGroFac}{\Gamma}\newcommand{\PermShk}{\psi}\newcommand{\CRRA}{\rho}
 \left(\frac{(\Rfree\DiscFac)^{1/\CRRA}\mathbb{E}[\PermShk^{-1}]}{\PermGroFac}\right) &amp; &lt; &amp; 1
 \end{eqnarray}\]</div>
@@ -652,8 +670,18 @@ document.write(`
 </div>
 </div>
 </div>
+<ul class="simple">
+<li><p>Start with importing the predefined dictionaries for agent types from the HARK toolkit. Then only show the parameters that are actually different from the imported dictionary.</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="creating-an-ex-ante-distribution-of-heterogeneous-agents">
+<h1>Creating an ex-ante distribution of heterogeneous agents<a class="headerlink" href="#creating-an-ex-ante-distribution-of-heterogeneous-agents" title="Permalink to this headline">#</a></h1>
 <p>Now let’s make several instances of our class of agents and give them different values of <span class="math notranslate nohighlight">\(\beta\)</span>, following cstwMPC’s estimated distribution.  In our specification of interest, we will use <span class="math notranslate nohighlight">\(\grave{\beta}=0.9855583\)</span> and <span class="math notranslate nohighlight">\(\nabla = 0.0085\)</span>.</p>
 <p>NB: Reported parameter estimates in cstwMPC use a model with aggregate shocks and wage and interest rates determined dynamically (a heterogeneous agents DSGE model); this is the <span class="math notranslate nohighlight">\(\texttt{AggShockConsumerType}\)</span> in HARK.  The estimated parameters are slightly different in this exercise, as we are ignoring general equilibrium aspects and only using the <span class="math notranslate nohighlight">\(\texttt{IndShockConsumerType}\)</span></p>
+<section id="method-1-brute-force-approach">
+<h2>Method 1: “Brute force” approach<a class="headerlink" href="#method-1-brute-force-approach" title="Permalink to this headline">#</a></h2>
+<p>There are two methods for accomplishing this. The first is a more “brute force” approach: We specify a uniform distribution and discretize it for the number of household types we would like to see in the model. From there, We place each of the household types with a different time preference factor in a list. Finally, a for-loop is used to compute the solution for each household’s optimization problem.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell constructs seven instances of IndShockConsumerType with different discount factors</span>
@@ -664,6 +692,9 @@ document.write(`
 <span class="n">num_types</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># number of types we want</span>
 <span class="n">DiscFac_mean</span> <span class="o">=</span> <span class="mf">0.9855583</span>  <span class="c1"># center of beta distribution</span>
 <span class="n">DiscFac_spread</span> <span class="o">=</span> <span class="mf">0.0085</span>  <span class="c1"># spread of beta distribution</span>
+
+<span class="c1"># Here&#39;s how to use the tools to create time preference heterogeneity manually</span>
+
 <span class="n">DiscFac_dstn</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">Uniform</span><span class="p">(</span><span class="n">DiscFac_mean</span> <span class="o">-</span> <span class="n">DiscFac_spread</span><span class="p">,</span> <span class="n">DiscFac_mean</span> <span class="o">+</span> <span class="n">DiscFac_spread</span><span class="p">)</span>
     <span class="o">.</span><span class="n">discretize</span><span class="p">(</span><span class="n">num_types</span><span class="p">)</span>
@@ -682,10 +713,41 @@ document.write(`
 </div>
 </div>
 </section>
+<section id="method-2-the-new-agentpopulation-class">
+<h2>Method 2: The new <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> class<a class="headerlink" href="#method-2-the-new-agentpopulation-class" title="Permalink to this headline">#</a></h2>
+<p>The second approach incorporates a new class defined in the  HARK toolkit: <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code>. This class will create a new iterable object <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code>, which takes two arguments. The first is the dictionary which defines the AgentType. The second is a distribution over the parameter value for which the user would like to see ex-ante heterogeneity in. From there, the <code class="docutils literal notranslate"><span class="pre">approx_distributions</span></code> method is called on the object to discretize the distribution given the specified number of discrete points. Finally, the <code class="docutils literal notranslate"><span class="pre">create_distributed_agents</span></code> method is called to create the distribution of agents, for which the standard solution method calls can be used to solve each agents problem.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell constructs seven instances of IndShockConsumerType with different discount factors</span>
+
+<span class="kn">from</span> <span class="nn">HARK.core</span> <span class="kn">import</span> <span class="n">AgentPopulation</span>
+
+<span class="c1"># Specify the distribution of the discount factor</span>
+<span class="n">num_types</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># number of types we want</span>
+<span class="n">DiscFac_mean</span> <span class="o">=</span> <span class="mf">0.9855583</span>  <span class="c1"># center of beta distribution</span>
+<span class="n">DiscFac_spread</span> <span class="o">=</span> <span class="mf">0.0085</span>  <span class="c1"># spread of beta distribution</span>
+
+<span class="n">cstwMPC_calibrated_parameters</span><span class="p">[</span><span class="s2">&quot;DiscFac&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span>
+    <span class="n">DiscFac_mean</span> <span class="o">-</span> <span class="n">DiscFac_spread</span><span class="p">,</span> <span class="n">DiscFac_mean</span> <span class="o">+</span> <span class="n">DiscFac_spread</span>
+<span class="p">)</span>
+
+<span class="n">SubPops</span> <span class="o">=</span> <span class="n">AgentPopulation</span><span class="p">(</span><span class="n">IndShockConsumerType</span><span class="p">,</span> <span class="n">cstwMPC_calibrated_parameters</span><span class="p">)</span>
+<span class="n">SubPops</span><span class="o">.</span><span class="n">approx_distributions</span><span class="p">({</span><span class="s2">&quot;DiscFac&quot;</span><span class="p">:</span> <span class="n">num_types</span><span class="p">})</span>
+<span class="n">SubPops</span><span class="o">.</span><span class="n">create_distributed_agents</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 <section id="solving-and-simulating-the-baseline-agents">
 <h2>Solving and Simulating the Baseline Agents<a class="headerlink" href="#solving-and-simulating-the-baseline-agents" title="Permalink to this headline">#</a></h2>
 <p>Now let’s solve and simulate each of our types of agents.  If you look in the parameter dictionary (or at any of the agent objects themselves), you will see that each one has an <span class="math notranslate nohighlight">\(\texttt{AgentCount}\)</span> attribute of 10000. That is, these seven ex ante heterogeneous types each represent ten thousand individual agents that will experience ex post heterogeneity when they draw different income (and mortality) shocks over time.</p>
 <p>In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods <span class="math notranslate nohighlight">\(\texttt{solve}\)</span>, <span class="math notranslate nohighlight">\(\texttt{initialize_sim}\)</span>, and <span class="math notranslate nohighlight">\(\texttt{simulate}\)</span> in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.</p>
+<p>After solving the model, we will check that the aggregate level of capital (total assets held by all households) to income ratio equals what we expected it would be. This will serve as a verification that the code is written correctly. To do this, we combine the asset holdings of all types, take the mean, and compare it to the desired capital to income ratio of 10.26.</p>
+<p>NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0.</p>
+<section id="solution-for-the-brute-force-approach">
+<h3>1. Solution for the “brute force” approach<a class="headerlink" href="#solution-for-the-brute-force-approach" title="Permalink to this headline">#</a></h3>
+<p>Here is the output for the solution to the first approach to the problem, as well as a computation of the mean level of assets across the agent types. As you can see, the model does a good job of matching the aggregate capital-to-output ratio found in the data, as cited by Carroll et al. (2017).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Progress bar keeps track interactively of how many have been made</span>
@@ -697,82 +759,248 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                             | 0/7 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.994269 
-GPFNrm                 = 0.997517 
-GPFAggLivPrb           = 0.988055 
-Thorn = APF            = 0.994269 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.972158 
-WRPF                   = 0.068051 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 0.996738 
-GPFNrm                 = 0.999994 
-GPFAggLivPrb           = 0.990508 
-Thorn = APF            = 0.996738 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.974572 
-WRPF                   = 0.068220 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 0.999206 
-GPFNrm                 = 1.002470 
-GPFAggLivPrb           = 0.992961 
-Thorn = APF            = 0.999206 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.976985 
-WRPF                   = 0.068389 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.001674 
-GPFNrm                 = 1.004946 
-GPFAggLivPrb           = 0.995414 
-Thorn = APF            = 1.001674 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.979399 
-WRPF                   = 0.068558 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.004143 
-GPFNrm                 = 1.007423 
-GPFAggLivPrb           = 0.997867 
-Thorn = APF            = 1.004143 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.981812 
-WRPF                   = 0.068727 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.006611 
-GPFNrm                 = 1.009899 
-GPFAggLivPrb           = 1.000320 
-Thorn = APF            = 1.006611 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.984225 
-WRPF                   = 0.068896 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.009079 
-GPFNrm                 = 1.012375 
-GPFAggLivPrb           = 1.002772 
-Thorn = APF            = 1.009079 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.986639 
-WRPF                   = 0.069065 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.997517 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.988055 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994269 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.972158 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068051 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|███████████████████                                                                                                                  | 1/7 [00:03&lt;00:20,  3.39s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.996738 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.999994 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.990508 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.996738 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.974572 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068220 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|██████████████████████████████████████                                                                                               | 2/7 [00:06&lt;00:17,  3.43s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.999206 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.002470 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.992961 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.999206 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.976985 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068389 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 43%|█████████████████████████████████████████████████████████                                                                            | 3/7 [00:10&lt;00:14,  3.52s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.001674 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.004946 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.995414 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.001674 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.979399 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068558 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|████████████████████████████████████████████████████████████████████████████                                                         | 4/7 [00:14&lt;00:10,  3.66s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.004143 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.007423 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.997867 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.004143 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.981812 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068727 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|███████████████████████████████████████████████████████████████████████████████████████████████                                      | 5/7 [00:19&lt;00:08,  4.35s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.006611 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.009899 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.000320 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.006611 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.984225 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068896 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████                   | 6/7 [00:26&lt;00:04,  4.99s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.009079 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.012375 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.002772 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.009079 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.986639 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.069065 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:32&lt;00:00,  5.58s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:32&lt;00:00,  4.71s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>To verify that you wrote that code correctly, let’s check that the aggregate level of capital (total assets held by all households) to income ratio equals what we expected it would be.  To do that, let’s combine the asset holdings of all types, take the mean, and see if we get the desired capital to income ratio of 10.26.</p>
-<p>NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aLvl_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;aLvl&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ThisType</span> <span class="ow">in</span> <span class="n">MyTypes</span><span class="p">])</span>
@@ -784,17 +1012,263 @@ DiscFacGPFAggLivPrbMax = 0.990099
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The ratio of aggregate capital to permanent income is 10.22
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-using-the-agentpopulation-class">
+<h3>2. Solution using the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> class<a class="headerlink" href="#solution-using-the-agentpopulation-class" title="Permalink to this headline">#</a></h3>
+<p>We now conduct the same exercise for the new tool implemented in HARK. As you can see, both the out for the solution and the mean level of assets are nearly identical to the output when using the “brute force” approach.</p>
+<p>Note: As an aside, the working theory for why these two approaches give nearly-but-not-perfectly-identical solution outputs is that, the “brute force” approach requires the user to specify the random seed when creating the discretized distribution of agents. The approach using <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code>, on the other hand, specifies the random seed for the user during the implementation of the code. As you may know from the basics of programming in Python, the random seed’s main function is for reproducibility of results when using random number generators. In order for this theory to be tested, the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> tool in HARK must be updated to allow for users to fix the random seed in this way.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SubPops</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="n">SubPops</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">SubPops</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="c1"># time this second solution method</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.994269 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.997517 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.988055 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994269 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.972158 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068051 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.996738 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.999994 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.990508 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.996738 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.974572 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068220 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.999206 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.002470 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.992961 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.999206 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.976985 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068389 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.001674 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.004946 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.995414 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.001674 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.979399 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068558 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.004143 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.007423 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.997867 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.004143 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.981812 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068727 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.006611 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.009899 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.000320 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.006611 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.984225 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068896 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.009079 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.012375 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.002772 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.009079 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.986639 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.069065 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aLvl_all_ap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">ThisSubPop</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;aLvl&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ThisSubPop</span> <span class="ow">in</span> <span class="n">SubPops</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The ratio of aggregate capital to permanent income is &quot;</span>
+    <span class="o">+</span> <span class="n">decfmt2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">aLvl_all_ap</span><span class="p">))</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The ratio of aggregate capital to permanent income is 10.29
 </pre></div>
 </div>
 </div>
 </div>
 </section>
+</section>
 <section id="plotting-the-lorenz-curve">
 <h2>Plotting the Lorenz Curve<a class="headerlink" href="#plotting-the-lorenz-curve" title="Permalink to this headline">#</a></h2>
+<p>Next, we conduct the exercise of matching the inequality in the observable distribution of wealth using the distribution of assets that arises from the model we’ve constructed with ex-ante heterogeneity in the time preference factor. As you can see from the plots below, the matching exercise is again nearly identical from the two approaches.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Lorenz curves for model with uniform distribution of time preference</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute Lorenz shares using the brute force approach</span>
 
 <span class="n">SCF_wealth</span><span class="p">,</span> <span class="n">SCF_weights</span> <span class="o">=</span> <span class="n">load_SCF_wealth_weights</span><span class="p">()</span>
 
@@ -804,27 +1278,53 @@ DiscFacGPFAggLivPrbMax = 0.990099
     <span class="n">SCF_wealth</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">SCF_weights</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">pctiles</span>
 <span class="p">)</span>
 <span class="n">sim_Lorenz_points</span> <span class="o">=</span> <span class="n">get_lorenz_shares</span><span class="p">(</span><span class="n">sim_wealth</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">pctiles</span><span class="p">)</span>
+
+<span class="c1"># Compute Lorenz shares using the `AgentPopulation` approach</span>
+
+<span class="n">sim_wealth_ap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">ThisSubPop</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;aLvl&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ThisSubPop</span> <span class="ow">in</span> <span class="n">SubPops</span><span class="p">])</span>
+<span class="n">SCF_Lorenz_points_ap</span> <span class="o">=</span> <span class="n">get_lorenz_shares</span><span class="p">(</span>
+    <span class="n">SCF_wealth</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">SCF_weights</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">pctiles</span>
+<span class="p">)</span>
+<span class="n">sim_Lorenz_points_ap</span> <span class="o">=</span> <span class="n">get_lorenz_shares</span><span class="p">(</span><span class="n">sim_wealth_ap</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">pctiles</span><span class="p">)</span>
+
+<span class="c1"># Plot Lorenz curves for model with uniform distribution of time preference using both methods</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pctiles</span><span class="p">,</span> <span class="n">SCF_Lorenz_points</span><span class="p">,</span> <span class="s2">&quot;--k&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pctiles</span><span class="p">,</span> <span class="n">sim_Lorenz_points</span><span class="p">,</span> <span class="s2">&quot;-b&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Brute force approach&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Percentile of net worth&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cumulative share of wealth&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pctiles</span><span class="p">,</span> <span class="n">SCF_Lorenz_points</span><span class="p">,</span> <span class="s2">&quot;--k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pctiles</span><span class="p">,</span> <span class="n">sim_Lorenz_points_ap</span><span class="p">,</span> <span class="s2">&quot;-b&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Using AgentPopulation class&quot;</span><span class="p">)</span>
+<span class="c1"># plt.xlabel(&quot;Percentile of net worth&quot;)</span>
+<span class="c1"># plt.ylabel(&quot;Cumulative share of wealth&quot;)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/1e82aceb94a00f2ac6f2deb253e0410458a2cba860f10f5d4cac41bec9dd9b60.png" src="../_images/1e82aceb94a00f2ac6f2deb253e0410458a2cba860f10f5d4cac41bec9dd9b60.png" />
+<img alt="../_images/3cd79bb928cbcceee72a8c04ed6e20aa2090ef70d6f68af0c796899865360ff4.png" src="../_images/3cd79bb928cbcceee72a8c04ed6e20aa2090ef70d6f68af0c796899865360ff4.png" />
 </div>
 </div>
 </section>
 <section id="calculating-the-lorenz-distance-at-targets">
 <h2>Calculating the Lorenz Distance at Targets<a class="headerlink" href="#calculating-the-lorenz-distance-at-targets" title="Permalink to this headline">#</a></h2>
 <p>Now we want to construct a function that calculates the Euclidean distance between simulated and actual Lorenz curves at the four percentiles of interest: 20, 40, 60, and 80.</p>
+<p>NB: For some reason, this step is not completed in the code. We leave this cell here, as this exercise should probably be performed as well.</p>
 </section>
 <section id="the-distribution-of-the-marginal-propensity-to-consume">
 <h2>The Distribution Of the Marginal Propensity to Consume<a class="headerlink" href="#the-distribution-of-the-marginal-propensity-to-consume" title="Permalink to this headline">#</a></h2>
 <p>For many macroeconomic purposes, the distribution of the MPC <span class="math notranslate nohighlight">\(\kappa\)</span> is more important than the distribution of wealth.  Ours is a quarterly model, and MPC’s are typically reported on an annual basis; we can compute a (very) approximate annual MPC from the quraterly ones as <span class="math notranslate nohighlight">\(\kappa_{Y} \approx 1.0 - (1.0 - \kappa_{Q})^4\)</span></p>
 <p>In the cell below, we retrieve the MPCs from our simulated consumers and show that the 10th percentile in the MPC distribution is only about 6 percent, while at the 90th percentile it is almost 0.5</p>
+<section id="mpc-distribution-from-the-brute-force-approach">
+<h3>1. MPC distribution from the “brute force” approach<a class="headerlink" href="#mpc-distribution-from-the-brute-force-approach" title="Permalink to this headline">#</a></h3>
+<p>Again, we first show the computation from the “brute force approach”. This is done in the following code block.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Retrieve the MPC&#39;s</span>
@@ -851,11 +1351,47 @@ DiscFacGPFAggLivPrbMax = 0.990099
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06
 The MPC at the 50th percentile of the distribution is 0.20
+The MPC at the 90th percentile of the distribution is 0.49
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mpc-distribution-from-the-agentpopulation-approach">
+<h3>2. MPC distribution from the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> approach<a class="headerlink" href="#mpc-distribution-from-the-agentpopulation-approach" title="Permalink to this headline">#</a></h3>
+<p>Next, we compare this distribution of marginal propensities to consume with the one from the analogous computation when the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> class is used. Notably, the distribution of MPCs in this case is nearly identical, with the only difference being at the 90th percentile.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Retrieve the MPC&#39;s</span>
+<span class="n">percentiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">MPC_sim_ap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">ThisSubPop</span><span class="o">.</span><span class="n">MPCnow</span> <span class="k">for</span> <span class="n">ThisSubPop</span> <span class="ow">in</span> <span class="n">SubPops</span><span class="p">])</span>
+<span class="n">MPCpercentiles_quarterly_ap</span> <span class="o">=</span> <span class="n">get_percentiles</span><span class="p">(</span><span class="n">MPC_sim_ap</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">percentiles</span><span class="p">)</span>
+<span class="n">MPCpercentiles_annual_ap</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">MPCpercentiles_quarterly_ap</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The MPC at the 10th percentile of the distribution is &quot;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decfmt2</span><span class="p">(</span><span class="n">MPCpercentiles_annual_ap</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The MPC at the 50th percentile of the distribution is &quot;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decfmt2</span><span class="p">(</span><span class="n">MPCpercentiles_annual_ap</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The MPC at the 90th percentile of the distribution is &quot;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decfmt2</span><span class="p">(</span><span class="n">MPCpercentiles_annual_ap</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06
+The MPC at the 50th percentile of the distribution is 0.20
 The MPC at the 90th percentile of the distribution is 0.51
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="adding-very-impatient-households">
 <h2>Adding Very Impatient Households<a class="headerlink" href="#adding-very-impatient-households" title="Permalink to this headline">#</a></h2>
@@ -867,6 +1403,7 @@ The MPC at the 90th percentile of the distribution is 0.51
 <li><p>Set the <span class="math notranslate nohighlight">\(\beta\)</span> of the most impatient type to <span class="math notranslate nohighlight">\(0.80\)</span> (for the copied set of agents).</p></li>
 <li><p>Solve and simulate the most impatient type (for the copied set of agents).</p></li>
 </ol>
+<p>We conduct this exercise for both approaches again. The code is essentially identical, other than the naming conventions used for variables in each case. Notice that the output from each of the final two code blocks are exactly identical!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Follow the instructions above to make another list of agents that includes *very* impatient households.</span>
@@ -894,20 +1431,108 @@ The MPC at the 90th percentile of the distribution is 0.51
     <span class="s2">&quot;The MPC at the 90th percentile of the distribution is &quot;</span>
     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decfmt2</span><span class="p">(</span><span class="n">MPCpercentiles_annual</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 <span class="p">)</span>
+
+<span class="c1"># these last two slides need an edit if this is the wealth distribution.</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.813082 
-GPFNrm                 = 0.815738 
-GPFAggLivPrb           = 0.808000 
-Thorn = APF            = 0.813082 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.795000 
-WRPF                   = 0.055650 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.815738 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.808000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.813082 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.795000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.055650 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06
+The MPC at the 50th percentile of the distribution is 0.20
+The MPC at the 90th percentile of the distribution is 0.97
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Follow the instructions above to make another list of agents that includes *very* impatient households.</span>
+<span class="n">NewSubPops</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">SubPops</span><span class="p">)</span>
+<span class="n">NewSubPops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">DiscFac</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">NewSubPops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="n">NewSubPops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+<span class="n">NewSubPops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="c1"># Retrieve the MPC&#39;s</span>
+<span class="n">percentiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">MPC_sim_ap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">ThisSubPop</span><span class="o">.</span><span class="n">MPCnow</span> <span class="k">for</span> <span class="n">ThisSubPop</span> <span class="ow">in</span> <span class="n">NewSubPops</span><span class="p">])</span>
+<span class="n">MPCpercentiles_quarterly_ap</span> <span class="o">=</span> <span class="n">get_percentiles</span><span class="p">(</span><span class="n">MPC_sim_ap</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">percentiles</span><span class="p">)</span>
+<span class="n">MPCpercentiles_annual_ap</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">MPCpercentiles_quarterly_ap</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The MPC at the 10th percentile of the distribution is &quot;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decfmt2</span><span class="p">(</span><span class="n">MPCpercentiles_annual_ap</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The MPC at the 50th percentile of the distribution is &quot;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decfmt2</span><span class="p">(</span><span class="n">MPCpercentiles_annual_ap</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The MPC at the 90th percentile of the distribution is &quot;</span>
+    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">decfmt2</span><span class="p">(</span><span class="n">MPCpercentiles_annual_ap</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.813082 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.815738 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.808000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.813082 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.795000 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.055650 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06
@@ -987,14 +1612,31 @@ The MPC at the 90th percentile of the distribution is 0.97
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Micro- and Macroeconomic Implications of Very Impatient Households</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrating-a-basic-version-of-cstwmpc">Calibrating a Basic Version of cstwMPC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-and-simulating-the-baseline-agents">Solving and Simulating the Baseline Agents</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-ex-ante-distribution-of-heterogeneous-agents">Creating an ex-ante distribution of heterogeneous agents</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-brute-force-approach">Method 1: “Brute force” approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-the-new-agentpopulation-class">Method 2: The new <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-and-simulating-the-baseline-agents">Solving and Simulating the Baseline Agents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-for-the-brute-force-approach">1. Solution for the “brute force” approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-using-the-agentpopulation-class">2. Solution using the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> class</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-lorenz-curve">Plotting the Lorenz Curve</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-the-lorenz-distance-at-targets">Calculating the Lorenz Distance at Targets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-distribution-of-the-marginal-propensity-to-consume">The Distribution Of the Marginal Propensity to Consume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-distribution-of-the-marginal-propensity-to-consume">The Distribution Of the Marginal Propensity to Consume</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-distribution-from-the-brute-force-approach">1. MPC distribution from the “brute force” approach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-distribution-from-the-agentpopulation-approach">2. MPC distribution from the <code class="docutils literal notranslate"><span class="pre">AgentPopulation</span></code> approach</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-very-impatient-households">Adding Very Impatient Households</a></li>
 </ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
