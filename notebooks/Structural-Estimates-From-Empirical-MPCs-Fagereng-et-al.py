@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -63,8 +63,6 @@
 # %% {"code_folding": [0]}
 # Import python tools
 
-import sys
-import os
 
 import numpy as np
 from copy import deepcopy

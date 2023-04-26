@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -23,10 +23,9 @@
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
 #     version: 3.10.8
-#   orig_nbformat: 4
 # ---
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # # Expectated vs Realized Income Growth in A Standard Life Cycle Model
 
 # %% [markdown]
@@ -34,7 +33,7 @@
 #
 # We first load some tools from the [HARK toolkit](https://github.com/econ-ark/HARK).
 
-# %% jupyter={"source_hidden": true} tags=[]
+# %% jupyter={"source_hidden": true}
 import statsmodels.api as sm
 from linearmodels.panel.model import PanelOLS
 from HARK.distribution import calc_expectation
@@ -50,15 +49,13 @@ from HARK.Calibration.Income.IncomeTools import (
 )
 
 from HARK.datasets.life_tables.us_ssa.SSATools import parse_ssa_life_table
-from HARK.datasets.SCF.WealthIncomeDist.SCFDistTools import income_wealth_dists_from_scf
-import matplotlib.pyplot as plt
 import pandas as pd
 from copy import copy
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # We now create a population of agents with the income process of [Cocco, Gomes & Maenhout (2005)](https://academic.oup.com/rfs/article/18/2/491/1599892?login=true), which is implemented as a default calibration in the toolkit.
 
-# %% Alter calibration jupyter={"source_hidden": true} tags=[]
+# %% Alter calibration jupyter={"source_hidden": true}
 birth_age = 21
 death_age = 66
 adjust_infl_to = 1992
@@ -107,7 +104,7 @@ Agent.solve()
 # %% Create and solve agent [markdown]
 # We simulate a population of agents
 
-# %% Simulation tags=[]
+# %% Simulation
 # %%capture
 # Run the simulations
 Agent.initialize_sim()
@@ -159,8 +156,7 @@ Agent.simulate()
 # \end{equation}
 #
 
-# %% Compute expectations jupyter={"source_hidden": true} tags=[]
-
+# %% Compute expectations jupyter={"source_hidden": true}
 exp = [
     calc_expectation(Agent.IncShkDstn[i], func=lambda x: x[0] * x[1])
     for i in range(Agent.T_cycle)
@@ -201,8 +197,7 @@ Data["Y_change"] = Data.groupby("id")["Y"].diff(1)
 # \end{equation*}
 # We now estimate an analogous regression in our simulated population.
 
-# %% jupyter={"source_hidden": true} tags=[]
-
+# %% jupyter={"source_hidden": true}
 Data = Data.set_index(["id", "Age"])
 
 # Create the variables they actually use
@@ -223,7 +218,7 @@ print(fe_res)
 #
 # However, with less volatile transitory shocks, the regression coefficient would be positive. We demonstrate this by shutting off transitory shocks, simulating another population of agents, and re-running the regression.
 
-# %% tags=[]
+# %%
 # %%capture
 params_no_transitory = copy(params)
 params_no_transitory.update({"TranShkStd": [0.0] * len(params["TranShkStd"])})
@@ -236,7 +231,7 @@ Agent_nt.initialize_sim()
 Agent_nt.simulate()
 
 
-# %% jupyter={"source_hidden": true} tags=[]
+# %% jupyter={"source_hidden": true}
 exp = [
     calc_expectation(Agent_nt.IncShkDstn[i], func=lambda x: x[0] * x[1])
     for i in range(Agent_nt.T_cycle)
@@ -271,7 +266,7 @@ Data["ExpIncChange"] = Data["pLvl"] * (
 
 Data["Y_change"] = Data.groupby("id")["Y"].diff(1)
 
-# %% jupyter={"source_hidden": true} tags=[]
+# %% jupyter={"source_hidden": true}
 # Create variables
 Data["ExpBin"] = 0
 Data.loc[Data["ExpIncChange"] > 0, "ExpBin"] = 1

@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -74,7 +74,7 @@
 from matplotlib import pyplot as plt
 import warnings
 import HARK.ConsumptionSaving.ConsIndShockModel as cShksModl
-from HARK.utilities import plot_funcs_der, plot_funcs  # Some tools
+from HARK.utilities import plot_funcs  # Some tools
 import pandas as pd
 
 import numpy as np

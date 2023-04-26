@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -41,7 +41,7 @@
 import matplotlib.pyplot as plt
 from copy import deepcopy
 from HARK.ConsumptionSaving.ConsIndShockModel import KinkedRconsumerType
-from HARK.utilities import plot_funcs_der, plot_funcs
+from HARK.utilities import plot_funcs
 
 
 def mystr(number):

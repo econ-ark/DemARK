@@ -2,14 +2,14 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: ExecuteTime,collapsed,title,code_folding,tags,incorrectly_encoded_metadata,-autoscroll
+#     cell_metadata_filter: ExecuteTime,collapsed,title,code_folding,tags,incorrectly_encoded_metadata,jp-MarkdownHeadingCollapsed,-autoscroll
 #     formats: ipynb,py:percent
 #     notebook_metadata_filter: all,-widgets,-varInspector
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -24,7 +24,6 @@
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
 #     version: 3.10.8
-#   orig_nbformat: 4
 # ---
 
 # %% [markdown]
@@ -37,12 +36,12 @@
 # %% [markdown]
 # `# Set Up the Computational Environment: (in JupyterLab, click the dots)`
 
-# %% code_folding=[0] tags=[]
+# %% code_folding=[0]
 # Preliminaries
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from copy import copy, deepcopy
+from copy import deepcopy
 
 from HARK.distribution import calc_expectation
 from HARK.ConsumptionSaving.ConsIndShockModel import (
@@ -50,7 +49,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
     init_idiosyncratic_shocks,
 )
 
-# %% [markdown] jp-MarkdownHeadingCollapsed=true tags=[] jp-MarkdownHeadingCollapsed=true
+# %% [markdown] jp-MarkdownHeadingCollapsed=true
 # # Description of the problem
 #
 # $\newcommand{\pLvl}{\mathbf{p}}$
@@ -117,7 +116,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 #
 # This notebook briefly describes Harmenberg's method and demonstrates its implementation in the HARK toolkit.
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # # Description of the method
 #
 # To illustrate Harmenberg's idea, consider a [buffer stock saving](https://econ-ark.github.io/BufferStockTheory) model in which:
@@ -189,7 +188,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 # %% [markdown]
 # `# Implementation in HARK:`
 
-# %% [markdown] code_folding=[] tags=[]
+# %% [markdown] code_folding=[]
 # #### Farther down in the notebook, code like this solves the standard model:
 #
 # ```python
@@ -213,7 +212,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 # popn.simulate()
 # ```
 
-# %% [markdown] code_folding=[] tags=[]
+# %% [markdown] code_folding=[]
 # #### Later, code like this simulates using the permanent-income-neutral measure
 # ```python
 # # Harmenberg permanent-income-neutral simulation
@@ -231,7 +230,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 # ntrl.simulate()
 # ```
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # All we had to do differently to simulate using the permanent-income-neutral measure was to set the agent's property `neutral_measure=True`.
 #
 # This is implemented when the function `update_income_process` re-constructs the agent's income process. The specific lines that achieve the change of measure in HARK are in [this link](https://github.com/econ-ark/HARK/blob/760df611a6ec2ff147d00b7d866dbab6fc4e18a1/HARK/ConsumptionSaving/ConsIndShockModel.py#L2734-L2735), or reproduced here:
@@ -290,7 +289,7 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
 # %% [markdown]
 # `# Setup computational environment:`
 
-# %% Experiment setup tags=[]
+# %% Experiment setup
 # How long to run the economies without sampling? T_0
 # Because we start the population at mBalLvl which turns out to be close
 # to MBalLvl so we don't need a long burn in period
@@ -320,7 +319,7 @@ min_agents = 100
 # %% [markdown]
 # `# Define tool to calculate summary statistics:`
 
-# %% Define function to get our stats of interest code_folding=[0] tags=[]
+# %% Define function to get our stats of interest code_folding=[0]
 # Now create a function that takes HARK's simulation output
 # and computes all the summary statistics we need
 
@@ -330,11 +329,7 @@ def sumstats(sims, sample_periods):
     # Columns are different agents and rows are different times.
 
     # Subset the times at which we'll sample and transpose.
-    samples_lvl = pd.DataFrame(
-        sims[
-            sample_periods,
-        ].T
-    )
+    samples_lvl = pd.DataFrame(sims[sample_periods,].T)
 
     # Get averages over agents. This will tell us what our
     # aggregate estimate would be if we had each possible sim size
@@ -349,16 +344,14 @@ def sumstats(sims, sample_periods):
     return {
         "mean_lvl": mean_lvl,
         "vars_lvl": vars_lvl,
-        "dist_last": sims[
-            -1,
-        ],
+        "dist_last": sims[-1,],
     }
 
 
 # %% [markdown]
 # We now configure and solve a buffer-stock agent with a default parametrization.
 
-# %% Create and simulate agent tags=[]
+# %% Create and simulate agent
 # Create and solve agent
 
 popn = IndShockConsumerType(**init_idiosyncratic_shocks)
@@ -384,7 +377,7 @@ popn.solve()
 #
 # We now check both conditions with our parametrization.
 
-# %% tags=[]
+# %%
 # Two versions for different HARK versions
 try:  # This works with HARK 2.0 pre-alpha
     Bilt = popn.solution[0].Bilt
@@ -420,7 +413,7 @@ except:  # This one for HARK 0.12 or later
 #
 # First, we simulate using the traditional approach.
 
-# %% tags=[]
+# %%
 # Base simulation
 
 # Start assets at m balanced growth (levels) point
@@ -443,7 +436,7 @@ cLvl_popn = popn.history["cNrm"] * popn.history["pLvl"]
 # %% [markdown]
 # Update and simulate using Harmenberg's strategy. This time, not multiplying by permanent income.
 
-# %% tags=[]
+# %%
 # Harmenberg permanent income neutral simulation
 
 # Start by duplicating the previous setup
@@ -469,7 +462,7 @@ mLvl_ntrl = ntrl.history["mNrm"]
 #
 # The plots below show the (logs of) the estimated variances for the two methods as a function of the (logs of) the number of agents.
 
-# %% code_folding=[0] tags=[]
+# %% code_folding=[0]
 # Plots
 
 # Construct aggregate levels and growth rates
@@ -538,7 +531,7 @@ axs[1].legend(fontsize=12)
 plt.show()
 
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # # Harmenberg's Method Produces Large Gains in Efficiency
 #
 # The number of agents required to achieve a given variance is revealed by choosing that variance and then finding the points on the horizontal axis that correspond to the two methods.

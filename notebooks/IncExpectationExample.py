@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -78,8 +78,6 @@
 # %matplotlib inline
 import matplotlib.pyplot as plt
 
-import sys
-import os
 from copy import copy
 import numpy as np
 
@@ -251,7 +249,7 @@ def runRoszypalSchlaffmanExperiment(CorrAct, CorrPcvd, DiscFac_center, DiscFac_s
         type_list.append(ThisType)
 
     # Get the most recent simulated values of X = cLvl, MPCnow, aLvl, pLvl for all types
-    cLvl_all = np.concatenate([ThisType.controls["cLvl"] for ThisType in type_list])
+    np.concatenate([ThisType.controls["cLvl"] for ThisType in type_list])
     aLvl_all = np.concatenate([ThisType.state_now["aLvl"] for ThisType in type_list])
     MPC_all = np.concatenate([ThisType.MPCnow for ThisType in type_list])
     pLvl_all = np.concatenate([ThisType.state_now["pLvl"] for ThisType in type_list])

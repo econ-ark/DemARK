@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -38,11 +38,9 @@ from HARK.ConsumptionSaving.ConsIndShockModel import (
     PerfForesightConsumerType,
     init_perfect_foresight,
 )  # Import the consumer type
-from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
-import HARK
 from copy import deepcopy
 
 

@@ -1,0 +1,41 @@
+# Table of Contents
+#
+# Myst will respect:
+# 1. New pages
+#      - file: relative/path/to/page
+# 2. New sections without an associated page
+#      - title: Folder Title
+#        sections: ...
+# 3. New sections with an associated page
+#      - file: relative/path/to/page
+#        sections: ...
+#
+# Note: Titles defined on pages here are not recognized.
+#
+# This spec is based on the JupyterBook table of contents.
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: README
+chapters:
+  - file: notebooks/Alternative-Combos-Of-Parameter-Values
+  - file: notebooks/ChangeLiqConstr
+  - file: notebooks/Chinese-Growth
+  - file: notebooks/DCEGM-Upper-Envelope
+  - file: notebooks/DiamondOLG
+  - file: notebooks/FisherTwoPeriod
+  - file: notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model
+  - file: notebooks/Gentle-Intro-To-HARK-PerfForesightCRRA
+  - file: notebooks/Harmenberg-Aggregation
+  - file: notebooks/IncExpectationExample
+  - file: notebooks/KeynesFriedmanModigliani
+  - file: notebooks/LC-Model-Expected-Vs-Realized-Income-Growth
+  - file: notebooks/LifeCycleModelTheoryVsData
+  - file: notebooks/Lucas-Asset-Pricing-Model
+  - file: notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income
+  - file: notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs
+  - file: notebooks/Nondurables-During-Great-Recession
+  - file: notebooks/PerfForesightCRRA-Approximation
+  - file: notebooks/PerfForesightCRRA-SavingRate
+  - file: notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al
+  - file: notebooks/TractableBufferStock-Interactive

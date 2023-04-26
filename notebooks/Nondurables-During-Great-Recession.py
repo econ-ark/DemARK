@@ -9,7 +9,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -75,7 +75,6 @@ from tqdm import tqdm
 import numpy as np
 from copy import deepcopy
 
-import HARK  # Prevents import error from Demos repo
 from HARK.utilities import plot_funcs
 
 
@@ -160,7 +159,6 @@ init_infinite = {
 # Now we import the class itself and make a baseline type.
 
 # %%
-
 BaselineType = IndShockConsumerType(**init_infinite)
 
 # %% [markdown]
@@ -257,6 +255,7 @@ def calcAvgC(ConsumerTypes):
 #    6. Calculate the new average consumption level as percentage change vs the prior level.
 #    7. Return the list of percentage changes
 
+
 # %% {"code_folding": []}
 # Whenever you define a function, you should describe it (with a "docstring")
 def calcConsChangeAfterUncertaintyChange(OriginalTypes, NewVals, ParamToChange):
@@ -310,6 +309,7 @@ def calcConsChangeAfterUncertaintyChange(OriginalTypes, NewVals, ParamToChange):
 
 # %% [markdown]
 # Our counterfactual experiment function takes three inputs-- consumer types, counterfactual values, and the name of the parameter we want to change. For the sake of convenience, let's define small functions to run the experiment for each parameter with just a single input.
+
 
 # %% {"code_folding": []}
 # Trivial functions can be useful in making the logic of your program clear

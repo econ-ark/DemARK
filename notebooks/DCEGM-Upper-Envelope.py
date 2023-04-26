@@ -10,7 +10,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -69,7 +69,6 @@
 # %%
 # imports
 from HARK.rewards import CRRAutility, CRRAutilityP, CRRAutilityP_inv
-from HARK.interpolation import calc_log_sum_choice_probs
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -77,7 +76,7 @@ import matplotlib.pyplot as plt
 # here for now, should be
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp
-from HARK.dcegm import calc_nondecreasing_segments, upper_envelope, calc_cross_points
+from HARK.dcegm import calc_nondecreasing_segments, upper_envelope
 
 # %% [markdown]
 # Applying EGM to value functions with kinks, as the ones that result from discrete-continuous problems, will often result in grids for market resources that are not monotonic and candidate choices at those points that are sub-optimal.
