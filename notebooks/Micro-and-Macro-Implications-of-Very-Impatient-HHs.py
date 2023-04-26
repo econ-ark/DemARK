@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.8.16
+#     version: 3.10.10
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -81,19 +81,15 @@ from HARK.utilities import get_lorenz_shares, get_percentiles
 from HARK.datasets import load_SCF_wealth_weights
 from HARK.distribution import Uniform
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
-from copy import copy, deepcopy
+from copy import deepcopy
 import warnings
 from distutils.spawn import find_executable
-from matplotlib import rc
 import matplotlib.pyplot as plt
 from IPython import get_ipython  # In case it was run from python instead of ipython
 from tqdm import tqdm
 
 import numpy as np
 from copy import deepcopy
-
-import HARK  # Prevents import error from Demos repo
-from HARK.utilities import plot_funcs
 
 
 Generator = False  # Is this notebook the master or is it generated?
@@ -250,7 +246,7 @@ cstwMPC_calibrated_parameters = {
 #
 # NB: Reported parameter estimates in cstwMPC use a model with aggregate shocks and wage and interest rates determined dynamically (a heterogeneous agents DSGE model); this is the $\texttt{AggShockConsumerType}$ in HARK.  The estimated parameters are slightly different in this exercise, as we are ignoring general equilibrium aspects and only using the $\texttt{IndShockConsumerType}$
 #
-# ### Method 1: "Brute force" approach 
+# ### Method 1: "Brute force" approach
 #
 # There are two methods for accomplishing this. The first is a more "brute force" approach: We specify a uniform distribution and discretize it for the number of household types we would like to see in the model. From there, We place each of the household types with a different time preference factor in a list. Finally, a for-loop is used to compute the solution for each household's optimization problem.
 
@@ -295,7 +291,9 @@ num_types = 7  # number of types we want
 DiscFac_mean = 0.9855583  # center of beta distribution
 DiscFac_spread = 0.0085  # spread of beta distribution
 
-cstwMPC_calibrated_parameters["DiscFac"] = Uniform(DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread)
+cstwMPC_calibrated_parameters["DiscFac"] = Uniform(
+    DiscFac_mean - DiscFac_spread, DiscFac_mean + DiscFac_spread
+)
 
 SubPops = AgentPopulation(IndShockConsumerType, cstwMPC_calibrated_parameters)
 SubPops.approx_distributions({"DiscFac": num_types})
@@ -333,7 +331,7 @@ print(
 # %% [markdown]
 # ### 2. Solution using the `AgentPopulation` class
 #
-# We now conduct the same exercise for the new tool implemented in HARK. As you can see, both the out for the solution and the mean level of assets are nearly identical to the output when using the "brute force" approach. 
+# We now conduct the same exercise for the new tool implemented in HARK. As you can see, both the out for the solution and the mean level of assets are nearly identical to the output when using the "brute force" approach.
 #
 # Note: As an aside, the working theory for why these two approaches give nearly-but-not-perfectly-identical solution outputs is that, the "brute force" approach requires the user to specify the random seed when creating the discretized distribution of agents. The approach using `AgentPopulation`, on the other hand, specifies the random seed for the user during the implementation of the code. As you may know from the basics of programming in Python, the random seed's main function is for reproducibility of results when using random number generators. In order for this theory to be tested, the `AgentPopulation` tool in HARK must be updated to allow for users to fix the random seed in this way.
 
@@ -382,14 +380,14 @@ sim_Lorenz_points_ap = get_lorenz_shares(sim_wealth_ap, percentiles=pctiles)
 plt.subplot(1, 2, 1)
 plt.plot(pctiles, SCF_Lorenz_points, "--k")
 plt.plot(pctiles, sim_Lorenz_points, "-b")
-plt.title('Brute force approach')
+plt.title("Brute force approach")
 plt.xlabel("Percentile of net worth")
 plt.ylabel("Cumulative share of wealth")
 
 plt.subplot(1, 2, 2)
 plt.plot(pctiles, SCF_Lorenz_points, "--k")
 plt.plot(pctiles, sim_Lorenz_points_ap, "-b")
-plt.title('Using AgentPopulation class')
+plt.title("Using AgentPopulation class")
 # plt.xlabel("Percentile of net worth")
 # plt.ylabel("Cumulative share of wealth")
 
