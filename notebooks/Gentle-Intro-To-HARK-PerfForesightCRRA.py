@@ -10,7 +10,7 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.14.4
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 #   language_info:
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.10.8
+#     version: 3.9.9
 # ---
 
 # %% [markdown]
@@ -47,10 +47,7 @@
 # %matplotlib inline
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 from HARK.utilities import plot_funcs
-import matplotlib.pyplot as plt
 
-import numpy as np
-import HARK
 from copy import deepcopy
 
 
@@ -108,7 +105,6 @@ PF_dictionary = {
     "PermGroFac": [1.01],
     "T_cycle": 1,
     "cycles": 0,
-    "AgentCount": 10000,
 }
 
 # To those curious enough to open this hidden cell, you might notice that we defined
@@ -175,7 +171,7 @@ print("This agent's consumption function is defined down to m_t = " + str(mMinim
 # %%
 # YOUR FIRST HANDS-ON EXERCISE!
 # Fill in the value for "mPlotBottom" to plot the consumption function from the point where it is zero.
-mPlotBottom = 0.0  # You should replace 0. with the correct answer
+mPlotBottom = 0.0  # You should replace 0.0 with the correct answer
 plot_funcs(PFexample.solution[0].cFunc, mPlotBottom, mPlotTop)
 
 # %% [markdown]
@@ -194,7 +190,7 @@ NewExample.DiscFac = 0.90
 NewExample.solve()
 mPlotBottom = NewExample.solution[0].mNrmMin
 plot_funcs(
-    [PFexample.solution[0].cFunc, NewExample.solution[0].cFunc], mPlotBottom, mPlotTop
+    [NewExample.solution[0].cFunc, PFexample.solution[0].cFunc], mPlotBottom, mPlotTop
 )
 
 # %% [markdown]

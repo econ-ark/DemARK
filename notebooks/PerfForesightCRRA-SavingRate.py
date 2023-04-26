@@ -41,12 +41,9 @@
 from HARK.ConsumptionSaving.ConsIndShockModel import (
     PerfForesightConsumerType,
 )  # Import the consumer type
-from HARK.utilities import plot_funcs
 import matplotlib.pyplot as plt
 
 import numpy as np
-import HARK
-from copy import deepcopy
 
 
 def mystr(number):
