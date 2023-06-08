@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.14.6
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.10.8
+#     version: 3.9.13
 # ---
 
 # %% [markdown]
@@ -30,7 +30,7 @@
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/gentle-intro-to-hark-buffer-stock-model#launch)
 #
-# This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in [Gentle-Intro-To-HARK-PerfForesightCRRA](https://econ-ark.org/materials/Gentle-Intro-To-HARK-PerfForesightCRRA) except that now the model incorporates income uncertainty.
+# This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in [Gentle-Intro-To-HARK-PerfForesightCRRA](./Gentle-Intro-To-HARK-PerfForesightCRRA.ipynb) except that now the model incorporates income uncertainty and (artificial) borrowing constraints.
 
 # %% {"code_folding": []}
 # This cell has a bit of initial setup.
@@ -65,7 +65,7 @@ def mystr(number):
 # \end{align}
 # where again $\mathbb{E}_{t}[\theta_{t+1}] = 1$.
 #
-# As with the perfect foresight problem, this model can be rewritten in terms of _normalized_ variables, e.g. the ratio of 'market resources' $M_{t}$ (wealth plus current income) to permanent income is $m_t \equiv M_t/P_t$.  (See [here](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for the theory).  In addition, lenders may set a limit on borrowing: The ratio $a_{t}$ of end-of-period assets to permanent income $A_t/P_t$ must be greater than $\underline{a} \leq 0$. (So, if $\underline{a}=-0.3$, the consumer cannot borrow more than 30 percent of their permanent income).
+# As with the perfect foresight problem, this model can be rewritten in terms of _normalized_ variables, e.g. the ratio of 'market resources' $M_{t}$ (wealth plus current income) to permanent income is $m_t \equiv M_t/P_t$.  (See [here](http://www.econ2.jhu.edu/people/ccarroll/papers/BufferStockTheory/) for the theory).  In addition, lenders may set a limit on borrowing: The ratio $a_{t}$ of end-of-period assets to permanent income $A_t/P_t$ must be greater than $\underline{a} \leq 0$. (So, if $\underline{a}=-0.3$, the consumer cannot borrow more than 30 percent of their permanent income).
 #
 # The consumer's (normalized) problem turns out to be:
 # \begin{eqnarray*}
@@ -270,7 +270,7 @@ OtherExample.solve()
 #
 # The toolkit has built-in tests for a number of parametric conditions that can be shown to result in various characteristics in the optimal solution.
 #
-# Perhaps the most interesting such condition is the ["Growth Impatience Condition"](http://econ.jhu.edu/people/ccarroll/Papers/BufferStockTheory/#GIC): If this condition is satisfied, the consumer's optimal behavior is to aim to achieve a "target" value of $m$, to serve as a precautionary buffer against income shocks.
+# Perhaps the most interesting such condition is the ["Growth Impatience Condition"](http://www.econ2.jhu.edu/people/ccarroll/Papers/BufferStockTheory/#GIC): If this condition is satisfied, the consumer's optimal behavior is to aim to achieve a "target" value of $m$, to serve as a precautionary buffer against income shocks.
 #
 # The tests can be invoked using the `checkConditions()` method:
 
