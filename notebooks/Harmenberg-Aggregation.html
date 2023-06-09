@@ -589,8 +589,8 @@ document.write(`
 \mWgtDstnMarg_{t}(\mNrm) \def \PermGroFac^{-t}\int_{\pLvl} \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl.
 \end{equation*}\]</div>
 <p>The definition allows us to rewrite</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7b0706c8-fdf8-4f9c-b592-d6e96867a46f">
-<span class="eqno">(13)<a class="headerlink" href="#equation-7b0706c8-fdf8-4f9c-b592-d6e96867a46f" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
+<div class="amsmath math notranslate nohighlight" id="equation-44e7f172-4a02-4087-b342-6706f6de3a22">
+<span class="eqno">(13)<a class="headerlink" href="#equation-44e7f172-4a02-4087-b342-6706f6de3a22" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
 \CLvl_{t} = \PermGroFac^t \int_{m} \cFunc(\mNrm) \times \mWgtDstnMarg_t(\mNrm) \, dm.
 \end{equation}\]</div>
 <p>There are no computational advances yet: We have merely hidden the joint distribution of <span class="math notranslate nohighlight">\((\mNrm,\pLvl)\)</span> inside the <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> object we have defined. This helps us notice that <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span>.</p>
@@ -674,8 +674,8 @@ document.write(`
 <p>To demonstrate the gain in efficiency from using Harmenberg’s method, we will set up the following experiment.</p>
 <p>Consider an economy populated by <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/">Buffer-Stock</a> savers, whose individual-level state variables are market resources <span class="math notranslate nohighlight">\(\mLvl_t\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl_t\)</span>. Such agents have a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#The-Problem-Can-Be-Normalized-By-Permanent-Income">homothetic consumption function</a>, so that we can define normalized market resources <span class="math notranslate nohighlight">\(\mNrm_t \def \mLvl_t / \pLvl_t\)</span>, solve for a normalized consumption function <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span>, and express the consumption function as <span class="math notranslate nohighlight">\(\cFunc(\mLvl,\pLvl) = \cFunc(\mNrm)\times\pLvl\)</span>.</p>
 <p>Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of <span class="math notranslate nohighlight">\(\mNrm\)</span> and <span class="math notranslate nohighlight">\(\pLvl\)</span> characterized by the density function <span class="math notranslate nohighlight">\(f(\cdot,\cdot)\)</span>. Under these conditions, define the stable level of aggregate market resources and consumption as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6b70e73a-0416-4505-894b-b772828f0653">
-<span class="eqno">(14)<a class="headerlink" href="#equation-6b70e73a-0416-4505-894b-b772828f0653" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0be6f928-7170-4d06-9aed-8aeb02b31792">
+<span class="eqno">(14)<a class="headerlink" href="#equation-0be6f928-7170-4d06-9aed-8aeb02b31792" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \MLvl \def \int \int \mNrm \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl, \,\,\,    \CLvl \def \int \int \cFunc(\mNrm) \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl.
 \end{equation}\]</div>
 <p>If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources <span class="math notranslate nohighlight">\(\MLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\MLvl\)</span> and <span class="math notranslate nohighlight">\(\CLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\CLvl\)</span>. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:</p>
@@ -687,13 +687,13 @@ document.write(`
     \text{for } n&gt;0 \text{ and } t \text{ large enough}.
 \end{equation*}\]</div>
 <p>In practice, however, we rely on approximations using a finite number of agents <span class="math notranslate nohighlight">\(I\)</span>. Our estimates of aggregate market resources and consumption at time <span class="math notranslate nohighlight">\(t\)</span> are</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d6c589c8-6f14-4b94-ae0a-6aba36762492">
-<span class="eqno">(15)<a class="headerlink" href="#equation-d6c589c8-6f14-4b94-ae0a-6aba36762492" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-301f6a80-8c5d-47d8-9e1b-5024bcff49c7">
+<span class="eqno">(15)<a class="headerlink" href="#equation-301f6a80-8c5d-47d8-9e1b-5024bcff49c7" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\pLvl_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(m_{i,t})\times\pLvl_{i,t},
 \end{equation}\]</div>
 <p>under the basic simulation strategy or</p>
-<div class="amsmath math notranslate nohighlight" id="equation-bbde392e-91ae-4753-b7d5-1ffddaa915c4">
-<span class="eqno">(16)<a class="headerlink" href="#equation-bbde392e-91ae-4753-b7d5-1ffddaa915c4" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-52421df7-3bc5-4f43-b730-97c3d549263f">
+<span class="eqno">(16)<a class="headerlink" href="#equation-52421df7-3bc5-4f43-b730-97c3d549263f" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(\tilde{m}_{i,t}),
 \end{equation}\]</div>
 <p>if we use Harmenberg’s method to simulate the distribution of normalized market resources under the permanent-income neutral measure.</p>

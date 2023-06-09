@@ -476,8 +476,8 @@ document.write(`
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
 <p>Buffer stock saving models of the kind implemented in <span class="math notranslate nohighlight">\(\texttt{ConsIndShockType}\)</span> say that, if a standard <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#GICRaw">‘Growth Impatience Condition’</a>, holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d101321a-3b4f-4775-8f18-ebb135a2b979">
-<span class="eqno">(21)<a class="headerlink" href="#equation-d101321a-3b4f-4775-8f18-ebb135a2b979" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-d745a028-8247-4cae-b86d-2a17a3f06583">
+<span class="eqno">(21)<a class="headerlink" href="#equation-d745a028-8247-4cae-b86d-2a17a3f06583" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \newcommand{\Rfree}{\mathsf{R}}\newcommand{\DiscFac}{\beta}\newcommand{\PermGroFac}{\Gamma}\newcommand{\PermShk}{\psi}\newcommand{\CRRA}{\rho}
 \left(\frac{(\Rfree\DiscFac)^{1/\CRRA}\mathbb{E}[\PermShk^{-1}]}{\PermGroFac}\right) &amp; &lt; &amp; 1
 \end{eqnarray}\]</div>
@@ -759,244 +759,77 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                             | 0/7 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.994269 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.997517 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.988055 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994269 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.972158 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068051 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|███████████████████                                                                                                                  | 1/7 [00:03&lt;00:20,  3.39s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.996738 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.999994 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.990508 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.996738 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.974572 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068220 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|██████████████████████████████████████                                                                                               | 2/7 [00:06&lt;00:17,  3.43s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.999206 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.002470 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.992961 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.999206 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.976985 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068389 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 43%|█████████████████████████████████████████████████████████                                                                            | 3/7 [00:10&lt;00:14,  3.52s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.001674 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.004946 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.995414 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.001674 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.979399 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068558 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|████████████████████████████████████████████████████████████████████████████                                                         | 4/7 [00:14&lt;00:10,  3.66s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.004143 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.007423 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.997867 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.004143 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.981812 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068727 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|███████████████████████████████████████████████████████████████████████████████████████████████                                      | 5/7 [00:19&lt;00:08,  4.35s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.006611 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.009899 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.000320 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.006611 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.984225 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068896 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████                   | 6/7 [00:26&lt;00:04,  4.99s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.009079 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.012375 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.002772 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.009079 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.986639 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.069065 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:32&lt;00:00,  5.58s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:32&lt;00:00,  4.71s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                             | 0/7 [00:00&lt;?, ?it/s]GPFRaw                 = 0.994269 
+GPFNrm                 = 0.997517 
+GPFAggLivPrb           = 0.988055 
+Thorn = APF            = 0.994269 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.972158 
+WRPF                   = 0.068051 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+ 14%|███████████████████                                                                                                                  | 1/7 [00:03&lt;00:20,  3.39s/it]GPFRaw                 = 0.996738 
+GPFNrm                 = 0.999994 
+GPFAggLivPrb           = 0.990508 
+Thorn = APF            = 0.996738 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.974572 
+WRPF                   = 0.068220 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+ 29%|██████████████████████████████████████                                                                                               | 2/7 [00:06&lt;00:17,  3.43s/it]GPFRaw                 = 0.999206 
+GPFNrm                 = 1.002470 
+GPFAggLivPrb           = 0.992961 
+Thorn = APF            = 0.999206 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.976985 
+WRPF                   = 0.068389 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+ 43%|█████████████████████████████████████████████████████████                                                                            | 3/7 [00:10&lt;00:14,  3.52s/it]GPFRaw                 = 1.001674 
+GPFNrm                 = 1.004946 
+GPFAggLivPrb           = 0.995414 
+Thorn = APF            = 1.001674 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.979399 
+WRPF                   = 0.068558 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+ 57%|████████████████████████████████████████████████████████████████████████████                                                         | 4/7 [00:14&lt;00:10,  3.66s/it]GPFRaw                 = 1.004143 
+GPFNrm                 = 1.007423 
+GPFAggLivPrb           = 0.997867 
+Thorn = APF            = 1.004143 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.981812 
+WRPF                   = 0.068727 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+ 71%|███████████████████████████████████████████████████████████████████████████████████████████████                                      | 5/7 [00:19&lt;00:08,  4.35s/it]GPFRaw                 = 1.006611 
+GPFNrm                 = 1.009899 
+GPFAggLivPrb           = 1.000320 
+Thorn = APF            = 1.006611 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.984225 
+WRPF                   = 0.068896 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+ 86%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████                   | 6/7 [00:26&lt;00:04,  4.99s/it]GPFRaw                 = 1.009079 
+GPFNrm                 = 1.012375 
+GPFAggLivPrb           = 1.002772 
+Thorn = APF            = 1.009079 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.986639 
+WRPF                   = 0.069065 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:32&lt;00:00,  4.71s/it]
 </pre></div>
 </div>
 </div>
@@ -1034,213 +867,75 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.994269 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.997517 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.988055 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994269 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.972158 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068051 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.996738 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.999994 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.990508 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.996738 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.974572 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068220 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.999206 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.002470 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.992961 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.999206 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.976985 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068389 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.001674 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.004946 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.995414 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.001674 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.979399 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068558 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.004143 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.007423 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.997867 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.004143 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.981812 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068727 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.006611 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.009899 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.000320 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.006611 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.984225 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.068896 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 1.009079 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.012375 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 1.002772 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 1.009079 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.986639 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.069065 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+GPFNrm                 = 0.997517 
+GPFAggLivPrb           = 0.988055 
+Thorn = APF            = 0.994269 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.972158 
+WRPF                   = 0.068051 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+GPFRaw                 = 0.996738 
+GPFNrm                 = 0.999994 
+GPFAggLivPrb           = 0.990508 
+Thorn = APF            = 0.996738 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.974572 
+WRPF                   = 0.068220 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+GPFRaw                 = 0.999206 
+GPFNrm                 = 1.002470 
+GPFAggLivPrb           = 0.992961 
+Thorn = APF            = 0.999206 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.976985 
+WRPF                   = 0.068389 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+GPFRaw                 = 1.001674 
+GPFNrm                 = 1.004946 
+GPFAggLivPrb           = 0.995414 
+Thorn = APF            = 1.001674 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.979399 
+WRPF                   = 0.068558 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+GPFRaw                 = 1.004143 
+GPFNrm                 = 1.007423 
+GPFAggLivPrb           = 0.997867 
+Thorn = APF            = 1.004143 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.981812 
+WRPF                   = 0.068727 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+GPFRaw                 = 1.006611 
+GPFNrm                 = 1.009899 
+GPFAggLivPrb           = 1.000320 
+Thorn = APF            = 1.006611 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.984225 
+WRPF                   = 0.068896 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
+GPFRaw                 = 1.009079 
+GPFNrm                 = 1.012375 
+GPFAggLivPrb           = 1.002772 
+Thorn = APF            = 1.009079 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.986639 
+WRPF                   = 0.069065 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
 </pre></div>
 </div>
 </div>
@@ -1438,33 +1133,15 @@ The MPC at the 90th percentile of the distribution is 0.51
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.813082 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.815738 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.808000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.813082 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.795000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.055650 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+GPFNrm                 = 0.815738 
+GPFAggLivPrb           = 0.808000 
+Thorn = APF            = 0.813082 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.795000 
+WRPF                   = 0.055650 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06
@@ -1506,33 +1183,15 @@ The MPC at the 90th percentile of the distribution is 0.97
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.813082 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.815738 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.808000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.813082 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.996744 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 1.000000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.795000 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.055650 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.980708 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990099 
+GPFNrm                 = 0.815738 
+GPFAggLivPrb           = 0.808000 
+Thorn = APF            = 0.813082 
+PermGroFacAdj          = 0.996744 
+uInvEpShkuInv          = 1.000000 
+VAF                    = 0.795000 
+WRPF                   = 0.055650 
+DiscFacGPFNrmMax       = 0.980708 
+DiscFacGPFAggLivPrbMax = 0.990099 
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06

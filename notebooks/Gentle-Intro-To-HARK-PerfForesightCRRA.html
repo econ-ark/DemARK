@@ -452,7 +452,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="a-gentle-introduction-to-hark-the-perfect-foresight-model">
 <h1>A Gentle Introduction to HARK: The Perfect Foresight Model<a class="headerlink" href="#a-gentle-introduction-to-hark-the-perfect-foresight-model" title="Permalink to this headline">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/gentle-intro-to-hark-perfforesightcrra#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
-<p>This notebook provides a simple, hands-on tutorial for first time HARK users (and maybe first time Python users) who have a basic knowledge of the theory of intertemporal choice (roughly at the level of first year PhD students - see <a class="reference external" href="http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">PerfForesightCRRA</a> for a full exposition of the consumption theory).</p>
+<p>This notebook provides a simple, hands-on tutorial for first time HARK users (and maybe first time Python users) who have a basic knowledge of the theory of intertemporal choice (roughly at the level of first year PhD students - see <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">PerfForesightCRRA</a> for a full exposition of the consumption theory).</p>
 <p>It does not go “into the weeds” - we have hidden some code cells that do boring things that you don’t need to digest on your first experience with HARK.  Our aim is to convey a feel for how the toolkit works.</p>
 <p>For the benfit of readers for whom this is your first experience with Python, we have put important Python concepts in <strong>boldface</strong>.</p>
 <p>For those for whom this is the first time they have used a Jupyter notebook, we have put Jupyter instructions in <em>italics</em>. Only cursory definitions (if any) are provided here.  If you want to learn more, there are many online Python and Jupyter tutorials.</p>
@@ -464,7 +464,6 @@ document.write(`
 <span class="c1">#   The most common problem beginners have is to execute a cell before all its predecessors</span>
 <span class="c1">#   If you do this, you can restart the kernel (see the &quot;Kernel&quot; menu above) and start over</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="n">PerfForesightConsumerType</span>
 <span class="kn">from</span> <span class="nn">HARK.utilities</span> <span class="kn">import</span> <span class="n">plot_funcs</span>
 
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
@@ -493,7 +492,14 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 <section id="representing-agents-in-hark">
 <h2>Representing Agents in HARK<a class="headerlink" href="#representing-agents-in-hark" title="Permalink to this headline">#</a></h2>
 <p>HARK represents agents solving this type of problem as <strong>instances</strong> of the <strong>class</strong> <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>, a <strong>subclass</strong> of <span class="math notranslate nohighlight">\(\texttt{AgentType}\)</span>.  To make agents of this class, we must import the class itself into our workspace.  (Run the cell below in order to do this).</p>
-<p>The <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> class contains within itself the python code that constructs the solution for the perfect foresight model we are studying here, as specifically articulated in <a class="reference external" href="http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">these lecture notes</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="n">PerfForesightConsumerType</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> class contains within itself the python code that constructs the solution for the perfect foresight model we are studying here, as specifically articulated in <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">these lecture notes</a>.</p>
 <p>To create an instance of <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>, we simply ‘call the class’; that is, we invoke it in a way that looks like the way other programming languages evaluate a function, passing as arguments the specific parameter values we want it to have.  In the hidden cell below, we define a <strong>dictionary</strong> named <span class="math notranslate nohighlight">\(\texttt{PF_dictionary}\)</span> with these parameter values:</p>
 <table class="colwidths-auto table">
 <thead>
@@ -519,7 +525,7 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 <td><p><span class="math notranslate nohighlight">\(\texttt{Rfree}\)</span></p></td>
 <td><p>1.03</p></td>
 </tr>
-<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(1 - \mathsf{D}\)</span></p></td>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(1- \mathsf{D}\)</span></p></td>
 <td><p>Survival probability</p></td>
 <td><p><span class="math notranslate nohighlight">\(\texttt{LivPrb}\)</span></p></td>
 <td><p>0.98</p></td>
@@ -588,7 +594,7 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 </div>
 </div>
 </div>
-<p>One of the results proven in the associated <a class="reference external" href="http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">the lecture notes</a> is that, for the specific problem defined above, there is a solution in which the <em>ratio</em> <span class="math notranslate nohighlight">\(c = C/P\)</span> is a linear function of the <em>ratio</em> of market resources to permanent income, <span class="math notranslate nohighlight">\(m = M/P\)</span>.</p>
+<p>One of the results proven in the associated <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">the lecture notes</a> is that, for the specific problem defined above, there is a solution in which the <em>ratio</em> <span class="math notranslate nohighlight">\(c = C/P\)</span> is a linear function of the <em>ratio</em> of market resources to permanent income, <span class="math notranslate nohighlight">\(m = M/P\)</span>.</p>
 <p>This is why <span class="math notranslate nohighlight">\(\texttt{cFunc}\)</span> can be represented by a linear interpolation.  It can be plotted using the command below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -685,6 +691,7 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
 </div>
 <p>Now <span class="math notranslate nohighlight">\(\texttt{NewExample}\)</span>’s consumption function has the same slope (MPC) as <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span>, but it emanates from (almost) zero– he has basically no future income to borrow against!</p>
 <p>If you’d like, use the cell above to alter <span class="math notranslate nohighlight">\(\texttt{NewExample}\)</span>’s other attributes (relative risk aversion, etc) and see how the consumption function changes.  However, keep in mind that <em>no solution exists</em> for some combinations of parameters.  HARK should let you know if this is the case if you try to solve such a model.</p>
+<p>Linear consumption functions are pretty boring, and you’d be justified in feeling unimpressed if all HARK could do was plot some lines. Let’s look at <a class="reference internal" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html"><span class="doc std std-doc">another model</span></a> that adds two important layers of complexity: income shocks and (artificial) borrowing constraints.</p>
 </section>
 </section>
 

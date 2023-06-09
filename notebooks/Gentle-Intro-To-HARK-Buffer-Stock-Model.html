@@ -464,7 +464,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="a-gentle-introduction-to-hark-buffer-stock-saving">
 <h1>A Gentle Introduction to HARK: Buffer Stock Saving<a class="headerlink" href="#a-gentle-introduction-to-hark-buffer-stock-saving" title="Permalink to this headline">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/gentle-intro-to-hark-buffer-stock-model#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
-<p>This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in <a class="reference external" href="https://econ-ark.org/materials/Gentle-Intro-To-HARK-PerfForesightCRRA">Gentle-Intro-To-HARK-PerfForesightCRRA</a> except that now the model incorporates income uncertainty.</p>
+<p>This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in <a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html"><span class="doc std std-doc">Gentle-Intro-To-HARK-PerfForesightCRRA</span></a> except that now the model incorporates income uncertainty and (artificial) borrowing constraints.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell has a bit of initial setup.</span>
@@ -492,17 +492,17 @@ document.write(`
 <section id="mathematical-description">
 <h3>Mathematical Description<a class="headerlink" href="#mathematical-description" title="Permalink to this headline">#</a></h3>
 <p>Our new type of consumer receives two income shocks at the beginning of each period.  Permanent income would grow by a factor <span class="math notranslate nohighlight">\(\Gamma\)</span> in the absence of any shock , but its growth is modified by a shock, <span class="math notranslate nohighlight">\(\psi_{t+1}\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7c181c0e-36b6-4910-be98-f07a4b0f9fcd">
-<span class="eqno">(11)<a class="headerlink" href="#equation-7c181c0e-36b6-4910-be98-f07a4b0f9fcd" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-61654148-938f-494b-81bf-6c97b8f6e5d6">
+<span class="eqno">(11)<a class="headerlink" href="#equation-61654148-938f-494b-81bf-6c97b8f6e5d6" title="Permalink to this equation">#</a></span>\[\begin{align}
  P_{t+1} &amp; = \Gamma P_{t}\psi_{t+1}
 \end{align}\]</div>
 <p>whose expected (mean) value is <span class="math notranslate nohighlight">\(\mathbb{E}_{t}[\psi_{t+1}]=1\)</span>.  Actual income received <span class="math notranslate nohighlight">\(Y\)</span> is equal to permanent income <span class="math notranslate nohighlight">\(P\)</span> multiplied by a transitory shock <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4b6190a1-1e9a-4ff1-841c-5bad73ef429c">
-<span class="eqno">(12)<a class="headerlink" href="#equation-4b6190a1-1e9a-4ff1-841c-5bad73ef429c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-baf0cd64-f90f-42fe-9c2e-4186d495c29b">
+<span class="eqno">(12)<a class="headerlink" href="#equation-baf0cd64-f90f-42fe-9c2e-4186d495c29b" title="Permalink to this equation">#</a></span>\[\begin{align}
  Y_{t+1} &amp; = \Gamma P_{t+1}\theta_{t+1}
 \end{align}\]</div>
 <p>where again <span class="math notranslate nohighlight">\(\mathbb{E}_{t}[\theta_{t+1}] = 1\)</span>.</p>
-<p>As with the perfect foresight problem, this model can be rewritten in terms of <em>normalized</em> variables, e.g. the ratio of ‘market resources’ <span class="math notranslate nohighlight">\(M_{t}\)</span> (wealth plus current income) to permanent income is <span class="math notranslate nohighlight">\(m_t \equiv M_t/P_t\)</span>.  (See <a class="reference external" href="http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/">here</a> for the theory).  In addition, lenders may set a limit on borrowing: The ratio <span class="math notranslate nohighlight">\(a_{t}\)</span> of end-of-period assets to permanent income <span class="math notranslate nohighlight">\(A_t/P_t\)</span> must be greater than <span class="math notranslate nohighlight">\(\underline{a} \leq 0\)</span>. (So, if <span class="math notranslate nohighlight">\(\underline{a}=-0.3\)</span>, the consumer cannot borrow more than 30 percent of their permanent income).</p>
+<p>As with the perfect foresight problem, this model can be rewritten in terms of <em>normalized</em> variables, e.g. the ratio of ‘market resources’ <span class="math notranslate nohighlight">\(M_{t}\)</span> (wealth plus current income) to permanent income is <span class="math notranslate nohighlight">\(m_t \equiv M_t/P_t\)</span>.  (See <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/papers/BufferStockTheory/">here</a> for the theory).  In addition, lenders may set a limit on borrowing: The ratio <span class="math notranslate nohighlight">\(a_{t}\)</span> of end-of-period assets to permanent income <span class="math notranslate nohighlight">\(A_t/P_t\)</span> must be greater than <span class="math notranslate nohighlight">\(\underline{a} \leq 0\)</span>. (So, if <span class="math notranslate nohighlight">\(\underline{a}=-0.3\)</span>, the consumer cannot borrow more than 30 percent of their permanent income).</p>
 <p>The consumer’s (normalized) problem turns out to be:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{eqnarray*}
@@ -880,33 +880,15 @@ solve(verbose=False) method of HARK.ConsumptionSaving.ConsIndShockModel.IndShock
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.993777 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.964848 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994384 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 1.000611 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 0.990704 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.932054 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.213705 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.972061 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 1.010600 
+GPFNrm                 = 0.993777 
+GPFAggLivPrb           = 0.964848 
+Thorn = APF            = 0.994384 
+PermGroFacAdj          = 1.000611 
+uInvEpShkuInv          = 0.990704 
+VAF                    = 0.932054 
+WRPF                   = 0.213705 
+DiscFacGPFNrmMax       = 0.972061 
+DiscFacGPFAggLivPrbMax = 1.010600 
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished cycle #1 in 0.0019991397857666016 seconds, solution distance = 100.0
@@ -1021,9 +1003,7 @@ Finished cycle #109 in 0.0009989738464355469 seconds, solution distance = 2.0406
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished cycle #110 in 0.002000093460083008 seconds, solution distance = 1.679126009790366e-06
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished cycle #111 in 0.0029981136322021484 seconds, solution distance = 1.3579390092388621e-06
+Finished cycle #111 in 0.0029981136322021484 seconds, solution distance = 1.3579390092388621e-06
 Finished cycle #112 in 0.0020017623901367188 seconds, solution distance = 1.0727586690073565e-06
 Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.197470693360742e-07
 </pre></div>
@@ -1068,33 +1048,15 @@ Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.1974
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 1.021965 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.964848 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994384 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 0.973012 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 0.963379 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.906347 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.213705 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.919178 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 1.010600 
+GPFNrm                 = 1.021965 
+GPFAggLivPrb           = 0.964848 
+Thorn = APF            = 0.994384 
+PermGroFacAdj          = 0.973012 
+uInvEpShkuInv          = 0.963379 
+VAF                    = 0.906347 
+WRPF                   = 0.213705 
+DiscFacGPFNrmMax       = 0.919178 
+DiscFacGPFAggLivPrbMax = 1.010600 
 </pre></div>
 </div>
 </div>
@@ -1112,7 +1074,7 @@ Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.1974
 <h2>Buffer Stock Saving?<a class="headerlink" href="#buffer-stock-saving" title="Permalink to this headline">#</a></h2>
 <p>There are some combinations of parameter values under which problems of the kind specified above have “degenerate” solutions; for example, if consumers are so patient that they always prefer deferring consumption to the future, the limiting consumption rule can be <span class="math notranslate nohighlight">\(c(m)=0\)</span>.</p>
 <p>The toolkit has built-in tests for a number of parametric conditions that can be shown to result in various characteristics in the optimal solution.</p>
-<p>Perhaps the most interesting such condition is the <a class="reference external" href="http://econ.jhu.edu/people/ccarroll/Papers/BufferStockTheory/#GIC">“Growth Impatience Condition”</a>: If this condition is satisfied, the consumer’s optimal behavior is to aim to achieve a “target” value of <span class="math notranslate nohighlight">\(m\)</span>, to serve as a precautionary buffer against income shocks.</p>
+<p>Perhaps the most interesting such condition is the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/Papers/BufferStockTheory/#GIC">“Growth Impatience Condition”</a>: If this condition is satisfied, the consumer’s optimal behavior is to aim to achieve a “target” value of <span class="math notranslate nohighlight">\(m\)</span>, to serve as a precautionary buffer against income shocks.</p>
 <p>The tests can be invoked using the <code class="docutils literal notranslate"><span class="pre">checkConditions()</span></code> method:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1122,33 +1084,15 @@ Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.1974
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.993777 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.964848 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994384 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 1.000611 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 0.990704 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.932054 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.213705 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.972061 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 1.010600 
+GPFNrm                 = 0.993777 
+GPFAggLivPrb           = 0.964848 
+Thorn = APF            = 0.994384 
+PermGroFacAdj          = 1.000611 
+uInvEpShkuInv          = 0.990704 
+VAF                    = 0.932054 
+WRPF                   = 0.213705 
+DiscFacGPFNrmMax       = 0.972061 
+DiscFacGPFAggLivPrbMax = 1.010600 
 </pre></div>
 </div>
 </div>
