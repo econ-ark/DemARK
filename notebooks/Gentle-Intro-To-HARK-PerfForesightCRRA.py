@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.14.6
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.9.9
+#     version: 3.9.13
 # ---
 
 # %% [markdown]
@@ -30,7 +30,7 @@
 #
 # [![badge](https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue)](https://econ-ark.org/materials/gentle-intro-to-hark-perfforesightcrra#launch)
 #
-# This notebook provides a simple, hands-on tutorial for first time HARK users (and maybe first time Python users) who have a basic knowledge of the theory of intertemporal choice (roughly at the level of first year PhD students - see [PerfForesightCRRA](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/) for a full exposition of the consumption theory).
+# This notebook provides a simple, hands-on tutorial for first time HARK users (and maybe first time Python users) who have a basic knowledge of the theory of intertemporal choice (roughly at the level of first year PhD students - see [PerfForesightCRRA](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/) for a full exposition of the consumption theory).
 #
 # It does not go "into the weeds" - we have hidden some code cells that do boring things that you don't need to digest on your first experience with HARK.  Our aim is to convey a feel for how the toolkit works.
 #
@@ -45,7 +45,6 @@
 #   The most common problem beginners have is to execute a cell before all its predecessors
 #   If you do this, you can restart the kernel (see the "Kernel" menu above) and start over
 # %matplotlib inline
-from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 from HARK.utilities import plot_funcs
 
 from copy import deepcopy
@@ -77,9 +76,10 @@ def mystr(number):
 # HARK represents agents solving this type of problem as **instances** of the **class** $\texttt{PerfForesightConsumerType}$, a **subclass** of $\texttt{AgentType}$.  To make agents of this class, we must import the class itself into our workspace.  (Run the cell below in order to do this).
 
 # %%
+from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 
 # %% [markdown]
-# The $\texttt{PerfForesightConsumerType}$ class contains within itself the python code that constructs the solution for the perfect foresight model we are studying here, as specifically articulated in [these lecture notes](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/).
+# The $\texttt{PerfForesightConsumerType}$ class contains within itself the python code that constructs the solution for the perfect foresight model we are studying here, as specifically articulated in [these lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/).
 #
 # To create an instance of $\texttt{PerfForesightConsumerType}$, we simply 'call the class'; that is, we invoke it in a way that looks like the way other programming languages evaluate a function, passing as arguments the specific parameter values we want it to have.  In the hidden cell below, we define a **dictionary** named $\texttt{PF_dictionary}$ with these parameter values:
 #
@@ -88,7 +88,7 @@ def mystr(number):
 # | $\rho$ | Relative risk aversion | $\texttt{CRRA}$ | 2.5 |
 # | $\beta$ | Discount factor | $\texttt{DiscFac}$ | 0.96 |
 # | $R$ | Risk free interest factor | $\texttt{Rfree}$ | 1.03 |
-# | $1 - \mathsf{D}$ | Survival probability | $\texttt{LivPrb}$ | 0.98 |
+# | $1- \mathsf{D}$ | Survival probability | $\texttt{LivPrb}$ | 0.98 |
 # | $\Gamma$ | Income growth factor | $\texttt{PermGroFac}$ | 1.01 |
 #
 #
@@ -139,7 +139,7 @@ PFexample.solve()
 PFexample.solution[0].cFunc
 
 # %% [markdown]
-# One of the results proven in the associated [the lecture notes](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/) is that, for the specific problem defined above, there is a solution in which the _ratio_ $c = C/P$ is a linear function of the _ratio_ of market resources to permanent income, $m = M/P$.
+# One of the results proven in the associated [the lecture notes](http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/) is that, for the specific problem defined above, there is a solution in which the _ratio_ $c = C/P$ is a linear function of the _ratio_ of market resources to permanent income, $m = M/P$.
 #
 # This is why $\texttt{cFunc}$ can be represented by a linear interpolation.  It can be plotted using the command below:
 #
@@ -214,5 +214,4 @@ plot_funcs([PFexample.solution[0].cFunc, NewExample.solution[0].cFunc], 0.0, 10.
 #
 # If you'd like, use the cell above to alter $\texttt{NewExample}$'s other attributes (relative risk aversion, etc) and see how the consumption function changes.  However, keep in mind that _no solution exists_ for some combinations of parameters.  HARK should let you know if this is the case if you try to solve such a model.
 #
-#
-#
+# Linear consumption functions are pretty boring, and you'd be justified in feeling unimpressed if all HARK could do was plot some lines. Let's look at [another model](./Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb) that adds two important layers of complexity: income shocks and (artificial) borrowing constraints.
