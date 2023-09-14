@@ -16,6 +16,8 @@ Demonstrations of how to use material in the [Econ-ARK](https://github.com/econ-
 2. Clone `DemARK` to the folder of your choice
 3. Using Anaconda, install the environment\
     `conda env create -f binder/environment.yml` 
+    - If you already have installed the `DemARK` environment, you may still need to update it\
+        `conda env update -f binder/environment.yml`
 4. Activate your `DemARK` environment:\
     `conda activate DemARK`
 5. Enable notebook extensions.
