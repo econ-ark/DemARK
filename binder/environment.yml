@@ -16,5 +16,4 @@ dependencies:
   - nbval
   - pip
   - pip:
-    - cite2c
     - git+https://github.com/econ-ark/hark@master
