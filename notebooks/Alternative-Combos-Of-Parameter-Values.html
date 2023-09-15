@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Alternative Combinations of Parameter Values &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="What Happens To the Consumption Function When A Liquidity Constraint is Tightened?" href="ChangeLiqConstr.html" />
     <link rel="prev" title="DemARK" href="../README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -458,12 +459,12 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="alternative-combinations-of-parameter-values">
-<h1>Alternative Combinations of Parameter Values<a class="headerlink" href="#alternative-combinations-of-parameter-values" title="Permalink to this headline">#</a></h1>
+<h1>Alternative Combinations of Parameter Values<a class="headerlink" href="#alternative-combinations-of-parameter-values" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/alternative-combos-of-parameter-values#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>Please write the names and email addresses of everyone who worked on this notebook on the line below.</p>
 <p>YOUR NAMES HERE</p>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>The notebook “Micro-and-Macro-Implications-of-Very-Impatient-HHs” is an exercise that demonstrates the consequences of changing a key parameter of the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/papers/cstwMPC">cstwMPC</a> model, the time preference factor <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
 <p>The <a class="reference external" href="https://github.com/econ-ark/REMARK">REMARK</a> <code class="docutils literal notranslate"><span class="pre">SolvingMicroDSOPs</span></code> reproduces the last figure in the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/SolvingMicroDSOPs">SolvingMicroDSOPs</a> lecture notes, which shows that there are classes of alternate values of <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\rho\)</span> that fit the data almost as well as the exact ‘best fit’ combination.</p>
 <p>Inspired by this comparison, this notebook asks you to examine the consequences for:</p>
@@ -575,7 +576,7 @@ document.write(`
 </div>
 </section>
 <section id="simulating-the-distribution-of-wealth-for-alternative-combinations">
-<h2>Simulating the Distribution of Wealth for Alternative Combinations<a class="headerlink" href="#simulating-the-distribution-of-wealth-for-alternative-combinations" title="Permalink to this headline">#</a></h2>
+<h2>Simulating the Distribution of Wealth for Alternative Combinations<a class="headerlink" href="#simulating-the-distribution-of-wealth-for-alternative-combinations" title="Permalink to this heading">#</a></h2>
 <p>You should now have constructed a list of consumer types all of whom have the same <em>target</em> level of market resources <span class="math notranslate nohighlight">\(\check{m}\)</span>.</p>
 <p>But the fact that everyone has the same target <span class="math notranslate nohighlight">\({m}\)</span> does not mean that the <em>distribution</em> of <span class="math notranslate nohighlight">\({m}\)</span> will be the same for all of these consumer types.</p>
 <p>In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods <span class="math notranslate nohighlight">\(\texttt{solve}\)</span>, <span class="math notranslate nohighlight">\(\texttt{initialize_sim}\)</span>, and <span class="math notranslate nohighlight">\(\texttt{simulate}\)</span> in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.</p>
@@ -618,10 +619,10 @@ document.write(`
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="interpret">
-<h1>Interpret<a class="headerlink" href="#interpret" title="Permalink to this headline">#</a></h1>
+<h1>Interpret<a class="headerlink" href="#interpret" title="Permalink to this heading">#</a></h1>
 <p>Here, you should attempt to give an intiutive explanation of the results you see in the figure you just constructed</p>
 <section id="the-distribution-of-wealth">
-<h2>The Distribution of Wealth…<a class="headerlink" href="#the-distribution-of-wealth" title="Permalink to this headline">#</a></h2>
+<h2>The Distribution of Wealth…<a class="headerlink" href="#the-distribution-of-wealth" title="Permalink to this heading">#</a></h2>
 <p>Your next exercise is to show how the distribution of wealth differs for the different parameter  values</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -664,7 +665,7 @@ document.write(`
 </div>
 </section>
 <section id="and-the-marginal-propensity-to-consume">
-<h2>…and the Marginal Propensity to Consume<a class="headerlink" href="#and-the-marginal-propensity-to-consume" title="Permalink to this headline">#</a></h2>
+<h2>…and the Marginal Propensity to Consume<a class="headerlink" href="#and-the-marginal-propensity-to-consume" title="Permalink to this heading">#</a></h2>
 <p>Now let’s look at the aggregate MPC.  In the code block below, write a function that produces text output of the following form:</p>
 <p><span class="math notranslate nohighlight">\(\texttt{The 35th percentile of the MPC is 0.15623}\)</span></p>
 <p>Your function should take two inputs: a list of types of consumers and an array of percentiles (numbers between 0 and 1). It should return no outputs, merely print to screen one line of text for each requested percentile.  The model is calibrated at a quarterly frequency, but Carroll et al report MPCs at an annual frequency. To convert, use the formula:</p>
@@ -718,7 +719,7 @@ The 95.0th percentile of the MPC is 0.8966083611183644
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="if-you-get-here">
-<h1>If You Get Here …<a class="headerlink" href="#if-you-get-here" title="Permalink to this headline">#</a></h1>
+<h1>If You Get Here …<a class="headerlink" href="#if-you-get-here" title="Permalink to this heading">#</a></h1>
 <p>If you have finished the above exercises quickly and have more time to spend on this assignment, for extra credit you can do the same exercise where, instead of exploring the consequences of alternative values of relative risk aversion <span class="math notranslate nohighlight">\(\rho\)</span>, you should test the consequences of different values of the growth factor <span class="math notranslate nohighlight">\(\Gamma\)</span> that lead to the same <span class="math notranslate nohighlight">\(\check{m}\)</span>.</p>
 </section>
 

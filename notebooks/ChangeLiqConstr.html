@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>What Happens To the Consumption Function When A Liquidity Constraint is Tightened? &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="Do Precautionary Motives Explain China’s High Saving Rate?" href="Chinese-Growth.html" />
     <link rel="prev" title="Alternative Combinations of Parameter Values" href="Alternative-Combos-Of-Parameter-Values.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -448,7 +449,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="what-happens-to-the-consumption-function-when-a-liquidity-constraint-is-tightened">
-<h1>What Happens To the Consumption Function When A Liquidity Constraint is Tightened?<a class="headerlink" href="#what-happens-to-the-consumption-function-when-a-liquidity-constraint-is-tightened" title="Permalink to this headline">#</a></h1>
+<h1>What Happens To the Consumption Function When A Liquidity Constraint is Tightened?<a class="headerlink" href="#what-happens-to-the-consumption-function-when-a-liquidity-constraint-is-tightened" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/changeliqconstr#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>(This example builds on the ConsIndShockModel notebook; digest that before proceeding)</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">KinkedRconsumerType</span></code> class solves the problem of a consumer for whom the interest rate on borrowing is higher than the rate that the consumer will receive on any positive saving they do.  The default calibration is meant to capture a case where the borrowing occurs at an interest rate typical of credit cards.</p>
@@ -497,7 +498,7 @@ document.write(`
 <p>The bottommost point on the consumption function is at <span class="math notranslate nohighlight">\(m=-0.4\)</span>, where consumption is zero.  This consumer would like to borrow to finance spending out of future income, but is already at the maximum borrowing limit.</p>
 <p>The consumption function has a linear portion with a slope of 45 degrees along which the marginal propensity to consume out of extra market resources is 1.  But eventually resources get high enough that the consumer is willing to spend less than the maximum possible amount; this concave part of the consumption function terminates at the point where the consumer’s desired borrowing reaches zero: The bottommost point on the line segment discussed above.</p>
 <section id="solution-with-a-tighter-constraint">
-<h2>Solution With A Tighter Constraint<a class="headerlink" href="#solution-with-a-tighter-constraint" title="Permalink to this headline">#</a></h2>
+<h2>Solution With A Tighter Constraint<a class="headerlink" href="#solution-with-a-tighter-constraint" title="Permalink to this heading">#</a></h2>
 <p>We are now interested in the solution to the problem when the constraint is tighter; concretely, the maximum amount of borrowing allowed is now 0.2, rather than 0.4.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -525,7 +526,7 @@ document.write(`
 </div>
 </section>
 <section id="discussion">
-<h2>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">#</a></h2>
+<h2>Discussion<a class="headerlink" href="#discussion" title="Permalink to this heading">#</a></h2>
 <p>The interesting question that this analysis does not address is how to handle the transition from a looser to a tighter constraint.</p>
 <p>The toolkit can simulate a population of households behaving according to the first rule.  But it is not obvious how to treat consumers whose debt, say, was 0.3 before the constraint was tightened.  A simple, but implausible, approach is to assume that such consumer must immediately cut their consumption by enough to reduce their debt to the new more stringent maximum.  A reasonable solution might be to say that the new tighter constraint applies only to new borrowers; different papers in the literature take different approaches to this transition question.</p>
 </section>

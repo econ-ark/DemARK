@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Do Precautionary Motives Explain China’s High Saving Rate? &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="DCEGM Upper Envelope" href="DCEGM-Upper-Envelope.html" />
     <link rel="prev" title="What Happens To the Consumption Function When A Liquidity Constraint is Tightened?" href="ChangeLiqConstr.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -452,18 +453,18 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="do-precautionary-motives-explain-china-s-high-saving-rate">
-<h1>Do Precautionary Motives Explain China’s High Saving Rate?<a class="headerlink" href="#do-precautionary-motives-explain-china-s-high-saving-rate" title="Permalink to this headline">#</a></h1>
+<h1>Do Precautionary Motives Explain China’s High Saving Rate?<a class="headerlink" href="#do-precautionary-motives-explain-china-s-high-saving-rate" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/chinese-growth#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>The notebook <a class="reference external" href="http://econ-ark.org/notebooks/">Nondurables-During-Great-Recession</a> shows that the collapse in consumer spending in the U.S. during the Great Recession could easily have been caused by a moderate and plausible increase in the degree of uncertainty.</p>
 <p>But that exercise might make you worry that invoking difficult-to-measure “uncertainty” can explain anything (e.g. “the stock market fell today because the risk aversion of the representative agent increased”).</p>
 <p>The next exercise is designed to show that there are limits to the phenomena that can be explained by invoking plausible changes in uncertainty.</p>
 <p>The specific question is whether a high degree of uncertainty can explain China’s very high saving rate (approximately 25 percent), as some papers have proposed.  Specifically, we ask “what beliefs about uncertainty would Chinese consumers need to hold in order to generate a saving rate of 25 percent, given the rapid pace of Chinese growth?”</p>
 <section id="the-thought-experiment">
-<h2>The Thought Experiment<a class="headerlink" href="#the-thought-experiment" title="Permalink to this headline">#</a></h2>
+<h2>The Thought Experiment<a class="headerlink" href="#the-thought-experiment" title="Permalink to this heading">#</a></h2>
 <p>In more detail, our consumers will initially live in a stationary, low-growth environment (intended to approximate China before 1978).  Then, unexpectedly, income growth will surge at the same time that income uncertainty increases (intended to approximate the effect of economic reforms in China since 1978.)  Consumers believe the high-growth, high-uncertainty state is highly persistent, but that ultimately growth will slow to a “normal” pace matching that of other advanced countries.</p>
 </section>
 <section id="the-baseline-model">
-<h2>The Baseline Model<a class="headerlink" href="#the-baseline-model" title="Permalink to this headline">#</a></h2>
+<h2>The Baseline Model<a class="headerlink" href="#the-baseline-model" title="Permalink to this heading">#</a></h2>
 <p>We want the model to have these elements:</p>
 <ol class="arabic simple">
 <li><p>“Standard” infinite horizon consumption/savings model, with mortality and permanent and temporary shocks to income</p></li>
@@ -473,7 +474,7 @@ document.write(`
 <p>All of these are features of the model in the paper <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/papers/cstwMPC">“The Distribution of Wealth and the Marginal Propensity to Consume” by Carroll, Slacalek, Tokuoka, and White (2017)</a>, for which all of the computational results were produced using the HARK toolkit.  The results for that paper are available in the <span class="math notranslate nohighlight">\(\texttt{cstwMPC}\)</span> directory.</p>
 </section>
 <section id="but-with-a-different-consumertype">
-<h2>But With A Different ConsumerType<a class="headerlink" href="#but-with-a-different-consumertype" title="Permalink to this headline">#</a></h2>
+<h2>But With A Different ConsumerType<a class="headerlink" href="#but-with-a-different-consumertype" title="Permalink to this heading">#</a></h2>
 <p>One feature that was not present in that model is important here:</p>
 <ul class="simple">
 <li><p>A Markov state that represents the state of the Chinese economy (to be detailed later)</p></li>
@@ -540,7 +541,7 @@ document.write(`
 </div>
 </section>
 <section id="set-up-the-growth-process">
-<h2>Set Up the Growth Process<a class="headerlink" href="#set-up-the-growth-process" title="Permalink to this headline">#</a></h2>
+<h2>Set Up the Growth Process<a class="headerlink" href="#set-up-the-growth-process" title="Permalink to this heading">#</a></h2>
 <p>For a Markov model, we need a Markov transition array.  Here, we create that array.
 Remember, for this simple example, we just have a low-growth state, and a high-growth state</p>
 <div class="cell docutils container">
@@ -570,7 +571,7 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
 </div>
 </section>
 <section id="import-and-initialize-the-agents">
-<h2>Import and initialize the Agents<a class="headerlink" href="#import-and-initialize-the-agents" title="Permalink to this headline">#</a></h2>
+<h2>Import and initialize the Agents<a class="headerlink" href="#import-and-initialize-the-agents" title="Permalink to this heading">#</a></h2>
 <p>Here, we bring in an agent making a consumption/savings decision every period, subject to transitory and permanent income shocks, AND a Markov shock</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -639,7 +640,7 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
 </div>
 </section>
 <section id="setting-up-the-experiment">
-<h2>Setting Up the Experiment<a class="headerlink" href="#setting-up-the-experiment" title="Permalink to this headline">#</a></h2>
+<h2>Setting Up the Experiment<a class="headerlink" href="#setting-up-the-experiment" title="Permalink to this heading">#</a></h2>
 <p>The experiment is performed by a function we will now write.</p>
 <p>Recall that all parameters have been assigned appropriately, except for the income process.</p>
 <p>This is because we want to see how much uncertainty needs to accompany the high-growth state to generate the desired high savings rate.</p>

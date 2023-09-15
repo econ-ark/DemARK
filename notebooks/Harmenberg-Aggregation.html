@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>A Demonstration of the Harmenberg (2021) Aggregation Method &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="The Persistent Shock Model and Income Expectations" href="IncExpectationExample.html" />
     <link rel="prev" title="A Gentle Introduction to HARK: The Perfect Foresight Model" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -463,13 +464,13 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="a-demonstration-of-the-harmenberg-2021-aggregation-method">
-<h1>A Demonstration of the Harmenberg (2021) Aggregation Method<a class="headerlink" href="#a-demonstration-of-the-harmenberg-2021-aggregation-method" title="Permalink to this headline">#</a></h1>
+<h1>A Demonstration of the Harmenberg (2021) Aggregation Method<a class="headerlink" href="#a-demonstration-of-the-harmenberg-2021-aggregation-method" title="Permalink to this heading">#</a></h1>
 <ul class="simple">
 <li><p><a class="reference external" href="https://doi.org/10.1016/j.jedc.2021.104185">“Aggregating heterogeneous-agent models with permanent income shocks”</a></p></li>
 </ul>
 </section>
 <section id="authors-christopher-d-carroll-mateo-velasquez-giraldo">
-<h1>Authors: <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/">Christopher D. Carroll</a>, <a class="reference external" href="https://mv77.github.io/">Mateo Velásquez-Giraldo</a><a class="headerlink" href="#authors-christopher-d-carroll-mateo-velasquez-giraldo" title="Permalink to this headline">#</a></h1>
+<h1>Authors: <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/">Christopher D. Carroll</a>, <a class="reference external" href="https://mv77.github.io/">Mateo Velásquez-Giraldo</a><a class="headerlink" href="#authors-christopher-d-carroll-mateo-velasquez-giraldo" title="Permalink to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Set</span> <span class="pre">Up</span> <span class="pre">the</span> <span class="pre">Computational</span> <span class="pre">Environment:</span> <span class="pre">(in</span> <span class="pre">JupyterLab,</span> <span class="pre">click</span> <span class="pre">the</span> <span class="pre">dots)</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -490,7 +491,7 @@ document.write(`
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="description-of-the-problem">
-<h1>Description of the problem<a class="headerlink" href="#description-of-the-problem" title="Permalink to this headline">#</a></h1>
+<h1>Description of the problem<a class="headerlink" href="#description-of-the-problem" title="Permalink to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(\newcommand{\pLvl}{\mathbf{p}}\)</span>
 <span class="math notranslate nohighlight">\(\newcommand{\mLvl}{\mathbf{m}}\)</span>
 <span class="math notranslate nohighlight">\(\newcommand{\mNrm}{m}\)</span>
@@ -551,7 +552,7 @@ document.write(`
 <p>This notebook briefly describes Harmenberg’s method and demonstrates its implementation in the HARK toolkit.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="description-of-the-method">
-<h1>Description of the method<a class="headerlink" href="#description-of-the-method" title="Permalink to this headline">#</a></h1>
+<h1>Description of the method<a class="headerlink" href="#description-of-the-method" title="Permalink to this heading">#</a></h1>
 <p>To illustrate Harmenberg’s idea, consider a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory">buffer stock saving</a> model in which:</p>
 <ul class="simple">
 <li><p>The individual agent’s problem has two state variables:</p>
@@ -577,7 +578,7 @@ document.write(`
 \end{equation*}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mpLvlDstn_t(\mNrm,\pLvl)\)</span> is the measure of agents with normalized resources <span class="math notranslate nohighlight">\(\mNrm\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl\)</span>.</p>
 <section id="first-insight">
-<h2>First insight<a class="headerlink" href="#first-insight" title="Permalink to this headline">#</a></h2>
+<h2>First insight<a class="headerlink" href="#first-insight" title="Permalink to this heading">#</a></h2>
 <p>The first of Harmenberg’s insights is that the previous integral can be rearranged as</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{equation*}
@@ -589,14 +590,14 @@ document.write(`
 \mWgtDstnMarg_{t}(\mNrm) \def \PermGroFac^{-t}\int_{\pLvl} \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl.
 \end{equation*}\]</div>
 <p>The definition allows us to rewrite</p>
-<div class="amsmath math notranslate nohighlight" id="equation-44e7f172-4a02-4087-b342-6706f6de3a22">
-<span class="eqno">(13)<a class="headerlink" href="#equation-44e7f172-4a02-4087-b342-6706f6de3a22" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
+<div class="amsmath math notranslate nohighlight" id="equation-cdc61e5c-e128-48cb-9635-665cccb44d89">
+<span class="eqno">(13)<a class="headerlink" href="#equation-cdc61e5c-e128-48cb-9635-665cccb44d89" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
 \CLvl_{t} = \PermGroFac^t \int_{m} \cFunc(\mNrm) \times \mWgtDstnMarg_t(\mNrm) \, dm.
 \end{equation}\]</div>
 <p>There are no computational advances yet: We have merely hidden the joint distribution of <span class="math notranslate nohighlight">\((\mNrm,\pLvl)\)</span> inside the <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> object we have defined. This helps us notice that <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span>.</p>
 </section>
 <section id="second-insight">
-<h2>Second insight<a class="headerlink" href="#second-insight" title="Permalink to this headline">#</a></h2>
+<h2>Second insight<a class="headerlink" href="#second-insight" title="Permalink to this heading">#</a></h2>
 <p>Harmenberg’s second insight produces a simple way of generating simulated counterparts of <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> without having to simulate permanent incomes.</p>
 <p>We start with the density function of <span class="math notranslate nohighlight">\(\mNrm_{t+1}\)</span> given <span class="math notranslate nohighlight">\(\mNrm_t\)</span> and <span class="math notranslate nohighlight">\(\PermShk_{t+1}\)</span>, <span class="math notranslate nohighlight">\(\kernel(\mNrm_{t+1}|\mNrm_t,\PermShk_{t+1})\)</span>. This density will depend on the model’s transition equations and draws of random variables like transitory shocks to income in <span class="math notranslate nohighlight">\(t+1\)</span> or random returns to savings between <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(t+1\)</span>. If we can simulate those things, then we can sample from <span class="math notranslate nohighlight">\(\kernel(\cdot|\mNrm_t,\PermShk_{t+1})\)</span>.</p>
 <p>Harmenberg shows that</p>
@@ -616,12 +617,12 @@ document.write(`
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="harmenberg-s-method-in-hark">
-<h1>Harmenberg’s method in HARK<a class="headerlink" href="#harmenberg-s-method-in-hark" title="Permalink to this headline">#</a></h1>
+<h1>Harmenberg’s method in HARK<a class="headerlink" href="#harmenberg-s-method-in-hark" title="Permalink to this heading">#</a></h1>
 <p>Harmenberg’s method for simulating under the permanent-income-neutral measure is available in <a class="reference external" href="https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsIndShockModel.py">HARK’s <code class="docutils literal notranslate"><span class="pre">IndShockConsumerType</span></code> class</a> and the (many) models that inherit its income process, such as <a class="reference external" href="https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsPortfolioModel.py"><code class="docutils literal notranslate"><span class="pre">PortfolioConsumerType</span></code></a>.</p>
 <p>As the cell below illustrates, using Harmenberg’s method in <a class="reference external" href="https://github.com/econ-ark/HARK">HARK</a> simply requires setting an agent’s property <code class="docutils literal notranslate"><span class="pre">agent.neutral_measure</span> <span class="pre">=</span> <span class="pre">True</span></code> and then computing the discrete approximation to the income process. After these steps, <code class="docutils literal notranslate"><span class="pre">agent.simulate</span></code> will simulate the model using Harmenberg’s permanent-income-neutral measure.</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Implementation</span> <span class="pre">in</span> <span class="pre">HARK:</span></code></p>
 <section id="farther-down-in-the-notebook-code-like-this-solves-the-standard-model">
-<h2>Farther down in the notebook, code like this solves the standard model:<a class="headerlink" href="#farther-down-in-the-notebook-code-like-this-solves-the-standard-model" title="Permalink to this headline">#</a></h2>
+<h2>Farther down in the notebook, code like this solves the standard model:<a class="headerlink" href="#farther-down-in-the-notebook-code-like-this-solves-the-standard-model" title="Permalink to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a population with the default parametrization</span>
 
 <span class="n">popn</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
@@ -644,7 +645,7 @@ document.write(`
 </div>
 </section>
 <section id="later-code-like-this-simulates-using-the-permanent-income-neutral-measure">
-<h2>Later, code like this simulates using the permanent-income-neutral measure<a class="headerlink" href="#later-code-like-this-simulates-using-the-permanent-income-neutral-measure" title="Permalink to this headline">#</a></h2>
+<h2>Later, code like this simulates using the permanent-income-neutral measure<a class="headerlink" href="#later-code-like-this-simulates-using-the-permanent-income-neutral-measure" title="Permalink to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Harmenberg permanent-income-neutral simulation</span>
 
 <span class="c1"># Make a clone of the population weighted solution</span>
@@ -670,12 +671,12 @@ document.write(`
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="the-efficiency-gain-from-using-harmenberg-s-method">
-<h1>The efficiency gain from using Harmenberg’s method<a class="headerlink" href="#the-efficiency-gain-from-using-harmenberg-s-method" title="Permalink to this headline">#</a></h1>
+<h1>The efficiency gain from using Harmenberg’s method<a class="headerlink" href="#the-efficiency-gain-from-using-harmenberg-s-method" title="Permalink to this heading">#</a></h1>
 <p>To demonstrate the gain in efficiency from using Harmenberg’s method, we will set up the following experiment.</p>
 <p>Consider an economy populated by <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/">Buffer-Stock</a> savers, whose individual-level state variables are market resources <span class="math notranslate nohighlight">\(\mLvl_t\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl_t\)</span>. Such agents have a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#The-Problem-Can-Be-Normalized-By-Permanent-Income">homothetic consumption function</a>, so that we can define normalized market resources <span class="math notranslate nohighlight">\(\mNrm_t \def \mLvl_t / \pLvl_t\)</span>, solve for a normalized consumption function <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span>, and express the consumption function as <span class="math notranslate nohighlight">\(\cFunc(\mLvl,\pLvl) = \cFunc(\mNrm)\times\pLvl\)</span>.</p>
 <p>Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of <span class="math notranslate nohighlight">\(\mNrm\)</span> and <span class="math notranslate nohighlight">\(\pLvl\)</span> characterized by the density function <span class="math notranslate nohighlight">\(f(\cdot,\cdot)\)</span>. Under these conditions, define the stable level of aggregate market resources and consumption as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0be6f928-7170-4d06-9aed-8aeb02b31792">
-<span class="eqno">(14)<a class="headerlink" href="#equation-0be6f928-7170-4d06-9aed-8aeb02b31792" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4fba5f0d-fa3c-468d-9127-e6b3a47d9787">
+<span class="eqno">(14)<a class="headerlink" href="#equation-4fba5f0d-fa3c-468d-9127-e6b3a47d9787" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \MLvl \def \int \int \mNrm \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl, \,\,\,    \CLvl \def \int \int \cFunc(\mNrm) \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl.
 \end{equation}\]</div>
 <p>If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources <span class="math notranslate nohighlight">\(\MLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\MLvl\)</span> and <span class="math notranslate nohighlight">\(\CLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\CLvl\)</span>. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:</p>
@@ -687,13 +688,13 @@ document.write(`
     \text{for } n&gt;0 \text{ and } t \text{ large enough}.
 \end{equation*}\]</div>
 <p>In practice, however, we rely on approximations using a finite number of agents <span class="math notranslate nohighlight">\(I\)</span>. Our estimates of aggregate market resources and consumption at time <span class="math notranslate nohighlight">\(t\)</span> are</p>
-<div class="amsmath math notranslate nohighlight" id="equation-301f6a80-8c5d-47d8-9e1b-5024bcff49c7">
-<span class="eqno">(15)<a class="headerlink" href="#equation-301f6a80-8c5d-47d8-9e1b-5024bcff49c7" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6304c999-254f-4471-9798-4ca14aacf6fc">
+<span class="eqno">(15)<a class="headerlink" href="#equation-6304c999-254f-4471-9798-4ca14aacf6fc" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\pLvl_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(m_{i,t})\times\pLvl_{i,t},
 \end{equation}\]</div>
 <p>under the basic simulation strategy or</p>
-<div class="amsmath math notranslate nohighlight" id="equation-52421df7-3bc5-4f43-b730-97c3d549263f">
-<span class="eqno">(16)<a class="headerlink" href="#equation-52421df7-3bc5-4f43-b730-97c3d549263f" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-efaf2c00-3b4b-4390-a0d6-9a081776bc92">
+<span class="eqno">(16)<a class="headerlink" href="#equation-efaf2c00-3b4b-4390-a0d6-9a081776bc92" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(\tilde{m}_{i,t}),
 \end{equation}\]</div>
 <p>if we use Harmenberg’s method to simulate the distribution of normalized market resources under the permanent-income neutral measure.</p>
@@ -926,7 +927,7 @@ Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-i
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="now-compare-the-variances-of-simulated-outcomes">
-<h1>Now Compare the Variances of Simulated Outcomes<a class="headerlink" href="#now-compare-the-variances-of-simulated-outcomes" title="Permalink to this headline">#</a></h1>
+<h1>Now Compare the Variances of Simulated Outcomes<a class="headerlink" href="#now-compare-the-variances-of-simulated-outcomes" title="Permalink to this heading">#</a></h1>
 <p>Harmenberg (2021) and Szeidl (2013) prove that with an infinite population size, models of this kind will have constant and identical growth rates of aggregate consumption, market resources, and noncapital income.</p>
 <p>A method of comparing the efficiency of the two methods is therefore to calculate the variance of the simulated aggregate variables, and see how many agents must be simulated using each of them in order to achieve a given variance.  (An infinite number of agents would be required to achieve zero variance).</p>
 <p>The plots below show the (logs of) the estimated variances for the two methods as a function of the (logs of) the number of agents.</p>
@@ -1007,7 +1008,7 @@ Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-i
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="harmenberg-s-method-produces-large-gains-in-efficiency">
-<h1>Harmenberg’s Method Produces Large Gains in Efficiency<a class="headerlink" href="#harmenberg-s-method-produces-large-gains-in-efficiency" title="Permalink to this headline">#</a></h1>
+<h1>Harmenberg’s Method Produces Large Gains in Efficiency<a class="headerlink" href="#harmenberg-s-method-produces-large-gains-in-efficiency" title="Permalink to this heading">#</a></h1>
 <p>The number of agents required to achieve a given variance is revealed by choosing that variance and then finding the points on the horizontal axis that correspond to the two methods.</p>
 <p>The upper variance plot shows that the efficiency gains are very large for consumption: The horizontal gap between the two loci is generally more than two orders of magnitude.  That is, Harmenberg’s method requires less than <strong>one-hundredth</strong> as many agents as the standard method would require for a given precision.  Alternatively, for a given number of agents it is typically more than 10 times as precise.</p>
 <p>The improvement in variance is smaller for market resources, likely because in a buffer stock model the point of consumers’ actions is to use assets to absorb shocks.  But even for <span class="math notranslate nohighlight">\(\MLvl\)</span>, the Harmenberg method attains any given level of precision (<span class="math notranslate nohighlight">\(\text{var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)\)</span>) with roughly <strong>one tenth</strong> of the agents needed by the standard method to achieve that same level.</p>

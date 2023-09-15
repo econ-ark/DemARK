@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>The Tractable Buffer Stock Model &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -71,7 +72,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Making Structural Estimates From Empirical Results" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -449,7 +450,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="the-tractable-buffer-stock-model">
-<h1>The Tractable Buffer Stock Model<a class="headerlink" href="#the-tractable-buffer-stock-model" title="Permalink to this headline">#</a></h1>
+<h1>The Tractable Buffer Stock Model<a class="headerlink" href="#the-tractable-buffer-stock-model" title="Permalink to this heading">#</a></h1>
 <p style="text-align: center;"><small><small><small>Generator: BufferStockTheory-make/notebooks_byname</small></small></small></p><p>The <a class="reference external" href="http://llorracc.github.io/TractableBufferStock/">TractableBufferStock</a> model is a (relatively) simple framework that captures all of the qualitative, and many of the quantitative features of optimal consumption in the presence of labor income uncertainty.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -477,8 +478,8 @@ document.write(`
 </div>
 </div>
 <p>The key assumption behind the model’s tractability is that there is only a single, stark form of uncertainty:  So long as an employed consumer remains employed, that consumer’s labor income <span class="math notranslate nohighlight">\(P\)</span> will rise at a constant rate <span class="math notranslate nohighlight">\(\Gamma\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a37b97e1-5ba9-4863-ae46-f3a5d3f50a0f">
-<span class="eqno">(24)<a class="headerlink" href="#equation-a37b97e1-5ba9-4863-ae46-f3a5d3f50a0f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-99590006-b877-47c9-a3d0-7bd7cfd46b34">
+<span class="eqno">(24)<a class="headerlink" href="#equation-99590006-b877-47c9-a3d0-7bd7cfd46b34" title="Permalink to this equation">#</a></span>\[\begin{align}
 P_{t+1} &amp;= \Gamma P_{t}
 \end{align}\]</div>
 <p>But, between any period and the next, there is constant hazard <span class="math notranslate nohighlight">\(p\)</span> that the consumer will transition to the “unemployed” state. Unemployment is irreversible, like retirement or disability.  When unemployed, the consumer receives a fixed amount of income (for simplicity, zero).  (See the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/TractableBufferStock/">linked handout</a> for details of the model).</p>
@@ -493,8 +494,8 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 <p>where <span class="math notranslate nohighlight">\(\mathcal{R} = R/\Gamma\)</span>, and <span class="math notranslate nohighlight">\(\mathbb{1}_{t+1} = 1\)</span> if the consumer is employed (and zero if unemployed).</p>
 <p>Under plausible parameter values the model has a target level of <span class="math notranslate nohighlight">\(\hat{m} = M/P\)</span> (market resources to permanent income) with an analytical solution that exhibits plausible relationships among all of the parameters.</p>
 <p>Defining <span class="math notranslate nohighlight">\(\gamma = \log \Gamma\)</span> and <span class="math notranslate nohighlight">\(r = \log R\)</span>, the handout shows that an approximation of the target is given by the formula:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f4c141d9-7269-49b4-960f-5cc4ebe07077">
-<span class="eqno">(25)<a class="headerlink" href="#equation-f4c141d9-7269-49b4-960f-5cc4ebe07077" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-683bec2d-48d4-47ee-87b4-517aebc48f73">
+<span class="eqno">(25)<a class="headerlink" href="#equation-683bec2d-48d4-47ee-87b4-517aebc48f73" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{m} &amp; \approx 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
 \end{align}\]</div>
 <div class="cell docutils container">
@@ -513,17 +514,17 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 </div>
 </div>
 <section id="target-wealth">
-<h2>Target Wealth<a class="headerlink" href="#target-wealth" title="Permalink to this headline">#</a></h2>
+<h2>Target Wealth<a class="headerlink" href="#target-wealth" title="Permalink to this heading">#</a></h2>
 <p>Whether the model exhibits a “target” or “stable” level of the wealth-to-permanent-income ratio for employed consumers depends on whether the ‘Growth Impatience Condition’ (the GIC) holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ae1b1ac2-0857-4e65-b66e-d32436e476c1">
-<span class="eqno">(26)<a class="headerlink" href="#equation-ae1b1ac2-0857-4e65-b66e-d32436e476c1" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
+<div class="amsmath math notranslate nohighlight" id="equation-d96d0c72-f68e-4d22-8ff7-87c6195db905">
+<span class="eqno">(26)<a class="headerlink" href="#equation-d96d0c72-f68e-4d22-8ff7-87c6195db905" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
  \left(\frac{(R \beta (1-\mho))^{1/\rho}}{\Gamma}\right)  &amp; &lt;  1
 \\ \left(\frac{(R \beta (1-\mho))^{1/\rho}}{G (1-\mho)}\right)  &amp;&lt;  1
 \\ \left(\frac{(R \beta)^{1/\rho}}{G} (1-\mho)^{-\rho}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>and recall (from <a class="reference external" href="https://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">PerfForesightCRRA</a>) that the perfect foresight ‘Growth Impatience Factor’ is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c61a35ec-65ac-4e8c-97a5-8395d3f01f18">
-<span class="eqno">(27)<a class="headerlink" href="#equation-c61a35ec-65ac-4e8c-97a5-8395d3f01f18" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
+<div class="amsmath math notranslate nohighlight" id="equation-07014975-3754-405e-a30c-fec19b1098b1">
+<span class="eqno">(27)<a class="headerlink" href="#equation-07014975-3754-405e-a30c-fec19b1098b1" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
 \left(\frac{(R \beta)^{1/\rho}}{G}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>so since <span class="math notranslate nohighlight">\(\mho &gt; 0\)</span>, uncertainty makes it harder to be ‘impatient.’  To understand this, think of someone who, in the perfect foresight model, was ‘poised’: Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of ‘patience.’  So, in the presence of uncertainty, the conditions on parameters other than <span class="math notranslate nohighlight">\(\mho\)</span> must be stronger in order to guarantee ‘impatience’ in the sense of wanting to spend enough for your wealth to decline <em>despite</em> the extra precautionary motive.</p>

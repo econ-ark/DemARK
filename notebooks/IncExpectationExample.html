@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>The Persistent Shock Model and Income Expectations &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="Introduction: Keynes, Friedman, Modigliani" href="KeynesFriedmanModigliani.html" />
     <link rel="prev" title="A Demonstration of the Harmenberg (2021) Aggregation Method" href="Harmenberg-Aggregation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -447,12 +448,12 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="the-persistent-shock-model-and-income-expectations">
-<h1>The Persistent Shock Model and Income Expectations<a class="headerlink" href="#the-persistent-shock-model-and-income-expectations" title="Permalink to this headline">#</a></h1>
+<h1>The Persistent Shock Model and Income Expectations<a class="headerlink" href="#the-persistent-shock-model-and-income-expectations" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/incexpectationexample#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>This module creates an example application extending <span class="math notranslate nohighlight">\(\texttt{PersistentShockConsumerType}\)</span> from <span class="math notranslate nohighlight">\(\texttt{ConsGenIndShockModel}\)</span>. It uses the HARK tool <span class="math notranslate nohighlight">\(\texttt{GenIncProcessModel}\)</span> (whose documentation you can find <a class="reference external" href="https://github.com/econ-ark/DemARK/blob/master/notebooks/IncExpectationExample.ipynb">here</a>.)</p>
 <p>Most simply, it solves a consumption-saving model with shocks that are neither necessarily fully transitory nor fully permanent. Persistent income is tracked as a state variable and follows an AR(1) process.</p>
 <section id="what-if-beliefs-about-persistent-income-differ-from-actual">
-<h2>What if beliefs about persistent income differ from actual ?<a class="headerlink" href="#what-if-beliefs-about-persistent-income-differ-from-actual" title="Permalink to this headline">#</a></h2>
+<h2>What if beliefs about persistent income differ from actual ?<a class="headerlink" href="#what-if-beliefs-about-persistent-income-differ-from-actual" title="Permalink to this heading">#</a></h2>
 <p>What if the consumer has beliefs about the persistence of his/her income process which differ from the <em>actual</em> persistence?</p>
 <p>We can use the class <span class="math notranslate nohighlight">\(\texttt{PersistentShockConsumerType}\)</span> to solve the problem of a consumer with a given set of beliefs, but then simulate a population of consumers for whom that actual persistence differs from what they believe.</p>
 <p>(This thought experiment is motivated by an interesting recennt paper presented at the NBER Summer Institute’s <em>Behavioral Macroeconomics Conference</em> <cite data-cite="undefined"></cite></p>

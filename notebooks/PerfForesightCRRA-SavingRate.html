@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Perfect Foresight CRRA Model - Saving Rate &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="Making Structural Estimates From Empirical Results" href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html" />
     <link rel="prev" title="Perfect Foresight CRRA Model - Approximation" href="PerfForesightCRRA-Approximation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -448,7 +449,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="perfect-foresight-crra-model-saving-rate">
-<h1>Perfect Foresight CRRA Model - Saving Rate<a class="headerlink" href="#perfect-foresight-crra-model-saving-rate" title="Permalink to this headline">#</a></h1>
+<h1>Perfect Foresight CRRA Model - Saving Rate<a class="headerlink" href="#perfect-foresight-crra-model-saving-rate" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/perfforesightcrra-savingrate#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>This notebook demonstrates how to obtain the saving rate of a forward-looking consumer using HARK.</p>
 <div class="cell docutils container">
@@ -482,7 +483,7 @@ document.write(`
 </div>
 </div>
 <section id="creating-an-agent">
-<h2>1. Creating an agent<a class="headerlink" href="#creating-an-agent" title="Permalink to this headline">#</a></h2>
+<h2>1. Creating an agent<a class="headerlink" href="#creating-an-agent" title="Permalink to this heading">#</a></h2>
 <p>We now import the HARK class that represents a perfect-foresight consumer with CRRA utility, and create an instance of it with the parameters we’d like.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -521,7 +522,7 @@ document.write(`
 </div>
 </section>
 <section id="solving-the-consumer-s-problem-and-finding-the-saving-rate">
-<h2>2. Solving the consumer’s problem and finding the saving rate.<a class="headerlink" href="#solving-the-consumer-s-problem-and-finding-the-saving-rate" title="Permalink to this headline">#</a></h2>
+<h2>2. Solving the consumer’s problem and finding the saving rate.<a class="headerlink" href="#solving-the-consumer-s-problem-and-finding-the-saving-rate" title="Permalink to this heading">#</a></h2>
 <p>The next step is to ask HARK to solve the agent’s optimal consumption problem. The result, or what we call “solution”, is a function <code class="docutils literal notranslate"><span class="pre">cFunc</span></code> that tells us what is the optimal amount to consume at each level of normalized market resources.</p>
 <p>The next cell solves the agent and tests the function</p>
 <div class="cell docutils container">
@@ -546,13 +547,13 @@ document.write(`
 </div>
 <p>We are now ready to think about the saving rate of the consumer.</p>
 <p>Remember that the saving rate of an agent at time <span class="math notranslate nohighlight">\(t\)</span> is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-27fa3762-4ad9-43e5-8464-7003ac1c1f46">
-<span class="eqno">(22)<a class="headerlink" href="#equation-27fa3762-4ad9-43e5-8464-7003ac1c1f46" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bf989c5b-4a34-4959-ae3b-cae5a98bd3bc">
+<span class="eqno">(22)<a class="headerlink" href="#equation-bf989c5b-4a34-4959-ae3b-cae5a98bd3bc" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \text{Saving Rate}_t = \frac{\text{Capital Income}_t + \text{Labor Income}_t - \text{Consumption_t}}{\text{Capital Income}_t + \text{Labor Income}_t}
 \end{equation}\]</div>
 <p>Dividing both the numerator and denominator by the agent’s permanent income <span class="math notranslate nohighlight">\(\textbf{P}_t\)</span> and adopting the notation in <a class="reference external" href="https://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/PerfForesightCRRA/">the course’s lecture notes</a> we have</p>
-<div class="amsmath math notranslate nohighlight" id="equation-53c58370-041d-4747-933f-400d00eac5df">
-<span class="eqno">(23)<a class="headerlink" href="#equation-53c58370-041d-4747-933f-400d00eac5df" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-08251f0a-b987-49fe-8b7f-faf7b15c8061">
+<span class="eqno">(23)<a class="headerlink" href="#equation-08251f0a-b987-49fe-8b7f-faf7b15c8061" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 \text{Saving Rate}_t &amp;= \frac{a_{t-1}*r/\Gamma + 1 - c(m_t)}{a_{t-1}*r/\Gamma + 1}\\
 &amp;=\frac{a_{t-1}*r/\Gamma + 1 - c(a_{t-1}*R/\Gamma + 1)}{a_{t-1}*r/\Gamma + 1}

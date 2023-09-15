@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>A Gentle Introduction to HARK: The Perfect Foresight Model &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="A Demonstration of the Harmenberg (2021) Aggregation Method" href="Harmenberg-Aggregation.html" />
     <link rel="prev" title="A Gentle Introduction to HARK: Buffer Stock Saving" href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -450,7 +451,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="a-gentle-introduction-to-hark-the-perfect-foresight-model">
-<h1>A Gentle Introduction to HARK: The Perfect Foresight Model<a class="headerlink" href="#a-gentle-introduction-to-hark-the-perfect-foresight-model" title="Permalink to this headline">#</a></h1>
+<h1>A Gentle Introduction to HARK: The Perfect Foresight Model<a class="headerlink" href="#a-gentle-introduction-to-hark-the-perfect-foresight-model" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/gentle-intro-to-hark-perfforesightcrra#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>This notebook provides a simple, hands-on tutorial for first time HARK users (and maybe first time Python users) who have a basic knowledge of the theory of intertemporal choice (roughly at the level of first year PhD students - see <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">PerfForesightCRRA</a> for a full exposition of the consumption theory).</p>
 <p>It does not go “into the weeds” - we have hidden some code cells that do boring things that you don’t need to digest on your first experience with HARK.  Our aim is to convey a feel for how the toolkit works.</p>
@@ -476,7 +477,7 @@ document.write(`
 </div>
 </div>
 <section id="your-first-hark-model-perfect-foresight">
-<h2>Your First HARK Model: Perfect Foresight<a class="headerlink" href="#your-first-hark-model-perfect-foresight" title="Permalink to this headline">#</a></h2>
+<h2>Your First HARK Model: Perfect Foresight<a class="headerlink" href="#your-first-hark-model-perfect-foresight" title="Permalink to this heading">#</a></h2>
 <p>We are studying a consumer with constant relative risk aversion utility <span class="math notranslate nohighlight">\(U(C) = \frac{C^{1-\rho}}{1-\rho}\)</span> who has perfect foresight about everything except the (stochastic) date of death; death occurs with probability <span class="math notranslate nohighlight">\(\mathsf{D}\)</span>, implying  a “survival probability” <span class="math notranslate nohighlight">\((1-\mathsf{D}) &lt; 1\)</span>.  Permanent labor income <span class="math notranslate nohighlight">\(P_t\)</span> grows from period to period by a factor <span class="math notranslate nohighlight">\(\Gamma_t\)</span>.  At the beginning of each period <span class="math notranslate nohighlight">\(t\)</span>, the consumer has some amount of market resources <span class="math notranslate nohighlight">\(M_t\)</span> (which includes both market wealth and currrent income - think of it as bank balances after you have received your paycheck).  The consumer must choose how much of those resources to consume <span class="math notranslate nohighlight">\(C_t\)</span> and how much to retain in a riskless asset <span class="math notranslate nohighlight">\(A_t\)</span> which will earn return factor <span class="math notranslate nohighlight">\(R\)</span>. The agent receives a flow of utility <span class="math notranslate nohighlight">\(U(C_t)\)</span> from consumption and geometrically discounts future utility flows by factor <span class="math notranslate nohighlight">\(\beta\)</span>. Between periods, the agent dies with probability <span class="math notranslate nohighlight">\(\mathsf{D}_t\)</span>, ending his problem.  (This means that the possibility of death is merely another reason to discount the future more – you might not be there to enjoy it!)</p>
 <p>The agent’s problem can be written in Bellman form as:</p>
 <div class="amsmath math notranslate nohighlight">
@@ -490,7 +491,7 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 <p>A particular perfect foresight agent’s problem can be characterized by values of risk aversion <span class="math notranslate nohighlight">\(\rho\)</span>, discount factor <span class="math notranslate nohighlight">\(\beta\)</span>, and return factor <span class="math notranslate nohighlight">\(R\)</span>, along with sequences of income growth factors <span class="math notranslate nohighlight">\(\{ \Gamma_t \}\)</span> and death probabilities <span class="math notranslate nohighlight">\(\{\mathsf{D}_t\}\)</span>.  To keep things simple, let’s forget about “sequences” of income growth and mortality, and just think about an <em>infinite horizon</em> consumer with constant income growth and survival probability.</p>
 </section>
 <section id="representing-agents-in-hark">
-<h2>Representing Agents in HARK<a class="headerlink" href="#representing-agents-in-hark" title="Permalink to this headline">#</a></h2>
+<h2>Representing Agents in HARK<a class="headerlink" href="#representing-agents-in-hark" title="Permalink to this heading">#</a></h2>
 <p>HARK represents agents solving this type of problem as <strong>instances</strong> of the <strong>class</strong> <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>, a <strong>subclass</strong> of <span class="math notranslate nohighlight">\(\texttt{AgentType}\)</span>.  To make agents of this class, we must import the class itself into our workspace.  (Run the cell below in order to do this).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -501,9 +502,9 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 </div>
 <p>The <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> class contains within itself the python code that constructs the solution for the perfect foresight model we are studying here, as specifically articulated in <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">these lecture notes</a>.</p>
 <p>To create an instance of <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>, we simply ‘call the class’; that is, we invoke it in a way that looks like the way other programming languages evaluate a function, passing as arguments the specific parameter values we want it to have.  In the hidden cell below, we define a <strong>dictionary</strong> named <span class="math notranslate nohighlight">\(\texttt{PF_dictionary}\)</span> with these parameter values:</p>
-<table class="colwidths-auto table">
+<table class="table">
 <thead>
-<tr class="row-odd"><th class="text-center head"><p>Param</p></th>
+<tr class="row-odd"><th class="head text-center"><p>Param</p></th>
 <th class="head"><p>Description</p></th>
 <th class="head"><p>Code</p></th>
 <th class="head"><p>Value</p></th>
@@ -570,7 +571,7 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 <p>In <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span>, we now have <em>defined</em> the problem of a particular infinite horizon perfect foresight consumer who knows how to solve this problem.</p>
 </section>
 <section id="solving-an-agent-s-problem">
-<h2>Solving an Agent’s Problem<a class="headerlink" href="#solving-an-agent-s-problem" title="Permalink to this headline">#</a></h2>
+<h2>Solving an Agent’s Problem<a class="headerlink" href="#solving-an-agent-s-problem" title="Permalink to this heading">#</a></h2>
 <p>To tell the agent actually to solve the problem, we call the agent’s <span class="math notranslate nohighlight">\(\texttt{solve}\)</span>  <strong>method</strong>. (A <strong>method</strong> is essentially a function that an object runs that affects the object’s own internal characteristics – in this case, the method adds the consumption function to the contents of <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span>.)</p>
 <p>The cell below calls the <span class="math notranslate nohighlight">\(\texttt{solve}\)</span> method for <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span></p>
 <div class="cell docutils container">
@@ -646,7 +647,7 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
 </div>
 </section>
 <section id="changing-agent-parameters">
-<h2>Changing Agent Parameters<a class="headerlink" href="#changing-agent-parameters" title="Permalink to this headline">#</a></h2>
+<h2>Changing Agent Parameters<a class="headerlink" href="#changing-agent-parameters" title="Permalink to this heading">#</a></h2>
 <p>Suppose you wanted to change one (or more) of the parameters of the agent’s problem and see what that does.  We want to compare consumption functions before and after we change parameters, so let’s make a new instance of <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> by copying <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

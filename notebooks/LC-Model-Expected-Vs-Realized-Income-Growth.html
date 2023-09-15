@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Expectated vs Realized Income Growth in A Standard Life Cycle Model &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="The Life Cycle Model: Theory vs Data" href="LifeCycleModelTheoryVsData.html" />
     <link rel="prev" title="Introduction: Keynes, Friedman, Modigliani" href="KeynesFriedmanModigliani.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -437,7 +438,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="expectated-vs-realized-income-growth-in-a-standard-life-cycle-model">
-<h1>Expectated vs Realized Income Growth in A Standard Life Cycle Model<a class="headerlink" href="#expectated-vs-realized-income-growth-in-a-standard-life-cycle-model" title="Permalink to this headline">#</a></h1>
+<h1>Expectated vs Realized Income Growth in A Standard Life Cycle Model<a class="headerlink" href="#expectated-vs-realized-income-growth-in-a-standard-life-cycle-model" title="Permalink to this heading">#</a></h1>
 <p>This notebook uses the income process in <a class="reference external" href="https://academic.oup.com/rfs/article/18/2/491/1599892?login=true">Cocco, Gomes &amp; Maenhout (2005)</a> to demonstrate that estimates of a regression of expected income changes on realized income changes are sensitive to the size of transitory shocks.</p>
 <p>We first load some tools from the <a class="reference external" href="https://github.com/econ-ark/HARK">HARK toolkit</a>.</p>
 <div class="cell docutils container">
@@ -535,13 +536,13 @@ document.write(`
 <span class="math notranslate nohighlight">\(\newcommand{\UnempPrb}{\wp}\)</span>
 <span class="math notranslate nohighlight">\(\newcommand{\TranShk}{\theta}\)</span></p>
 <p>We assume a standard income process with transitory and permanent shocks:  The consumer’s Permanent noncapital income <span class="math notranslate nohighlight">\(\pLvl\)</span> grows by a predictable factor <span class="math notranslate nohighlight">\(\PermGroFac\)</span> and is subject to an unpredictable multiplicative shock <span class="math notranslate nohighlight">\(\Ex_{t}[\PermShk_{t+1}]=1\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-07a0fe63-b432-4116-9804-ef0954aa9a19">
-<span class="eqno">(18)<a class="headerlink" href="#equation-07a0fe63-b432-4116-9804-ef0954aa9a19" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-3907df0d-60d1-4765-adb0-473ce2c4862a">
+<span class="eqno">(18)<a class="headerlink" href="#equation-3907df0d-60d1-4765-adb0-473ce2c4862a" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \pLvl_{t+1} &amp; = &amp; \pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}, \notag
 \end{eqnarray}\]</div>
 <p>and, if the consumer is employed, actual income <span class="math notranslate nohighlight">\(Y\)</span> is permanent income multiplied by a transitory shock <span class="math notranslate nohighlight">\(\Ex_{t}[\TranShk_{t+1}]=1\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-121eded6-3cc2-4805-a8c1-9412a0a11438">
-<span class="eqno">(19)<a class="headerlink" href="#equation-121eded6-3cc2-4805-a8c1-9412a0a11438" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-94867098-19f6-405e-948d-ca34d97bf3bb">
+<span class="eqno">(19)<a class="headerlink" href="#equation-94867098-19f6-405e-948d-ca34d97bf3bb" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \yLvl_{t+1} &amp; = &amp; \pLvl_{t+1} \TranShk_{t+1}, \notag
 \end{eqnarray}\]</div>
 <!--- There is also a probability $\UnempPrb$ that the consumer will be temporarily unemployed and experience income of $\TranShk^{\large u}  = 0$.  We construct $\TranShk^{\large e}$ so that its mean value is $1/(1-\UnempPrb)$ because in that case the mean level of the transitory shock (accounting for both unemployed and employed states) is exactly
@@ -555,8 +556,8 @@ document.write(`
 <p><span class="math notranslate nohighlight">\(\Gamma_{t}\)</span> captures the predictable life cycle profile of income growth (faster when young, slower when old).  See <a class="reference external" href="https://github.com/econ-ark/CGMPortfolio/blob/master/Code/Python/CGMPortfolio.ipynb">our replication of CGM-2005</a> for a detailed account of how these objects map to CGM’s notation.</p>
 <p>Now define <span class="math notranslate nohighlight">\(\newcommand{\yLog}{y}\newcommand{\pLog}{p}\yLog = \log \yLvl,\pLog=\log \pLvl\)</span> and similarly for other variables.</p>
 <p>Using this notation, we construct all the necessary inputs to the regressors. The main input is the expected income growth of every agent at every time period, which is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8b245ea1-b127-4889-8aa8-70b2ad6e210f">
-<span class="eqno">(20)<a class="headerlink" href="#equation-8b245ea1-b127-4889-8aa8-70b2ad6e210f" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6efeb470-12d2-4dd6-8b40-a58b35911243">
+<span class="eqno">(20)<a class="headerlink" href="#equation-6efeb470-12d2-4dd6-8b40-a58b35911243" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 \Ex_t[\yLvl_{t+1}/\yLvl_{t}] &amp;= \mathbb{E}_t[\left(\frac{\theta_{t+1}\pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}}{\theta_{t}P_{t}}\right)]\\
  &amp;= \left(\frac{\PermGroFac_{t+1}}{\theta_{t}}\right)\\

@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Making Structural Estimates From Empirical Results &#8212; DemARK</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="next" title="The Tractable Buffer Stock Model" href="TractableBufferStock-Interactive.html" />
     <link rel="prev" title="Perfect Foresight CRRA Model - Saving Rate" href="PerfForesightCRRA-SavingRate.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -437,7 +438,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="making-structural-estimates-from-empirical-results">
-<h1>Making Structural Estimates From Empirical Results<a class="headerlink" href="#making-structural-estimates-from-empirical-results" title="Permalink to this headline">#</a></h1>
+<h1>Making Structural Estimates From Empirical Results<a class="headerlink" href="#making-structural-estimates-from-empirical-results" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/structural-estimates-from-empirical-mpcs-fagereng-et-al#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>This notebook conducts a quick and dirty structural estimation based on Table 9 of <a class="reference external" href="https://economicdynamics.org/meetpapers/2017/paper_65.pdf">“MPC Heterogeneity and Household Balance Sheets” by Fagereng, Holm, and Natvik</a> <cite data-cite="6202365/SUE56C4B"></cite>, who use Norweigian administrative data on income, household assets, and lottery winnings to examine the MPC from transitory income shocks (lottery prizes).  Their Table 9 reports an estimated MPC broken down by quartiles of bank deposits and
 prize size; this table is reproduced here as <span class="math notranslate nohighlight">\(\texttt{MPC_target_base}\)</span>.  In this demo, we use the Table 9 estimates as targets in a simple structural estimation, seeking to minimize the sum of squared differences between simulated and estimated MPCs by changing the (uniform) distribution of discount factors.  The essential question is how well their results be rationalized by a simple one-asset consumption-saving model. (Note that the paper was later published under a different <a class="reference external" href="https://www.aeaweb.org/articles?id=10.1257/mac.20190211">version</a> which unfortunately excluded table 9.)</p>

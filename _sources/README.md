@@ -12,9 +12,15 @@ Demonstrations of how to use material in the [Econ-ARK](https://github.com/econ-
 ### Option 1: With Jupyter
 
 0. [Install jupyter](https://jupyter.org/install).
-1. Clone `DemARK` to the folder of your choice
-2. Run `pip install -r binder/requirements.txt` to install dependencies
-3. Enable notebook extensions.
+1. [Install Anaconda](https://docs.anaconda.com/free/anaconda/install/index.html) or [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/)
+2. Clone `DemARK` to the folder of your choice
+3. Using Anaconda, install the environment\
+    `conda env create -f binder/environment.yml` 
+    - If you already have installed the `DemARK` environment, you may still need to update it\
+        `conda env update -f binder/environment.yml`
+4. Activate your `DemARK` environment:\
+    `conda activate DemARK`
+5. Enable notebook extensions.
 
    **On Linux/macOS:**
 
@@ -24,8 +30,8 @@ Demonstrations of how to use material in the [Econ-ARK](https://github.com/econ-
 
    Run `binder/postBuild.bat`
 
-4. Run `jupyter notebook` from the `DemARK` root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
-5. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
+6. Run `jupyter notebook` from the `DemARK` root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
+7. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
 
 ### Option 2: With Docker and repo2docker
 
