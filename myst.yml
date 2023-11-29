@@ -5,7 +5,7 @@ project:
   # description:
   keywords: []
   authors: []
-  github: https://github.com/alanlujan91/DemARK
+  github: https://github.com/econ-ark/DemARK
   # bibliography: []
 site:
   template: book-theme
