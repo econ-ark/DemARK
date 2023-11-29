@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -476,17 +490,11 @@ document.write(`
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-darkgrid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-darkgrid&quot;</span><span class="p">)</span>
 <span class="n">palette</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;Dark2&quot;</span><span class="p">)</span>
 
 
 <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">is_list_like</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_list_like</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\alujan\AppData\Local\Temp\ipykernel_209560\3136227408.py:15: MatplotlibDeprecationWarning: The seaborn styles shipped by Matplotlib are deprecated since 3.6, as they no longer correspond to the styles shipped by seaborn. However, they will remain available as &#39;seaborn-v0_8-&lt;style&gt;&#39;. Alternatively, directly use the seaborn API instead.
-  plt.style.use(&quot;seaborn-darkgrid&quot;)
 </pre></div>
 </div>
 </div>
@@ -501,8 +509,8 @@ document.write(`
 </ol>
 <p>This can be formalized as:</p>
 <p>$</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ed5f93bf-768a-49d8-b01a-49dccbad2c3d">
-<span class="eqno">(17)<a class="headerlink" href="#equation-ed5f93bf-768a-49d8-b01a-49dccbad2c3d" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-eba224a7-5ac8-42cc-a9ef-64844aa9f17f">
+<span class="eqno">(17)<a class="headerlink" href="#equation-eba224a7-5ac8-42cc-a9ef-64844aa9f17f" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 c_t &amp; = &amp;  a_0 + a_{1}y_t
 \\ c_t - c_{t-1} &amp; = &amp; a_{1}(y_t - y_{t-1})
 \end{eqnarray}\]</div>
@@ -566,7 +574,7 @@ c_t &amp; = &amp;  a_0 + a_{1}y_t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/80460bc226bac5cbb3fadeadea7f4c779ef3be3b71d08ce1191d8288a0dde97e.png" src="../_images/80460bc226bac5cbb3fadeadea7f4c779ef3be3b71d08ce1191d8288a0dde97e.png" />
+<img alt="../_images/14b89a9950c5947322a201f33dfae181c5ab2dd7eb70ba420d0bda9e717e0bab.png" src="../_images/14b89a9950c5947322a201f33dfae181c5ab2dd7eb70ba420d0bda9e717e0bab.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -623,9 +631,9 @@ Short-term aggregate time-series estimates of change in consumption on change in
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/0b6b250db1f2f0cb85330d80077e3f98c5f661e5a6abda3aac10dcc0d4e9c544.png" src="../_images/0b6b250db1f2f0cb85330d80077e3f98c5f661e5a6abda3aac10dcc0d4e9c544.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is 58.47
-a_1 is 0.90
+<img alt="../_images/9c87f6ded127de4da85732655ce9f70156e05b8eaf8f1ccc45efb0278d9630dc.png" src="../_images/9c87f6ded127de4da85732655ce9f70156e05b8eaf8f1ccc45efb0278d9630dc.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is -161.03
+a_1 is 0.92
 </pre></div>
 </div>
 </div>
@@ -644,7 +652,7 @@ a_1 is 0.90
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Consumption (c)&#39;)
 </pre></div>
 </div>
-<img alt="../_images/9dc10c1e760a3afa98939eb02109a46fd6f3a124862db88c7c49a71f32e469e1.png" src="../_images/9dc10c1e760a3afa98939eb02109a46fd6f3a124862db88c7c49a71f32e469e1.png" />
+<img alt="../_images/83b5bcfaed2e6297633734a537cacd5f3abae19ba7e8ac8ead5e44341da077dd.png" src="../_images/83b5bcfaed2e6297633734a537cacd5f3abae19ba7e8ac8ead5e44341da077dd.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -676,8 +684,8 @@ a_1 is 0.90
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4cc09c7baeaf84faf8ea064ebe3c75706189bce8e664cce797d49aff87ac9851.png" src="../_images/4cc09c7baeaf84faf8ea064ebe3c75706189bce8e664cce797d49aff87ac9851.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_1 is 0.10
+<img alt="../_images/feb0b19e2832e09f206d8add75b2ac980a10fe7282200bcd61386466820a3672.png" src="../_images/feb0b19e2832e09f206d8add75b2ac980a10fe7282200bcd61386466820a3672.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_1 is 0.09
 </pre></div>
 </div>
 </div>
@@ -733,19 +741,19 @@ No serious treatment of intertemporal nature of saving</p>
   <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.999</td> 
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>1.108e+05</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>1.077e+05</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Fri, 20 Jan 2023</td> <th>  Prob (F-statistic):</th> <td>1.83e-192</td>
+  <th>Date:</th>             <td>Fri, 24 Nov 2023</td> <th>  Prob (F-statistic):</th> <td>9.79e-192</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:52:26</td>     <th>  Log-Likelihood:    </th> <td> -637.56</td> 
+  <th>Time:</th>                 <td>15:13:33</td>     <th>  Log-Likelihood:    </th> <td> -647.10</td> 
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>   120</td>      <th>  AIC:               </th> <td>   1281.</td> 
+  <th>No. Observations:</th>      <td>   120</td>      <th>  AIC:               </th> <td>   1300.</td> 
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>   117</td>      <th>  BIC:               </th> <td>   1289.</td> 
+  <th>Df Residuals:</th>          <td>   117</td>      <th>  BIC:               </th> <td>   1309.</td> 
 </tr>
 <tr>
   <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>    
@@ -759,29 +767,29 @@ No serious treatment of intertemporal nature of saving</p>
       <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th> <td>   62.0691</td> <td>   20.727</td> <td>    2.995</td> <td> 0.003</td> <td>   21.020</td> <td>  103.118</td>
+  <th>Intercept</th> <td>   60.8197</td> <td>   23.704</td> <td>    2.566</td> <td> 0.012</td> <td>   13.876</td> <td>  107.764</td>
 </tr>
 <tr>
-  <th>inc</th>       <td>    0.0201</td> <td>    0.025</td> <td>    0.805</td> <td> 0.422</td> <td>   -0.029</td> <td>    0.069</td>
+  <th>inc</th>       <td>    0.0105</td> <td>    0.028</td> <td>    0.369</td> <td> 0.713</td> <td>   -0.046</td> <td>    0.067</td>
 </tr>
 <tr>
-  <th>cons_m1</th>   <td>    0.9772</td> <td>    0.028</td> <td>   35.209</td> <td> 0.000</td> <td>    0.922</td> <td>    1.032</td>
+  <th>cons_m1</th>   <td>    0.9885</td> <td>    0.031</td> <td>   32.110</td> <td> 0.000</td> <td>    0.928</td> <td>    1.050</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>65.544</td> <th>  Durbin-Watson:     </th> <td>   1.087</td>
+  <th>Omnibus:</th>       <td>66.409</td> <th>  Durbin-Watson:     </th> <td>   1.101</td>
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th> <td> 0.000</td> <th>  Jarque-Bera (JB):  </th> <td> 330.653</td>
+  <th>Prob(Omnibus):</th> <td> 0.000</td> <th>  Jarque-Bera (JB):  </th> <td> 342.099</td>
 </tr>
 <tr>
-  <th>Skew:</th>          <td>-1.831</td> <th>  Prob(JB):          </th> <td>1.58e-72</td>
+  <th>Skew:</th>          <td>-1.851</td> <th>  Prob(JB):          </th> <td>5.18e-75</td>
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td>10.261</td> <th>  Cond. No.          </th> <td>6.67e+04</td>
+  <th>Kurtosis:</th>      <td>10.397</td> <th>  Cond. No.          </th> <td>7.43e+04</td>
 </tr>
-</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 6.67e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div></div>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 7.43e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -870,7 +878,7 @@ c_{i,t} = \frac{C_{i,t}}{P_{i,t}}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/081f39bf2fbd1d8955e86c7ef74123b4010142b3212b975a0f862af2ab702dfb.png" src="../_images/081f39bf2fbd1d8955e86c7ef74123b4010142b3212b975a0f862af2ab702dfb.png" />
+<img alt="../_images/cb381e4f3d92256e8acd52592965b8119eccd783aa4105b073c8278996d6511c.png" src="../_images/cb381e4f3d92256e8acd52592965b8119eccd783aa4105b073c8278996d6511c.png" />
 </div>
 </div>
 <p>We can see that regardless of the income our agent receives, they consume their permanent income, which is normalized to 1.</p>
@@ -910,9 +918,9 @@ c_{i,t} = \frac{C_{i,t}}{P_{i,t}}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/17f268443096c4b92f70c8d1c21297137ab65ea9d2028c8f1f8c732360ca85e1.png" src="../_images/17f268443096c4b92f70c8d1c21297137ab65ea9d2028c8f1f8c732360ca85e1.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is 0.24
-a_1 is 0.51
+<img alt="../_images/45c66c035138a6a5f427355a97f6d515b7e6a12f97afb44d84f71dcb38f47e83.png" src="../_images/45c66c035138a6a5f427355a97f6d515b7e6a12f97afb44d84f71dcb38f47e83.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is 0.28
+a_1 is 0.48
 </pre></div>
 </div>
 </div>
@@ -948,9 +956,9 @@ a_1 is 0.51
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/a5a578749888971883cf11d432dda2011a5b01d96e46a2d98708618fa174d810.png" src="../_images/a5a578749888971883cf11d432dda2011a5b01d96e46a2d98708618fa174d810.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is -0.46
-a_1 is 0.97
+<img alt="../_images/a6e21112c6366bf9dc348999676e9a5c9cdec4d86cc68e384e9d61a2385bfd77.png" src="../_images/a6e21112c6366bf9dc348999676e9a5c9cdec4d86cc68e384e9d61a2385bfd77.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is -0.43
+a_1 is 0.95
 </pre></div>
 </div>
 </div>
@@ -991,8 +999,8 @@ a_1 is 0.97
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4cc09c7baeaf84faf8ea064ebe3c75706189bce8e664cce797d49aff87ac9851.png" src="../_images/4cc09c7baeaf84faf8ea064ebe3c75706189bce8e664cce797d49aff87ac9851.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_1 is 0.10
+<img alt="../_images/feb0b19e2832e09f206d8add75b2ac980a10fe7282200bcd61386466820a3672.png" src="../_images/feb0b19e2832e09f206d8add75b2ac980a10fe7282200bcd61386466820a3672.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_1 is 0.09
 </pre></div>
 </div>
 </div>
@@ -1027,9 +1035,9 @@ a_1 is 0.97
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/6695eb80756f7753b5a0bfd67fb12a77a4f64179c5d218edcdd690b90a40eb2d.png" src="../_images/6695eb80756f7753b5a0bfd67fb12a77a4f64179c5d218edcdd690b90a40eb2d.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is -44.42
-a_1 is 0.93
+<img alt="../_images/0f6584045f71edd0046eb1175d290c02acb25cc06c7e4fd55cd431b506b2b3e2.png" src="../_images/0f6584045f71edd0046eb1175d290c02acb25cc06c7e4fd55cd431b506b2b3e2.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a_0 is 44.88
+a_1 is 0.89
 </pre></div>
 </div>
 </div>
@@ -1064,11 +1072,10 @@ a_1 is 0.93
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="IncExpectationExample.html"
@@ -1088,10 +1095,7 @@ a_1 is 0.93
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1142,6 +1146,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -1168,8 +1173,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -441,7 +455,7 @@ document.write(`
 <h1>Making Structural Estimates From Empirical Results<a class="headerlink" href="#making-structural-estimates-from-empirical-results" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/structural-estimates-from-empirical-mpcs-fagereng-et-al#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
 <p>This notebook conducts a quick and dirty structural estimation based on Table 9 of <a class="reference external" href="https://economicdynamics.org/meetpapers/2017/paper_65.pdf">“MPC Heterogeneity and Household Balance Sheets” by Fagereng, Holm, and Natvik</a> <cite data-cite="6202365/SUE56C4B"></cite>, who use Norweigian administrative data on income, household assets, and lottery winnings to examine the MPC from transitory income shocks (lottery prizes).  Their Table 9 reports an estimated MPC broken down by quartiles of bank deposits and
-prize size; this table is reproduced here as <span class="math notranslate nohighlight">\(\texttt{MPC_target_base}\)</span>.  In this demo, we use the Table 9 estimates as targets in a simple structural estimation, seeking to minimize the sum of squared differences between simulated and estimated MPCs by changing the (uniform) distribution of discount factors.  The essential question is how well their results be rationalized by a simple one-asset consumption-saving model. (Note that the paper was later published under a different <a class="reference external" href="https://www.aeaweb.org/articles?id=10.1257/mac.20190211">version</a> which unfortunately excluded table 9.)</p>
+prize size; this table is reproduced here as <span class="math notranslate nohighlight">\(\texttt{MPC\_target\_base}\)</span>.  In this demo, we use the Table 9 estimates as targets in a simple structural estimation, seeking to minimize the sum of squared differences between simulated and estimated MPCs by changing the (uniform) distribution of discount factors.  The essential question is how well their results be rationalized by a simple one-asset consumption-saving model. (Note that the paper was later published under a different <a class="reference external" href="https://www.aeaweb.org/articles?id=10.1257/mac.20190211">version</a> which unfortunately excluded table 9.)</p>
 <p>The function that estimates discount factors includes several options for estimating different specifications:</p>
 <ol class="arabic simple">
 <li><p>TypeCount : Integer number of discount factors in discrete distribution; can be set to 1 to turn off <em>ex ante</em> heterogeneity (and to discover that the model has no chance to fit the data well without such heterogeneity).</p></li>
@@ -454,8 +468,6 @@ prize size; this table is reproduced here as <span class="math notranslate nohig
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import python tools</span>
-
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 </pre></div>
@@ -468,9 +480,8 @@ prize size; this table is reproduced here as <span class="math notranslate nohig
 
 <span class="kn">from</span> <span class="nn">HARK.distribution</span> <span class="kn">import</span> <span class="n">Uniform</span>
 <span class="kn">from</span> <span class="nn">HARK.utilities</span> <span class="kn">import</span> <span class="n">get_percentiles</span>
-<span class="kn">from</span> <span class="nn">HARK.parallel</span> <span class="kn">import</span> <span class="n">multi_thread_commands</span>
 <span class="kn">from</span> <span class="nn">HARK.estimation</span> <span class="kn">import</span> <span class="n">minimize_nelder_mead</span>
-<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.ConsIndShockModel</span> <span class="kn">import</span> <span class="n">IndShockConsumerType</span>
 
 
 <span class="n">init_infinite</span> <span class="o">=</span> <span class="p">{</span>
@@ -596,8 +607,6 @@ prize size; this table is reproduced here as <span class="math notranslate nohig
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the objective function</span>
-
-
 <span class="k">def</span> <span class="nf">FagerengObjFunc</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">spread</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Objective function for the quick and dirty structural estimation to fit</span>
@@ -629,9 +638,11 @@ prize size; this table is reproduced here as <span class="math notranslate nohig
         <span class="n">EstTypeList</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">DiscFac</span> <span class="o">=</span> <span class="n">beta_set</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
 
     <span class="c1"># Solve and simulate all consumer types, then gather their wealth levels</span>
-    <span class="n">multi_thread_commands</span><span class="p">(</span>
-        <span class="n">EstTypeList</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;solve()&quot;</span><span class="p">,</span> <span class="s2">&quot;initialize_sim()&quot;</span><span class="p">,</span> <span class="s2">&quot;simulate()&quot;</span><span class="p">,</span> <span class="s2">&quot;unpack_cFunc()&quot;</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">EstType</span> <span class="ow">in</span> <span class="n">EstTypeList</span><span class="p">:</span>
+        <span class="n">EstType</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+        <span class="n">EstType</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
+        <span class="n">EstType</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+        <span class="n">EstType</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;cFunc&quot;</span><span class="p">)</span>
     <span class="n">WealthNow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">ThisType</span><span class="o">.</span><span class="n">state_now</span><span class="p">[</span><span class="s2">&quot;aLvl&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ThisType</span> <span class="ow">in</span> <span class="n">EstTypeList</span><span class="p">])</span>
 
     <span class="c1"># Get wealth quartile cutoffs and distribute them to each consumer type</span>
@@ -719,238 +730,88 @@ prize size; this table is reproduced here as <span class="math notranslate nohig
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.92 0.03 1.1196898999208695
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9660000000000001 0.03 1.8557370146227716
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.92 0.0315 1.1205388789300468
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.874 0.0315 0.7762009314641924
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8280000000000001 0.03225 0.6794629566371587
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8280000000000002 0.03075 0.6812764349781586
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7360000000000001 0.033 0.7910782500357644
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.782 0.03225 0.7014801262548661
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8740000000000001 0.03075 0.7769177311941948
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.805 0.031875 0.678458631376897
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8049999999999998 0.033375 0.6766778040100673
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7934999999999997 0.03468750000000001 0.6842925413106543
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7819999999999998 0.033 0.7005977272821908
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8165 0.0324375 0.6747927160969063
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8164999999999997 0.033937499999999995 0.6730511351615504
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8222499999999997 0.03496874999999999 0.6729548684813017
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8337499999999999 0.03403125 0.6818984152434335
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8121874999999998 0.0335390625 0.6738051373790596
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8179374999999995 0.036070312499999986 0.6705629741922413
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8186562499999992 0.03788671874999998 0.6681951147478101
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8287187499999991 0.03931640624999997 0.6708742365404755
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8251249999999986 0.04223437499999996 0.664296531186165
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8265624999999979 0.04586718749999995 0.6598362485225537
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.816499999999998 0.044437499999999956 0.6588191494676393
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8103906249999975 0.04699804687499996 0.6560435981007817
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8182968749999961 0.05497851562499993 0.6429622106958305
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8181171874999946 0.0635244140624999 0.6283719404390292
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8019453124999942 0.06465527343749991 0.6317158378919988
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8096718749999914 0.08118164062499984 0.5987059095800153
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8093124999999883 0.09827343749999978 0.568156578319748
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8254843749999887 0.09714257812499977 0.5764414055133065
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8166796874999824 0.13189160156249966 0.5323676419241254
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8159609374999763 0.16607519531249954 0.5904223685318511
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.800507812499982 0.13302246093749967 0.5163117765181638
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7880195312499785 0.15096240234374964 0.5047124560283467
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7953867187499726 0.18458056640624948 0.561713252792566
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7988681640624766 0.16300378417968706 0.5108506441527562
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7702080078124727 0.182074584960937 0.5287581823368501
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.78182592773435 0.16952883911132766 0.5070351369307667
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7709772949218519 0.15748745727539024 0.5280528475238498
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7918954467773205 0.16162470245361285 0.5017035822390946
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.798089050292949 0.14305826568603486 0.5061860549357587
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7940232696532993 0.14967590904235806 0.5028256236143316
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7978991851806412 0.16033820915222124 0.50630503455952
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7904894447326442 0.15330635404586754 0.5021984920087688
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7883616218566655 0.16525514745712233 0.5024660695309078
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7897770338058239 0.16136033785343126 0.5012012963060823
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911830358505002 0.16967868626117658 0.5077537001985432
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7906628425121082 0.15739943709969478 0.5010198321545948
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7885444295406117 0.15713507249951317 0.5016005431575811
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7893821838497889 0.15825747998803807 0.5011177990197707
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7902679925560732 0.1542965792343016 0.5019956034989638
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7898997734933861 0.15959439819864885 0.500990160961901
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911804321557053 0.15873635531030555 0.500941067297672
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7920795563086636 0.15897579297143927 0.5010530968741752
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7904173631369834 0.16093131640925962 0.5011231702147279
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.790601472668327 0.158282406927086 0.5009608820931559
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7918821313306463 0.15742436403874271 0.5010716288897102
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7903953629527012 0.1590518896586723 0.5009804079463754
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7913865418713313 0.15796687257871925 0.5010066892811854
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7906431576823587 0.15878063538868403 0.5009717523935839
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911387471416738 0.15823812684870753 0.5009681043577296
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7910148497768451 0.15837375398370165 0.5009669832514086
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7907670550471874 0.1586450082536899 0.5009566726168534
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7913460145345657 0.15909895663690948 0.5009794669723294
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7907876081348867 0.15848654435454188 0.5009538516244134
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7912009852434047 0.1585778914111575 0.5009527296683954
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7915938092642233 0.15882770236692115 0.5009772796966898
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7909891584172208 0.15857183385763668 0.5009391718629085
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7909686053295214 0.15873029775678474 0.5009633296184927
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911428902649338 0.1586159929975643 0.500947448709877
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7910267003079923 0.15869219617037794 0.5009522371916169
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7911138427756984 0.1586350437907677 0.5009511323341338
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.791084795286463 0.15865409458397112 0.5009431227606921
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7910660243410773 0.15859391342760049 0.5009656806073183
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.92 0.03 1.1196898999208702
+0.9660000000000001 0.03 1.8557370146227723
+0.92 0.0315 1.1205388789300472
+0.874 0.0315 0.7762009314641924
+0.8280000000000001 0.03225 0.6794629566371587
+0.8280000000000002 0.03075 0.6812764349781586
+0.7360000000000001 0.033 0.7910782500357642
+0.782 0.03225 0.701480126254866
+0.8740000000000001 0.03075 0.776917731194195
+0.805 0.031875 0.6784586313768969
+0.8049999999999998 0.033375 0.6766778040100674
+0.7934999999999997 0.03468750000000001 0.6842925413106543
+0.7819999999999998 0.033 0.7005977272821906
+0.8165 0.0324375 0.6747927160969063
+0.8164999999999997 0.033937499999999995 0.6730511351615501
+0.8222499999999997 0.03496874999999999 0.6729548684813017
+0.8337499999999999 0.03403125 0.6818984152434335
+0.8121874999999998 0.0335390625 0.6738051373790596
+0.8179374999999995 0.036070312499999986 0.6705629741922412
+0.8186562499999992 0.03788671874999998 0.6681951147478101
+0.8287187499999991 0.03931640624999997 0.6708742365404755
+0.8251249999999986 0.04223437499999996 0.664296531186165
+0.8265624999999979 0.04586718749999995 0.6598362485225537
+0.816499999999998 0.044437499999999956 0.6588191494676393
+0.8103906249999975 0.04699804687499996 0.6560435981007816
+0.8182968749999961 0.05497851562499993 0.6429622106958304
+0.8181171874999946 0.0635244140624999 0.6283719404390292
+0.8019453124999942 0.06465527343749991 0.6317158378919989
+0.8096718749999914 0.08118164062499984 0.5987059095800152
+0.8093124999999883 0.09827343749999978 0.5681565783197481
+0.8254843749999887 0.09714257812499977 0.5764414055133064
+0.8166796874999824 0.13189160156249966 0.5323676419241254
+0.8159609374999763 0.16607519531249954 0.5904223685318514
+0.800507812499982 0.13302246093749967 0.5163117765181638
+0.7880195312499785 0.15096240234374964 0.5047124560283467
+0.7953867187499726 0.18458056640624948 0.5617132527925662
+0.7988681640624766 0.16300378417968706 0.5108506441527563
+0.7702080078124727 0.182074584960937 0.5287581823368499
+0.78182592773435 0.16952883911132766 0.5070351369307667
+0.7709772949218519 0.15748745727539024 0.5280528475238496
+0.7918954467773205 0.16162470245361285 0.5017035822390945
+0.798089050292949 0.14305826568603486 0.5061860549357586
+0.7940232696532993 0.14967590904235806 0.5028256236143316
+0.7978991851806412 0.16033820915222124 0.5063050345595199
+0.7904894447326442 0.15330635404586754 0.5021984920087686
+0.7883616218566655 0.16525514745712233 0.5024660695309078
+0.7897770338058239 0.16136033785343126 0.5012012963060823
+0.7911830358505002 0.16967868626117658 0.5077537001985432
+0.7906628425121082 0.15739943709969478 0.5010198321545949
+0.7885444295406117 0.15713507249951317 0.501600543157581
+0.7893821838497889 0.15825747998803807 0.5011177990197709
+0.7902679925560732 0.1542965792343016 0.5019956034989637
+0.7898997734933861 0.15959439819864885 0.500990160961901
+0.7911804321557053 0.15873635531030555 0.5009410672976718
+0.7920795563086636 0.15897579297143927 0.5010530968741752
+0.7904173631369834 0.16093131640925962 0.5011231702147277
+0.790601472668327 0.158282406927086 0.5009608820931558
+0.7918821313306463 0.15742436403874271 0.5010716288897102
+0.7903953629527012 0.1590518896586723 0.5009804079463754
+0.7913865418713313 0.15796687257871925 0.5010066892811852
+0.7906431576823587 0.15878063538868403 0.500971752393584
+0.7911387471416738 0.15823812684870753 0.5009681043577296
+0.7910148497768451 0.15837375398370165 0.5009669832514088
+0.7907670550471874 0.1586450082536899 0.5009566726168533
+0.7913460145345657 0.15909895663690948 0.5009794669723293
+0.7907876081348867 0.15848654435454188 0.5009538516244135
+0.7912009852434047 0.1585778914111575 0.5009527296683954
+0.7915938092642233 0.15882770236692115 0.5009772796966896
+0.7909891584172208 0.15857183385763668 0.5009391718629084
+0.7909686053295214 0.15873029775678474 0.5009633296184927
+0.7911428902649338 0.1586159929975643 0.5009474487098768
+0.7910267003079923 0.15869219617037794 0.5009522371916169
+0.7911138427756984 0.1586350437907677 0.5009511323341336
+0.791084795286463 0.15865409458397112 0.5009431227606922
+0.7910660243410773 0.15859391342760049 0.5009656806073184
 Finished estimating for scaling factor of 1.0 and &quot;splurge amount&quot; of $0.0
 Optimal (beta,nabla) is [0.79098916 0.15857183], simulated MPCs are:
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.77304235 0.68123007 0.56397879 0.40685965]
+[[0.77304235 0.68123007 0.56397879 0.40685965]
  [0.74299194 0.66281567 0.55224436 0.39833641]
  [0.70298354 0.63332607 0.529786   0.38134206]
  [0.56111798 0.50265972 0.41152609 0.294467  ]]
-Distance from Fagereng et al Table 9 is 0.5009391718629085
+Distance from Fagereng et al Table 9 is 0.5009391718629084
 </pre></div>
 </div>
 </div>
@@ -982,11 +843,10 @@ Distance from Fagereng et al Table 9 is 0.5009391718629085
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="PerfForesightCRRA-SavingRate.html"
@@ -1006,10 +866,7 @@ Distance from Fagereng et al Table 9 is 0.5009391718629085
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1032,6 +889,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -1058,8 +916,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

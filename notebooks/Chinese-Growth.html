@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -483,8 +497,6 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initial imports and notebook setup, click arrow to show</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
@@ -561,7 +573,7 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
 </div>
 </div>
 <p>One other parameter needs to change: the number of agents in simulation.  We want to increase this, because later on when we vastly increase the variance of the permanent income shock, things get wonky.  (We need to change this value here, before we have used the parameters to initialize the <span class="math notranslate nohighlight">\(\texttt{MarkovConsumerType}\)</span>, because this parameter is used during initialization.)</p>
-<p>Other parameters that are not used during initialization can also be assigned here, by changing the appropriate value in the <span class="math notranslate nohighlight">\(\texttt{init_China_parameters_dictionary}\)</span>; however, they can also be changed later, by altering the appropriate attribute of the initialized <span class="math notranslate nohighlight">\(\texttt{MarkovConsumerType}\)</span>.</p>
+<p>Other parameters that are not used during initialization can also be assigned here, by changing the appropriate value in the <span class="math notranslate nohighlight">\(\texttt{init\_China\_parameters\_dictionary}\)</span>; however, they can also be changed later, by altering the appropriate attribute of the initialized <span class="math notranslate nohighlight">\(\texttt{MarkovConsumerType}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">init_China_parameters</span><span class="p">[</span><span class="s2">&quot;AgentCount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
@@ -629,7 +641,9 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
 
 <span class="n">bottomDiscFac</span> <span class="o">=</span> <span class="mf">0.9800</span>
 <span class="n">topDiscFac</span> <span class="o">=</span> <span class="mf">0.9934</span>
-<span class="n">DiscFac_list</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="n">bot</span><span class="o">=</span><span class="n">bottomDiscFac</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">topDiscFac</span><span class="p">)</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">num_consumer_types</span><span class="p">)</span><span class="o">.</span><span class="n">X</span>
+<span class="n">DiscFac_list</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Uniform</span><span class="p">(</span><span class="n">bot</span><span class="o">=</span><span class="n">bottomDiscFac</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">topDiscFac</span><span class="p">)</span><span class="o">.</span><span class="n">discretize</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">num_consumer_types</span><span class="p">)</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
 
 <span class="c1"># Now, assign the discount factors we want to the ChineseConsumerTypes</span>
 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_consumer_types</span><span class="p">):</span>
@@ -826,7 +840,7 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██        | 1/5 [17:06&lt;1:08:27, 1026.84s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [45:23&lt;00:00, 544.64s/it]
 </pre></div>
 </div>
 </div>
@@ -872,6 +886,9 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/efe66d6a1ea4ac67ebe7e0837e33152730c2b3bea7e76d9fea9d2ab69c14689a.png" src="../_images/efe66d6a1ea4ac67ebe7e0837e33152730c2b3bea7e76d9fea9d2ab69c14689a.png" />
+</div>
 </div>
 <p>The figure shows that, if the rate of growth increases the way Chinese growth did, but is not accompanied by any change in the degree of uncertainty, the model’s predicted saving rate declines drastically, from an initial (calibrated) value of about 0.1 (ten percent) to close to zero.  For this model to have any hope of predicting an increase in the saving rate, it is clear that the increase in uncertainty that accompanies the increase in growth will have to be substantial.</p>
 <p>The red line shows that a mere doubling of uncertainty from its baseline value is not enough: The steady state saving rate is still below its slow-growth value.</p>
@@ -908,11 +925,10 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="ChangeLiqConstr.html"
@@ -932,10 +948,7 @@ Remember, for this simple example, we just have a low-growth state, and a high-g
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -977,6 +990,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -1003,8 +1017,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

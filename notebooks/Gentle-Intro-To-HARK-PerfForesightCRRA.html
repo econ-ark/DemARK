@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -464,7 +478,6 @@ document.write(`
 <span class="c1"># WARNING: Each cell in the notebook relies upon results generated by previous cells</span>
 <span class="c1">#   The most common problem beginners have is to execute a cell before all its predecessors</span>
 <span class="c1">#   If you do this, you can restart the kernel (see the &quot;Kernel&quot; menu above) and start over</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">from</span> <span class="nn">HARK.utilities</span> <span class="kn">import</span> <span class="n">plot_funcs</span>
 
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
@@ -559,7 +572,7 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 </div>
 </div>
 </div>
-<p>Let’s make an <strong>object</strong> named <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span> which is an <strong>instance</strong> of the <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> class. The object <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span> will bundle together the abstract mathematical description of the solution embodied in <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>, and the specific set of parameter values defined in <span class="math notranslate nohighlight">\(\texttt{PF_dictionary}\)</span>.  Such a bundle is created passing <span class="math notranslate nohighlight">\(\texttt{PF_dictionary}\)</span> to the class <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>:</p>
+<p>Let’s make an <strong>object</strong> named <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span> which is an <strong>instance</strong> of the <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> class. The object <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span> will bundle together the abstract mathematical description of the solution embodied in <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>, and the specific set of parameter values defined in <span class="math notranslate nohighlight">\(\texttt{PF\_dictionary}\)</span>.  Such a bundle is created passing <span class="math notranslate nohighlight">\(\texttt{PF\_dictionary}\)</span> to the class <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PFexample</span> <span class="o">=</span> <span class="n">PerfForesightConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">PF_dictionary</span><span class="p">)</span>
@@ -590,7 +603,7 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;HARK.interpolation.LinearInterp at 0x7f3638021100&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;HARK.interpolation.LinearInterp at 0x13d1c8e50&gt;
 </pre></div>
 </div>
 </div>
@@ -605,7 +618,7 @@ P_{t+1} &amp;=&amp; \Gamma_{t+1} P_t, \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/7e33edcd54466a3617810d766680787c7d5dcd9413885f93d0f717c5ffca5c7e.png" src="../_images/7e33edcd54466a3617810d766680787c7d5dcd9413885f93d0f717c5ffca5c7e.png" />
+<img alt="../_images/cd8197d0e6e8a203feed2d50ee7a9b2734d840e6efdc5315f8d00752543612cf.png" src="../_images/cd8197d0e6e8a203feed2d50ee7a9b2734d840e6efdc5315f8d00752543612cf.png" />
 </div>
 </div>
 <p>The figure illustrates one of the surprising features of the perfect foresight model: A person with zero money should be spending at a rate more than double their income (<span class="math notranslate nohighlight">\(\texttt{cFunc}(0.) \approx 2.08\)</span>). What gives?</p>
@@ -631,7 +644,7 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
 </div>
 </div>
 </div>
-<p>Yikes! Let’s take a look at the bottom of the consumption function.  In the cell below, set the bounds of the <span class="math notranslate nohighlight">\(\texttt{plot_funcs}\)</span> function to display down to the lowest defined value of the consumption function.</p>
+<p>Yikes! Let’s take a look at the bottom of the consumption function.  In the cell below, set the bounds of the <span class="math notranslate nohighlight">\(\texttt{plot\_funcs}\)</span> function to display down to the lowest defined value of the consumption function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># YOUR FIRST HANDS-ON EXERCISE!</span>
@@ -642,7 +655,7 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4d4387bcaebff4b1929e1ba1616a6abd861a1773106fb2f9d8619b10cd4b0da8.png" src="../_images/4d4387bcaebff4b1929e1ba1616a6abd861a1773106fb2f9d8619b10cd4b0da8.png" />
+<img alt="../_images/cd8197d0e6e8a203feed2d50ee7a9b2734d840e6efdc5315f8d00752543612cf.png" src="../_images/cd8197d0e6e8a203feed2d50ee7a9b2734d840e6efdc5315f8d00752543612cf.png" />
 </div>
 </div>
 </section>
@@ -669,10 +682,10 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dcdeea6f41a70b0c5bb129528115b0bb658b034d49ca76cb12b0422e57fa2195.png" src="../_images/dcdeea6f41a70b0c5bb129528115b0bb658b034d49ca76cb12b0422e57fa2195.png" />
+<img alt="../_images/17228540f04ed8bfe58f5fda265308731894f4f10ce434103b9ee2b09762bec1.png" src="../_images/17228540f04ed8bfe58f5fda265308731894f4f10ce434103b9ee2b09762bec1.png" />
 </div>
 </div>
-<p>(Note that you can pass a list of functions to <span class="math notranslate nohighlight">\(\texttt{plot_funcs}\)</span> as the first argument rather than just a single function. Lists are written inside of [square brackets].)</p>
+<p>(Note that you can pass a list of functions to <span class="math notranslate nohighlight">\(\texttt{plot\_funcs}\)</span> as the first argument rather than just a single function. Lists are written inside of [square brackets].)</p>
 <p>Let’s try to deal with the “problem” of massive human wealth by making another consumer who has essentially no future income.  We can almost eliminate human wealth by making the permanent income growth factor <span class="math notranslate nohighlight">\(\textit{very}\)</span> small.</p>
 <p>In <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span>, the agent’s income grew by 1 percent per period– his <span class="math notranslate nohighlight">\(\texttt{PermGroFac}\)</span> took the value 1.01. What if our new agent had a growth factor of 0.01 – his income <em>shrinks</em> by 99 percent each period?  In the cell below, set <span class="math notranslate nohighlight">\(\texttt{NewExample}\)</span>’s discount factor back to its original value, then set its <span class="math notranslate nohighlight">\(\texttt{PermGroFac}\)</span> attribute so that the growth factor is 0.01 each period.</p>
 <p>Important: Recall that the model at the top of this document said that an agent’s problem is characterized by a sequence of income growth factors, but we tabled that concept.  Because <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> treats <span class="math notranslate nohighlight">\(\texttt{PermGroFac}\)</span> as a <em>time-varying</em> attribute, it must be specified as a <strong>list</strong> (with a single element in this case).</p>
@@ -687,7 +700,7 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ee63a37075e4746c1267767ad3a3082d3d67d426694e3f0d60244e1259af8b8d.png" src="../_images/ee63a37075e4746c1267767ad3a3082d3d67d426694e3f0d60244e1259af8b8d.png" />
+<img alt="../_images/3529c72344e89d00e556961a7b263bc2665b77120182869e7b3823bc42b2a984.png" src="../_images/3529c72344e89d00e556961a7b263bc2665b77120182869e7b3823bc42b2a984.png" />
 </div>
 </div>
 <p>Now <span class="math notranslate nohighlight">\(\texttt{NewExample}\)</span>’s consumption function has the same slope (MPC) as <span class="math notranslate nohighlight">\(\texttt{PFexample}\)</span>, but it emanates from (almost) zero– he has basically no future income to borrow against!</p>
@@ -721,11 +734,10 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Gentle-Intro-To-HARK-Buffer-Stock-Model.html"
@@ -745,10 +757,7 @@ This agent&#39;s consumption function is defined down to m_t = -50.4999499255166
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -788,6 +797,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -814,8 +824,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

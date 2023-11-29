@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -461,8 +475,6 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="alternative-combinations-of-parameter-values">
 <h1>Alternative Combinations of Parameter Values<a class="headerlink" href="#alternative-combinations-of-parameter-values" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/alternative-combos-of-parameter-values#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
-<p>Please write the names and email addresses of everyone who worked on this notebook on the line below.</p>
-<p>YOUR NAMES HERE</p>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>The notebook “Micro-and-Macro-Implications-of-Very-Impatient-HHs” is an exercise that demonstrates the consequences of changing a key parameter of the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/papers/cstwMPC">cstwMPC</a> model, the time preference factor <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
@@ -506,8 +518,6 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell merely imports and sets up some basic functions and packages</span>
-
-<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">from</span> <span class="nn">HARK.utilities</span> <span class="kn">import</span> <span class="n">get_lorenz_shares</span><span class="p">,</span> <span class="n">get_percentiles</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -579,7 +589,7 @@ document.write(`
 <h2>Simulating the Distribution of Wealth for Alternative Combinations<a class="headerlink" href="#simulating-the-distribution-of-wealth-for-alternative-combinations" title="Permalink to this heading">#</a></h2>
 <p>You should now have constructed a list of consumer types all of whom have the same <em>target</em> level of market resources <span class="math notranslate nohighlight">\(\check{m}\)</span>.</p>
 <p>But the fact that everyone has the same target <span class="math notranslate nohighlight">\({m}\)</span> does not mean that the <em>distribution</em> of <span class="math notranslate nohighlight">\({m}\)</span> will be the same for all of these consumer types.</p>
-<p>In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods <span class="math notranslate nohighlight">\(\texttt{solve}\)</span>, <span class="math notranslate nohighlight">\(\texttt{initialize_sim}\)</span>, and <span class="math notranslate nohighlight">\(\texttt{simulate}\)</span> in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.</p>
+<p>In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods <span class="math notranslate nohighlight">\(\texttt{solve}\)</span>, <span class="math notranslate nohighlight">\(\texttt{initialize\_sim}\)</span>, and <span class="math notranslate nohighlight">\(\texttt{simulate}\)</span> in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ThisType</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">MyTypes</span><span class="p">):</span>
@@ -590,16 +600,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                           | 0/1 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:03&lt;00:00,  3.26s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:03&lt;00:00,  3.27s/it]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:03&lt;00:00,  3.03s/it]
 </pre></div>
 </div>
 </div>
@@ -693,25 +694,25 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The 5.0th percentile of the MPC is 0.3830226479018113
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The 5.0th percentile of the MPC is 0.3830226479018095
 The 10.0th percentile of the MPC is 0.4190098031734306
-The 15.0th percentile of the MPC is 0.4598470116058213
-The 20.0th percentile of the MPC is 0.4598470116058213
-The 25.0th percentile of the MPC is 0.4598470116058213
-The 30.0th percentile of the MPC is 0.4979166414954129
-The 35.0th percentile of the MPC is 0.4979166414954129
-The 40.0th percentile of the MPC is 0.4979166414954129
-The 44.99999999999999th percentile of the MPC is 0.5372418610399285
-The 49.99999999999999th percentile of the MPC is 0.5372418610399285
-The 54.99999999999999th percentile of the MPC is 0.5372418610399285
-The 60.0th percentile of the MPC is 0.5821887061769021
-The 65.0th percentile of the MPC is 0.5821887061769021
-The 70.0th percentile of the MPC is 0.6345373126858305
-The 75.0th percentile of the MPC is 0.6345373126858305
-The 80.0th percentile of the MPC is 0.7267307307276039
+The 15.0th percentile of the MPC is 0.45984701160581964
+The 20.0th percentile of the MPC is 0.45984701160581964
+The 25.0th percentile of the MPC is 0.45984701160581964
+The 30.0th percentile of the MPC is 0.4979166414954148
+The 35.0th percentile of the MPC is 0.4979166414954148
+The 40.0th percentile of the MPC is 0.4979166414954148
+The 44.99999999999999th percentile of the MPC is 0.5372418610399308
+The 49.99999999999999th percentile of the MPC is 0.5372418610399308
+The 54.99999999999999th percentile of the MPC is 0.5372418610399308
+The 60.0th percentile of the MPC is 0.5821887061768969
+The 65.0th percentile of the MPC is 0.5821887061768969
+The 70.0th percentile of the MPC is 0.634537312685834
+The 75.0th percentile of the MPC is 0.634537312685834
+The 80.0th percentile of the MPC is 0.7267307307276032
 The 85.0th percentile of the MPC is 0.7799255201452847
-The 90.0th percentile of the MPC is 0.8208530902866041
-The 95.0th percentile of the MPC is 0.8966083611183644
+The 90.0th percentile of the MPC is 0.8208530902866055
+The 95.0th percentile of the MPC is 0.8966083611183647
 </pre></div>
 </div>
 </div>
@@ -748,11 +749,10 @@ The 95.0th percentile of the MPC is 0.8966083611183644
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="../README.html"
@@ -772,10 +772,7 @@ The 95.0th percentile of the MPC is 0.8966083611183644
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -823,6 +820,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -849,8 +847,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

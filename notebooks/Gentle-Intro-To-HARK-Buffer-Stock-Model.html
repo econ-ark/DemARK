@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -493,13 +507,13 @@ document.write(`
 <section id="mathematical-description">
 <h3>Mathematical Description<a class="headerlink" href="#mathematical-description" title="Permalink to this heading">#</a></h3>
 <p>Our new type of consumer receives two income shocks at the beginning of each period.  Permanent income would grow by a factor <span class="math notranslate nohighlight">\(\Gamma\)</span> in the absence of any shock , but its growth is modified by a shock, <span class="math notranslate nohighlight">\(\psi_{t+1}\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-352a1a0c-f32c-4ea0-98d6-601ed9cdc859">
-<span class="eqno">(11)<a class="headerlink" href="#equation-352a1a0c-f32c-4ea0-98d6-601ed9cdc859" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8ad0d9c9-7c9b-4e86-9744-515c11a91092">
+<span class="eqno">(11)<a class="headerlink" href="#equation-8ad0d9c9-7c9b-4e86-9744-515c11a91092" title="Permalink to this equation">#</a></span>\[\begin{align}
  P_{t+1} &amp; = \Gamma P_{t}\psi_{t+1}
 \end{align}\]</div>
 <p>whose expected (mean) value is <span class="math notranslate nohighlight">\(\mathbb{E}_{t}[\psi_{t+1}]=1\)</span>.  Actual income received <span class="math notranslate nohighlight">\(Y\)</span> is equal to permanent income <span class="math notranslate nohighlight">\(P\)</span> multiplied by a transitory shock <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c1b7beb1-29f7-4704-8623-348b2906e3d7">
-<span class="eqno">(12)<a class="headerlink" href="#equation-c1b7beb1-29f7-4704-8623-348b2906e3d7" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2c81e308-1bf5-4907-8bd0-b792d3270641">
+<span class="eqno">(12)<a class="headerlink" href="#equation-2c81e308-1bf5-4907-8bd0-b792d3270641" title="Permalink to this equation">#</a></span>\[\begin{align}
  Y_{t+1} &amp; = \Gamma P_{t+1}\theta_{t+1}
 \end{align}\]</div>
 <p>where again <span class="math notranslate nohighlight">\(\mathbb{E}_{t}[\theta_{t+1}] = 1\)</span>.</p>
@@ -658,12 +672,14 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
  &#39;add_to_time_inv&#39;,
  &#39;add_to_time_vary&#39;,
  &#39;assign_parameters&#39;,
+ &#39;bilt&#39;,
  &#39;cFunc_terminal_&#39;,
+ &#39;calc_limiting_values&#39;,
  &#39;check_AIC&#39;,
  &#39;check_FHWC&#39;,
+ &#39;check_FVAC&#39;,
  &#39;check_GICRaw&#39;,
  &#39;check_RIC&#39;,
- &#39;check_condition&#39;,
  &#39;check_conditions&#39;,
  &#39;check_elements_of_time_vary_are_lists&#39;,
  &#39;check_restrictions&#39;,
@@ -672,6 +688,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
  &#39;cycles&#39;,
  &#39;del_from_time_inv&#39;,
  &#39;del_from_time_vary&#39;,
+ &#39;describe_parameters&#39;,
  &#39;get_Rfree&#39;,
  &#39;get_controls&#39;,
  &#39;get_mortality&#39;,
@@ -681,6 +698,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
  &#39;get_states&#39;,
  &#39;history&#39;,
  &#39;initialize_sim&#39;,
+ &#39;log_condition_result&#39;,
  &#39;make_shock_history&#39;,
  &#39;newborn_init_history&#39;,
  &#39;pLvlInitMean&#39;,
@@ -764,7 +782,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/5d8d07e5dff8d9bdc085bc4a541d721259bb199166518990f67224002a331a41.png" src="../_images/5d8d07e5dff8d9bdc085bc4a541d721259bb199166518990f67224002a331a41.png" />
+<img alt="../_images/f41afc532e13234bea4edb3e903a937835cdee3ec3d00ef73d01adaf3aa601a8.png" src="../_images/f41afc532e13234bea4edb3e903a937835cdee3ec3d00ef73d01adaf3aa601a8.png" />
 </div>
 </div>
 <p>This distribution was created, using the parameters in the dictionary above, when the <code class="docutils literal notranslate"><span class="pre">IndShockConsumerType</span></code> object was initialized.</p>
@@ -780,7 +798,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;HARK.ConsumptionSaving.ConsIndShockModel.ConsumerSolution at 0x21f699975e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;HARK.ConsumptionSaving.ConsIndShockModel.ConsumerSolution at 0x13d304a00&gt;
 </pre></div>
 </div>
 </div>
@@ -804,10 +822,10 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x21f205eefb0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x13d425720&gt;
 </pre></div>
 </div>
-<img alt="../_images/7e3bfbb96029afc0cd92d8cdc73222602acc98ae2c291123acc1fdc11802dc84.png" src="../_images/7e3bfbb96029afc0cd92d8cdc73222602acc98ae2c291123acc1fdc11802dc84.png" />
+<img alt="../_images/75c141c9bca32249ac9cccccf4abf1cec4d462aa1a52f08154e413361b3fc406.png" src="../_images/75c141c9bca32249ac9cccccf4abf1cec4d462aa1a52f08154e413361b3fc406.png" />
 </div>
 </div>
 <p>The solution also has a representation of a <code class="docutils literal notranslate"><span class="pre">value</span> <span class="pre">function</span></code>, the value <code class="docutils literal notranslate"><span class="pre">v(m)</span></code> as a function of available market resources. Because the agent consumes all their resources in the last period, the value function for the terminal solution looks just like the CRRA utility function: <span class="math notranslate nohighlight">\(v_{T}(m) = u(m)\)</span>.</p>
@@ -820,10 +838,10 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x21f2065fbb0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x13d4971c0&gt;]
 </pre></div>
 </div>
-<img alt="../_images/c50d3e70cbc96b42081363b8aa24085533779d40608ce91c950748b39a9a3094.png" src="../_images/c50d3e70cbc96b42081363b8aa24085533779d40608ce91c950748b39a9a3094.png" />
+<img alt="../_images/70f83893ab9c74a461640a718ece15c8840606a86266ad6e81963cfba1e97feb.png" src="../_images/70f83893ab9c74a461640a718ece15c8840606a86266ad6e81963cfba1e97feb.png" />
 </div>
 </div>
 </section>
@@ -880,133 +898,119 @@ solve(verbose=False) method of HARK.ConsumptionSaving.ConsIndShockModel.IndShock
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
-GPFNrm                 = 0.993777 
-GPFAggLivPrb           = 0.964848 
-Thorn = APF            = 0.994384 
-PermGroFacAdj          = 1.000611 
-uInvEpShkuInv          = 0.990704 
-VAF                    = 0.932054 
-WRPF                   = 0.213705 
-DiscFacGPFNrmMax       = 0.972061 
-DiscFacGPFAggLivPrbMax = 1.010600 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished cycle #1 in 0.0019991397857666016 seconds, solution distance = 100.0
-Finished cycle #2 in 0.002999544143676758 seconds, solution distance = 10.088015890333441
-Finished cycle #3 in 0.00099945068359375 seconds, solution distance = 3.3534114736589693
-Finished cycle #4 in 0.0020008087158203125 seconds, solution distance = 1.6699529613894297
-Finished cycle #5 in 0.001001119613647461 seconds, solution distance = 0.9967360674688521
-Finished cycle #6 in 0.0009999275207519531 seconds, solution distance = 0.6602619046109499
-Finished cycle #7 in 0.0019981861114501953 seconds, solution distance = 0.46809484231437626
-Finished cycle #8 in 0.001999378204345703 seconds, solution distance = 0.34807706501006663
-Finished cycle #9 in 0.0010025501251220703 seconds, solution distance = 0.2681341538834978
-Finished cycle #10 in 0.0019998550415039062 seconds, solution distance = 0.21223248168627507
-Finished cycle #11 in 0.0009984970092773438 seconds, solution distance = 0.17162798586899441
-Finished cycle #12 in 0.0019998550415039062 seconds, solution distance = 0.14121714401876462
-Finished cycle #13 in 0.0010006427764892578 seconds, solution distance = 0.1178611202393447
-Finished cycle #14 in 0.0019996166229248047 seconds, solution distance = 0.09954374358267515
-Finished cycle #15 in 0.0019998550415039062 seconds, solution distance = 0.08492077965589928
-Finished cycle #16 in 0.00099945068359375 seconds, solution distance = 0.07306820983636797
-Finished cycle #17 in 0.0020020008087158203 seconds, solution distance = 0.06333371450893654
-Finished cycle #18 in 0.0019981861114501953 seconds, solution distance = 0.055246317280595036
-Finished cycle #19 in 0.0009999275207519531 seconds, solution distance = 0.048458869265386006
-Finished cycle #20 in 0.0020012855529785156 seconds, solution distance = 0.04271110960013802
-Finished cycle #21 in 0.0019996166229248047 seconds, solution distance = 0.03780486582230225
-Finished cycle #22 in 0.0009996891021728516 seconds, solution distance = 0.03358704056809447
-Finished cycle #23 in 0.0019991397857666016 seconds, solution distance = 0.02993783577570497
-Finished cycle #24 in 0.0020017623901367188 seconds, solution distance = 0.026762425833982917
-Finished cycle #25 in 0.00099945068359375 seconds, solution distance = 0.023984959744489665
-Finished cycle #26 in 0.0019991397857666016 seconds, solution distance = 0.021544181039296006
-Finished cycle #27 in 0.0010001659393310547 seconds, solution distance = 0.019390181762535263
-Finished cycle #28 in 0.002001047134399414 seconds, solution distance = 0.017481967390489128
-Finished cycle #29 in 0.0020046234130859375 seconds, solution distance = 0.015785611379662612
-Finished cycle #30 in 0.0010006427764892578 seconds, solution distance = 0.014272839895086431
-Finished cycle #31 in 0.0020017623901367188 seconds, solution distance = 0.012919936192925974
-Finished cycle #32 in 0.00099945068359375 seconds, solution distance = 0.011706884785617877
-Finished cycle #33 in 0.0019981861114501953 seconds, solution distance = 0.010616703056520294
-Finished cycle #34 in 0.0010013580322265625 seconds, solution distance = 0.009634898474986997
-Finished cycle #35 in 0.0019989013671875 seconds, solution distance = 0.008749044420678587
-Finished cycle #36 in 0.002001523971557617 seconds, solution distance = 0.007948413988064118
-Finished cycle #37 in 0.0009989738464355469 seconds, solution distance = 0.00722372447082309
-Finished cycle #38 in 0.0025086402893066406 seconds, solution distance = 0.006566906564932307
-Finished cycle #39 in 0.0010042190551757812 seconds, solution distance = 0.005970916077072008
-Finished cycle #40 in 0.001996755599975586 seconds, solution distance = 0.005429579002498741
-Finished cycle #41 in 0.002000570297241211 seconds, solution distance = 0.004937463273915199
-Finished cycle #42 in 0.0009989738464355469 seconds, solution distance = 0.004489772052598262
-Finished cycle #43 in 0.0020020008087158203 seconds, solution distance = 0.004082254546442954
-Finished cycle #44 in 0.0020003318786621094 seconds, solution distance = 0.003711131170160087
-Finished cycle #45 in 0.0010001659393310547 seconds, solution distance = 0.003373030500466001
-Finished cycle #46 in 0.0019979476928710938 seconds, solution distance = 0.0030649359736791837
-Finished cycle #47 in 0.0009999275207519531 seconds, solution distance = 0.0027841406665807256
-Finished cycle #48 in 0.0019991397857666016 seconds, solution distance = 0.0025282088157077
-Finished cycle #49 in 0.002000093460083008 seconds, solution distance = 0.0022949429754119954
-Finished cycle #50 in 0.0010030269622802734 seconds, solution distance = 0.0020823559119378388
-Finished cycle #51 in 0.0019981861114501953 seconds, solution distance = 0.0018886464739744646
-Finished cycle #52 in 0.00099945068359375 seconds, solution distance = 0.0017121788176552855
-Finished cycle #53 in 0.0019991397857666016 seconds, solution distance = 0.0015514644867238303
-Finished cycle #54 in 0.0020008087158203125 seconds, solution distance = 0.0014051468883895524
-Finished cycle #55 in 0.0010006427764892578 seconds, solution distance = 0.0012719878080496017
-Finished cycle #56 in 0.002001047134399414 seconds, solution distance = 0.0011508556554602478
-Finished cycle #57 in 0.0019974708557128906 seconds, solution distance = 0.0010407151830347239
-Finished cycle #58 in 0.0010018348693847656 seconds, solution distance = 0.0009406184572178233
-Finished cycle #59 in 0.0019986629486083984 seconds, solution distance = 0.000849696897950114
-Finished cycle #60 in 0.0010006427764892578 seconds, solution distance = 0.0007671542298588463
-Finished cycle #61 in 0.0019996166229248047 seconds, solution distance = 0.0006922602130656763
-Finished cycle #62 in 0.0020012855529785156 seconds, solution distance = 0.0006243450421976604
-Finished cycle #63 in 0.0009984970092773438 seconds, solution distance = 0.0005627943195647411
-Finished cycle #64 in 0.003002166748046875 seconds, solution distance = 0.0005070445234878207
-Finished cycle #65 in 0.002000093460083008 seconds, solution distance = 0.0004565789051689251
-Finished cycle #66 in 0.0029976367950439453 seconds, solution distance = 0.0004109237583813652
-Finished cycle #67 in 0.0020012855529785156 seconds, solution distance = 0.00036964501506320246
-Finished cycle #68 in 0.0010004043579101562 seconds, solution distance = 0.0003323451276209255
-Finished cycle #69 in 0.002001047134399414 seconds, solution distance = 0.0002986602050079057
-Finished cycle #70 in 0.0009980201721191406 seconds, solution distance = 0.0002682573749814843
-Finished cycle #71 in 0.002000570297241211 seconds, solution distance = 0.00024083234929284103
-Finished cycle #72 in 0.0019996166229248047 seconds, solution distance = 0.00021610717220754694
-Finished cycle #73 in 0.0009992122650146484 seconds, solution distance = 0.0001938281357389826
-Finished cycle #74 in 0.0020008087158203125 seconds, solution distance = 0.0001737638473713332
-Finished cycle #75 in 0.0010008811950683594 seconds, solution distance = 0.00015570343805260123
-Finished cycle #76 in 0.0019991397857666016 seconds, solution distance = 0.00013945489982702952
-Finished cycle #77 in 0.0019991397857666016 seconds, solution distance = 0.00012484354371977702
-Finished cycle #78 in 0.0010008811950683594 seconds, solution distance = 0.00011171056964087711
-Finished cycle #79 in 0.002001047134399414 seconds, solution distance = 9.991174074253095e-05
-Finished cycle #80 in 0.0009989738464355469 seconds, solution distance = 8.931615549556682e-05
-Finished cycle #81 in 0.0019996166229248047 seconds, solution distance = 7.980511119853873e-05
-Finished cycle #82 in 0.0020024776458740234 seconds, solution distance = 7.127105311699466e-05
-Finished cycle #83 in 0.0009987354278564453 seconds, solution distance = 6.361660386744461e-05
-Finished cycle #84 in 0.0019986629486083984 seconds, solution distance = 5.675366786039859e-05
-Finished cycle #85 in 0.0009999275207519531 seconds, solution distance = 5.0602606059158006e-05
-Finished cycle #86 in 0.0020041465759277344 seconds, solution distance = 4.5091476413183784e-05
-Finished cycle #87 in 0.001995563507080078 seconds, solution distance = 4.0155335672587e-05
-Finished cycle #88 in 0.0010001659393310547 seconds, solution distance = 3.573559836667073e-05
-Finished cycle #89 in 0.002003908157348633 seconds, solution distance = 3.177944908294705e-05
-Finished cycle #90 in 0.001001596450805664 seconds, solution distance = 2.8239304256771902e-05
-Finished cycle #91 in 0.002000093460083008 seconds, solution distance = 2.507231993220671e-05
-Finished cycle #92 in 0.001997709274291992 seconds, solution distance = 2.2239942116364375e-05
-Finished cycle #93 in 0.0010006427764892578 seconds, solution distance = 1.970749654489623e-05
-Finished cycle #94 in 0.0020020008087158203 seconds, solution distance = 1.7443814823714376e-05
-Finished cycle #95 in 0.0009982585906982422 seconds, solution distance = 1.5420894161621845e-05
-Finished cycle #96 in 0.001999378204345703 seconds, solution distance = 1.361358793827705e-05
-Finished cycle #97 in 0.0010001659393310547 seconds, solution distance = 1.1999324726730265e-05
-Finished cycle #98 in 0.0025060176849365234 seconds, solution distance = 1.0557853297399333e-05
-Finished cycle #99 in 0.0010046958923339844 seconds, solution distance = 9.271011537581586e-06
-Finished cycle #100 in 0.0019998550415039062 seconds, solution distance = 8.122517190400913e-06
-Finished cycle #101 in 0.0010001659393310547 seconds, solution distance = 7.097778525810838e-06
-Finished cycle #102 in 0.002001523971557617 seconds, solution distance = 6.183723240127392e-06
-Finished cycle #103 in 0.001997709274291992 seconds, solution distance = 5.368643900549586e-06
-Finished cycle #104 in 0.0010001659393310547 seconds, solution distance = 4.642058520687442e-06
-Finished cycle #105 in 0.002001523971557617 seconds, solution distance = 3.994584801603196e-06
-Finished cycle #106 in 0.0010004043579101562 seconds, solution distance = 3.4178268535356437e-06
-Finished cycle #107 in 0.0019981861114501953 seconds, solution distance = 2.9042732037076746e-06
-Finished cycle #108 in 0.0020029544830322266 seconds, solution distance = 2.4472050093038433e-06
-Finished cycle #109 in 0.0009989738464355469 seconds, solution distance = 2.0406135354811283e-06
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished cycle #110 in 0.002000093460083008 seconds, solution distance = 1.679126009790366e-06
-Finished cycle #111 in 0.0029981136322021484 seconds, solution distance = 1.3579390092388621e-06
-Finished cycle #112 in 0.0020017623901367188 seconds, solution distance = 1.0727586690073565e-06
-Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.197470693360742e-07
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished cycle #1 in 0.0013821125030517578 seconds, solution distance = 100.0
+Finished cycle #2 in 0.001065969467163086 seconds, solution distance = 10.088015890333436
+Finished cycle #3 in 0.0009438991546630859 seconds, solution distance = 3.353411473658973
+Finished cycle #4 in 0.0008041858673095703 seconds, solution distance = 1.6699529613894324
+Finished cycle #5 in 0.0008709430694580078 seconds, solution distance = 0.9967360674688521
+Finished cycle #6 in 0.0008738040924072266 seconds, solution distance = 0.6602619046109481
+Finished cycle #7 in 0.0009212493896484375 seconds, solution distance = 0.46809484231437537
+Finished cycle #8 in 0.0008640289306640625 seconds, solution distance = 0.3480770650100675
+Finished cycle #9 in 0.0008878707885742188 seconds, solution distance = 0.2681341538834978
+Finished cycle #10 in 0.000885009765625 seconds, solution distance = 0.21223248168627507
+Finished cycle #11 in 0.0009639263153076172 seconds, solution distance = 0.17162798586899441
+Finished cycle #12 in 0.0009870529174804688 seconds, solution distance = 0.14121714401876506
+Finished cycle #13 in 0.0009548664093017578 seconds, solution distance = 0.11786112023934425
+Finished cycle #14 in 0.0011670589447021484 seconds, solution distance = 0.09954374358267515
+Finished cycle #15 in 0.0010912418365478516 seconds, solution distance = 0.08492077965589928
+Finished cycle #16 in 0.0009837150573730469 seconds, solution distance = 0.07306820983636841
+Finished cycle #17 in 0.0009441375732421875 seconds, solution distance = 0.06333371450893699
+Finished cycle #18 in 0.0009338855743408203 seconds, solution distance = 0.055246317280595036
+Finished cycle #19 in 0.0009322166442871094 seconds, solution distance = 0.048458869265386006
+Finished cycle #20 in 0.0009219646453857422 seconds, solution distance = 0.04271110960013802
+Finished cycle #21 in 0.0009219646453857422 seconds, solution distance = 0.03780486582230225
+Finished cycle #22 in 0.0009200572967529297 seconds, solution distance = 0.03358704056809447
+Finished cycle #23 in 0.0009129047393798828 seconds, solution distance = 0.02993783577570497
+Finished cycle #24 in 0.001096963882446289 seconds, solution distance = 0.026762425833982917
+Finished cycle #25 in 0.0010001659393310547 seconds, solution distance = 0.023984959744489665
+Finished cycle #26 in 0.0009191036224365234 seconds, solution distance = 0.02154418103929423
+Finished cycle #27 in 0.0008988380432128906 seconds, solution distance = 0.019390181762538816
+Finished cycle #28 in 0.0009031295776367188 seconds, solution distance = 0.017481967390489128
+Finished cycle #29 in 0.0009517669677734375 seconds, solution distance = 0.015785611379662612
+Finished cycle #30 in 0.0009629726409912109 seconds, solution distance = 0.014272839895085987
+Finished cycle #31 in 0.0009331703186035156 seconds, solution distance = 0.012919936192925974
+Finished cycle #32 in 0.0010046958923339844 seconds, solution distance = 0.011706884785618321
+Finished cycle #33 in 0.0010633468627929688 seconds, solution distance = 0.010616703056517629
+Finished cycle #34 in 0.0009469985961914062 seconds, solution distance = 0.009634898474988773
+Finished cycle #35 in 0.0009288787841796875 seconds, solution distance = 0.00874904442067903
+Finished cycle #36 in 0.0009279251098632812 seconds, solution distance = 0.007948413988064118
+Finished cycle #37 in 0.0009229183197021484 seconds, solution distance = 0.00722372447082309
+Finished cycle #38 in 0.0009169578552246094 seconds, solution distance = 0.006566906564932307
+Finished cycle #39 in 0.0009112358093261719 seconds, solution distance = 0.005970916077072452
+Finished cycle #40 in 0.0009169578552246094 seconds, solution distance = 0.005429579002498741
+Finished cycle #41 in 0.0009570121765136719 seconds, solution distance = 0.004937463273915643
+Finished cycle #42 in 0.000865936279296875 seconds, solution distance = 0.004489772052598262
+Finished cycle #43 in 0.0008499622344970703 seconds, solution distance = 0.004082254546442954
+Finished cycle #44 in 0.0008449554443359375 seconds, solution distance = 0.003711131170160087
+Finished cycle #45 in 0.0008451938629150391 seconds, solution distance = 0.003373030500466001
+Finished cycle #46 in 0.0008478164672851562 seconds, solution distance = 0.0030649359736791837
+Finished cycle #47 in 0.0008420944213867188 seconds, solution distance = 0.0027841406665807256
+Finished cycle #48 in 0.0008480548858642578 seconds, solution distance = 0.0025282088157063676
+Finished cycle #49 in 0.0008378028869628906 seconds, solution distance = 0.002294942975414216
+Finished cycle #50 in 0.0008482933044433594 seconds, solution distance = 0.0020823559119378388
+Finished cycle #51 in 0.0008466243743896484 seconds, solution distance = 0.0018886464739744646
+Finished cycle #52 in 0.0009682178497314453 seconds, solution distance = 0.0017121788176552855
+Finished cycle #53 in 0.0010418891906738281 seconds, solution distance = 0.0015514644867238303
+Finished cycle #54 in 0.0010409355163574219 seconds, solution distance = 0.0014051468883895524
+Finished cycle #55 in 0.0009162425994873047 seconds, solution distance = 0.0012719878080496017
+Finished cycle #56 in 0.0008678436279296875 seconds, solution distance = 0.0011508556554602478
+Finished cycle #57 in 0.0008530616760253906 seconds, solution distance = 0.0010407151830342798
+Finished cycle #58 in 0.0008509159088134766 seconds, solution distance = 0.0009406184572169352
+Finished cycle #59 in 0.0008480548858642578 seconds, solution distance = 0.0008496968979514463
+Finished cycle #60 in 0.0008480548858642578 seconds, solution distance = 0.0007671542298588463
+Finished cycle #61 in 0.0009989738464355469 seconds, solution distance = 0.0006922602130661204
+Finished cycle #62 in 0.0009281635284423828 seconds, solution distance = 0.0006243450421976604
+Finished cycle #63 in 0.0009028911590576172 seconds, solution distance = 0.0005627943195647411
+Finished cycle #64 in 0.0011229515075683594 seconds, solution distance = 0.0005070445234878207
+Finished cycle #65 in 0.0010061264038085938 seconds, solution distance = 0.0004565789051689251
+Finished cycle #66 in 0.0009360313415527344 seconds, solution distance = 0.0004109237583840297
+Finished cycle #67 in 0.0009069442749023438 seconds, solution distance = 0.00036964501506364655
+Finished cycle #68 in 0.0009028911590576172 seconds, solution distance = 0.0003323451276209255
+Finished cycle #69 in 0.0009059906005859375 seconds, solution distance = 0.0002986602050070175
+Finished cycle #70 in 0.0009038448333740234 seconds, solution distance = 0.0002682573749837047
+Finished cycle #71 in 0.0008749961853027344 seconds, solution distance = 0.00024083234929284103
+Finished cycle #72 in 0.0008752346038818359 seconds, solution distance = 0.00021610717220754694
+Finished cycle #73 in 0.0008790493011474609 seconds, solution distance = 0.0001938281357389826
+Finished cycle #74 in 0.0009808540344238281 seconds, solution distance = 0.0001737638473713332
+Finished cycle #75 in 0.001093149185180664 seconds, solution distance = 0.00015570343805260123
+Finished cycle #76 in 0.0009617805480957031 seconds, solution distance = 0.00013945489982702952
+Finished cycle #77 in 0.0010330677032470703 seconds, solution distance = 0.00012484354371977702
+Finished cycle #78 in 0.000990152359008789 seconds, solution distance = 0.00011171056964087711
+Finished cycle #79 in 0.0008699893951416016 seconds, solution distance = 9.991174074253095e-05
+Finished cycle #80 in 0.0009009838104248047 seconds, solution distance = 8.931615549556682e-05
+Finished cycle #81 in 0.0009028911590576172 seconds, solution distance = 7.980511119853873e-05
+Finished cycle #82 in 0.0010230541229248047 seconds, solution distance = 7.127105311699466e-05
+Finished cycle #83 in 0.0009510517120361328 seconds, solution distance = 6.361660386744461e-05
+Finished cycle #84 in 0.0009169578552246094 seconds, solution distance = 5.675366786039859e-05
+Finished cycle #85 in 0.0008530616760253906 seconds, solution distance = 5.060260605693756e-05
+Finished cycle #86 in 0.0008580684661865234 seconds, solution distance = 4.509147641584832e-05
+Finished cycle #87 in 0.0008687973022460938 seconds, solution distance = 4.0155335672587e-05
+Finished cycle #88 in 0.0008859634399414062 seconds, solution distance = 3.573559836667073e-05
+Finished cycle #89 in 0.0008661746978759766 seconds, solution distance = 3.1779449082502964e-05
+Finished cycle #90 in 0.0009179115295410156 seconds, solution distance = 2.8239304256771902e-05
+Finished cycle #91 in 0.0008900165557861328 seconds, solution distance = 2.507231993220671e-05
+Finished cycle #92 in 0.00090789794921875 seconds, solution distance = 2.2239942116364375e-05
+Finished cycle #93 in 0.0008749961853027344 seconds, solution distance = 1.970749654489623e-05
+Finished cycle #94 in 0.0008749961853027344 seconds, solution distance = 1.7443814824158466e-05
+Finished cycle #95 in 0.0008730888366699219 seconds, solution distance = 1.5420894161621845e-05
+Finished cycle #96 in 0.0008759498596191406 seconds, solution distance = 1.361358793827705e-05
+Finished cycle #97 in 0.0008690357208251953 seconds, solution distance = 1.1999324726730265e-05
+Finished cycle #98 in 0.0008709430694580078 seconds, solution distance = 1.0557853297399333e-05
+Finished cycle #99 in 0.0008630752563476562 seconds, solution distance = 9.271011537137497e-06
+Finished cycle #100 in 0.0008790493011474609 seconds, solution distance = 8.122517190400913e-06
+Finished cycle #101 in 0.0008749961853027344 seconds, solution distance = 7.097778525810838e-06
+Finished cycle #102 in 0.0008761882781982422 seconds, solution distance = 6.1837232383510354e-06
+Finished cycle #103 in 0.0008666515350341797 seconds, solution distance = 5.368643900993675e-06
+Finished cycle #104 in 0.0008721351623535156 seconds, solution distance = 4.642058520687442e-06
+Finished cycle #105 in 0.0009281635284423828 seconds, solution distance = 3.994584799826839e-06
+Finished cycle #106 in 0.0009217262268066406 seconds, solution distance = 3.4178268535356437e-06
+Finished cycle #107 in 0.0008862018585205078 seconds, solution distance = 2.9042732059281207e-06
+Finished cycle #108 in 0.0008780956268310547 seconds, solution distance = 2.4472050093038433e-06
+Finished cycle #109 in 0.0008738040924072266 seconds, solution distance = 2.0406135354811283e-06
+Finished cycle #110 in 0.0008718967437744141 seconds, solution distance = 1.679126009790366e-06
+Finished cycle #111 in 0.0008721351623535156 seconds, solution distance = 1.3579390092388621e-06
+Finished cycle #112 in 0.000865936279296875 seconds, solution distance = 1.0727586685632673e-06
+Finished cycle #113 in 0.0008649826049804688 seconds, solution distance = 8.197470693360742e-07
 </pre></div>
 </div>
 </div>
@@ -1023,7 +1027,7 @@ Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.1974
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/e1c2c799b826f7e66b35895756c7740a1c1858418558818d7ae65ff876011d04.png" src="../_images/e1c2c799b826f7e66b35895756c7740a1c1858418558818d7ae65ff876011d04.png" />
+<img alt="../_images/240211ff8ff0adda080039f8b1f78716a007cb51f2d001f85a8efbd03c70f521.png" src="../_images/240211ff8ff0adda080039f8b1f78716a007cb51f2d001f85a8efbd03c70f521.png" />
 </div>
 </div>
 </section>
@@ -1032,7 +1036,7 @@ Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.1974
 <h2>Changing Constructed Attributes<a class="headerlink" href="#changing-constructed-attributes" title="Permalink to this heading">#</a></h2>
 <p>In the parameter dictionary above, we chose values for HARK to use when constructing its numerical representation of <span class="math notranslate nohighlight">\(F_t\)</span>, the joint distribution of permanent and transitory income shocks. When <span class="math notranslate nohighlight">\(\texttt{IndShockExample}\)</span> was created, those parameters (<span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span>, etc) were used by the <strong>constructor</strong> or <strong>initialization</strong> method of <span class="math notranslate nohighlight">\(\texttt{IndShockConsumerType}\)</span> to construct an attribute called <span class="math notranslate nohighlight">\(\texttt{IncomeDstn}\)</span>.</p>
 <p>Suppose you were interested in changing (say) the amount of permanent income risk.  From the section above, you might think that you could simply change the attribute <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span>, solve the model again, and it would work.</p>
-<p>That’s <em>almost</em> true– there’s one extra step. <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span> is a primitive input, but it’s not the thing you <em>actually</em> want to change. Changing <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span> doesn’t actually update the income distribution… unless you tell it to (just like changing an agent’s preferences does not change the consumption function that was stored for the old set of parameters – until you invoke the <span class="math notranslate nohighlight">\(\texttt{solve}\)</span> method again).  In the cell below, we invoke the method <span class="math notranslate nohighlight">\(\texttt{update_income_process}\)</span> so HARK knows to reconstruct the attribute <span class="math notranslate nohighlight">\(\texttt{IncomeDstn}\)</span>.</p>
+<p>That’s <em>almost</em> true– there’s one extra step. <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span> is a primitive input, but it’s not the thing you <em>actually</em> want to change. Changing <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span> doesn’t actually update the income distribution… unless you tell it to (just like changing an agent’s preferences does not change the consumption function that was stored for the old set of parameters – until you invoke the <span class="math notranslate nohighlight">\(\texttt{solve}\)</span> method again).  In the cell below, we invoke the method <span class="math notranslate nohighlight">\(\texttt{update\_income\_process}\)</span> so HARK knows to reconstruct the attribute <span class="math notranslate nohighlight">\(\texttt{IncomeDstn}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OtherExample</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span>
@@ -1044,20 +1048,6 @@ Finished cycle #113 in 0.0019991397857666016 seconds, solution distance = 8.1974
 <span class="c1"># Call the method to reconstruct the representation of F_t</span>
 <span class="n">OtherExample</span><span class="o">.</span><span class="n">update_income_process</span><span class="p">()</span>
 <span class="n">OtherExample</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
-GPFNrm                 = 1.021965 
-GPFAggLivPrb           = 0.964848 
-Thorn = APF            = 0.994384 
-PermGroFacAdj          = 0.973012 
-uInvEpShkuInv          = 0.963379 
-VAF                    = 0.906347 
-WRPF                   = 0.213705 
-DiscFacGPFNrmMax       = 0.919178 
-DiscFacGPFAggLivPrbMax = 1.010600 
 </pre></div>
 </div>
 </div>
@@ -1080,20 +1070,6 @@ DiscFacGPFAggLivPrbMax = 1.010600
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IndShockExample</span><span class="o">.</span><span class="n">check_conditions</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
-GPFNrm                 = 0.993777 
-GPFAggLivPrb           = 0.964848 
-Thorn = APF            = 0.994384 
-PermGroFacAdj          = 1.000611 
-uInvEpShkuInv          = 0.990704 
-VAF                    = 0.932054 
-WRPF                   = 0.213705 
-DiscFacGPFNrmMax       = 0.972061 
-DiscFacGPFAggLivPrbMax = 1.010600 
 </pre></div>
 </div>
 </div>
@@ -1126,11 +1102,10 @@ DiscFacGPFAggLivPrbMax = 1.010600
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="FisherTwoPeriod.html"
@@ -1150,10 +1125,7 @@ DiscFacGPFAggLivPrbMax = 1.010600
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1205,6 +1177,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -1231,8 +1204,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

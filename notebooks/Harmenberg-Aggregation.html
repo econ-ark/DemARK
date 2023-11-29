@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -590,8 +604,8 @@ document.write(`
 \mWgtDstnMarg_{t}(\mNrm) \def \PermGroFac^{-t}\int_{\pLvl} \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl.
 \end{equation*}\]</div>
 <p>The definition allows us to rewrite</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cdc61e5c-e128-48cb-9635-665cccb44d89">
-<span class="eqno">(13)<a class="headerlink" href="#equation-cdc61e5c-e128-48cb-9635-665cccb44d89" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
+<div class="amsmath math notranslate nohighlight" id="equation-bea63d8c-892c-407c-97e5-45fbded6476b">
+<span class="eqno">(13)<a class="headerlink" href="#equation-bea63d8c-892c-407c-97e5-45fbded6476b" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
 \CLvl_{t} = \PermGroFac^t \int_{m} \cFunc(\mNrm) \times \mWgtDstnMarg_t(\mNrm) \, dm.
 \end{equation}\]</div>
 <p>There are no computational advances yet: We have merely hidden the joint distribution of <span class="math notranslate nohighlight">\((\mNrm,\pLvl)\)</span> inside the <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> object we have defined. This helps us notice that <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span>.</p>
@@ -675,8 +689,8 @@ document.write(`
 <p>To demonstrate the gain in efficiency from using Harmenberg’s method, we will set up the following experiment.</p>
 <p>Consider an economy populated by <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/">Buffer-Stock</a> savers, whose individual-level state variables are market resources <span class="math notranslate nohighlight">\(\mLvl_t\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl_t\)</span>. Such agents have a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#The-Problem-Can-Be-Normalized-By-Permanent-Income">homothetic consumption function</a>, so that we can define normalized market resources <span class="math notranslate nohighlight">\(\mNrm_t \def \mLvl_t / \pLvl_t\)</span>, solve for a normalized consumption function <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span>, and express the consumption function as <span class="math notranslate nohighlight">\(\cFunc(\mLvl,\pLvl) = \cFunc(\mNrm)\times\pLvl\)</span>.</p>
 <p>Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of <span class="math notranslate nohighlight">\(\mNrm\)</span> and <span class="math notranslate nohighlight">\(\pLvl\)</span> characterized by the density function <span class="math notranslate nohighlight">\(f(\cdot,\cdot)\)</span>. Under these conditions, define the stable level of aggregate market resources and consumption as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4fba5f0d-fa3c-468d-9127-e6b3a47d9787">
-<span class="eqno">(14)<a class="headerlink" href="#equation-4fba5f0d-fa3c-468d-9127-e6b3a47d9787" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8a44170e-9e87-4235-a512-76035f905cd8">
+<span class="eqno">(14)<a class="headerlink" href="#equation-8a44170e-9e87-4235-a512-76035f905cd8" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \MLvl \def \int \int \mNrm \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl, \,\,\,    \CLvl \def \int \int \cFunc(\mNrm) \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl.
 \end{equation}\]</div>
 <p>If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources <span class="math notranslate nohighlight">\(\MLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\MLvl\)</span> and <span class="math notranslate nohighlight">\(\CLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\CLvl\)</span>. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:</p>
@@ -688,13 +702,13 @@ document.write(`
     \text{for } n&gt;0 \text{ and } t \text{ large enough}.
 \end{equation*}\]</div>
 <p>In practice, however, we rely on approximations using a finite number of agents <span class="math notranslate nohighlight">\(I\)</span>. Our estimates of aggregate market resources and consumption at time <span class="math notranslate nohighlight">\(t\)</span> are</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6304c999-254f-4471-9798-4ca14aacf6fc">
-<span class="eqno">(15)<a class="headerlink" href="#equation-6304c999-254f-4471-9798-4ca14aacf6fc" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-c69c2e9c-90dd-4c0e-8d28-ada8688894bf">
+<span class="eqno">(15)<a class="headerlink" href="#equation-c69c2e9c-90dd-4c0e-8d28-ada8688894bf" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\pLvl_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(m_{i,t})\times\pLvl_{i,t},
 \end{equation}\]</div>
 <p>under the basic simulation strategy or</p>
-<div class="amsmath math notranslate nohighlight" id="equation-efaf2c00-3b4b-4390-a0d6-9a081776bc92">
-<span class="eqno">(16)<a class="headerlink" href="#equation-efaf2c00-3b4b-4390-a0d6-9a081776bc92" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-918c6a70-267d-41bf-a66e-ac60e25c2ff3">
+<span class="eqno">(16)<a class="headerlink" href="#equation-918c6a70-267d-41bf-a66e-ac60e25c2ff3" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(\tilde{m}_{i,t}),
 \end{equation}\]</div>
 <p>if we use Harmenberg’s method to simulate the distribution of normalized market resources under the permanent-income neutral measure.</p>
@@ -795,38 +809,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.984539 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFNrm                 = 0.993777 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFAggLivPrb           = 0.984539 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Thorn = APF            = 0.994384 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PermGroFacAdj          = 1.000611 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>uInvEpShkuInv          = 0.990704 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VAF                    = 0.951076 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WRPF                   = 0.215875 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFNrmMax       = 0.972061 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DiscFacGPFAggLivPrbMax = 0.990388 
-</pre></div>
-</div>
-</div>
 </div>
 <p>Under the basic simulation strategy, we have to de-normalize market resources and consumption multiplying them by permanent income. Only then we construct our statistics of interest.</p>
 <p>Note that our time-sampling strategy requires that, after enough time has passed, the economy settles on a stable distribution of its agents across states. How can we know this will be the case? <a class="reference external" href="http://www.personal.ceu.hu/staff/Adam_Szeidl/papers/invariant.pdf">Szeidl (2013)</a> and <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0165188921001202?via%3Dihub">Harmenberg (2021)</a> provide conditions that can give us some reassurance.<span class="math notranslate nohighlight">\(\newcommand{\Rfree}{\mathsf{R}}\)</span></p>
@@ -847,7 +829,7 @@ document.write(`
     <span class="n">soln</span><span class="o">.</span><span class="n">check_GICSdl</span><span class="p">(</span><span class="n">soln</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">soln</span><span class="o">.</span><span class="n">check_GICHrm</span><span class="p">(</span><span class="n">soln</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">except</span><span class="p">:</span>  <span class="c1"># This one for HARK 0.12 or later</span>
-    <span class="n">APFac</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">thorn</span>
+    <span class="c1"># APFac = popn.thorn</span>
     <span class="n">GPFacRaw</span> <span class="o">=</span> <span class="n">popn</span><span class="o">.</span><span class="n">GPFRaw</span>
     <span class="n">e_log_PermShk_popn</span> <span class="o">=</span> <span class="n">calc_expectation</span><span class="p">(</span><span class="n">popn</span><span class="o">.</span><span class="n">PermShkDstn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
     <span class="n">e_log_PermShk_ntrl</span> <span class="o">=</span> <span class="n">calc_expectation</span><span class="p">(</span>
@@ -867,12 +849,6 @@ document.write(`
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Harmenberg&#39;s condition is not satisfied&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Szeidl&#39;s condition is satisfied, there is a stable invariant distribution of normalized market resources
-Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-income-weighted distribution
 </pre></div>
 </div>
 </div>
@@ -1002,9 +978,6 @@ Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-i
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/ad19f9433ce0883ee8a6c1a6e0454b08fe1f0d1afd92db53c0a24e7c225e721a.png" src="../_images/ad19f9433ce0883ee8a6c1a6e0454b08fe1f0d1afd92db53c0a24e7c225e721a.png" />
-</div>
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="harmenberg-s-method-produces-large-gains-in-efficiency">
@@ -1050,11 +1023,10 @@ Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-i
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Gentle-Intro-To-HARK-PerfForesightCRRA.html"
@@ -1074,10 +1046,7 @@ Harmenberg&#39;s condition is satisfied, there is a stable invariant permanent-i
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1130,6 +1099,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -1156,8 +1126,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -479,7 +493,7 @@ document.write(`
     <span class="n">age_max</span><span class="o">=</span><span class="n">death_age</span><span class="p">,</span>
     <span class="n">adjust_infl_to</span><span class="o">=</span><span class="n">adjust_infl_to</span><span class="p">,</span>
     <span class="o">**</span><span class="n">income_calib</span><span class="p">[</span><span class="n">education</span><span class="p">],</span>
-    <span class="n">SabelhausSong</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">SabelhausSong</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># We need survival probabilities only up to death_age-1, because survival</span>
@@ -518,10 +532,9 @@ document.write(`
 <p>We simulate a population of agents</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
-<span class="c1"># Run the simulations</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the simulations</span>
 <span class="n">Agent</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
-<span class="n">Agent</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<span class="n">Agent</span><span class="o">.</span><span class="n">simulate</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -536,13 +549,13 @@ document.write(`
 <span class="math notranslate nohighlight">\(\newcommand{\UnempPrb}{\wp}\)</span>
 <span class="math notranslate nohighlight">\(\newcommand{\TranShk}{\theta}\)</span></p>
 <p>We assume a standard income process with transitory and permanent shocks:  The consumer’s Permanent noncapital income <span class="math notranslate nohighlight">\(\pLvl\)</span> grows by a predictable factor <span class="math notranslate nohighlight">\(\PermGroFac\)</span> and is subject to an unpredictable multiplicative shock <span class="math notranslate nohighlight">\(\Ex_{t}[\PermShk_{t+1}]=1\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3907df0d-60d1-4765-adb0-473ce2c4862a">
-<span class="eqno">(18)<a class="headerlink" href="#equation-3907df0d-60d1-4765-adb0-473ce2c4862a" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-bfc223c3-e1e0-4d41-8719-bd83838dee3d">
+<span class="eqno">(18)<a class="headerlink" href="#equation-bfc223c3-e1e0-4d41-8719-bd83838dee3d" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \pLvl_{t+1} &amp; = &amp; \pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}, \notag
 \end{eqnarray}\]</div>
 <p>and, if the consumer is employed, actual income <span class="math notranslate nohighlight">\(Y\)</span> is permanent income multiplied by a transitory shock <span class="math notranslate nohighlight">\(\Ex_{t}[\TranShk_{t+1}]=1\)</span>,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-94867098-19f6-405e-948d-ca34d97bf3bb">
-<span class="eqno">(19)<a class="headerlink" href="#equation-94867098-19f6-405e-948d-ca34d97bf3bb" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-5c0b5db9-68bc-4e36-91e3-64a5e95c114f">
+<span class="eqno">(19)<a class="headerlink" href="#equation-5c0b5db9-68bc-4e36-91e3-64a5e95c114f" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \yLvl_{t+1} &amp; = &amp; \pLvl_{t+1} \TranShk_{t+1}, \notag
 \end{eqnarray}\]</div>
 <!--- There is also a probability $\UnempPrb$ that the consumer will be temporarily unemployed and experience income of $\TranShk^{\large u}  = 0$.  We construct $\TranShk^{\large e}$ so that its mean value is $1/(1-\UnempPrb)$ because in that case the mean level of the transitory shock (accounting for both unemployed and employed states) is exactly
@@ -556,8 +569,8 @@ document.write(`
 <p><span class="math notranslate nohighlight">\(\Gamma_{t}\)</span> captures the predictable life cycle profile of income growth (faster when young, slower when old).  See <a class="reference external" href="https://github.com/econ-ark/CGMPortfolio/blob/master/Code/Python/CGMPortfolio.ipynb">our replication of CGM-2005</a> for a detailed account of how these objects map to CGM’s notation.</p>
 <p>Now define <span class="math notranslate nohighlight">\(\newcommand{\yLog}{y}\newcommand{\pLog}{p}\yLog = \log \yLvl,\pLog=\log \pLvl\)</span> and similarly for other variables.</p>
 <p>Using this notation, we construct all the necessary inputs to the regressors. The main input is the expected income growth of every agent at every time period, which is given by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6efeb470-12d2-4dd6-8b40-a58b35911243">
-<span class="eqno">(20)<a class="headerlink" href="#equation-6efeb470-12d2-4dd6-8b40-a58b35911243" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-5e61a2b5-509a-4c43-8a05-c17c15e92437">
+<span class="eqno">(20)<a class="headerlink" href="#equation-5e61a2b5-509a-4c43-8a05-c17c15e92437" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{split}
 \Ex_t[\yLvl_{t+1}/\yLvl_{t}] &amp;= \mathbb{E}_t[\left(\frac{\theta_{t+1}\pLvl_{t} \PermGroFac_{t+1} \PermShk_{t+1}}{\theta_{t}P_{t}}\right)]\\
  &amp;= \left(\frac{\PermGroFac_{t+1}}{\theta_{t}}\right)\\
@@ -634,8 +647,8 @@ document.write(`
 Dep. Variable:                 ExpBin   R-squared:                        0.1955
 Estimator:                   PanelOLS   R-squared (Between):             -0.0730
 No. Observations:              100000   R-squared (Within):               0.1955
-Date:                Fri, Jan 20 2023   R-squared (Overall):              0.1889
-Time:                        15:52:35   Log-likelihood                -1.288e+05
+Date:                Fri, Nov 24 2023   R-squared (Overall):              0.1889
+Time:                        15:15:16   Log-likelihood                -1.288e+05
 Cov. Estimator:            Unadjusted                                           
                                         F-statistic:                   2.371e+04
 Entities:                        2422   P-value                           0.0000
@@ -669,8 +682,7 @@ Included effects: Entity
 <p>However, with less volatile transitory shocks, the regression coefficient would be positive. We demonstrate this by shutting off transitory shocks, simulating another population of agents, and re-running the regression.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
-<span class="n">params_no_transitory</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params_no_transitory</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 <span class="n">params_no_transitory</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;TranShkStd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;TranShkStd&quot;</span><span class="p">])})</span>
 
 <span class="c1"># Create agent</span>
@@ -678,7 +690,7 @@ Included effects: Entity
 <span class="n">Agent_nt</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 <span class="c1"># Run the simulations</span>
 <span class="n">Agent_nt</span><span class="o">.</span><span class="n">initialize_sim</span><span class="p">()</span>
-<span class="n">Agent_nt</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<span class="n">Agent_nt</span><span class="o">.</span><span class="n">simulate</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -746,8 +758,8 @@ Included effects: Entity
 Dep. Variable:                 ExpBin   R-squared:                        0.0086
 Estimator:                   PanelOLS   R-squared (Between):             -0.0259
 No. Observations:              100000   R-squared (Within):               0.0086
-Date:                Fri, Jan 20 2023   R-squared (Overall):              0.0088
-Time:                        15:52:39   Log-likelihood                -1.394e+05
+Date:                Fri, Nov 24 2023   R-squared (Overall):              0.0088
+Time:                        15:15:18   Log-likelihood                -1.394e+05
 Cov. Estimator:            Unadjusted                                           
                                         F-statistic:                      848.82
 Entities:                        2422   P-value                           0.0000
@@ -805,11 +817,10 @@ Included effects: Entity
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="KeynesFriedmanModigliani.html"
@@ -829,10 +840,7 @@ Included effects: Entity
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -855,6 +863,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -881,8 +890,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

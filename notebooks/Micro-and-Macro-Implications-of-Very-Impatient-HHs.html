@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,6 +80,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -132,9 +142,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -144,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -395,20 +407,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -477,8 +491,8 @@ document.write(`
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>Buffer stock saving models of the kind implemented in <span class="math notranslate nohighlight">\(\texttt{ConsIndShockType}\)</span> say that, if a standard <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#GICRaw">‘Growth Impatience Condition’</a>, holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7fe9a662-cca8-44d5-a407-296a4f9e79aa">
-<span class="eqno">(21)<a class="headerlink" href="#equation-7fe9a662-cca8-44d5-a407-296a4f9e79aa" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-485929bd-ee40-44b9-a8e3-15577b52d0bd">
+<span class="eqno">(21)<a class="headerlink" href="#equation-485929bd-ee40-44b9-a8e3-15577b52d0bd" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
 \newcommand{\Rfree}{\mathsf{R}}\newcommand{\DiscFac}{\beta}\newcommand{\PermGroFac}{\Gamma}\newcommand{\PermShk}{\psi}\newcommand{\CRRA}{\rho}
 \left(\frac{(\Rfree\DiscFac)^{1/\CRRA}\mathbb{E}[\PermShk^{-1}]}{\PermGroFac}\right) &amp; &lt; &amp; 1
 \end{eqnarray}\]</div>
@@ -508,8 +522,6 @@ document.write(`
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-
 
 <span class="n">Generator</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Is this notebook the master or is it generated?</span>
 <span class="c1"># Import related generic python packages</span>
@@ -743,7 +755,7 @@ document.write(`
 <section id="solving-and-simulating-the-baseline-agents">
 <h2>Solving and Simulating the Baseline Agents<a class="headerlink" href="#solving-and-simulating-the-baseline-agents" title="Permalink to this heading">#</a></h2>
 <p>Now let’s solve and simulate each of our types of agents.  If you look in the parameter dictionary (or at any of the agent objects themselves), you will see that each one has an <span class="math notranslate nohighlight">\(\texttt{AgentCount}\)</span> attribute of 10000. That is, these seven ex ante heterogeneous types each represent ten thousand individual agents that will experience ex post heterogeneity when they draw different income (and mortality) shocks over time.</p>
-<p>In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods <span class="math notranslate nohighlight">\(\texttt{solve}\)</span>, <span class="math notranslate nohighlight">\(\texttt{initialize_sim}\)</span>, and <span class="math notranslate nohighlight">\(\texttt{simulate}\)</span> in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.</p>
+<p>In the code block below, fill in the contents of the loop to solve and simulate each agent type for many periods.  To do this, you should invoke the methods <span class="math notranslate nohighlight">\(\texttt{solve}\)</span>, <span class="math notranslate nohighlight">\(\texttt{initialize\_sim}\)</span>, and <span class="math notranslate nohighlight">\(\texttt{simulate}\)</span> in that order.  Simulating for 1200 quarters (300 years) will approximate the long run distribution of wealth in the population.</p>
 <p>After solving the model, we will check that the aggregate level of capital (total assets held by all households) to income ratio equals what we expected it would be. This will serve as a verification that the code is written correctly. To do this, we combine the asset holdings of all types, take the mean, and compare it to the desired capital to income ratio of 10.26.</p>
 <p>NB: Because there is no permanent income growth in this model, all shocks are mean one and idiosyncratic, and we have many agents, aggregate or average income is 1.0.</p>
 <section id="solution-for-the-brute-force-approach">
@@ -760,77 +772,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                             | 0/7 [00:00&lt;?, ?it/s]GPFRaw                 = 0.994269 
-GPFNrm                 = 0.997517 
-GPFAggLivPrb           = 0.988055 
-Thorn = APF            = 0.994269 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.972158 
-WRPF                   = 0.068051 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
- 14%|███████████████████                                                                                                                  | 1/7 [00:03&lt;00:20,  3.39s/it]GPFRaw                 = 0.996738 
-GPFNrm                 = 0.999994 
-GPFAggLivPrb           = 0.990508 
-Thorn = APF            = 0.996738 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.974572 
-WRPF                   = 0.068220 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
- 29%|██████████████████████████████████████                                                                                               | 2/7 [00:06&lt;00:17,  3.43s/it]GPFRaw                 = 0.999206 
-GPFNrm                 = 1.002470 
-GPFAggLivPrb           = 0.992961 
-Thorn = APF            = 0.999206 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.976985 
-WRPF                   = 0.068389 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
- 43%|█████████████████████████████████████████████████████████                                                                            | 3/7 [00:10&lt;00:14,  3.52s/it]GPFRaw                 = 1.001674 
-GPFNrm                 = 1.004946 
-GPFAggLivPrb           = 0.995414 
-Thorn = APF            = 1.001674 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.979399 
-WRPF                   = 0.068558 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
- 57%|████████████████████████████████████████████████████████████████████████████                                                         | 4/7 [00:14&lt;00:10,  3.66s/it]GPFRaw                 = 1.004143 
-GPFNrm                 = 1.007423 
-GPFAggLivPrb           = 0.997867 
-Thorn = APF            = 1.004143 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.981812 
-WRPF                   = 0.068727 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
- 71%|███████████████████████████████████████████████████████████████████████████████████████████████                                      | 5/7 [00:19&lt;00:08,  4.35s/it]GPFRaw                 = 1.006611 
-GPFNrm                 = 1.009899 
-GPFAggLivPrb           = 1.000320 
-Thorn = APF            = 1.006611 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.984225 
-WRPF                   = 0.068896 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
- 86%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████                   | 6/7 [00:26&lt;00:04,  4.99s/it]GPFRaw                 = 1.009079 
-GPFNrm                 = 1.012375 
-GPFAggLivPrb           = 1.002772 
-Thorn = APF            = 1.009079 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.986639 
-WRPF                   = 0.069065 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:32&lt;00:00,  4.71s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:25&lt;00:00,  3.63s/it]
 </pre></div>
 </div>
 </div>
@@ -863,80 +805,6 @@ DiscFacGPFAggLivPrbMax = 0.990099
 <span class="n">SubPops</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 
 <span class="c1"># time this second solution method</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.994269 
-GPFNrm                 = 0.997517 
-GPFAggLivPrb           = 0.988055 
-Thorn = APF            = 0.994269 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.972158 
-WRPF                   = 0.068051 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 0.996738 
-GPFNrm                 = 0.999994 
-GPFAggLivPrb           = 0.990508 
-Thorn = APF            = 0.996738 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.974572 
-WRPF                   = 0.068220 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 0.999206 
-GPFNrm                 = 1.002470 
-GPFAggLivPrb           = 0.992961 
-Thorn = APF            = 0.999206 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.976985 
-WRPF                   = 0.068389 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.001674 
-GPFNrm                 = 1.004946 
-GPFAggLivPrb           = 0.995414 
-Thorn = APF            = 1.001674 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.979399 
-WRPF                   = 0.068558 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.004143 
-GPFNrm                 = 1.007423 
-GPFAggLivPrb           = 0.997867 
-Thorn = APF            = 1.004143 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.981812 
-WRPF                   = 0.068727 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.006611 
-GPFNrm                 = 1.009899 
-GPFAggLivPrb           = 1.000320 
-Thorn = APF            = 1.006611 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.984225 
-WRPF                   = 0.068896 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-GPFRaw                 = 1.009079 
-GPFNrm                 = 1.012375 
-GPFAggLivPrb           = 1.002772 
-Thorn = APF            = 1.009079 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.986639 
-WRPF                   = 0.069065 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
 </pre></div>
 </div>
 </div>
@@ -1005,7 +873,7 @@ DiscFacGPFAggLivPrbMax = 0.990099
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3cd79bb928cbcceee72a8c04ed6e20aa2090ef70d6f68af0c796899865360ff4.png" src="../_images/3cd79bb928cbcceee72a8c04ed6e20aa2090ef70d6f68af0c796899865360ff4.png" />
+<img alt="../_images/f05b6a9c6b07b5ddeb9db4503f8d471a4b26323b12866bca59e31559f31d776f.png" src="../_images/f05b6a9c6b07b5ddeb9db4503f8d471a4b26323b12866bca59e31559f31d776f.png" />
 </div>
 </div>
 </section>
@@ -1133,18 +1001,6 @@ The MPC at the 90th percentile of the distribution is 0.51
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.813082 
-GPFNrm                 = 0.815738 
-GPFAggLivPrb           = 0.808000 
-Thorn = APF            = 0.813082 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.795000 
-WRPF                   = 0.055650 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06
 The MPC at the 50th percentile of the distribution is 0.20
 The MPC at the 90th percentile of the distribution is 0.97
@@ -1183,18 +1039,6 @@ The MPC at the 90th percentile of the distribution is 0.97
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPFRaw                 = 0.813082 
-GPFNrm                 = 0.815738 
-GPFAggLivPrb           = 0.808000 
-Thorn = APF            = 0.813082 
-PermGroFacAdj          = 0.996744 
-uInvEpShkuInv          = 1.000000 
-VAF                    = 0.795000 
-WRPF                   = 0.055650 
-DiscFacGPFNrmMax       = 0.980708 
-DiscFacGPFAggLivPrbMax = 0.990099 
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The MPC at the 10th percentile of the distribution is 0.06
 The MPC at the 50th percentile of the distribution is 0.20
 The MPC at the 90th percentile of the distribution is 0.97
@@ -1230,11 +1074,10 @@ The MPC at the 90th percentile of the distribution is 0.97
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="MPC-Out-of-Credit-vs-MPC-Out-of-Income.html"
@@ -1254,10 +1097,7 @@ The MPC at the 90th percentile of the distribution is 0.97
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1317,6 +1157,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -1343,8 +1184,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

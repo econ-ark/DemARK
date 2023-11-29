@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -81,6 +82,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -134,9 +144,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -146,8 +158,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/econ-ark-logo.png" class="logo__image only-light" alt="DemARK - Home"/>
+    <script>document.write(`<img src="../_static/econ-ark-logo.png" class="logo__image only-dark" alt="DemARK - Home"/>`);</script>
   
   
 </a></div>
@@ -397,20 +409,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -455,7 +469,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell has a bit of (uninteresting) initial setup.</span>
-
+<span class="c1"># Import the model from the toolkit</span>
 <span class="kn">from</span> <span class="nn">HARK.ConsumptionSaving.TractableBufferStockModel</span> <span class="kn">import</span> <span class="n">TractableConsumerType</span>
 <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">fixed</span>
@@ -470,16 +484,9 @@ document.write(`
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the model from the toolkit</span>
-</pre></div>
-</div>
-</div>
-</div>
 <p>The key assumption behind the model’s tractability is that there is only a single, stark form of uncertainty:  So long as an employed consumer remains employed, that consumer’s labor income <span class="math notranslate nohighlight">\(P\)</span> will rise at a constant rate <span class="math notranslate nohighlight">\(\Gamma\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-99590006-b877-47c9-a3d0-7bd7cfd46b34">
-<span class="eqno">(24)<a class="headerlink" href="#equation-99590006-b877-47c9-a3d0-7bd7cfd46b34" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-14b0bfa4-a4b9-4a6b-b430-ae4131972139">
+<span class="eqno">(24)<a class="headerlink" href="#equation-14b0bfa4-a4b9-4a6b-b430-ae4131972139" title="Permalink to this equation">#</a></span>\[\begin{align}
 P_{t+1} &amp;= \Gamma P_{t}
 \end{align}\]</div>
 <p>But, between any period and the next, there is constant hazard <span class="math notranslate nohighlight">\(p\)</span> that the consumer will transition to the “unemployed” state. Unemployment is irreversible, like retirement or disability.  When unemployed, the consumer receives a fixed amount of income (for simplicity, zero).  (See the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/TractableBufferStock/">linked handout</a> for details of the model).</p>
@@ -494,8 +501,8 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 <p>where <span class="math notranslate nohighlight">\(\mathcal{R} = R/\Gamma\)</span>, and <span class="math notranslate nohighlight">\(\mathbb{1}_{t+1} = 1\)</span> if the consumer is employed (and zero if unemployed).</p>
 <p>Under plausible parameter values the model has a target level of <span class="math notranslate nohighlight">\(\hat{m} = M/P\)</span> (market resources to permanent income) with an analytical solution that exhibits plausible relationships among all of the parameters.</p>
 <p>Defining <span class="math notranslate nohighlight">\(\gamma = \log \Gamma\)</span> and <span class="math notranslate nohighlight">\(r = \log R\)</span>, the handout shows that an approximation of the target is given by the formula:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-683bec2d-48d4-47ee-87b4-517aebc48f73">
-<span class="eqno">(25)<a class="headerlink" href="#equation-683bec2d-48d4-47ee-87b4-517aebc48f73" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e3f4810e-eef5-4907-aeec-daf502655e1d">
+<span class="eqno">(25)<a class="headerlink" href="#equation-e3f4810e-eef5-4907-aeec-daf502655e1d" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{m} &amp; \approx 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
 \end{align}\]</div>
 <div class="cell docutils container">
@@ -516,15 +523,15 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 <section id="target-wealth">
 <h2>Target Wealth<a class="headerlink" href="#target-wealth" title="Permalink to this heading">#</a></h2>
 <p>Whether the model exhibits a “target” or “stable” level of the wealth-to-permanent-income ratio for employed consumers depends on whether the ‘Growth Impatience Condition’ (the GIC) holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d96d0c72-f68e-4d22-8ff7-87c6195db905">
-<span class="eqno">(26)<a class="headerlink" href="#equation-d96d0c72-f68e-4d22-8ff7-87c6195db905" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
+<div class="amsmath math notranslate nohighlight" id="equation-e15d6a60-74e2-4dd0-bd31-c3b4c7184e90">
+<span class="eqno">(26)<a class="headerlink" href="#equation-e15d6a60-74e2-4dd0-bd31-c3b4c7184e90" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
  \left(\frac{(R \beta (1-\mho))^{1/\rho}}{\Gamma}\right)  &amp; &lt;  1
 \\ \left(\frac{(R \beta (1-\mho))^{1/\rho}}{G (1-\mho)}\right)  &amp;&lt;  1
 \\ \left(\frac{(R \beta)^{1/\rho}}{G} (1-\mho)^{-\rho}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>and recall (from <a class="reference external" href="https://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">PerfForesightCRRA</a>) that the perfect foresight ‘Growth Impatience Factor’ is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-07014975-3754-405e-a30c-fec19b1098b1">
-<span class="eqno">(27)<a class="headerlink" href="#equation-07014975-3754-405e-a30c-fec19b1098b1" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
+<div class="amsmath math notranslate nohighlight" id="equation-d9d7ffed-e25b-40f9-a455-1f9b62ddf735">
+<span class="eqno">(27)<a class="headerlink" href="#equation-d9d7ffed-e25b-40f9-a455-1f9b62ddf735" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
 \left(\frac{(R \beta)^{1/\rho}}{G}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>so since <span class="math notranslate nohighlight">\(\mho &gt; 0\)</span>, uncertainty makes it harder to be ‘impatient.’  To understand this, think of someone who, in the perfect foresight model, was ‘poised’: Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of ‘patience.’  So, in the presence of uncertainty, the conditions on parameters other than <span class="math notranslate nohighlight">\(\mho\)</span> must be stronger in order to guarantee ‘impatience’ in the sense of wanting to spend enough for your wealth to decline <em>despite</em> the extra precautionary motive.</p>
@@ -736,15 +743,12 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
     <span class="n">plot_emp</span><span class="o">=</span><span class="n">plot_emp_widget</span><span class="p">,</span>
     <span class="n">plot_ret</span><span class="o">=</span><span class="n">plot_ret_widget</span><span class="p">,</span>
     <span class="n">plot_mSS</span><span class="o">=</span><span class="n">plot_mSS_widget</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c4f98bb36c904778a27f95564e6052ce", "version_major": 2, "version_minor": 0}</script><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;function __main__.makeTBSplot(DiscFac, CRRA, Rfree, PermGroFac, UnempPrb, mMax, mMin, cMin, cMax, plot_emp, plot_ret, plot_mSS, show_targ)&gt;
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "16df5d4048e44289ad28fb59f500053b", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 </section>
 </section>
@@ -774,11 +778,10 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.html"
@@ -789,10 +792,7 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
         <p class="prev-next-title">Making Structural Estimates From Empirical Results</p>
       </div>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -829,6 +829,7 @@ By The Econ-ARK Team
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -855,8 +856,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>
