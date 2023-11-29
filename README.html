@@ -390,11 +390,10 @@ document.write(`
 <h2>Local installation<a class="headerlink" href="#local-installation" title="Permalink to this heading">#</a></h2>
 <section id="option-1-with-jupyter">
 <h3>Option 1: With Jupyter<a class="headerlink" href="#option-1-with-jupyter" title="Permalink to this heading">#</a></h3>
-<ol class="arabic" start="0">
-<li><p><a class="reference external" href="https://jupyter.org/install">Install jupyter</a>.</p></li>
-<li><p><a class="reference external" href="https://docs.anaconda.com/free/anaconda/install/index.html">Install Anaconda</a> or <a class="reference external" href="https://docs.conda.io/projects/miniconda/en/latest/">Miniconda</a></p></li>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html">Install Miniconda</a></p></li>
 <li><p>Clone <code class="docutils literal notranslate"><span class="pre">DemARK</span></code> to the folder of your choice</p></li>
-<li><p>Using Anaconda, install the environment<br />
+<li><p>Using conda, install the environment<br />
 <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">binder/environment.yml</span></code></p>
 <ul class="simple">
 <li><p>If you already have installed the <code class="docutils literal notranslate"><span class="pre">DemARK</span></code> environment, you may still need to update it<br />
@@ -403,14 +402,10 @@ document.write(`
 </li>
 <li><p>Activate your <code class="docutils literal notranslate"><span class="pre">DemARK</span></code> environment:<br />
 <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">DemARK</span></code></p></li>
-<li><p>Enable notebook extensions.</p>
-<p><strong>On Linux/macOS:</strong></p>
-<p>Run <code class="docutils literal notranslate"><span class="pre">binder/postBuild</span></code> in your terminal (at a shell in the binder directory, <code class="docutils literal notranslate"><span class="pre">./postBuild</span></code>)</p>
-<p><strong>On Windows:</strong></p>
-<p>Run <code class="docutils literal notranslate"><span class="pre">binder/postBuild.bat</span></code></p>
-</li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code> from the <code class="docutils literal notranslate"><span class="pre">DemARK</span></code> root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.</p></li>
-<li><p>Run the notebook by clicking the <code class="docutils literal notranslate"><span class="pre">▶▶</span></code> button or choosing <code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">→</span> <span class="pre">Restart</span> <span class="pre">&amp;</span> <span class="pre">Run</span> <span class="pre">All</span></code></p></li>
+<li><p>Install JupyterLab in the <code class="docutils literal notranslate"><span class="pre">DemARK</span></code> environment:<br />
+<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">jupyterlab</span></code></p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">lab</span></code> from the <code class="docutils literal notranslate"><span class="pre">DemARK</span></code> root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.</p></li>
+<li><p>Run the notebook by choosing <code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">→</span> <span class="pre">Restart</span> <span class="pre">&amp;</span> <span class="pre">Run</span> <span class="pre">All</span></code></p></li>
 </ol>
 </section>
 <section id="option-2-with-docker-and-repo2docker">
@@ -420,7 +415,7 @@ document.write(`
 <li><p><a class="reference external" href="https://github.com/jupyter/repo2docker#installation">Install <code class="docutils literal notranslate"><span class="pre">repo2docker</span></code></a>, using the “install from source” instructions</p></li>
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">repo2docker</span> <span class="pre">https://github.com/econ-ark/DemARK</span></code></p></li>
 <li><p>Follow the link in your terminal to the running instance of jupyter</p></li>
-<li><p>Run the notebook by clicking the <code class="docutils literal notranslate"><span class="pre">▶▶</span></code> button or choosing <code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">→</span> <span class="pre">Restart</span> <span class="pre">&amp;</span> <span class="pre">Run</span> <span class="pre">All</span></code></p></li>
+<li><p>Run the notebook by choosing <code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">→</span> <span class="pre">Restart</span> <span class="pre">&amp;</span> <span class="pre">Run</span> <span class="pre">All</span></code></p></li>
 </ol>
 </section>
 </section>
@@ -428,10 +423,6 @@ document.write(`
 <h2>Contributions<a class="headerlink" href="#contributions" title="Permalink to this heading">#</a></h2>
 <p>We are eager to encourage contributions.</p>
 <p>These can take the form either of new notebooks, or proposed edits for existing notebooks. Either kind of contribution can be made by issuing a pull request.</p>
-<p>However, to deal with the well-known problem that normal jupyter notebooks do not “play nicely” with github version control, we will require interactions
-with contributors to be conducted after the installation of the <a class="reference external" href="https://towardsdatascience.com/introducing-jupytext-9234fdff6c57">jupytext</a> tool.
-Specifically, you will need to follow the instructions for installing jupytext on your computer, and then need to configure it to use the “percent”
-format. Over time, we intend to add the necessary metadata to all our jupyter notebooks to make them automatically invoke jupytext when compiled.</p>
 </section>
 <section id="issues">
 <h2>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">#</a></h2>
