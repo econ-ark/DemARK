@@ -19,15 +19,15 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -81,10 +81,9 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -125,11 +124,14 @@ const thebe_selector_output = ".output, .cell_output"
 </form></div>
   </div>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -461,7 +463,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="the-tractable-buffer-stock-model">
 <h1>The Tractable Buffer Stock Model<a class="headerlink" href="#the-tractable-buffer-stock-model" title="Permalink to this heading">#</a></h1>
@@ -485,8 +487,8 @@ document.write(`
 </div>
 </div>
 <p>The key assumption behind the model’s tractability is that there is only a single, stark form of uncertainty:  So long as an employed consumer remains employed, that consumer’s labor income <span class="math notranslate nohighlight">\(P\)</span> will rise at a constant rate <span class="math notranslate nohighlight">\(\Gamma\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ab04df25-fe16-4b94-b729-7e40d02807f8">
-<span class="eqno">(24)<a class="headerlink" href="#equation-ab04df25-fe16-4b94-b729-7e40d02807f8" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2236561d-fded-4d05-9664-6b9b27e09529">
+<span class="eqno">(24)<a class="headerlink" href="#equation-2236561d-fded-4d05-9664-6b9b27e09529" title="Permalink to this equation">#</a></span>\[\begin{align}
 P_{t+1} &amp;= \Gamma P_{t}
 \end{align}\]</div>
 <p>But, between any period and the next, there is constant hazard <span class="math notranslate nohighlight">\(p\)</span> that the consumer will transition to the “unemployed” state. Unemployment is irreversible, like retirement or disability.  When unemployed, the consumer receives a fixed amount of income (for simplicity, zero).  (See the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/TractableBufferStock/">linked handout</a> for details of the model).</p>
@@ -501,8 +503,8 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 <p>where <span class="math notranslate nohighlight">\(\mathcal{R} = R/\Gamma\)</span>, and <span class="math notranslate nohighlight">\(\mathbb{1}_{t+1} = 1\)</span> if the consumer is employed (and zero if unemployed).</p>
 <p>Under plausible parameter values the model has a target level of <span class="math notranslate nohighlight">\(\hat{m} = M/P\)</span> (market resources to permanent income) with an analytical solution that exhibits plausible relationships among all of the parameters.</p>
 <p>Defining <span class="math notranslate nohighlight">\(\gamma = \log \Gamma\)</span> and <span class="math notranslate nohighlight">\(r = \log R\)</span>, the handout shows that an approximation of the target is given by the formula:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-12b74b93-cbab-4a95-b6a0-1a74537abaf2">
-<span class="eqno">(25)<a class="headerlink" href="#equation-12b74b93-cbab-4a95-b6a0-1a74537abaf2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-caf277e9-abff-4f6c-9dc8-79e90b453a4d">
+<span class="eqno">(25)<a class="headerlink" href="#equation-caf277e9-abff-4f6c-9dc8-79e90b453a4d" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{m} &amp; \approx 1 + \left(\frac{1}{(\gamma-r)+(1+(\gamma/\mho)(1-(\gamma/\mho)(\rho-1)/2))}\right)
 \end{align}\]</div>
 <div class="cell docutils container">
@@ -523,15 +525,15 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
 <section id="target-wealth">
 <h2>Target Wealth<a class="headerlink" href="#target-wealth" title="Permalink to this heading">#</a></h2>
 <p>Whether the model exhibits a “target” or “stable” level of the wealth-to-permanent-income ratio for employed consumers depends on whether the ‘Growth Impatience Condition’ (the GIC) holds:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-71705d5c-e1cb-4fbc-a51a-d4fabf0c55d9">
-<span class="eqno">(26)<a class="headerlink" href="#equation-71705d5c-e1cb-4fbc-a51a-d4fabf0c55d9" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
+<div class="amsmath math notranslate nohighlight" id="equation-3ee71f2e-c1fe-4b12-a34c-6194436a2912">
+<span class="eqno">(26)<a class="headerlink" href="#equation-3ee71f2e-c1fe-4b12-a34c-6194436a2912" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:GIC}
  \left(\frac{(R \beta (1-\mho))^{1/\rho}}{\Gamma}\right)  &amp; &lt;  1
 \\ \left(\frac{(R \beta (1-\mho))^{1/\rho}}{G (1-\mho)}\right)  &amp;&lt;  1
 \\ \left(\frac{(R \beta)^{1/\rho}}{G} (1-\mho)^{-\rho}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>and recall (from <a class="reference external" href="https://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA/">PerfForesightCRRA</a>) that the perfect foresight ‘Growth Impatience Factor’ is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5b2f874b-1072-4eeb-b50f-edd354a8446e">
-<span class="eqno">(27)<a class="headerlink" href="#equation-5b2f874b-1072-4eeb-b50f-edd354a8446e" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
+<div class="amsmath math notranslate nohighlight" id="equation-78fe9a92-960c-4a74-bc10-cb864d1485f0">
+<span class="eqno">(27)<a class="headerlink" href="#equation-78fe9a92-960c-4a74-bc10-cb864d1485f0" title="Permalink to this equation">#</a></span>\[\begin{align}\label{eq:PFGIC}
 \left(\frac{(R \beta)^{1/\rho}}{G}\right)  &amp;&lt;  1
 \end{align}\]</div>
 <p>so since <span class="math notranslate nohighlight">\(\mho &gt; 0\)</span>, uncertainty makes it harder to be ‘impatient.’  To understand this, think of someone who, in the perfect foresight model, was ‘poised’: Exactly on the knife edge between patience and impatience.  Now add a precautionary saving motive; that person will now (to some degree) be pushed off the knife edge in the direction of ‘patience.’  So, in the presence of uncertainty, the conditions on parameters other than <span class="math notranslate nohighlight">\(\mho\)</span> must be stronger in order to guarantee ‘impatience’ in the sense of wanting to spend enough for your wealth to decline <em>despite</em> the extra precautionary motive.</p>
@@ -801,6 +803,7 @@ v_t({m}_t) &amp;=&amp; \max_{{c}_t} ~ U({c}_t) + \beta \Gamma^{1-\rho} \overbrac
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
@@ -856,8 +859,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>
