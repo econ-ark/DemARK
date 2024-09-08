@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>A Demonstration of the Harmenberg (2021) Aggregation Method &#8212; DemARK</title>
   
@@ -15,57 +14,53 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Harmenberg-Aggregation';</script>
-    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="icon" href="../_static/econ-ark-logo-small.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="The Persistent Shock Model and Income Expectations" href="IncExpectationExample.html" />
@@ -79,27 +74,23 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -121,8 +112,13 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -146,6 +142,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../README.html">
   
@@ -163,7 +161,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -233,7 +242,7 @@ const thebe_selector_output = ".output, .cell_output"
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -242,14 +251,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -274,14 +283,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://mybinder.org/v2/gh/econ-ark/DemARK/master?urlpath=lab/tree/notebooks/Harmenberg-Aggregation.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onBinder"
+   title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_binder.svg">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
   </span>
 <span class="btn__text-container">Binder</span>
 </a>
@@ -292,14 +301,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=lab/tree/DemARK/notebooks/Harmenberg-Aggregation.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onJupyterHub"
+   title="Launch on JupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_jupyterhub.svg">
+    <img alt="JupyterHub logo" src="../_static/images/logo_jupyterhub.svg">
   </span>
 <span class="btn__text-container">JupyterHub</span>
 </a>
@@ -310,14 +319,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://colab.research.google.com/github/econ-ark/DemARK/blob/master/notebooks/Harmenberg-Aggregation.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -412,10 +421,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -423,14 +432,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -480,13 +489,13 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="a-demonstration-of-the-harmenberg-2021-aggregation-method">
-<h1>A Demonstration of the Harmenberg (2021) Aggregation Method<a class="headerlink" href="#a-demonstration-of-the-harmenberg-2021-aggregation-method" title="Permalink to this heading">#</a></h1>
+<h1>A Demonstration of the Harmenberg (2021) Aggregation Method<a class="headerlink" href="#a-demonstration-of-the-harmenberg-2021-aggregation-method" title="Link to this heading">#</a></h1>
 <ul class="simple">
 <li><p><a class="reference external" href="https://doi.org/10.1016/j.jedc.2021.104185">“Aggregating heterogeneous-agent models with permanent income shocks”</a></p></li>
 </ul>
 </section>
 <section id="authors-christopher-d-carroll-mateo-velasquez-giraldo">
-<h1>Authors: <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/">Christopher D. Carroll</a>, <a class="reference external" href="https://mv77.github.io/">Mateo Velásquez-Giraldo</a><a class="headerlink" href="#authors-christopher-d-carroll-mateo-velasquez-giraldo" title="Permalink to this heading">#</a></h1>
+<h1>Authors: <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/">Christopher D. Carroll</a>, <a class="reference external" href="https://mv77.github.io/">Mateo Velásquez-Giraldo</a><a class="headerlink" href="#authors-christopher-d-carroll-mateo-velasquez-giraldo" title="Link to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Set</span> <span class="pre">Up</span> <span class="pre">the</span> <span class="pre">Computational</span> <span class="pre">Environment:</span> <span class="pre">(in</span> <span class="pre">JupyterLab,</span> <span class="pre">click</span> <span class="pre">the</span> <span class="pre">dots)</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -507,7 +516,7 @@ document.write(`
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="description-of-the-problem">
-<h1>Description of the problem<a class="headerlink" href="#description-of-the-problem" title="Permalink to this heading">#</a></h1>
+<h1>Description of the problem<a class="headerlink" href="#description-of-the-problem" title="Link to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(\newcommand{\pLvl}{\mathbf{p}}\)</span>
 <span class="math notranslate nohighlight">\(\newcommand{\mLvl}{\mathbf{m}}\)</span>
 <span class="math notranslate nohighlight">\(\newcommand{\mNrm}{m}\)</span>
@@ -568,7 +577,7 @@ document.write(`
 <p>This notebook briefly describes Harmenberg’s method and demonstrates its implementation in the HARK toolkit.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="description-of-the-method">
-<h1>Description of the method<a class="headerlink" href="#description-of-the-method" title="Permalink to this heading">#</a></h1>
+<h1>Description of the method<a class="headerlink" href="#description-of-the-method" title="Link to this heading">#</a></h1>
 <p>To illustrate Harmenberg’s idea, consider a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory">buffer stock saving</a> model in which:</p>
 <ul class="simple">
 <li><p>The individual agent’s problem has two state variables:</p>
@@ -594,7 +603,7 @@ document.write(`
 \end{equation*}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mpLvlDstn_t(\mNrm,\pLvl)\)</span> is the measure of agents with normalized resources <span class="math notranslate nohighlight">\(\mNrm\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl\)</span>.</p>
 <section id="first-insight">
-<h2>First insight<a class="headerlink" href="#first-insight" title="Permalink to this heading">#</a></h2>
+<h2>First insight<a class="headerlink" href="#first-insight" title="Link to this heading">#</a></h2>
 <p>The first of Harmenberg’s insights is that the previous integral can be rearranged as</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{equation*}
@@ -606,14 +615,14 @@ document.write(`
 \mWgtDstnMarg_{t}(\mNrm) \def \PermGroFac^{-t}\int_{\pLvl} \pLvl \times \mpLvlDstn_t(\mNrm,\pLvl) \, d\pLvl.
 \end{equation*}\]</div>
 <p>The definition allows us to rewrite</p>
-<div class="amsmath math notranslate nohighlight" id="equation-02943d26-5f23-447c-abbd-a0fc3bc10107">
-<span class="eqno">(13)<a class="headerlink" href="#equation-02943d26-5f23-447c-abbd-a0fc3bc10107" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
+<div class="amsmath math notranslate nohighlight" id="equation-13fa36dd-5830-4ed3-a31e-48ccd7a66381">
+<span class="eqno">(13)<a class="headerlink" href="#equation-13fa36dd-5830-4ed3-a31e-48ccd7a66381" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{eq:aggC}
 \CLvl_{t} = \PermGroFac^t \int_{m} \cFunc(\mNrm) \times \mWgtDstnMarg_t(\mNrm) \, dm.
 \end{equation}\]</div>
 <p>There are no computational advances yet: We have merely hidden the joint distribution of <span class="math notranslate nohighlight">\((\mNrm,\pLvl)\)</span> inside the <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> object we have defined. This helps us notice that <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> is the only object besides the solution that we need in order to compute aggregate consumption. But we still have no practial way of computing or approximating <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span>.</p>
 </section>
 <section id="second-insight">
-<h2>Second insight<a class="headerlink" href="#second-insight" title="Permalink to this heading">#</a></h2>
+<h2>Second insight<a class="headerlink" href="#second-insight" title="Link to this heading">#</a></h2>
 <p>Harmenberg’s second insight produces a simple way of generating simulated counterparts of <span class="math notranslate nohighlight">\(\mWgtDstnMarg\)</span> without having to simulate permanent incomes.</p>
 <p>We start with the density function of <span class="math notranslate nohighlight">\(\mNrm_{t+1}\)</span> given <span class="math notranslate nohighlight">\(\mNrm_t\)</span> and <span class="math notranslate nohighlight">\(\PermShk_{t+1}\)</span>, <span class="math notranslate nohighlight">\(\kernel(\mNrm_{t+1}|\mNrm_t,\PermShk_{t+1})\)</span>. This density will depend on the model’s transition equations and draws of random variables like transitory shocks to income in <span class="math notranslate nohighlight">\(t+1\)</span> or random returns to savings between <span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(t+1\)</span>. If we can simulate those things, then we can sample from <span class="math notranslate nohighlight">\(\kernel(\cdot|\mNrm_t,\PermShk_{t+1})\)</span>.</p>
 <p>Harmenberg shows that</p>
@@ -633,12 +642,12 @@ document.write(`
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="harmenberg-s-method-in-hark">
-<h1>Harmenberg’s method in HARK<a class="headerlink" href="#harmenberg-s-method-in-hark" title="Permalink to this heading">#</a></h1>
+<h1>Harmenberg’s method in HARK<a class="headerlink" href="#harmenberg-s-method-in-hark" title="Link to this heading">#</a></h1>
 <p>Harmenberg’s method for simulating under the permanent-income-neutral measure is available in <a class="reference external" href="https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsIndShockModel.py">HARK’s <code class="docutils literal notranslate"><span class="pre">IndShockConsumerType</span></code> class</a> and the (many) models that inherit its income process, such as <a class="reference external" href="https://github.com/econ-ark/HARK/blob/master/HARK/ConsumptionSaving/ConsPortfolioModel.py"><code class="docutils literal notranslate"><span class="pre">PortfolioConsumerType</span></code></a>.</p>
 <p>As the cell below illustrates, using Harmenberg’s method in <a class="reference external" href="https://github.com/econ-ark/HARK">HARK</a> simply requires setting an agent’s property <code class="docutils literal notranslate"><span class="pre">agent.neutral_measure</span> <span class="pre">=</span> <span class="pre">True</span></code> and then computing the discrete approximation to the income process. After these steps, <code class="docutils literal notranslate"><span class="pre">agent.simulate</span></code> will simulate the model using Harmenberg’s permanent-income-neutral measure.</p>
 <p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Implementation</span> <span class="pre">in</span> <span class="pre">HARK:</span></code></p>
 <section id="farther-down-in-the-notebook-code-like-this-solves-the-standard-model">
-<h2>Farther down in the notebook, code like this solves the standard model:<a class="headerlink" href="#farther-down-in-the-notebook-code-like-this-solves-the-standard-model" title="Permalink to this heading">#</a></h2>
+<h2>Farther down in the notebook, code like this solves the standard model:<a class="headerlink" href="#farther-down-in-the-notebook-code-like-this-solves-the-standard-model" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a population with the default parametrization</span>
 
 <span class="n">popn</span> <span class="o">=</span> <span class="n">IndShockConsumerType</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
@@ -661,7 +670,7 @@ document.write(`
 </div>
 </section>
 <section id="later-code-like-this-simulates-using-the-permanent-income-neutral-measure">
-<h2>Later, code like this simulates using the permanent-income-neutral measure<a class="headerlink" href="#later-code-like-this-simulates-using-the-permanent-income-neutral-measure" title="Permalink to this heading">#</a></h2>
+<h2>Later, code like this simulates using the permanent-income-neutral measure<a class="headerlink" href="#later-code-like-this-simulates-using-the-permanent-income-neutral-measure" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Harmenberg permanent-income-neutral simulation</span>
 
 <span class="c1"># Make a clone of the population weighted solution</span>
@@ -687,12 +696,12 @@ document.write(`
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="the-efficiency-gain-from-using-harmenberg-s-method">
-<h1>The efficiency gain from using Harmenberg’s method<a class="headerlink" href="#the-efficiency-gain-from-using-harmenberg-s-method" title="Permalink to this heading">#</a></h1>
+<h1>The efficiency gain from using Harmenberg’s method<a class="headerlink" href="#the-efficiency-gain-from-using-harmenberg-s-method" title="Link to this heading">#</a></h1>
 <p>To demonstrate the gain in efficiency from using Harmenberg’s method, we will set up the following experiment.</p>
 <p>Consider an economy populated by <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/">Buffer-Stock</a> savers, whose individual-level state variables are market resources <span class="math notranslate nohighlight">\(\mLvl_t\)</span> and permanent income <span class="math notranslate nohighlight">\(\pLvl_t\)</span>. Such agents have a <a class="reference external" href="https://econ-ark.github.io/BufferStockTheory/#The-Problem-Can-Be-Normalized-By-Permanent-Income">homothetic consumption function</a>, so that we can define normalized market resources <span class="math notranslate nohighlight">\(\mNrm_t \def \mLvl_t / \pLvl_t\)</span>, solve for a normalized consumption function <span class="math notranslate nohighlight">\(\cFunc(\cdot)\)</span>, and express the consumption function as <span class="math notranslate nohighlight">\(\cFunc(\mLvl,\pLvl) = \cFunc(\mNrm)\times\pLvl\)</span>.</p>
 <p>Assume further that mortality, impatience, and permanent income growth are such that the economy converges to stable joint distribution of <span class="math notranslate nohighlight">\(\mNrm\)</span> and <span class="math notranslate nohighlight">\(\pLvl\)</span> characterized by the density function <span class="math notranslate nohighlight">\(f(\cdot,\cdot)\)</span>. Under these conditions, define the stable level of aggregate market resources and consumption as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fa7f436d-216e-4c2e-b24d-513baa0f9480">
-<span class="eqno">(14)<a class="headerlink" href="#equation-fa7f436d-216e-4c2e-b24d-513baa0f9480" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-8ce3dff4-280c-4d12-98e1-a9bf60e93d26">
+<span class="eqno">(14)<a class="headerlink" href="#equation-8ce3dff4-280c-4d12-98e1-a9bf60e93d26" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \MLvl \def \int \int \mNrm \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl, \,\,\,    \CLvl \def \int \int \cFunc(\mNrm) \times \pLvl \times f(\mNrm, \pLvl)\,d\mNrm \,d\pLvl.
 \end{equation}\]</div>
 <p>If we could simulate the economy with a continuum of agents we would find that, over time, our estimate of aggregate market resources <span class="math notranslate nohighlight">\(\MLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\MLvl\)</span> and <span class="math notranslate nohighlight">\(\CLvlest_t\)</span> would converge to <span class="math notranslate nohighlight">\(\CLvl\)</span>. Therefore, if we computed our aggregate estimates at different periods in time we would find them to be close:</p>
@@ -704,13 +713,13 @@ document.write(`
     \text{for } n&gt;0 \text{ and } t \text{ large enough}.
 \end{equation*}\]</div>
 <p>In practice, however, we rely on approximations using a finite number of agents <span class="math notranslate nohighlight">\(I\)</span>. Our estimates of aggregate market resources and consumption at time <span class="math notranslate nohighlight">\(t\)</span> are</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b91af356-c7e1-4585-a8fd-87da61a20424">
-<span class="eqno">(15)<a class="headerlink" href="#equation-b91af356-c7e1-4585-a8fd-87da61a20424" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-fe9af7b5-add7-4978-a356-14d1b5d3ca55">
+<span class="eqno">(15)<a class="headerlink" href="#equation-fe9af7b5-add7-4978-a356-14d1b5d3ca55" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} m_{i,t}\times\pLvl_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(m_{i,t})\times\pLvl_{i,t},
 \end{equation}\]</div>
 <p>under the basic simulation strategy or</p>
-<div class="amsmath math notranslate nohighlight" id="equation-321abe24-3bca-481e-b444-f13642437396">
-<span class="eqno">(16)<a class="headerlink" href="#equation-321abe24-3bca-481e-b444-f13642437396" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-cfc6ee59-c175-4972-bcd0-03e06f576890">
+<span class="eqno">(16)<a class="headerlink" href="#equation-cfc6ee59-c175-4972-bcd0-03e06f576890" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \MLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \tilde{m}_{i,t}, \,\,\, \CLvlest_t \def \frac{1}{I} \sum_{i=1}^{I} \cFunc(\tilde{m}_{i,t}),
 \end{equation}\]</div>
 <p>if we use Harmenberg’s method to simulate the distribution of normalized market resources under the permanent-income neutral measure.</p>
@@ -905,7 +914,7 @@ document.write(`
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="now-compare-the-variances-of-simulated-outcomes">
-<h1>Now Compare the Variances of Simulated Outcomes<a class="headerlink" href="#now-compare-the-variances-of-simulated-outcomes" title="Permalink to this heading">#</a></h1>
+<h1>Now Compare the Variances of Simulated Outcomes<a class="headerlink" href="#now-compare-the-variances-of-simulated-outcomes" title="Link to this heading">#</a></h1>
 <p>Harmenberg (2021) and Szeidl (2013) prove that with an infinite population size, models of this kind will have constant and identical growth rates of aggregate consumption, market resources, and noncapital income.</p>
 <p>A method of comparing the efficiency of the two methods is therefore to calculate the variance of the simulated aggregate variables, and see how many agents must be simulated using each of them in order to achieve a given variance.  (An infinite number of agents would be required to achieve zero variance).</p>
 <p>The plots below show the (logs of) the estimated variances for the two methods as a function of the (logs of) the number of agents.</p>
@@ -983,7 +992,7 @@ document.write(`
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="harmenberg-s-method-produces-large-gains-in-efficiency">
-<h1>Harmenberg’s Method Produces Large Gains in Efficiency<a class="headerlink" href="#harmenberg-s-method-produces-large-gains-in-efficiency" title="Permalink to this heading">#</a></h1>
+<h1>Harmenberg’s Method Produces Large Gains in Efficiency<a class="headerlink" href="#harmenberg-s-method-produces-large-gains-in-efficiency" title="Link to this heading">#</a></h1>
 <p>The number of agents required to achieve a given variance is revealed by choosing that variance and then finding the points on the horizontal axis that correspond to the two methods.</p>
 <p>The upper variance plot shows that the efficiency gains are very large for consumption: The horizontal gap between the two loci is generally more than two orders of magnitude.  That is, Harmenberg’s method requires less than <strong>one-hundredth</strong> as many agents as the standard method would require for a given precision.  Alternatively, for a given number of agents it is typically more than 10 times as precise.</p>
 <p>The improvement in variance is smaller for market resources, likely because in a buffer stock model the point of consumers’ actions is to use assets to absorb shocks.  But even for <span class="math notranslate nohighlight">\(\MLvl\)</span>, the Harmenberg method attains any given level of precision (<span class="math notranslate nohighlight">\(\text{var}\left(\{\MLvlest_t\}_{t\in\mathcal{T}}\right)\)</span>) with roughly <strong>one tenth</strong> of the agents needed by the standard method to achieve that same level.</p>
@@ -1027,7 +1036,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1129,8 +1138,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

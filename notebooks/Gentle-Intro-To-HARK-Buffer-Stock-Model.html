@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>A Gentle Introduction to HARK: Buffer Stock Saving &#8212; DemARK</title>
   
@@ -15,57 +14,53 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model';</script>
-    <link rel="shortcut icon" href="../_static/econ-ark-logo-small.png"/>
+    <link rel="icon" href="../_static/econ-ark-logo-small.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="A Gentle Introduction to HARK: The Perfect Foresight Model" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html" />
@@ -79,27 +74,23 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -121,8 +112,13 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -146,6 +142,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../README.html">
   
@@ -163,7 +161,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -233,7 +242,7 @@ const thebe_selector_output = ".output, .cell_output"
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -242,14 +251,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -274,14 +283,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://mybinder.org/v2/gh/econ-ark/DemARK/master?urlpath=lab/tree/notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onBinder"
+   title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_binder.svg">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
   </span>
 <span class="btn__text-container">Binder</span>
 </a>
@@ -292,14 +301,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://hub.econ-ark.org/hub/user-redirect/git-pull?repo=https%3A//github.com/econ-ark/DemARK&urlpath=lab/tree/DemARK/notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onJupyterHub"
+   title="Launch on JupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_jupyterhub.svg">
+    <img alt="JupyterHub logo" src="../_static/images/logo_jupyterhub.svg">
   </span>
 <span class="btn__text-container">JupyterHub</span>
 </a>
@@ -310,14 +319,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://colab.research.google.com/github/econ-ark/DemARK/blob/master/notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -412,10 +421,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -423,14 +432,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -479,9 +488,9 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="a-gentle-introduction-to-hark-buffer-stock-saving">
-<h1>A Gentle Introduction to HARK: Buffer Stock Saving<a class="headerlink" href="#a-gentle-introduction-to-hark-buffer-stock-saving" title="Permalink to this heading">#</a></h1>
+<h1>A Gentle Introduction to HARK: Buffer Stock Saving<a class="headerlink" href="#a-gentle-introduction-to-hark-buffer-stock-saving" title="Link to this heading">#</a></h1>
 <p><a class="reference external" href="https://econ-ark.org/materials/gentle-intro-to-hark-buffer-stock-model#launch"><img alt="badge" src="https://img.shields.io/badge/Launch%20using%20-Econ--ARK-blue" /></a></p>
-<p>This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in <a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html"><span class="doc std std-doc">Gentle-Intro-To-HARK-PerfForesightCRRA</span></a> except that now the model incorporates income uncertainty and (artificial) borrowing constraints.</p>
+<p>This notebook explores the behavior of a consumer identical to the perfect foresight consumer described in <a class="reference internal" href="Gentle-Intro-To-HARK-PerfForesightCRRA.html"><span class="std std-doc">Gentle-Intro-To-HARK-PerfForesightCRRA</span></a> except that now the model incorporates income uncertainty and (artificial) borrowing constraints.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell has a bit of initial setup.</span>
@@ -505,17 +514,17 @@ document.write(`
 </div>
 </div>
 <section id="the-consumer-s-problem-with-transitory-and-permanent-shocks">
-<h2>The Consumer’s Problem with Transitory and Permanent Shocks<a class="headerlink" href="#the-consumer-s-problem-with-transitory-and-permanent-shocks" title="Permalink to this heading">#</a></h2>
+<h2>The Consumer’s Problem with Transitory and Permanent Shocks<a class="headerlink" href="#the-consumer-s-problem-with-transitory-and-permanent-shocks" title="Link to this heading">#</a></h2>
 <section id="mathematical-description">
-<h3>Mathematical Description<a class="headerlink" href="#mathematical-description" title="Permalink to this heading">#</a></h3>
+<h3>Mathematical Description<a class="headerlink" href="#mathematical-description" title="Link to this heading">#</a></h3>
 <p>Our new type of consumer receives two income shocks at the beginning of each period.  Permanent income would grow by a factor <span class="math notranslate nohighlight">\(\Gamma\)</span> in the absence of any shock , but its growth is modified by a shock, <span class="math notranslate nohighlight">\(\psi_{t+1}\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5482cdc9-908c-4274-9837-bd9a8494f5d3">
-<span class="eqno">(11)<a class="headerlink" href="#equation-5482cdc9-908c-4274-9837-bd9a8494f5d3" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7f0094e4-ec69-4e17-b4ec-35c6e7ef4770">
+<span class="eqno">(11)<a class="headerlink" href="#equation-7f0094e4-ec69-4e17-b4ec-35c6e7ef4770" title="Permalink to this equation">#</a></span>\[\begin{align}
  P_{t+1} &amp; = \Gamma P_{t}\psi_{t+1}
 \end{align}\]</div>
 <p>whose expected (mean) value is <span class="math notranslate nohighlight">\(\mathbb{E}_{t}[\psi_{t+1}]=1\)</span>.  Actual income received <span class="math notranslate nohighlight">\(Y\)</span> is equal to permanent income <span class="math notranslate nohighlight">\(P\)</span> multiplied by a transitory shock <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b137276b-7133-423e-b59d-304e38be106c">
-<span class="eqno">(12)<a class="headerlink" href="#equation-b137276b-7133-423e-b59d-304e38be106c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-060a2864-c4d0-429a-9059-b6b94dc9c356">
+<span class="eqno">(12)<a class="headerlink" href="#equation-060a2864-c4d0-429a-9059-b6b94dc9c356" title="Permalink to this equation">#</a></span>\[\begin{align}
  Y_{t+1} &amp; = \Gamma P_{t+1}\theta_{t+1}
 \end{align}\]</div>
 <p>where again <span class="math notranslate nohighlight">\(\mathbb{E}_{t}[\theta_{t+1}] = 1\)</span>.</p>
@@ -532,7 +541,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 <p>For present purposes, we assume that the transitory and permanent shocks are independent.  The permanent shock is assumed to be (approximately) lognormal, while the transitory shock has two components: A probability <span class="math notranslate nohighlight">\(\wp\)</span> that the consumer is unemployed, in which case <span class="math notranslate nohighlight">\(\theta^{u}=\underline{\theta}\)</span>, and a probability <span class="math notranslate nohighlight">\((1-\wp)\)</span> of a shock that is a lognormal with a mean chosen so that <span class="math notranslate nohighlight">\(\mathbb{E}_{t}[\theta_{t+n}]=1\)</span>.</p>
 </section>
 <section id="representing-the-income-shocks">
-<h3>Representing the Income Shocks<a class="headerlink" href="#representing-the-income-shocks" title="Permalink to this heading">#</a></h3>
+<h3>Representing the Income Shocks<a class="headerlink" href="#representing-the-income-shocks" title="Link to this heading">#</a></h3>
 <p>Computers are discrete devices; even if somehow we knew with certainty that the transitory and permanent shocks were, say, continuously lognormally distributed, in order to be represented on a computer those distributions would need to be approximated by a finite set of points.  A large literature in numerical computation explores ways to construct such approximations; probably the easiest discretization to understand is the equiprobable approximation, in which the continuous distribution is represented by a set of <span class="math notranslate nohighlight">\(N\)</span> outcomes that are equally likely to occur.</p>
 <p>In the case of a single variable (say, the permanent shock <span class="math notranslate nohighlight">\(\psi\)</span>), and when the number of equiprobable points is, say, 5, the procedure is to construct a list: <span class="math notranslate nohighlight">\(\psi^{0}\)</span> is the mean value of the continuous <span class="math notranslate nohighlight">\(\psi\)</span> given that the draw of <span class="math notranslate nohighlight">\(\psi\)</span> is in the bottom 20 percent of the distribution of the continuous <span class="math notranslate nohighlight">\(\psi\)</span>.  <span class="math notranslate nohighlight">\(\psi^{1}\)</span> is the mean value of <span class="math notranslate nohighlight">\(\psi\)</span> given that the draw is between the 20th and 40th percentiles, and so on.  Having constructed these, the approximation to the expectation of some expression <span class="math notranslate nohighlight">\(g(\psi)\)</span> can be very quickly calculated by:</p>
 <div class="math notranslate nohighlight">
@@ -543,9 +552,9 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </section>
 </section>
 <section id="the-new-parameters">
-<h2>The New Parameters<a class="headerlink" href="#the-new-parameters" title="Permalink to this heading">#</a></h2>
+<h2>The New Parameters<a class="headerlink" href="#the-new-parameters" title="Link to this heading">#</a></h2>
 <p>In addition to the parameters required for the perfect foresight model (like the time preference factor <span class="math notranslate nohighlight">\(\beta\)</span>), under the assumptions above, we need to choose values for the following extra parameters that describe the income shock distribution and the artificial borrowing constraint.</p>
-<table class="table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p>Param</p></th>
 <th class="head"><p>Description</p></th>
@@ -591,9 +600,10 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="representation-in-hark">
-<h2>Representation in HARK<a class="headerlink" href="#representation-in-hark" title="Permalink to this heading">#</a></h2>
+<h2>Representation in HARK<a class="headerlink" href="#representation-in-hark" title="Link to this heading">#</a></h2>
 <p>HARK agents with this kind of problem are instances of the class <span class="math notranslate nohighlight">\(\texttt{IndShockConsumerType}\)</span>, which is constructed by “inheriting” the properties of the <span class="math notranslate nohighlight">\(\texttt{PerfForesightConsumerType}\)</span> and then adding only the <em>new</em> information required:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -620,7 +630,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </div>
 </section>
 <section id="other-attributes-are-inherited-from-perfforesightconsumertype">
-<h2>Other Attributes are Inherited from PerfForesightConsumerType<a class="headerlink" href="#other-attributes-are-inherited-from-perfforesightconsumertype" title="Permalink to this heading">#</a></h2>
+<h2>Other Attributes are Inherited from PerfForesightConsumerType<a class="headerlink" href="#other-attributes-are-inherited-from-perfforesightconsumertype" title="Link to this heading">#</a></h2>
 <p>You can see all the <strong>attributes</strong> of an object in Python by using the <code class="docutils literal notranslate"><span class="pre">dir()</span></code> command. From the output of that command below, you can see that many of the model variables are now attributes of this object, along with many other attributes that are outside the scope of this tutorial.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -770,7 +780,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 <p>As before, we need to import the relevant subclass of <span class="math notranslate nohighlight">\(\texttt{AgentType}\)</span> into our workspace, then create an instance by passing the dictionary to the class as if the class were a function.</p>
 </section>
 <section id="the-discretized-probability-distribution">
-<h2>The Discretized Probability Distribution<a class="headerlink" href="#the-discretized-probability-distribution" title="Permalink to this heading">#</a></h2>
+<h2>The Discretized Probability Distribution<a class="headerlink" href="#the-discretized-probability-distribution" title="Link to this heading">#</a></h2>
 <p>The scatterplot below shows how the discretized probability distribution is represented in HARK: The lognormal distribution is represented by a set of equiprobable point masses.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -790,7 +800,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 <p>This distribution was created, using the parameters in the dictionary above, when the <code class="docutils literal notranslate"><span class="pre">IndShockConsumerType</span></code> object was initialized.</p>
 </section>
 <section id="solution-by-backwards-induction">
-<h2>Solution by Backwards Induction<a class="headerlink" href="#solution-by-backwards-induction" title="Permalink to this heading">#</a></h2>
+<h2>Solution by Backwards Induction<a class="headerlink" href="#solution-by-backwards-induction" title="Link to this heading">#</a></h2>
 <p>HARK solves this problem using <em>backwards induction</em>: It will derive a solution for each period (<span class="math notranslate nohighlight">\(t\)</span>) by finding a mapping between specific values of market resources <span class="math notranslate nohighlight">\(\{m[0],m[1],...\}\)</span> and the corresponding optimal consumption <span class="math notranslate nohighlight">\(\{c[0],c[1],...\}\)</span>. The function that “connects the dots” will be stored in a variable named <code class="docutils literal notranslate"><span class="pre">cFunc</span></code>.</p>
 <p>Backwards induction requires a “terminal” (last; final) period to work backwards from.  <code class="docutils literal notranslate"><span class="pre">IndShockExample</span></code> constructed above did not specify a terminal consumption function, and consequently it uses the default terminal function in which all resources are consumed: <span class="math notranslate nohighlight">\(c_{T} = m_{t}\)</span>.</p>
 <div class="cell docutils container">
@@ -848,7 +858,7 @@ m_{t+1} &amp;=&amp; a_t  R/(\Gamma_{t+1} \psi_{t+1}) + \theta_{t+1}.
 </div>
 </section>
 <section id="solving-the-problem">
-<h2>Solving the problem<a class="headerlink" href="#solving-the-problem" title="Permalink to this heading">#</a></h2>
+<h2>Solving the problem<a class="headerlink" href="#solving-the-problem" title="Link to this heading">#</a></h2>
 <p>This solution is generated by invoking <code class="docutils literal notranslate"><span class="pre">solve()</span></code> which is a <strong>method</strong> that is an <strong>attribute</strong> of the <code class="docutils literal notranslate"><span class="pre">IndShockExample</span></code> object. <strong>Methods</strong> in Python are supposed to have <strong>documentation</strong> that tell you what they do. You can read the documentation for methods and other attributes in HARK with the built-in Python <code class="docutils literal notranslate"><span class="pre">help()</span></code> function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -877,7 +887,7 @@ solve(verbose=False) method of HARK.ConsumptionSaving.ConsIndShockModel.IndShock
 </div>
 </div>
 <section id="finite-or-infinite-horizon">
-<h3>Finite or Infinite Horizon?<a class="headerlink" href="#finite-or-infinite-horizon" title="Permalink to this heading">#</a></h3>
+<h3>Finite or Infinite Horizon?<a class="headerlink" href="#finite-or-infinite-horizon" title="Link to this heading">#</a></h3>
 <p><span class="math notranslate nohighlight">\(\texttt{ConsIndShockType}\)</span> can solve either finite-horizon (e.g., life-cycle) problems, or infinite-horizon problems (where the problem is the same in every period).  Elsewhere you can find documentation about the finite horizon solution; here we are interested in the infinite-horizon solution which is obtained (by definition) when iterating one more period yields a solution that is essentially the same.  In the dictionary above we signaled to HARK that we want the infinite horizon solution by setting the “cycles” paramter to zero:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1035,7 +1045,7 @@ Finished cycle #113 in 0.0008649826049804688 seconds, solution distance = 8.1974
 </section>
 </section>
 <section id="changing-constructed-attributes">
-<h2>Changing Constructed Attributes<a class="headerlink" href="#changing-constructed-attributes" title="Permalink to this heading">#</a></h2>
+<h2>Changing Constructed Attributes<a class="headerlink" href="#changing-constructed-attributes" title="Link to this heading">#</a></h2>
 <p>In the parameter dictionary above, we chose values for HARK to use when constructing its numerical representation of <span class="math notranslate nohighlight">\(F_t\)</span>, the joint distribution of permanent and transitory income shocks. When <span class="math notranslate nohighlight">\(\texttt{IndShockExample}\)</span> was created, those parameters (<span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span>, etc) were used by the <strong>constructor</strong> or <strong>initialization</strong> method of <span class="math notranslate nohighlight">\(\texttt{IndShockConsumerType}\)</span> to construct an attribute called <span class="math notranslate nohighlight">\(\texttt{IncomeDstn}\)</span>.</p>
 <p>Suppose you were interested in changing (say) the amount of permanent income risk.  From the section above, you might think that you could simply change the attribute <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span>, solve the model again, and it would work.</p>
 <p>That’s <em>almost</em> true– there’s one extra step. <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span> is a primitive input, but it’s not the thing you <em>actually</em> want to change. Changing <span class="math notranslate nohighlight">\(\texttt{TranShkStd}\)</span> doesn’t actually update the income distribution… unless you tell it to (just like changing an agent’s preferences does not change the consumption function that was stored for the old set of parameters – until you invoke the <span class="math notranslate nohighlight">\(\texttt{solve}\)</span> method again).  In the cell below, we invoke the method <span class="math notranslate nohighlight">\(\texttt{update\_income\_process}\)</span> so HARK knows to reconstruct the attribute <span class="math notranslate nohighlight">\(\texttt{IncomeDstn}\)</span>.</p>
@@ -1064,7 +1074,7 @@ Finished cycle #113 in 0.0008649826049804688 seconds, solution distance = 8.1974
 </div>
 </section>
 <section id="buffer-stock-saving">
-<h2>Buffer Stock Saving?<a class="headerlink" href="#buffer-stock-saving" title="Permalink to this heading">#</a></h2>
+<h2>Buffer Stock Saving?<a class="headerlink" href="#buffer-stock-saving" title="Link to this heading">#</a></h2>
 <p>There are some combinations of parameter values under which problems of the kind specified above have “degenerate” solutions; for example, if consumers are so patient that they always prefer deferring consumption to the future, the limiting consumption rule can be <span class="math notranslate nohighlight">\(c(m)=0\)</span>.</p>
 <p>The toolkit has built-in tests for a number of parametric conditions that can be shown to result in various characteristics in the optimal solution.</p>
 <p>Perhaps the most interesting such condition is the <a class="reference external" href="http://www.econ2.jhu.edu/people/ccarroll/Papers/BufferStockTheory/#GIC">“Growth Impatience Condition”</a>: If this condition is satisfied, the consumer’s optimal behavior is to aim to achieve a “target” value of <span class="math notranslate nohighlight">\(m\)</span>, to serve as a precautionary buffer against income shocks.</p>
@@ -1106,7 +1116,7 @@ Finished cycle #113 in 0.0008649826049804688 seconds, solution distance = 8.1974
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1207,8 +1217,8 @@ By The Econ-ARK Team
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
