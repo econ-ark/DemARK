@@ -3,14 +3,8 @@ channels:
   - conda-forge
 dependencies:
   - python=3.10
-  - matplotlib
-  - numpy
   - ipywidgets
-  - seaborn
-  - scipy
-  - pandas
   - pandas-datareader
-  - statsmodels
   - linearmodels
   - tqdm
   - nbval
