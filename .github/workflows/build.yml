@@ -23,10 +23,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup mamba environment to run notebooks
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: binder/environment.yml
-          extra-specs: >-
+          create-args: >-
             pytest
             python=${{ matrix.python-version }}
           cache-environment: true
