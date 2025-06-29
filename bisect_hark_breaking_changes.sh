@@ -20,8 +20,9 @@ log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
 # Configuration
-HARK_REPO_PATH="../../HARK"  # Adjust path to your HARK repository
+HARK_REPO_PATH="../../econ-ark/HARK"  # Adjust path to your HARK repository
 DEMARK_REPO_PATH="."         # Current DemARK repository
+ENVIRONMENT_NAME="DemARK_bisect_test"  # Temporary environment for testing
 GOOD_COMMIT=""               # Will be set by user input or defaults
 BAD_COMMIT=""                # Will be set by user input or defaults
 TEST_NOTEBOOKS=(
@@ -31,14 +32,16 @@ TEST_NOTEBOOKS=(
 )
 
 # Default commits - these can be overridden
-DEFAULT_GOOD_COMMIT="6d0aa34"  # November 29, 2023 - known working
-DEFAULT_BAD_COMMIT="HEAD"      # Current master - may have breaking changes
+DEFAULT_GOOD_COMMIT="7a6e8f39"  # May 22, 2024 - HARK commit where we have working solution
+DEFAULT_BAD_COMMIT="0.16.0"     # HARK 0.16.0 release - likely has new breaking changes
 
 usage() {
     cat << EOF
 Usage: $0 [OPTIONS]
 
 Perform git bisection to find HARK commits that break DemARK notebooks.
+This version starts from the repaired-scripts-after-breaking-change branch
+and bisects forward to find new breaking changes in recent HARK versions.
 
 OPTIONS:
     -g, --good COMMIT     Known good HARK commit (default: $DEFAULT_GOOD_COMMIT)
@@ -49,11 +52,11 @@ OPTIONS:
     --dry-run           Show what would be tested without running bisection
 
 EXAMPLES:
-    # Basic bisection with defaults
+    # Basic bisection from 7a6e8f39 to HARK 0.16.0
     $0
 
-    # Specify commit range
-    $0 --good 6d0aa34 --bad 7a6e8f39
+    # Specify different commit range
+    $0 --good 7a6e8f39 --bad v0.16.0
 
     # Test specific notebooks only
     $0 --notebooks "notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb"
@@ -63,15 +66,24 @@ EXAMPLES:
 
 PREREQUISITES:
     1. HARK repository must be available at specified path
-    2. DemARK environment must be set up
-    3. Test notebooks must exist in the DemARK repository
+    2. Must be on repaired-scripts-after-breaking-change branch
+    3. Test notebooks must exist and have fixed imports
+    4. mamba/conda must be available for environment creation
 
 The script will:
     1. Validate the setup
-    2. Start git bisection in the HARK repository
-    3. For each commit, update HARK and test DemARK notebooks
-    4. Automatically mark commits as good/bad based on test results
-    5. Report the exact commit that introduced the breaking change
+    2. Start git bisection in the HARK repository (7a6e8f39 → 0.16.0)
+    3. For each commit, create a fresh environment with that HARK version
+    4. Test DemARK notebooks in the isolated environment
+    5. Automatically mark commits as good/bad based on test results
+    6. Report the exact commit that introduced new breaking changes
+    7. Clean up temporary environments
+
+APPROACH:
+    - Starts from HARK commit 7a6e8f39 (where we have working solution)
+    - Tests forward to HARK 0.16.0 (current release)
+    - Creates isolated conda environments for each HARK commit
+    - Tests fixed DemARK notebooks to find new breaking changes
 EOF
 }
 
@@ -110,6 +122,60 @@ validate_setup() {
     return 0
 }
 
+create_test_environment() {
+    local commit_short=$1
+    local env_name="${ENVIRONMENT_NAME}_${commit_short}"
+    
+    log_info "Creating test environment: $env_name"
+    
+    # Remove existing environment if it exists
+    if conda env list | grep -q "^$env_name "; then
+        log_info "Removing existing environment: $env_name"
+        conda env remove -n "$env_name" -y --quiet
+    fi
+    
+    # Create new environment with current HARK commit
+    log_info "Creating environment with HARK commit $commit_short..."
+    
+    # Create a temporary environment.yml with the specific HARK commit
+    cat > /tmp/bisect_env_${commit_short}.yml << EOF
+name: ${env_name}
+channels:
+  - conda-forge
+  - pyviz
+dependencies:
+  - python=3.10
+  - pip
+  - jupyter
+  - matplotlib
+  - numpy
+  - scipy
+  - pandas
+  - numba
+  - pytest
+  - nbval
+  - pip:
+    - git+https://github.com/econ-ark/HARK.git@${commit_short}
+    - econ-ark
+    - quantecon
+    - statsmodels
+    - linearmodels
+EOF
+    
+    # Create the environment
+    if ! mamba env create -f /tmp/bisect_env_${commit_short}.yml --quiet; then
+        log_error "Failed to create environment for HARK commit $commit_short"
+        rm -f /tmp/bisect_env_${commit_short}.yml
+        return 1
+    fi
+    
+    # Clean up temp file
+    rm -f /tmp/bisect_env_${commit_short}.yml
+    
+    echo "$env_name"
+    return 0
+}
+
 test_current_hark_commit() {
     local commit_hash=$(cd "$HARK_REPO_PATH" && git rev-parse HEAD)
     local commit_short=$(cd "$HARK_REPO_PATH" && git rev-parse --short HEAD)
@@ -117,25 +183,32 @@ test_current_hark_commit() {
     
     log_info "Testing HARK commit: $commit_short - $commit_msg"
     
-    # Install current HARK commit
-    log_info "Installing HARK commit $commit_short..."
-    if ! (cd "$HARK_REPO_PATH" && pip install -e . --quiet); then
-        log_error "Failed to install HARK commit $commit_short"
+    # Create test environment with this HARK commit
+    local test_env
+    if ! test_env=$(create_test_environment "$commit_short"); then
+        log_error "Failed to create test environment for HARK commit $commit_short"
         return 1
     fi
     
-    # Test each notebook
+    log_info "Using test environment: $test_env"
+    
+    # Test each notebook in the new environment
     local failed_notebooks=()
     for notebook in "${TEST_NOTEBOOKS[@]}"; do
         log_info "Testing notebook: $(basename "$notebook")"
         
-        if python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$notebook" -v --tb=no -q; then
+        # Run test in the specific environment
+        if conda run -n "$test_env" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$notebook" -v --tb=no -q; then
             log_success "✅ $(basename "$notebook") passed"
         else
             log_error "❌ $(basename "$notebook") failed"
             failed_notebooks+=("$notebook")
         fi
     done
+    
+    # Clean up test environment
+    log_info "Cleaning up test environment: $test_env"
+    conda env remove -n "$test_env" -y --quiet
     
     # Return status
     if [ ${#failed_notebooks[@]} -eq 0 ]; then
