@@ -51,9 +51,12 @@ extra-specs: >-
 - ✅ **Ensures correct Python version** in conda environment matches matrix
 - ✅ **Prevents version conflicts** between system and conda Python
 
-### 4. **Repository Maintenance** 🧹
-- **`.gitignore`**: Added `.pytest_cache/` and other common artifacts
-- **Minor config updates**: Small improvements to deploy.yml and _config.yml
+### 4. **Recent Maintenance Updates** 🧹
+**Incorporating recent improvements from main branch**:
+- **GitHub Actions Updates**: Bump `actions/checkout@v2` → `@v4`, `peaceiris/actions-gh-pages@v3.6.1` → `@v4`
+- **Documentation Fix**: Update broken link `https://hark.readthedocs.io` → `https://docs.econ-ark.org`
+- **Copyright Update**: Update copyright year `2023` → `2025` in `_config.yml`
+- **Repository Cleanup**: Added `.pytest_cache/` and other common artifacts to `.gitignore`
 
 ## ✅ Validation
 
@@ -74,7 +77,8 @@ This PR is part of a comprehensive investigation and fix:
 **Core Compatibility (Ready to Merge)**:
 - 4 notebook files with essential import fixes
 - 1 critical CI workflow fix (includes MridulS's matrix improvements)
-- Basic repository maintenance
+- Recent maintenance updates from main branch (GitHub Actions, documentation links)
+- Basic repository cleanup
 
 **Why This PR Can Merge Independently**: 
 - ✅ Fixes the actual compatibility problem
