@@ -163,8 +163,8 @@ dependencies:
     - linearmodels
 EOF
     
-    # Create the environment
-    if ! mamba env create -f /tmp/bisect_env_${commit_short}.yml; then
+    # Create the environment (redirect all output to stderr)
+    if ! mamba env create -f /tmp/bisect_env_${commit_short}.yml >&2; then
         echo "Failed to create environment for HARK commit $commit_short" >&2
         rm -f /tmp/bisect_env_${commit_short}.yml
         return 1
@@ -173,7 +173,7 @@ EOF
     # Clean up temp file
     rm -f /tmp/bisect_env_${commit_short}.yml
     
-    # Return just the environment name without any formatting
+    # Return just the environment name to stdout (no other output)
     echo "$env_name"
     return 0
 }
