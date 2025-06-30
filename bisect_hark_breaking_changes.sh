@@ -208,9 +208,13 @@ test_current_hark_commit() {
         
         # Use current version of notebook with fixed imports
         # Change to DemARK directory and use relative path to avoid pytest configuration conflicts
-        if (cd "$DEMARK_REPO_PATH" && conda run -n "$test_env" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$notebook" -v --tb=no -q); then
+        local current_dir=$(pwd)
+        cd "$DEMARK_REPO_PATH"
+        if conda run -n "$test_env" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$notebook" -v --tb=no -q; then
+            cd "$current_dir"
             log_success "✅ $(basename "$notebook") passed"
         else
+            cd "$current_dir"
             log_error "❌ $(basename "$notebook") failed"
             failed_notebooks+=("$notebook")
         fi
