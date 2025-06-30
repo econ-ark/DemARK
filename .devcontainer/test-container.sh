@@ -103,8 +103,8 @@ fi
 
 # Test 7: Diagnostic scripts
 echo "🔍 Testing diagnostic scripts..."
-if [ -f "/workspace/bisect_hark_breaking_changes.sh" ]; then
-    if [ -x "/workspace/bisect_hark_breaking_changes.sh" ]; then
+if [ -f "/workspace/caching_problems_fix/bisect_hark_breaking_changes.sh" ]; then
+    if [ -x "/workspace/caching_problems_fix/bisect_hark_breaking_changes.sh" ]; then
         echo "✅ Bisection script found and executable"
     else
         echo "⚠️  Bisection script found but not executable"
@@ -133,5 +133,5 @@ echo ""
 echo "📋 Next steps:"
 echo "  1. Start Jupyter: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
 echo "  2. Test notebooks: python -m pytest --nbval-lax notebooks/"
-echo "  3. Run diagnostics: ./bisect_hark_breaking_changes.sh"
+echo "  3. Run diagnostics: caching_problems_fix/bisect_hark_breaking_changes.sh"
 echo "" 
