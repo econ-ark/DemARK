@@ -32,7 +32,7 @@ TEST_NOTEBOOKS=(
 )
 
 # Default commits - these can be overridden
-DEFAULT_GOOD_COMMIT="6d0aa34"   # Nov 29, 2023 - Last known working HARK commit with datasets module
+DEFAULT_GOOD_COMMIT="1ad4731d"  # Nov 2023 - Last known working HARK commit with datasets module
 DEFAULT_BAD_COMMIT="7a6e8f39"   # May 22, 2024 - HARK commit that moved datasets to Calibration
 
 usage() {
@@ -52,11 +52,11 @@ OPTIONS:
     --dry-run           Show what would be tested without running bisection
 
 EXAMPLES:
-    # Basic bisection from 6d0aa34 (working) to 7a6e8f39 (breaking)
+    # Basic bisection from 1ad4731d (working) to 7a6e8f39 (breaking)
     $0
 
     # Specify different commit range
-    $0 --good 6d0aa34 --bad 7a6e8f39
+    $0 --good 1ad4731d --bad 7a6e8f39
 
     # Test specific notebooks only
     $0 --notebooks "notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb"
@@ -72,7 +72,7 @@ PREREQUISITES:
 
 The script will:
     1. Validate the setup
-    2. Start git bisection in the HARK repository (6d0aa34 → 7a6e8f39)
+    2. Start git bisection in the HARK repository (1ad4731d → 7a6e8f39)
     3. For each commit, create a fresh environment with that HARK version
     4. Test historical DemARK notebooks with old import paths
     5. Automatically mark commits as good/bad based on test results
@@ -80,7 +80,7 @@ The script will:
     7. Clean up temporary environments
 
 APPROACH:
-    - Starts from HARK commit 6d0aa34 (Nov 2023, known working with old imports)
+    - Starts from HARK commit 1ad4731d (Nov 2023, known working with old imports)
     - Tests forward to HARK commit 7a6e8f39 (May 2024, known breaking change)
     - Creates isolated conda environments for each HARK commit
     - Tests historical DemARK notebooks with old import paths to find exact breaking commit
