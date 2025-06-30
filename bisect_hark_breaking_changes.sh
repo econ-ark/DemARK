@@ -126,16 +126,17 @@ create_test_environment() {
     local commit_short=$1
     local env_name="${ENVIRONMENT_NAME}_${commit_short}"
     
-    log_info "Creating test environment: $env_name"
+    # Use plain echo to avoid color codes in output
+    echo "Creating test environment: $env_name" >&2
     
     # Remove existing environment if it exists
     if conda env list | grep -q "^$env_name "; then
-        log_info "Removing existing environment: $env_name"
-        conda env remove -n "$env_name" -y --quiet
+        echo "Removing existing environment: $env_name" >&2
+        conda env remove -n "$env_name" -y --quiet >/dev/null 2>&1
     fi
     
     # Create new environment with current HARK commit
-    log_info "Creating environment with HARK commit $commit_short..."
+    echo "Creating environment with HARK commit $commit_short..." >&2
     
     # Create a temporary environment.yml with the specific HARK commit
     cat > /tmp/bisect_env_${commit_short}.yml << EOF
@@ -163,8 +164,8 @@ dependencies:
 EOF
     
     # Create the environment
-    if ! mamba env create -f /tmp/bisect_env_${commit_short}.yml --quiet; then
-        log_error "Failed to create environment for HARK commit $commit_short"
+    if ! mamba env create -f /tmp/bisect_env_${commit_short}.yml --quiet >/dev/null 2>&1; then
+        echo "Failed to create environment for HARK commit $commit_short" >&2
         rm -f /tmp/bisect_env_${commit_short}.yml
         return 1
     fi
@@ -172,21 +173,28 @@ EOF
     # Clean up temp file
     rm -f /tmp/bisect_env_${commit_short}.yml
     
+    # Return just the environment name without any formatting
     echo "$env_name"
     return 0
 }
 
 test_current_hark_commit() {
-    local commit_hash=$(cd "$HARK_REPO_PATH" && git rev-parse HEAD)
-    local commit_short=$(cd "$HARK_REPO_PATH" && git rev-parse --short HEAD)
-    local commit_msg=$(cd "$HARK_REPO_PATH" && git log -1 --pretty=format:"%s")
+    local commit_hash=$(cd "$HARK_REPO_PATH" && git rev-parse HEAD 2>/dev/null)
+    local commit_short=$(cd "$HARK_REPO_PATH" && git rev-parse --short HEAD 2>/dev/null)
+    local commit_msg=$(cd "$HARK_REPO_PATH" && git log -1 --pretty=format:"%s" 2>/dev/null)
+    
+    if [ -z "$commit_short" ]; then
+        log_error "Failed to get current HARK commit information"
+        return 1
+    fi
     
     log_info "Testing HARK commit: $commit_short - $commit_msg"
     
     # Create test environment with this HARK commit
     local test_env
-    if ! test_env=$(create_test_environment "$commit_short"); then
+    if ! test_env=$(create_test_environment "$commit_short" 2>/dev/null); then
         log_error "Failed to create test environment for HARK commit $commit_short"
+        log_warning "This might indicate the commit doesn't exist or has build issues"
         return 1
     fi
     
@@ -251,25 +259,45 @@ run_bisection() {
     log_info "Running automated bisection..."
     echo
     
-    # The bisection loop
+    # The bisection loop with safety counter
+    local iteration=0
+    local max_iterations=20  # Safety limit
     while true; do
+        iteration=$((iteration + 1))
+        if [ $iteration -gt $max_iterations ]; then
+            log_error "Bisection exceeded maximum iterations ($max_iterations). Stopping."
+            break
+        fi
+        
+        log_info "Bisection iteration $iteration"
         # Test current commit
         if test_current_hark_commit; then
             # Good commit
             cd "$HARK_REPO_PATH"
-            git bisect good
+            local bisect_output
+            bisect_output=$(git bisect good 2>&1)
             local result=$?
+            echo "$bisect_output"
         else
             # Bad commit
             cd "$HARK_REPO_PATH"
-            git bisect bad
+            local bisect_output
+            bisect_output=$(git bisect bad 2>&1)
             local result=$?
+            echo "$bisect_output"
         fi
         
         cd "$DEMARK_REPO_PATH"
         
-        # Check if bisection is complete
-        if [ $result -ne 0 ]; then
+        # Check if bisection is complete (git bisect outputs specific messages)
+        if echo "$bisect_output" | grep -q "is the first bad commit\|There are only 'skip'ped commits left\|We cannot bisect more"; then
+            log_info "Bisection complete!"
+            break
+        fi
+        
+        # Check for bisection errors
+        if [ $result -ne 0 ] && ! echo "$bisect_output" | grep -q "Bisecting:"; then
+            log_error "Git bisect failed: $bisect_output"
             break
         fi
         
