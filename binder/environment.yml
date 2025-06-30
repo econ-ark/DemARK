@@ -1,4 +1,4 @@
-name: DemARK_problematic_combo
+name: DemARK
 channels:
   - conda-forge
 dependencies:
@@ -16,4 +16,4 @@ dependencies:
   - nbval
   - pip
   - pip:
-    - git+https://github.com/econ-ark/hark@7a6e8f39
+    - git+https://github.com/econ-ark/hark@master

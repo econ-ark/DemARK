@@ -8,7 +8,7 @@ cd /workspace
 
 # Initialize micromamba and activate environment
 eval "$(micromamba shell hook --shell bash)"
-micromamba activate demARK
+micromamba activate DemARK
 
 # Verify environment setup
 echo "📦 Verifying conda environment..."
