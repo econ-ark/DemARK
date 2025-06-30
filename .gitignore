@@ -8,3 +8,4 @@ notebooks/.ipynb_checkpoints/Gentle-Intro-To-HARK-checkpoint.ipynb
 *~
 _build
 .pytest_cache/
+.cursorrules
