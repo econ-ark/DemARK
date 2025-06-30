@@ -119,5 +119,4 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          cd .devcontainer
-          docker-compose down -v || true 
+          cd .devcontainer 
