@@ -68,9 +68,9 @@ cd caching_problems_fix
 ### Work with Historical Versions
 ```bash
 # Compare different DemARK versions
-cd DemARK_current_1751228439      # Current working version
-cd DemARK_historical_1751228204   # Historical version
-cd DemARK_problematic_1751235298  # Problematic version
+cd DemARK_20250628-2309_current   # Current working version
+cd DemARK_20231129-1727_history   # Historical version
+cd DemARK_20240918-0003_counter   # Counterfactual version
 ```
 
 ## 🔧 Environment Configuration
@@ -107,7 +107,7 @@ This is expected when testing caching problems! The container can install differ
 ```bash
 # Manually activate environment
 eval "$(micromamba shell hook --shell bash)"
-micromamba activate demARK
+micromamba activate DemARK
 
 # Check jupyter installation
 jupyter --version
@@ -133,11 +133,11 @@ This container is specifically designed to help debug the CI caching issues:
 ### Test Different Scenarios
 ```bash
 # Test with cached environment (historical)
-cd DemARK_historical_1751228204
+cd DemARK_20231129-1727_history
 ./run_tests.sh
 
 # Test with fresh environment (current)
-cd DemARK_current_1751228439
+cd DemARK_20250628-2309_current
 ./run_tests.sh
 ```
 
@@ -161,5 +161,4 @@ When making changes to the devcontainer:
 ## 📚 Additional Resources
 
 - [VS Code Dev Containers Documentation](https://code.visualstudio.com/docs/devcontainers/containers)
-- [DemARK Repository](https://github.com/econ-ark/DemARK)
-- [HARK Documentation](https://docs.econ-ark.org/) 
+- [DemARK Repository](https://github.com/econ-ark/DemARK) 

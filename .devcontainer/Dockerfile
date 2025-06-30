@@ -39,11 +39,11 @@ RUN micromamba shell init --shell bash --prefix ~/micromamba
 
 # Set up shell initialization
 RUN echo 'eval "$(micromamba shell hook --shell bash)"' >> ~/.bashrc && \
-    echo 'micromamba activate demARK' >> ~/.bashrc
+    echo 'micromamba activate DemARK' >> ~/.bashrc
 
 # Install additional development tools in the environment
 RUN eval "$(micromamba shell hook --shell bash)" && \
-    micromamba activate demARK && \
+    micromamba activate DemARK && \
     pip install --no-cache-dir \
         black \
         ruff \
@@ -53,10 +53,10 @@ RUN eval "$(micromamba shell hook --shell bash)" && \
 
 # Set environment variables
 ENV MAMBA_ROOT_PREFIX=/home/vscode/micromamba
-ENV PATH=/home/vscode/micromamba/envs/demARK/bin:$PATH
+ENV PATH=/home/vscode/micromamba/envs/DemARK/bin:$PATH
 
 # Set working directory to workspace
 WORKDIR /workspace
 
 # Default command
-CMD ["/bin/bash"] 
+CMD ["sleep", "infinity"] 
