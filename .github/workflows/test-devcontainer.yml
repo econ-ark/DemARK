@@ -78,9 +78,9 @@ jobs:
             fi
             
             # Test diagnostic tools if they exist
-            if [ -f "bisect_hark_breaking_changes.sh" ]; then
+            if [ -f "caching_problems_fix/bisect_hark_breaking_changes.sh" ]; then
               echo "Testing bisection script..."
-              ./bisect_hark_breaking_changes.sh --help || echo "⚠️  Bisection script help failed (might be expected)"
+              caching_problems_fix/bisect_hark_breaking_changes.sh --help || echo "⚠️  Bisection script help failed (might be expected)"
             fi
             
             echo "🎉 Devcontainer test completed successfully!"
