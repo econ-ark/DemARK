@@ -98,18 +98,18 @@ jobs:
           cd .devcontainer
           
           # Test that docker-compose.yml is valid
-          docker-compose config
+          docker compose config
           
           # Build the services (with timeout and retry)
-          timeout 600 docker-compose build demark-dev || {
+          timeout 600 docker compose build demark-dev || {
             echo "Build timed out, retrying..."
-            docker-compose build demark-dev
+            docker compose build demark-dev
           }
           
           # Test basic container startup
-          docker-compose run --rm demark-dev bash -c "
+          docker compose run --rm demark-dev bash -c "
             echo 'Testing Docker Compose container...'
-            eval \"\$(micromamba shell hook --shell bash)\"
+            eval "$(micromamba shell hook --shell bash)"
             micromamba activate DemARK
             python --version
             python -c 'import numpy; print(\"NumPy version:\", numpy.__version__)'
