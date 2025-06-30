@@ -1,0 +1,19 @@
+name: DemARK_problematic_combo
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - matplotlib
+  - numpy
+  - ipywidgets
+  - seaborn
+  - scipy
+  - pandas
+  - pandas-datareader
+  - statsmodels
+  - linearmodels
+  - tqdm
+  - nbval
+  - pip
+  - pip:
+    - git+https://github.com/econ-ark/hark@7a6e8f39

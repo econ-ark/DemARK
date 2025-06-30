@@ -3,10 +3,10 @@ name: DemARK build on MacOS, Ubuntu and Windows
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   schedule:
     - cron: 0 0 * * *
 
@@ -28,8 +28,7 @@ jobs:
           environment-file: binder/environment.yml
           extra-specs: >-
             pytest
-            python=${{ matrix.python-version }}
-          cache-environment: false
+          cache-environment: true
       - name: Test with nbval
         shell: bash -l {0}
         run: |
