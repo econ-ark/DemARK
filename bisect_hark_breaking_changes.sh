@@ -164,7 +164,7 @@ dependencies:
 EOF
     
     # Create the environment
-    if ! mamba env create -f /tmp/bisect_env_${commit_short}.yml --quiet >/dev/null 2>&1; then
+    if ! mamba env create -f /tmp/bisect_env_${commit_short}.yml; then
         echo "Failed to create environment for HARK commit $commit_short" >&2
         rm -f /tmp/bisect_env_${commit_short}.yml
         return 1
@@ -192,7 +192,7 @@ test_current_hark_commit() {
     
     # Create test environment with this HARK commit
     local test_env
-    if ! test_env=$(create_test_environment "$commit_short" 2>/dev/null); then
+    if ! test_env=$(create_test_environment "$commit_short"); then
         log_error "Failed to create test environment for HARK commit $commit_short"
         log_warning "This might indicate the commit doesn't exist or has build issues"
         return 1
@@ -205,8 +205,9 @@ test_current_hark_commit() {
     for notebook in "${TEST_NOTEBOOKS[@]}"; do
         log_info "Testing notebook: $(basename "$notebook")"
         
-        # Run test in the specific environment from the DemARK directory
-        if conda run -n "$test_env" --cwd "$DEMARK_REPO_PATH" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$notebook" -v --tb=no -q; then
+        # Run test in the specific environment with absolute path
+        local abs_notebook="$DEMARK_REPO_PATH/$notebook"
+        if conda run -n "$test_env" --cwd "$DEMARK_REPO_PATH" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$abs_notebook" -v --tb=no -q; then
             log_success "✅ $(basename "$notebook") passed"
         else
             log_error "❌ $(basename "$notebook") failed"
