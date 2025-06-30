@@ -23,7 +23,7 @@ dc2e393 - Remove virtual_documents/ folder (#212)
 | 52e0474 | GitHub Actions version bumps | ✅ **INCLUDED** | Safe maintenance updates |
 | 00f01b4 | Documentation link fix | ✅ **INCLUDED** | Fixes broken user-facing link |
 | dc2e393 | Virtual documents cleanup | ❌ **SKIPPED** | Already handled by our cleanup |
-| 00d46a2 | MyST configuration | ❌ **SKIPPED** | Large build system changes, needs separate testing |
+| 00d46a2 | MyST configuration | ✅ **INCLUDED** | Maintains consistency with main branch build system |
 | 4a4d856 | Notebook content updates | ❌ **SKIPPED** | Content changes outside compatibility scope |
 
 ## ✅ **Changes Successfully Incorporated**
@@ -48,7 +48,34 @@ dc2e393 - Remove virtual_documents/ folder (#212)
 - ✅ **Current copyright year** - Maintains professional appearance
 - ✅ **Better CI reliability** - Newer action versions more stable
 
-### **2. Documentation Link Fix** (commit 00f01b4)
+### **2. MyST Documentation System Integration** (commit 00d46a2)
+**Files Updated**: `.github/workflows/deploy.yml`, `myst.yml`, `_toc.yml` (deleted)
+
+```yaml
+# Build system migration: Jupyter Book → MyST Markdown
+# OLD: Python-based Jupyter Book
+- name: Setup mamba environment to run notebooks
+  uses: mamba-org/provision-with-micromamba@main
+  with:
+    environment-file: binder/environment.yml
+    extra-specs: jupyter-book
+- name: Build the book
+  run: jupyter-book build .
+
+# NEW: Node.js-based MyST Markdown
+- name: Install MyST Markdown
+  run: npm install -g mystmd
+- name: Build HTML Assets
+  run: myst build --html
+```
+
+**Benefits**:
+- ✅ **Modern build system** - MyST is faster and more maintainable
+- ✅ **Consistent with main branch** - Avoids reverting proven build system
+- ✅ **Better GitHub Pages integration** - Modern deployment with proper permissions
+- ✅ **Branch trigger update** - Changed from `master` → `main`
+
+### **3. Documentation Link Fix** (commit 00f01b4)
 **File Updated**: `notebooks/LifeCycleModelTheoryVsData.ipynb`
 
 ```markdown
@@ -63,11 +90,6 @@ dc2e393 - Remove virtual_documents/ folder (#212)
 - ✅ **Current documentation site** - Points to maintained docs
 
 ## ❌ **Changes Intentionally Skipped**
-
-### **MyST Configuration Changes** (commit 00d46a2)
-- **Reason**: Large build system changes that could affect book deployment
-- **Risk**: Potential breaking changes to documentation generation
-- **Recommendation**: Handle in separate PR focused on build system updates
 
 ### **Notebook Content Updates** (commit 4a4d856)
 - **Reason**: Content changes in FisherTwoPeriod.ipynb outside compatibility scope
@@ -84,8 +106,9 @@ dc2e393 - Remove virtual_documents/ folder (#212)
 1. ✅ **Notebook HARK v0.16+ compatibility fixes** (original scope)
 2. ✅ **Critical CI caching fix** (`cache-environment: false`)
 3. ✅ **MridulS's CI matrix improvements** (Python versions + specification)
-4. ✅ **Recent maintenance updates** (GitHub Actions, documentation links)
-5. ✅ **Repository cleanup** (gitignore, minor config updates)
+4. ✅ **MyST documentation system integration** (alanlujan91's migration)
+5. ✅ **Recent maintenance updates** (GitHub Actions, documentation links)
+6. ✅ **Repository cleanup** (gitignore, minor config updates)
 
 ## 📊 **Integration Impact**
 

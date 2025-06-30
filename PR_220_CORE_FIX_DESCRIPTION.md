@@ -51,7 +51,33 @@ extra-specs: >-
 - ✅ **Ensures correct Python version** in conda environment matches matrix
 - ✅ **Prevents version conflicts** between system and conda Python
 
-### 4. **Recent Maintenance Updates** 🧹
+### 4. **MyST Documentation System Integration** 📚
+**Incorporating alanlujan91's MyST migration** (commit 00d46a2):
+```yaml
+# OLD: Jupyter Book build system
+- name: Setup mamba environment to run notebooks
+  uses: mamba-org/provision-with-micromamba@main
+  with:
+    environment-file: binder/environment.yml
+    extra-specs: jupyter-book
+- name: Build the book
+  run: jupyter-book build .
+
+# NEW: MyST Markdown build system  
+- name: Install MyST Markdown
+  run: npm install -g mystmd
+- name: Build HTML Assets
+  run: myst build --html
+```
+
+**Changes**:
+- ✅ **Deploy Workflow**: Replace Jupyter Book → MyST Markdown build system
+- ✅ **Table of Contents**: Migrate `_toc.yml` → `myst.yml` (same content, modern format)
+- ✅ **GitHub Pages**: Modern deployment with proper permissions and concurrency
+- ✅ **Branch Trigger**: Update `master` → `main` branch
+- ✅ **Performance**: Faster Node.js-based builds vs Python-based builds
+
+### 5. **Recent Maintenance Updates** 🧹
 **Incorporating recent improvements from main branch**:
 - **GitHub Actions Updates**: Bump `actions/checkout@v2` → `@v4`, `peaceiris/actions-gh-pages@v3.6.1` → `@v4`
 - **Documentation Fix**: Update broken link `https://hark.readthedocs.io` → `https://docs.econ-ark.org`
@@ -77,6 +103,7 @@ This PR is part of a comprehensive investigation and fix:
 **Core Compatibility (Ready to Merge)**:
 - 4 notebook files with essential import fixes
 - 1 critical CI workflow fix (includes MridulS's matrix improvements)
+- MyST documentation system integration (alanlujan91's migration)
 - Recent maintenance updates from main branch (GitHub Actions, documentation links)
 - Basic repository cleanup
 
