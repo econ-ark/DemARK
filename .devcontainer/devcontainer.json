@@ -1,0 +1,114 @@
+{
+  "name": "DemARK Development Environment",
+  
+  // Use Dockerfile for simple setup
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  
+  // Alternative: Use Docker Compose for advanced scenarios
+  // Uncomment the following lines and comment out "build" above to use Docker Compose:
+  // "dockerComposeFile": "docker-compose.yml",
+  // "service": "demARK-dev",
+  // "workspaceFolder": "/workspace",
+  
+  // Features to add to the dev container
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  // Configure tool-specific properties
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.vscode-markdown",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-vscode.vscode-github-issue-notebooks"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/home/vscode/micromamba/envs/demARK/bin/python",
+        "python.terminal.activateEnvironment": false,
+        "python.formatting.provider": "black",
+        "python.linting.enabled": true,
+        "python.linting.ruffEnabled": true,
+        "jupyter.kernels.filter": [
+          {
+            "path": "/home/vscode/micromamba/envs/demARK/bin/python",
+            "type": "pythonEnvironment"
+          }
+        ],
+        "jupyter.defaultKernel": "Python 3 (ipykernel)",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "args": ["-l"]
+          }
+        }
+      }
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally
+  "forwardPorts": [8888, 8889, 8890],
+  "portsAttributes": {
+    "8888": {
+      "label": "Jupyter Lab",
+      "onAutoForward": "notify"
+    },
+    "8889": {
+      "label": "Jupyter Lab (Alt)",
+      "onAutoForward": "silent"
+    },
+    "8890": {
+      "label": "HARK Testing",
+      "onAutoForward": "silent"
+    }
+  },
+
+  // Use 'postCreateCommand' to run commands after the container is created
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // Configure container user
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+
+  // Mount the Docker socket for Docker-in-Docker scenarios
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+
+  // Set environment variables
+  "containerEnv": {
+    "SHELL": "/bin/bash",
+    "TERM": "xterm-256color"
+  },
+
+  // Configure what to do when the container starts
+  "initializeCommand": "echo 'Initializing DemARK development container...'",
+  
+  // Configure lifecycle scripts
+  "onCreateCommand": "echo 'Container created successfully'",
+  "updateContentCommand": "echo 'Content updated'",
+  
+  // Configure container options
+  "runArgs": [
+    "--init",
+    "--privileged"
+  ],
+
+  // Configure workspace mount
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace"
+} 

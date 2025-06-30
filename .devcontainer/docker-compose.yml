@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  demARK-dev:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../:/workspace:cached
+      - vscode-extensions:/home/vscode/.vscode-server/extensions
+      - vscode-extensions-insiders:/home/vscode/.vscode-server-insiders/extensions
+    ports:
+      - "8888:8888"  # Jupyter Lab
+      - "8889:8889"  # Alternative Jupyter port
+    environment:
+      - SHELL=/bin/bash
+    command: sleep infinity
+    user: vscode
+
+  # Optional: Separate service for testing different HARK versions
+  demARK-hark-testing:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../:/workspace:cached
+    ports:
+      - "8890:8888"  # Different port to avoid conflicts
+    environment:
+      - SHELL=/bin/bash
+      - HARK_VERSION=v0.16.0  # Can be overridden
+    command: sleep infinity
+    user: vscode
+
+volumes:
+  vscode-extensions:
+  vscode-extensions-insiders: 
