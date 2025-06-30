@@ -27,15 +27,19 @@ RUN groupadd --gid 1000 vscode \
 USER vscode
 WORKDIR /home/vscode
 
+# Set environment variables so micromamba knows where to create its environments
+ENV MAMBA_ROOT_PREFIX=/home/vscode/micromamba
+ENV PATH=/home/vscode/micromamba/bin:$PATH
+
 # Copy environment file
 COPY binder/environment.yml /tmp/environment.yml
 
 # Create conda environment from DemARK's environment.yml
-RUN micromamba create -f /tmp/environment.yml && \
+RUN micromamba create -f /tmp/environment.yml -n DemARK && \
     micromamba clean --all --yes
 
 # Initialize micromamba for bash
-RUN micromamba shell init --shell bash --prefix ~/micromamba
+RUN micromamba shell init --shell bash --prefix $MAMBA_ROOT_PREFIX
 
 # Set up shell initialization
 RUN echo 'eval "$(micromamba shell hook --shell bash)"' >> ~/.bashrc && \
@@ -51,9 +55,8 @@ RUN eval "$(micromamba shell hook --shell bash)" && \
         jupyterlab \
         ipywidgets
 
-# Set environment variables
-ENV MAMBA_ROOT_PREFIX=/home/vscode/micromamba
-ENV PATH=/home/vscode/micromamba/envs/DemARK/bin:$PATH
+# Update PATH to include the new environment's bin directory
+ENV PATH=$MAMBA_ROOT_PREFIX/envs/DemARK/bin:$PATH
 
 # Set working directory to workspace
 WORKDIR /workspace
