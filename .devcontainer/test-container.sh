@@ -7,7 +7,7 @@ echo "============================================="
 # Test 1: Environment activation
 echo "📦 Testing conda environment activation..."
 eval "$(micromamba shell hook --shell bash)"
-micromamba activate demARK
+micromamba activate DemARK
 if [ $? -eq 0 ]; then
     echo "✅ Conda environment activated successfully"
 else

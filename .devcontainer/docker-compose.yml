@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  demARK-dev:
+  demark-dev:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
@@ -18,7 +18,7 @@ services:
     user: vscode
 
   # Optional: Separate service for testing different HARK versions
-  demARK-hark-testing:
+  demark-hark-testing:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile

@@ -14,6 +14,7 @@ on:
 jobs:
   test-devcontainer:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     
     steps:
       - name: Checkout repository
@@ -22,7 +23,8 @@ jobs:
       - name: Build and test devcontainer
         uses: devcontainers/ci@v0.3
         with:
-          imageName: demARK-devcontainer
+          imageName: demark-devcontainer
+          push: never
           runCmd: |
             # Run the container validation script
             bash .devcontainer/test-container.sh
@@ -38,19 +40,36 @@ jobs:
               
               # Find a simple notebook to test
               notebook_files = [f for f in os.listdir('notebooks') if f.endswith('.ipynb')]
-              if notebook_files:
-                  # Try to execute a simple notebook
-                  notebook_path = os.path.join('notebooks', notebook_files[0])
+              simple_notebooks = [
+                  'Gentle-Intro-To-HARK-PerfForesightCRRA.ipynb',
+                  'FisherTwoPeriod.ipynb',
+                  'PerfForesightCRRA-SavingRate.ipynb'
+              ]
+              
+              # Try to find a simple notebook first
+              test_notebook = None
+              for simple in simple_notebooks:
+                  if simple in notebook_files:
+                      test_notebook = simple
+                      break
+              
+              if not test_notebook and notebook_files:
+                  test_notebook = notebook_files[0]
+              
+              if test_notebook:
+                  notebook_path = os.path.join('notebooks', test_notebook)
                   try:
+                      print(f'Testing notebook: {test_notebook}')
                       with open(notebook_path, 'r') as f:
                           nb = nbformat.read(f, as_version=4)
                       
-                      # Execute with a short timeout
-                      ep = ExecutePreprocessor(timeout=30, kernel_name='python3')
+                      # Execute with a short timeout for CI
+                      ep = ExecutePreprocessor(timeout=60, kernel_name='python3')
                       ep.preprocess(nb, {'metadata': {'path': 'notebooks/'}})
-                      print(f'✅ Successfully executed test notebook: {notebook_files[0]}')
+                      print(f'✅ Successfully executed test notebook: {test_notebook}')
                   except Exception as e:
                       print(f'⚠️  Notebook execution test failed (this might be expected): {e}')
+                      # Don't fail the CI for notebook execution issues
               else:
                   print('⚠️  No notebooks found for testing')
               "
@@ -68,6 +87,7 @@ jobs:
 
   test-docker-compose:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     
     steps:
       - name: Checkout repository
@@ -80,15 +100,19 @@ jobs:
           # Test that docker-compose.yml is valid
           docker-compose config
           
-          # Build the services
-          docker-compose build demARK-dev
+          # Build the services (with timeout and retry)
+          timeout 600 docker-compose build demark-dev || {
+            echo "Build timed out, retrying..."
+            docker-compose build demark-dev
+          }
           
           # Test basic container startup
-          docker-compose run --rm demARK-dev bash -c "
+          docker-compose run --rm demark-dev bash -c "
             echo 'Testing Docker Compose container...'
             eval \"\$(micromamba shell hook --shell bash)\"
-            micromamba activate demARK
+            micromamba activate DemARK
             python --version
+            python -c 'import numpy; print(\"NumPy version:\", numpy.__version__)'
             echo '✅ Docker Compose test completed'
           "
         
