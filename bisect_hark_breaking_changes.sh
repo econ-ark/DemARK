@@ -205,8 +205,8 @@ test_current_hark_commit() {
     for notebook in "${TEST_NOTEBOOKS[@]}"; do
         log_info "Testing notebook: $(basename "$notebook")"
         
-        # Run test in the specific environment
-        if conda run -n "$test_env" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$notebook" -v --tb=no -q; then
+        # Run test in the specific environment from the DemARK directory
+        if conda run -n "$test_env" --cwd "$DEMARK_REPO_PATH" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$notebook" -v --tb=no -q; then
             log_success "✅ $(basename "$notebook") passed"
         else
             log_error "❌ $(basename "$notebook") failed"
