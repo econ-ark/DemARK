@@ -31,7 +31,6 @@ fi
 
 # Make diagnostic scripts executable
 echo "🔧 Making diagnostic scripts executable..."
-chmod +x bisect_hark_breaking_changes.sh 2>/dev/null || echo "bisect script not found"
 find caching_problems_fix/ -name "*.sh" -exec chmod +x {} \; 2>/dev/null || echo "caching_problems_fix scripts not found"
 
 # Test notebook execution capability
@@ -66,7 +65,8 @@ echo ""
 echo "📋 Available commands:"
 echo "  - Run notebooks: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
 echo "  - Test notebooks: python -m pytest --nbval-lax notebooks/"
-echo "  - Bisect HARK issues: ./bisect_hark_breaking_changes.sh"
+echo "  - Test CI locally: caching_problems_fix/test_ci_locally.sh"
+echo "  - Bisect HARK issues: caching_problems_fix/bisect_hark_breaking_changes.sh"
 echo "  - Analyze caching: cd caching_problems_fix && ./reproduce-problematic-combo.sh"
 echo ""
 echo "🔍 Useful directories:"

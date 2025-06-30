@@ -57,8 +57,11 @@ python -m pytest --nbval-lax notebooks/Gentle-Intro-To-HARK-PerfForesightCRRA.ip
 
 ### Investigate CI Caching Issues
 ```bash
+# Test CI locally
+caching_problems_fix/test_ci_locally.sh
+
 # Run the bisection analysis
-./bisect_hark_breaking_changes.sh
+caching_problems_fix/bisect_hark_breaking_changes.sh
 
 # Analyze caching problems
 cd caching_problems_fix
@@ -127,7 +130,7 @@ This container is specifically designed to help debug the CI caching issues:
 ```bash
 # The container mimics the CI environment
 # Use the diagnostic scripts to investigate issues
-./bisect_hark_breaking_changes.sh --help
+caching_problems_fix/bisect_hark_breaking_changes.sh --help
 ```
 
 ### Test Different Scenarios
