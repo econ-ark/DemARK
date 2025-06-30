@@ -32,16 +32,16 @@ TEST_NOTEBOOKS=(
 )
 
 # Default commits - these can be overridden
-DEFAULT_GOOD_COMMIT="1ad4731d"  # Nov 2023 - Last known working HARK commit with datasets module
-DEFAULT_BAD_COMMIT="7a6e8f39"   # May 22, 2024 - HARK commit that moved datasets to Calibration
+DEFAULT_GOOD_COMMIT="7a6e8f39"  # May 22, 2024 - HARK commit that moved datasets to Calibration (we fixed this)
+DEFAULT_BAD_COMMIT="HEAD"       # Current HARK master - may have new breaking changes
 
 usage() {
     cat << EOF
 Usage: $0 [OPTIONS]
 
-Perform git bisection to find HARK commits that break DemARK notebooks.
-This version starts from the repaired-scripts-after-breaking-change branch
-and bisects forward to find new breaking changes in recent HARK versions.
+Perform git bisection to find NEW HARK commits that break DemARK notebooks.
+This version starts from the resolved datasets→Calibration breaking change (7a6e8f39)
+and bisects forward to find any additional breaking changes in recent HARK versions.
 
 OPTIONS:
     -g, --good COMMIT     Known good HARK commit (default: $DEFAULT_GOOD_COMMIT)
@@ -52,11 +52,11 @@ OPTIONS:
     --dry-run           Show what would be tested without running bisection
 
 EXAMPLES:
-    # Basic bisection from 1ad4731d (working) to 7a6e8f39 (breaking)
+    # Basic bisection from 7a6e8f39 (resolved breaking change) to HEAD (current)
     $0
 
     # Specify different commit range
-    $0 --good 1ad4731d --bad 7a6e8f39
+    $0 --good 7a6e8f39 --bad HEAD
 
     # Test specific notebooks only
     $0 --notebooks "notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb"
@@ -66,24 +66,24 @@ EXAMPLES:
 
 PREREQUISITES:
     1. HARK repository must be available at specified path
-    2. Must be on repaired-scripts-after-breaking-change branch
-    3. Test notebooks must exist and have fixed imports
+    2. Must be on repaired-scripts-after-breaking-change branch with fixed imports
+    3. Test notebooks must exist and have resolved the datasets→Calibration issue
     4. mamba/conda must be available for environment creation
 
 The script will:
     1. Validate the setup
-    2. Start git bisection in the HARK repository (1ad4731d → 7a6e8f39)
+    2. Start git bisection in the HARK repository (7a6e8f39 → HEAD)
     3. For each commit, create a fresh environment with that HARK version
-    4. Test historical DemARK notebooks with old import paths
+    4. Test current DemARK notebooks with fixed import paths
     5. Automatically mark commits as good/bad based on test results
-    6. Report the exact commit that introduced the datasets→Calibration breaking change
+    6. Report any new breaking changes introduced after the resolved datasets issue
     7. Clean up temporary environments
 
 APPROACH:
-    - Starts from HARK commit 1ad4731d (Nov 2023, known working with old imports)
-    - Tests forward to HARK commit 7a6e8f39 (May 2024, known breaking change)
+    - Starts from HARK commit 7a6e8f39 (May 2024, datasets→Calibration change we've fixed)
+    - Tests forward to current HARK HEAD (latest master, may have new breaking changes)
     - Creates isolated conda environments for each HARK commit
-    - Tests historical DemARK notebooks with old import paths to find exact breaking commit
+    - Tests current DemARK notebooks with fixed imports to find new breaking changes
 EOF
 }
 
@@ -201,21 +201,14 @@ test_current_hark_commit() {
     log_info "Using test environment: $test_env"
     
     # Test each notebook in the new environment
-    # Use historical notebooks that have the old import paths
+    # Use current notebooks with fixed import paths
     local failed_notebooks=()
     for notebook in "${TEST_NOTEBOOKS[@]}"; do
         log_info "Testing notebook: $(basename "$notebook")"
         
-        # Use historical version of notebook with old imports
-        local historical_notebook="DemARK_historical_1751227421/$notebook"
-        if [ ! -f "$historical_notebook" ]; then
-            log_warning "Historical notebook not found: $historical_notebook, using current version"
-            historical_notebook="$notebook"
-        fi
-        
-        # Run test in the specific environment with absolute path
-        local abs_historical_notebook="$DEMARK_REPO_PATH/$historical_notebook"
-        if conda run -n "$test_env" --cwd "$DEMARK_REPO_PATH" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$abs_historical_notebook" -v --tb=no -q; then
+        # Use current version of notebook with fixed imports
+        local abs_notebook="$DEMARK_REPO_PATH/$notebook"
+        if conda run -n "$test_env" --cwd "$DEMARK_REPO_PATH" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$abs_notebook" -v --tb=no -q; then
             log_success "✅ $(basename "$notebook") passed"
         else
             log_error "❌ $(basename "$notebook") failed"
