@@ -7,12 +7,4 @@
 notebooks/.ipynb_checkpoints/Gentle-Intro-To-HARK-checkpoint.ipynb
 *~
 _build
-
-# Development and temporary files
 .pytest_cache/
-.virtual_documents/
-setup_log.txt
-*.log
-.envrc
-__pycache__/
-*.tmp
