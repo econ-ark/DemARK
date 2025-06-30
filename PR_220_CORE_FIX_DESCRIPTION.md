@@ -15,13 +15,15 @@
 ## 🔧 Core Fixes in This PR
 
 ### 1. **Notebook Import Compatibility** ✅
-Fixed import statements in 4 notebooks to work with HARK v0.16+:
-- `notebooks/Harmenberg-Aggregation.ipynb`
-- `notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb` 
-- `notebooks/LifeCycleModelTheoryVsData.ipynb`
-- `notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb`
+Fixed import statements in 5 notebooks to work with HARK v0.16+:
+- `notebooks/Harmenberg-Aggregation.ipynb` - `HARK.distribution` → `HARK.distributions`
+- `notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb` - `HARK.datasets` → `HARK.Calibration`
+- `notebooks/LifeCycleModelTheoryVsData.ipynb` - `HARK.datasets` → `HARK.Calibration`
+- `notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb` - `HARK.datasets` → `HARK.Calibration`
 
-**Change**: `from HARK.datasets import ...` → `from HARK.Calibration import ...`
+**Changes**: 
+- `from HARK.datasets import ...` → `from HARK.Calibration import ...` (3 notebooks)
+- `from HARK.distribution import ...` → `from HARK.distributions import ...` (1 notebook)
 
 ### 2. **Critical CI Caching Fix** 🚨
 ```yaml
@@ -82,6 +84,7 @@ extra-specs: >-
 - **GitHub Actions Updates**: Bump `actions/checkout@v2` → `@v4`, `peaceiris/actions-gh-pages@v3.6.1` → `@v4`
 - **Documentation Fix**: Update broken link `https://hark.readthedocs.io` → `https://docs.econ-ark.org`
 - **Copyright Update**: Update copyright year `2023` → `2025` in `_config.yml`
+- **Final Import Fix**: Latest main branch commit (bba99ff) fixing `HARK.distribution` → `HARK.distributions` in Harmenberg-Aggregation.ipynb
 - **Repository Cleanup**: Added `.pytest_cache/` and other common artifacts to `.gitignore`
 
 ## ✅ Validation
@@ -101,7 +104,7 @@ This PR is part of a comprehensive investigation and fix:
 ## 📋 Files Changed
 
 **Core Compatibility (Ready to Merge)**:
-- 4 notebook files with essential import fixes
+- 5 notebook files with essential import fixes (includes latest main branch fix)
 - 1 critical CI workflow fix (includes MridulS's matrix improvements)
 - MyST documentation system integration (alanlujan91's migration)
 - Recent maintenance updates from main branch (GitHub Actions, documentation links)
