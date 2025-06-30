@@ -207,14 +207,15 @@ test_current_hark_commit() {
         log_info "Testing notebook: $(basename "$notebook")"
         
         # Use historical version of notebook with old imports
-        local historical_notebook="$DEMARK_REPO_PATH/DemARK_historical_1751227421/$notebook"
+        local historical_notebook="DemARK_historical_1751227421/$notebook"
         if [ ! -f "$historical_notebook" ]; then
             log_warning "Historical notebook not found: $historical_notebook, using current version"
-            historical_notebook="$DEMARK_REPO_PATH/$notebook"
+            historical_notebook="$notebook"
         fi
         
         # Run test in the specific environment with absolute path
-        if conda run -n "$test_env" --cwd "$DEMARK_REPO_PATH" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$historical_notebook" -v --tb=no -q; then
+        local abs_historical_notebook="$DEMARK_REPO_PATH/$historical_notebook"
+        if conda run -n "$test_env" --cwd "$DEMARK_REPO_PATH" python -m pytest --nbval-lax --nbval-cell-timeout=12000 "$abs_historical_notebook" -v --tb=no -q; then
             log_success "✅ $(basename "$notebook") passed"
         else
             log_error "❌ $(basename "$notebook") failed"
