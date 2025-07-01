@@ -28,7 +28,8 @@ jobs:
           environment-file: binder/environment.yml
           create-args: >-
             pytest
-          cache-environment: true
+            python=${{ matrix.python-version }}
+          cache-environment: false
       - name: Test with nbval
         shell: bash -l {0}
         run: |
