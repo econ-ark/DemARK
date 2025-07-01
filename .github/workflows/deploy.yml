@@ -9,11 +9,11 @@ on:
 jobs:
   deploy-book:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/checkout@v4
-
       - name: Setup mamba environment to run notebooks
         uses: mamba-org/setup-micromamba@v2
         with:
