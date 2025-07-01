@@ -1,7 +1,6 @@
 name: deploy-book
 
 on:
-  pull_request:
   push:
     branches:
       - main
