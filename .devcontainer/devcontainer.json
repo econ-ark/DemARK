@@ -1,0 +1,58 @@
+{
+  "name": "DemARK Development Environment",
+  "image": "mcr.microsoft.com/devcontainers/miniconda:0-3",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.vscode-jupyter-cell-tags",
+        "ms-toolsai.vscode-jupyter-slideshow",
+        "ms-python.flake8",
+        "ms-python.black-formatter",
+        "ms-vscode.vscode-json",
+        "yzhang.markdown-all-in-one"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/conda/envs/DemARK/bin/python",
+        "python.formatting.provider": "black",
+        "python.linting.enabled": true,
+        "python.linting.flake8Enabled": true,
+        "jupyter.jupyterServerType": "local"
+      }
+    }
+  },
+
+  "onCreateCommand": "git config --global --add safe.directory /workspaces/DemARK",
+  
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
+  "postStartCommand": "conda activate DemARK",
+
+  "remoteUser": "vscode",
+  
+  "workspaceFolder": "/workspaces/DemARK",
+
+  "forwardPorts": [8888, 8889],
+
+  "containerEnv": {
+    "CONDA_DEFAULT_ENV": "DemARK",
+    "PIP_NO_CACHE_DIR": "1",
+    "CONDA_ALWAYS_YES": "true"
+  },
+
+  "runArgs": [
+    "--shm-size=2g"
+  ],
+
+  "mounts": [
+    "source=/tmp,target=/tmp,type=bind,consistency=cached"
+  ]
+} 
