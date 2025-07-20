@@ -4,11 +4,29 @@ This directory contains the configuration for a Visual Studio Code development c
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/get-started) installed and running
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) for VS Code
+### Required Software
+- **Docker Desktop**: Version 4.10.0+ recommended (tested with v25.0.3)
+  - [Install Docker Desktop](https://www.docker.com/get-started)
+  - Ensure Docker is running with at least 4GB RAM allocated
+  - Enable "Use Docker Compose V2" in Docker Desktop settings
+- **Dev Container CLI** (for command-line usage): `npm install -g @devcontainers/cli`
+
+### IDE Options
+
+**Option A: Visual Studio Code (Recommended)**
+- [Visual Studio Code](https://code.visualstudio.com/) v1.75.0+
+- [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) v0.327.0+
+
+**Option B: Cursor IDE**  
+- [Cursor](https://cursor.sh/) with native devcontainer support
+- Note: Auto-detection may not work reliably; use manual connection methods
+
+**Option C: Command Line Only**
+- Use the DevContainer CLI directly (see CLI Usage section below)
 
 ## Getting Started
+
+### Method 1: Visual Studio Code (Automatic)
 
 1. **Open the repository in VS Code**
    ```bash
@@ -20,10 +38,36 @@ This directory contains the configuration for a Visual Studio Code development c
    - Click "Reopen in Container" when prompted
    - Alternatively, use the Command Palette (Ctrl+Shift+P / Cmd+Shift+P) and select "Dev Containers: Reopen in Container"
 
-3. **First-time Setup**
+### Method 2: Command Line Interface
+
+```bash
+# Build and start the devcontainer
+devcontainer up --workspace-folder .
+
+# Connect to the running container
+devcontainer exec --workspace-folder . bash
+
+# You'll see the prompt: (DemARK) vscode ➜ /workspaces/DemARK
+# The environment is now ready to use!
+```
+
+### Method 3: Manual Connection (for Cursor or troubleshooting)
+
+```bash
+# Build the container
+devcontainer build --workspace-folder .
+
+# Get container ID
+docker ps
+
+# Connect directly
+docker exec -it <container-id> bash
+```
+
+### First-time Setup (All Methods)
    - The container will automatically build and install all dependencies from `binder/environment.yml`
-   - This process may take several minutes the first time
-   - The conda environment "DemARK" will be created and activated
+   - This process may take 5-15 minutes the first time depending on your internet connection
+   - The conda environment "DemARK" will be created and activated automatically
 
 ## What's Included
 
@@ -53,42 +97,87 @@ This directory contains the configuration for a Visual Studio Code development c
 ### Running Jupyter Notebooks
 ```bash
 # The DemARK conda environment is automatically activated
-# Option 1: Use Jupyter Lab (recommended)
-jupyter lab
+# Option 1: Use Jupyter Lab (recommended for web interface)
+jupyter lab --ip=0.0.0.0 --no-browser
 
 # Option 2: Use classic Jupyter Notebook
-jupyter notebook
+jupyter notebook --ip=0.0.0.0 --no-browser
 
-# Option 3: Use VS Code's built-in Jupyter support
+# Option 3: Use VS Code's built-in Jupyter support (recommended for IDE)
 # Just open any .ipynb file in VS Code - no server needed
+```
+
+### Running CI Tests Locally
+Validate all notebooks with the same tests used in GitHub Actions:
+```bash
+# Run the full test suite (matches CI exactly)
+python -m pytest --nbval-lax --nbval-cell-timeout=12000 \
+    --ignore=notebooks/Chinese-Growth.ipynb \
+    --ignore=notebooks/Harmenberg-Aggregation.ipynb \
+    notebooks/
+
+# Quick test of a single notebook
+python -m pytest --nbval-lax notebooks/Alternative-Combos-Of-Parameter-Values.ipynb
 ```
 
 ### Running Python Scripts
 ```bash
-# Python interpreter is pre-configured
+# Python interpreter is pre-configured with all dependencies
 python your_script.py
+
+# Check HARK installation
+python -c "import HARK; print(f'HARK version: {HARK.__version__}')"
 ```
 
 ### Managing Dependencies
 If you need to add new packages:
 ```bash
-# Add to environment.yml, then rebuild the environment
+# Add to binder/environment.yml, then:
 conda env update -f binder/environment.yml
+
+# Or for development dependencies:
+pip install package-name
+```
+
+### Command Line Tips
+```bash
+# Check environment status
+conda info --envs
+
+# List installed packages  
+conda list
+
+# Activate environment (should be automatic)
+conda activate DemARK
 ```
 
 ## Troubleshooting
 
-### Container Build Issues
-- Ensure Docker is running and has sufficient resources
-- Try rebuilding the container: Command Palette → "Dev Containers: Rebuild Container"
+### Docker Issues
+- **Ensure Docker is running** with at least 4GB RAM allocated
+- **For macOS/Windows**: Use Docker Desktop v4.10.0+ for best compatibility
+- **For Linux**: Ensure docker daemon is running: `sudo systemctl start docker`
+- **Storage**: Ensure sufficient disk space (container needs ~2-3GB)
 
-### Python Path Issues
-- The Python interpreter should automatically be set to `/opt/conda/envs/DemARK/bin/python`
-- If not, manually select it in VS Code's Python interpreter picker
+### Container Build Issues  
+- Try rebuilding: Command Palette → "Dev Containers: Rebuild Container"
+- Force rebuild from CLI: `devcontainer build --workspace-folder . --no-cache`
+- Check Docker logs: `docker logs <container-id>`
 
-### Git Configuration
-- The container automatically adds the workspace to git's safe directories
-- Your local git configuration should be available in the container
+### IDE Connection Issues
+- **VS Code**: Auto-detection should work if Dev Containers extension is installed
+- **Cursor**: May not auto-detect; use Command Palette → search for "Remote" or "Container"
+- **Manual connection**: Use CLI method if IDE integration fails
+
+### Python/Environment Issues
+- Python interpreter should be: `/opt/conda/envs/DemARK/bin/python`
+- If environment not activated: `conda activate DemARK`  
+- Missing packages: `conda env update -f binder/environment.yml`
+
+### Permission Issues
+- Git safe directory: Already configured in container
+- File permissions: Container runs as `vscode` user, files should be accessible
+- Docker socket: Ensure your user is in `docker` group (Linux)
 
 ## Advanced Usage
 
