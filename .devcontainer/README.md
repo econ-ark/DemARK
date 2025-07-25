@@ -159,7 +159,7 @@ conda activate DemARK
 - **For Linux**: Ensure docker daemon is running: `sudo systemctl start docker`
 - **Storage**: Ensure sufficient disk space (container needs ~2-3GB)
 
-### Container Build Issues  
+### Container Build Issues
 - Try rebuilding: Command Palette → "Dev Containers: Rebuild Container"
 - Force rebuild from CLI: `devcontainer build --workspace-folder . --no-cache`
 - Check Docker logs: `docker logs <container-id>`
