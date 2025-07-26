@@ -35,11 +35,16 @@ CID=$(docker ps \
 
 # --- 4. Start JupyterLab inside the container if not already running-
  echo "🚀  Ensuring JupyterLab is running on port $PORT …"
-  if docker exec "$CID" bash -lc "source /opt/conda/etc/profile.d/conda.sh && conda activate $ENV_NAME && pgrep -fl \"jupyter.*lab.*--port=$PORT\" >/dev/null"; then
-    echo "JupyterLab already running."
-  else
-    docker exec "$CID" bash -lc "source /opt/conda/etc/profile.d/conda.sh && conda activate $ENV_NAME && nohup jupyter lab --ip=0.0.0.0 --port=$PORT --no-browser --allow-root --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &"
-  fi
+  docker exec "$CID" bash -lc '
+    source /opt/conda/etc/profile.d/conda.sh && conda activate '$ENV_NAME' || exit 1
+    # Install jupyterlab if missing
+    if ! command -v jupyter >/dev/null 2>&1; then
+      echo "⚙️  Installing jupyterlab inside container …" >&2
+      conda install -y -n '$ENV_NAME' jupyterlab >/dev/null 2>&1 || pip install --no-cache-dir jupyterlab
+    fi
+    # Start if not already running
+    pgrep -fl "jupyter.*lab.*--port='$PORT'" >/dev/null 2>&1 || nohup jupyter lab --ip=0.0.0.0 --port='$PORT' --no-browser --allow-root --ServerApp.token="" --ServerApp.password="" --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &
+  '
 
 # --- 5. Determine the container's internal IP -----------------------
 CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$CID")
@@ -53,6 +58,15 @@ CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}
 
 # --- 7. Done ---------------------------------------------------------
  printf "\n🎉  JupyterLab is ready!  Open: http://localhost:%s\n\n" "$PORT"
+
+# Wait until the server responds (max 30s)
+for i in {1..30}; do
+  if curl -s -o /dev/null "http://localhost:$PORT"; then
+    break
+  fi
+  sleep 1
+done
+
 # --- 8. Attempt to open default browser ---------------------------------
 URL="http://localhost:$PORT"
 if _exists open; then
