@@ -1,0 +1,31 @@
+{
+  "markdownlint.config": {
+    "extends": ".markdownlint.jsonc"
+  },
+  "markdownlint.ignore": [
+    "project/repos/**",
+    ".conda_env/**",
+    ".git/**"
+  ],
+  "markdownlint.run": "onSave",
+  "[markdown]": {
+    "editor.defaultFormatter": "davidanson.vscode-markdownlint",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.markdownlint": "explicit"
+  },
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    "**/_build": true,
+    "**/.DS_Store": true
+  },
+  "python.defaultInterpreterPath": "/opt/conda/envs/DemARK/bin/python",
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "jupyter.jupyterServerType": "local"
+} 

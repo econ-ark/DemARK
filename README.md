@@ -14,7 +14,7 @@ Demonstrations of how to use material in the [Econ-ARK](https://github.com/econ-
 1. [Install Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
 2. Clone `DemARK` to the folder of your choice
 3. Using conda, install the environment\
-    `conda env create -f binder/environment.yml` 
+    `conda env create -f binder/environment.yml`
     - If you already have installed the `DemARK` environment, you may still need to update it\
         `conda env update -f binder/environment.yml`
 4. Activate your `DemARK` environment:\
@@ -42,6 +42,7 @@ For a consistent development environment with VS Code integration:
 3. Container automatically builds with the complete DemARK environment
 
 **Alternative CLI usage:**
+
 ```bash
 # Build and run the devcontainer
 devcontainer up --workspace-folder .
@@ -67,6 +68,6 @@ Open an issue in this repository!
 
 ## Trigger a test on demand
 
-If you have the proper permissions and want to test whether the DemARKs work with the latest development version of HARK, 
+If you have the proper permissions and want to test whether the DemARKs work with the latest development version of HARK,
 
 [click on the last workflow run here](https://github.com/econ-ark/DemARK/actions/workflows/build.yml) and click the **Re-run all jobs** button

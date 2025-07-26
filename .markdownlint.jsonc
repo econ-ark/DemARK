@@ -1,0 +1,11 @@
+{
+  "default": true,
+  "MD013": false,  // Line length disabled for technical docs
+  "MD033": false,  // Inline HTML allowed for MyST
+  "MD034": false,  // Bare URLs allowed
+  "MD024": false,  // Duplicate headings allowed
+  "MD036": false,  // Emphasis as headings allowed
+  "MD007": {
+    "indent": 4    // 4-space list indentation
+  }
+} 
