@@ -74,9 +74,9 @@ CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}
 
 # Wait until the server responds (max 30s)
 
-printf "Waiting up to 120 s for JupyterLab to respond "
+printf "Waiting up to 30 s for JupyterLab to respond "
 SUCCESS=0
-for i in {1..120}; do
+for i in {1..30}; do
   if curl -s -o /dev/null "http://localhost:$PORT"; then
     SUCCESS=1; printf " ✔\n"; break
   fi
@@ -84,7 +84,7 @@ for i in {1..120}; do
 done
 
 if [[ $SUCCESS -eq 0 ]]; then
-  echo -e "\n❌  JupyterLab did not respond within 120 seconds. Check container logs with:\n   docker logs $CID | tail -n 50" >&2
+  echo -e "\n❌  JupyterLab did not respond within 30 seconds. Check container logs with:\n   docker logs $CID | tail -n 50" >&2
   exit 1
 fi
 
