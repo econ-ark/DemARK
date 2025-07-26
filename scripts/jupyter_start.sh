@@ -33,15 +33,11 @@ CID=$(docker ps \
 
 # --- 4. Start JupyterLab inside the container if not already running-
  echo "🚀  Ensuring JupyterLab is running on port $PORT …"
- docker exec "$CID" bash -lc "\
-    source /opt/conda/etc/profile.d/conda.sh && \
-    conda activate $ENV_NAME && \
-    pgrep -fl \"jupyter.*lab.*--port=$PORT\" || \
-    nohup jupyter lab --ip=0.0.0.0 --port=$PORT \
-          --no-browser --allow-root \
-          --ServerApp.token='' --ServerApp.password='' \
-          --ServerApp.disable_check_xsrf=true \
-          >/tmp/jlab.log 2>&1 &"
+  if docker exec "$CID" bash -lc "source /opt/conda/etc/profile.d/conda.sh && conda activate $ENV_NAME && pgrep -fl \"jupyter.*lab.*--port=$PORT\" >/dev/null"; then
+    echo "JupyterLab already running."
+  else
+    docker exec "$CID" bash -lc "source /opt/conda/etc/profile.d/conda.sh && conda activate $ENV_NAME && nohup jupyter lab --ip=0.0.0.0 --port=$PORT --no-browser --allow-root --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &"
+  fi
 
 # --- 5. Determine the container's internal IP -----------------------
 CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$CID")
@@ -54,5 +50,5 @@ CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}
    alpine/socat tcp-listen:$PORT,reuseaddr,fork tcp:$CIP:$PORT >/dev/null
 
 # --- 7. Done ---------------------------------------------------------
- echo "\n🎉  JupyterLab is ready!  Open: http://localhost:$PORT\n"
+ printf "\n🎉  JupyterLab is ready!  Open: http://localhost:%s\n\n" "$PORT"
  echo "To stop:   docker rm -f $PROXY_NAME $CID" 
