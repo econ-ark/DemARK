@@ -53,4 +53,19 @@ CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}
 
 # --- 7. Done ---------------------------------------------------------
  printf "\n🎉  JupyterLab is ready!  Open: http://localhost:%s\n\n" "$PORT"
+# --- 8. Attempt to open default browser ---------------------------------
+URL="http://localhost:$PORT"
+if _exists open; then
+  # macOS
+  open "$URL" &>/dev/null &
+elif _exists xdg-open; then
+  # Linux desktop environments
+  xdg-open "$URL" &>/dev/null &
+elif [[ "${OS-}" == "Windows_NT" ]]; then
+  # Git Bash / WSL on Windows
+  cmd.exe /c start "$URL" 2>/dev/null || explorer.exe "$URL" 2>/dev/null || true
+else
+  echo "(Could not auto-launch browser; please open the URL manually.)"
+fi
+
  echo "To stop:   docker rm -f $PROXY_NAME $CID" 
