@@ -34,7 +34,7 @@
   
   "postCreateCommand": "bash .devcontainer/setup.sh",
 
-  "postStartCommand": "conda activate DemARK",
+  "postStartCommand": "bash -c 'source /opt/conda/etc/profile.d/conda.sh && conda activate DemARK'",
 
   "remoteUser": "vscode",
   
@@ -49,7 +49,7 @@
   },
 
   "runArgs": [
-    "--shm-size=2g"
+    "--shm-size=8g"
   ],
 
   "mounts": [
