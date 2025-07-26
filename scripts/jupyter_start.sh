@@ -67,12 +67,15 @@ CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}
  printf "\n🎉  JupyterLab is ready!  Open: http://localhost:%s\n\n" "$PORT"
 
 # Wait until the server responds (max 30s)
-for i in {1..30}; do
+printf "Waiting for JupyterLab to become reachable "
+for i in {1..120}; do
   if curl -s -o /dev/null "http://localhost:$PORT"; then
+    echo "✔"
     break
   fi
-  sleep 1
+  printf "."; sleep 1
 done
+echo
 
 # --- 8. Attempt to open default browser ---------------------------------
 URL="http://localhost:$PORT"
