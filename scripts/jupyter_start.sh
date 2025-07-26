@@ -6,14 +6,15 @@
 
 set -euo pipefail
 
+PORT="8888"          # Host and container port for JupyterLab
+ENV_NAME="DemARK"    # Conda environment inside the container
+WORKSPACE_DIR="$(pwd)"
+
 # Mirror everything to a log file for post-mortem inspection
 LOGFILE="$WORKSPACE_DIR/jupyter_start_$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOGFILE") 2>&1
 echo "📄  Logging to $LOGFILE"
 
-PORT="8888"          # Host and container port for JupyterLab
-ENV_NAME="DemARK"    # Conda environment inside the container
-WORKSPACE_DIR="$(pwd)"
 PROXY_NAME="demark-proxy"
 
 # --- Helpers ---------------------------------------------------------
