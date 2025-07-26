@@ -22,7 +22,9 @@ fi
 
 # --- 2. Create or reuse the devcontainer ----------------------------
  echo "🔧  Creating (or reusing) devcontainer …"
- devcontainer up --workspace-folder "$WORKSPACE_DIR" --remove-existing-container
+ # If a container for this workspace already exists, devcontainer CLI will
+ # simply start it; it only rebuilds when configuration/image has changed.
+ devcontainer up --workspace-folder "$WORKSPACE_DIR"
 
 # --- 3. Get the container ID ---------------------------------------
 CID=$(docker ps \

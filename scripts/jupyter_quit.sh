@@ -15,8 +15,8 @@ CID_LIST=$(docker ps -q --filter "label=devcontainer.local_folder=$WORKSPACE_DIR
 if [[ -z "$CID_LIST" ]]; then
   echo "No devcontainer currently running."
 else
-  docker rm -f $CID_LIST
-  echo "Removed container(s): $CID_LIST"
+  docker stop $CID_LIST
+  echo "Stopped container(s): $CID_LIST (use docker rm to delete permanently)"
 fi
 
 echo "✅  All stopped." 
