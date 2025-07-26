@@ -55,8 +55,9 @@ CID=$(docker ps \
     fi
     NOTEBOOK_DIR="/workspaces/DemARK/notebooks"
     mkdir -p "$NOTEBOOK_DIR"
-    # Start if not already running
-    pgrep -fl "jupyter.*lab.*--port='$PORT'" >/dev/null 2>&1 || nohup jupyter lab --ip=0.0.0.0 --port='$PORT' --no-browser --allow-root --ServerApp.root_dir="$NOTEBOOK_DIR" --ServerApp.token="" --ServerApp.password="" --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &
+    # Restart JupyterLab cleanly
+    pkill -f "jupyter.*lab.*--port=$PORT" 2>/dev/null || true
+    nohup jupyter lab --ip=0.0.0.0 --port=$PORT --no-browser --allow-root --ServerApp.root_dir="$NOTEBOOK_DIR" --ServerApp.token="" --ServerApp.password="" --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &
   '
 
 # --- 5. Determine the container's internal IP -----------------------
