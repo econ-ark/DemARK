@@ -44,19 +44,26 @@ CID=$(docker ps \
 [[ -n "$CID" ]] || _die "Cannot locate devcontainer after startup."
  echo "✅  Using container $CID"
 
-# --- 4. Start JupyterLab inside the container if not already running-
- echo "🚀  Ensuring JupyterLab is running on port $PORT …"
-  docker exec "$CID" bash -lc "\
-    source /opt/conda/etc/profile.d/conda.sh && conda activate $ENV_NAME || exit 1; \
-    # Install jupyterlab if missing\
-    if ! command -v jupyter >/dev/null 2>&1; then \
-      echo '⚙️  Installing jupyterlab inside container …' >&2; \
-      conda install -y -n $ENV_NAME jupyterlab >/dev/null 2>&1 || pip install --no-cache-dir jupyterlab; \
-    fi; \
-    NOTEBOOK_DIR=/workspaces/DemARK/notebooks; \
-    mkdir -p \$NOTEBOOK_DIR; \
-    pkill -f "jupyter.*lab.*--port=$PORT" 2>/dev/null || true; \
-    nohup jupyter lab --ip=0.0.0.0 --port=$PORT --no-browser --allow-root --ServerApp.root_dir=\$NOTEBOOK_DIR --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &"
+echo "🚀  Ensuring JupyterLab is running on port $PORT …"
+
+# 4a. Copy helper script into container
+cat > /tmp/start-jlab.sh <<'INNERSCRIPT'
+#!/usr/bin/env bash
+set -euo pipefail
+PORT="$1"
+ENV_NAME="DemARK"
+source /opt/conda/etc/profile.d/conda.sh
+conda activate "$ENV_NAME"
+# Install jupyterlab if missing
+command -v jupyter >/dev/null 2>&1 || conda install -y -n "$ENV_NAME" jupyterlab >/dev/null 2>&1 || pip install --no-cache-dir jupyterlab
+NOTEBOOK_DIR="/workspaces/DemARK/notebooks"
+mkdir -p "$NOTEBOOK_DIR"
+pkill -f "jupyter.*lab.*--port=$PORT" 2>/dev/null || true
+nohup jupyter lab --ip=0.0.0.0 --port="$PORT" --no-browser --allow-root --ServerApp.root_dir="$NOTEBOOK_DIR" --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &
+INNERSCRIPT
+
+docker cp /tmp/start-jlab.sh "$CID":/tmp/start-jlab.sh
+docker exec "$CID" bash /tmp/start-jlab.sh "$PORT"
 
 # --- 5. Determine the container's internal IP -----------------------
 CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$CID")
