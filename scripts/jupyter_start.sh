@@ -15,6 +15,11 @@ PROXY_NAME="demark-proxy"
 _exists() { command -v "$1" >/dev/null 2>&1; }
 _die()    { echo "❌  $*" >&2; exit 1; }
 
+# --- 0. Clean slate ----------------------------------------------------
+# Stop any previous proxy & container for this workspace
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+"$SCRIPT_DIR/jupyter_quit.sh" >/dev/null 2>&1 || true
+
 # --- 1. Ensure devcontainer CLI is available ------------------------
 if ! _exists devcontainer; then
   _die "devcontainer CLI not found. Install with: npm i -g @devcontainers/cli"
@@ -42,8 +47,10 @@ CID=$(docker ps \
       echo "⚙️  Installing jupyterlab inside container …" >&2
       conda install -y -n '$ENV_NAME' jupyterlab >/dev/null 2>&1 || pip install --no-cache-dir jupyterlab
     fi
+    NOTEBOOK_DIR="/workspaces/DemARK/notebooks"
+    mkdir -p "$NOTEBOOK_DIR"
     # Start if not already running
-    pgrep -fl "jupyter.*lab.*--port='$PORT'" >/dev/null 2>&1 || nohup jupyter lab --ip=0.0.0.0 --port='$PORT' --no-browser --allow-root --ServerApp.token="" --ServerApp.password="" --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &
+    pgrep -fl "jupyter.*lab.*--port='$PORT'" >/dev/null 2>&1 || nohup jupyter lab --ip=0.0.0.0 --port='$PORT' --no-browser --allow-root --ServerApp.root_dir="$NOTEBOOK_DIR" --ServerApp.token="" --ServerApp.password="" --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &
   '
 
 # --- 5. Determine the container's internal IP -----------------------
