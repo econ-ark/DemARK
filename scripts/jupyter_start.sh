@@ -54,9 +54,9 @@ CID=$(docker ps \
       conda install -y -n $ENV_NAME jupyterlab >/dev/null 2>&1 || pip install --no-cache-dir jupyterlab; \
     fi; \
     NOTEBOOK_DIR=/workspaces/DemARK/notebooks; \
-    mkdir -p "$NOTEBOOK_DIR"; \
+    mkdir -p \$NOTEBOOK_DIR; \
     pkill -f "jupyter.*lab.*--port=$PORT" 2>/dev/null || true; \
-    nohup jupyter lab --ip=0.0.0.0 --port=$PORT --no-browser --allow-root --ServerApp.root_dir=$NOTEBOOK_DIR --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &"
+    nohup jupyter lab --ip=0.0.0.0 --port=$PORT --no-browser --allow-root --ServerApp.root_dir=\$NOTEBOOK_DIR --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=true >/tmp/jlab.log 2>&1 &"
 
 # --- 5. Determine the container's internal IP -----------------------
 CIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$CID")
