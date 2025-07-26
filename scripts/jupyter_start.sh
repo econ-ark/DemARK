@@ -61,9 +61,12 @@ if _exists open; then
 elif _exists xdg-open; then
   # Linux desktop environments
   xdg-open "$URL" &>/dev/null &
+elif _exists wslview; then
+  # WSL with wslview installed
+  wslview "$URL" &>/dev/null &
 elif [[ "${OS-}" == "Windows_NT" ]]; then
-  # Git Bash / WSL on Windows
-  cmd.exe /c start "$URL" 2>/dev/null || explorer.exe "$URL" 2>/dev/null || true
+  # Git Bash / MSYS / Cygwin on Windows
+  (cmd.exe /c start "$URL" 2>/dev/null || powershell.exe -Command "Start-Process '$URL'" 2>/dev/null || explorer.exe "$URL" 2>/dev/null || true) &
 else
   echo "(Could not auto-launch browser; please open the URL manually.)"
 fi
