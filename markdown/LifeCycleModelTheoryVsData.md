@@ -18,4 +18,3 @@ dashboards:
 ---
 
 The Life Cycle Model: Theory vs Data
-

@@ -1,0 +1,26 @@
+repos:
+  - repo: local
+    hooks:
+      - id: markdown-lint
+        name: Lint Markdown files
+        entry: python tools/lint_markdown.py
+        language: system
+        files: \.md$
+        exclude: ^(project/repos/|\.conda_env/|\.git/)
+        description: "Lint markdown files using enhanced wrapper"
+        
+      - id: trailing-whitespace
+        name: Trailing whitespace
+        language: system
+        entry: sed
+        args: ['-i', 's/[[:space:]]*$//']
+        files: \.(md|txt|py|yml|yaml|json)$
+        description: "Remove trailing whitespace"
+        
+      - id: end-of-file-fixer
+        name: End of file fixer
+        language: system
+        entry: sed
+        args: ['-i', '-e', '$a\\']
+        files: \.(md|txt|py|yml|yaml|json)$
+        description: "Ensure files end with newline" 
