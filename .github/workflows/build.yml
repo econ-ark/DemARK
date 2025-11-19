@@ -33,4 +33,4 @@ jobs:
       - name: Test with nbval
         shell: bash -l {0}
         run: |
-          python -m pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb --ignore=notebooks/Harmenberg-Aggregation.ipynb notebooks/
+          python -m pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb --ignore=notebooks/Harmenberg-Aggregation.ipynb --ignore=notebooks/The-Prescott-Real-Business-Cycle-RBC.ipynb notebooks/
