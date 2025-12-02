@@ -10,4 +10,4 @@ dependencies:
   - nbval
   - pip
   - pip:
-    - git+https://github.com/econ-ark/hark@master
+    - git+https://github.com/econ-ark/hark@main
