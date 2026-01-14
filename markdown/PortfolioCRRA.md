@@ -5,7 +5,7 @@ tags:
   - Demonstration
   - Teaching
   - Notebook
-abstract: 'Portfolio choice with risky returns: CRRA utility and Merton-Samuelson limiting shares'
+abstract: 'Portfolio choice with risky returns with CRRA utility'
 authors:
   -
     family-names: Carroll
