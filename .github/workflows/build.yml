@@ -30,6 +30,8 @@ jobs:
             pytest
             python=${{ matrix.python-version }}
           cache-environment: false
+      # Note: Chinese-Growth.ipynb and Harmenberg-Aggregation.ipynb are excluded
+      # because they require extended computation time that exceeds CI limits
       - name: Test with nbval
         shell: bash -l {0}
         run: |

@@ -1,21 +1,30 @@
 # See docs at: https://myst-tools.org/docs/mystjs/frontmatter
 version: 1
 project:
-  # title:
-  # description:
-  keywords: []
-  authors: []
+  title: DemARK
+  description: Demonstrations of how to use material in the Econ-ARK
+  keywords:
+    - economics
+    - heterogeneous agents
+    - consumption
+    - saving
+    - HARK
+  authors:
+    - name: The Econ-ARK Team
+      url: https://econ-ark.org
   github: https://github.com/econ-ark/DemARK
   # bibliography: []
 site:
   template: book-theme
-  # title:
-  # logo:
+  title: DemARK
+  logo: econ-ark-logo.png
   projects:
     - slug: myst
       path: .
   nav: []
   actions:
-    - title: Learn More
-      url: https://myst-tools.org/docs/mystjs
+    - title: GitHub
+      url: https://github.com/econ-ark/DemARK
+    - title: Econ-ARK
+      url: https://econ-ark.org
   domains: []
