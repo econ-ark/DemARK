@@ -13,7 +13,7 @@ authors:
 date-released: 
 github_repo_url: https://github.com/econ-ark/DemARK
 notebooks:
-  - 
+  -
     notebooks/DiamondOLG.ipynb
 dashboards:
 ---

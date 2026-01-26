@@ -13,9 +13,10 @@ authors:
   -
     family-names: White
     given-names: "Matthew N."
+date-released:
 github_repo_url: https://github.com/econ-ark/DemARK
 notebooks:
-  - 
+  -
     notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
 dashboards:
 title-original-paper: MPC heterogeneity and household balance sheets # required for Replications
