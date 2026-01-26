@@ -10,4 +10,6 @@ dependencies:
   - nbval
   - pip
   - pip:
-    - git+https://github.com/econ-ark/hark@main
+      # Install HARK from main branch to test against latest development version.
+      # For reproducible builds, consider pinning to a release tag (e.g., @v0.17.0).
+      - git+https://github.com/econ-ark/hark@main

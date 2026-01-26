@@ -23,6 +23,7 @@ chapters:
   - file: notebooks/Chinese-Growth
   - file: notebooks/DCEGM-Upper-Envelope
   - file: notebooks/DiamondOLG
+  - file: notebooks/Durables-vs-Nondurables-At-Low-And-High-Frequencies
   - file: notebooks/FisherTwoPeriod
   - file: notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model
   - file: notebooks/Gentle-Intro-To-HARK-PerfForesightCRRA
