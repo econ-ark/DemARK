@@ -28,6 +28,7 @@ jobs:
           environment-file: binder/environment.yml
           create-args: >-
             pytest
+            pytest-xdist
             python=${{ matrix.python-version }}
           cache-environment: false
       # Note: Chinese-Growth.ipynb and Harmenberg-Aggregation.ipynb are excluded
@@ -35,4 +36,4 @@ jobs:
       - name: Test with nbval
         shell: bash -l {0}
         run: |
-          python -m pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb --ignore=notebooks/Harmenberg-Aggregation.ipynb notebooks/
+          python -m pytest -n auto --dist=loadfile --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb --ignore=notebooks/Harmenberg-Aggregation.ipynb notebooks/
