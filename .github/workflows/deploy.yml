@@ -33,7 +33,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Build HTML Assets
-        run: uv run myst build --html --base-url ${{ env.BASE_URL }}
+        run: uv run myst build --html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
