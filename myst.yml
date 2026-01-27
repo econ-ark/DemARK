@@ -1,21 +1,81 @@
 # See docs at: https://myst-tools.org/docs/mystjs/frontmatter
 version: 1
 project:
-  # title:
-  # description:
-  keywords: []
-  authors: []
+  id: econ-ark-demark
+  title: DemARK
+  subtitle: Demonstrations for the Econ-ARK
+  short_title: DemARK
+  description: Demonstrations of how to use material in the Econ-ARK heterogeneous agents modeling toolkit
+  keywords:
+    - economics
+    - heterogeneous agents
+    - consumption
+    - saving
+    - HARK
+    - computational economics
+    - dynamic programming
+    - buffer stock
+  authors:
+    - name: The Econ-ARK Team
+      url: https://econ-ark.org
+      email: econ-ark@jhuecon.org
+      corresponding: true
+  affiliations:
+    - id: econ-ark
+      name: Econ-ARK
+      url: https://econ-ark.org
+  copyright: "2026"
+  license: Apache-2.0
+  open_access: true
   github: https://github.com/econ-ark/DemARK
-  # bibliography: []
+  thebe:
+    binder:
+      url: https://mybinder.org
+      repo: econ-ark/DemARK
+      ref: main
+    lite: false
+  resources:
+    - binder/environment.yml
+  toc:
+    - file: README.md
+    - title: Notebooks
+      children:
+        - file: notebooks/Alternative-Combos-Of-Parameter-Values.ipynb
+        - file: notebooks/ChangeLiqConstr.ipynb
+        - file: notebooks/Chinese-Growth.ipynb
+        - file: notebooks/DCEGM-Upper-Envelope.ipynb
+        - file: notebooks/DiamondOLG.ipynb
+        - file: notebooks/Durables-vs-Nondurables-At-Low-And-High-Frequencies.ipynb
+        - file: notebooks/FisherTwoPeriod.ipynb
+        - file: notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb
+        - file: notebooks/Gentle-Intro-To-HARK-PerfForesightCRRA.ipynb
+        - file: notebooks/Harmenberg-Aggregation.ipynb
+        - file: notebooks/IncExpectationExample.ipynb
+        - file: notebooks/KeynesFriedmanModigliani.ipynb
+        - file: notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb
+        - file: notebooks/LifeCycleModelTheoryVsData.ipynb
+        - file: notebooks/Lucas-Asset-Pricing-Model.ipynb
+        - file: notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income.ipynb
+        - file: notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb
+        - file: notebooks/Nondurables-During-Great-Recession.ipynb
+        - file: notebooks/PerfForesightCRRA-Approximation.ipynb
+        - file: notebooks/PerfForesightCRRA-SavingRate.ipynb
+        - file: notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
+        - file: notebooks/TractableBufferStock-Interactive.ipynb
 site:
   template: book-theme
-  # title:
-  # logo:
-  projects:
-    - slug: myst
-      path: .
+  title: DemARK
+  options:
+    logo: /econ-ark-logo.png
+    favicon: /econ-ark-logo-small.png
+    static:
+      - econ-ark-logo.png
+      - econ-ark-logo-small.png
   nav: []
   actions:
-    - title: Learn More
-      url: https://myst-tools.org/docs/mystjs
-  domains: []
+    - title: GitHub
+      url: https://github.com/econ-ark/DemARK
+    - title: Econ-ARK
+      url: https://econ-ark.org
+    - title: HARK Docs
+      url: https://docs.econ-ark.org

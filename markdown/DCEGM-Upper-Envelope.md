@@ -17,7 +17,7 @@ authors:
 date-released:
 github_repo_url: https://github.com/econ-ark/DemARK
 notebooks:
-  - 
+  -
     notebooks/DCEGM-Upper-Envelope.ipynb
 dashboards:
 title-original-paper: The endogenous grid method for discrete-continuous dynamic choice models with (or without) taste shocks # required for Replications

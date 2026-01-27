@@ -14,7 +14,7 @@ authors:
 date-released: 2018/09/12
 github_repo_url: https://github.com/econ-ark/DemARK
 notebooks:
-  - 
+  -
     notebooks/Alternative-Combos-Of-Parameter-Values.ipynb
 dashboards:
 ---

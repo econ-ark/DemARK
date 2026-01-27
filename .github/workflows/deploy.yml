@@ -1,39 +1,45 @@
-name: deploy-book
+name: Deploy MyST Site to GitHub Pages
 
 on:
   push:
     branches:
       - main
 
-# This job installs dependencies, builds the book, and pushes it to `gh-pages`
+env:
+  BASE_URL: /${{ github.event.repository.name }}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  deploy-book:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     steps:
       - uses: actions/checkout@v4
-      - name: Setup mamba environment to run notebooks
-        uses: mamba-org/setup-micromamba@v2
-        with:
-          environment-file: binder/environment.yml
-          create-args: >-
-            jupyter-book
 
-      # Build the book
-      - name: Build the book
-        shell: bash -l {0}
-        run: |
-          jupyter-book build .
-  
-      # Upload the book's HTML as an artifact
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build HTML Assets
+        run: uv run myst build --html
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: "_build/html"
-  
-      # Deploy the book's HTML to GitHub Pages
+          path: _build/html
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
