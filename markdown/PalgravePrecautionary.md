@@ -8,7 +8,7 @@ tags:
 abstract: 'Precautionary Saving and Precautionary Wealth'
 authors:
   -
-    family-names: Velasquez-Giraldo
+    family-names: Velásquez-Giraldo
     given-names: "Mateo"
     orcid: "https://orcid.org/0000-0001-7243-6776"
   -
