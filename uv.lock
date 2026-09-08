@@ -741,7 +741,7 @@ requires-dist = [
     { name = "ipywidgets", marker = "extra == 'notebooks'" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "linearmodels", marker = "extra == 'notebooks'" },
-    { name = "mystmd", specifier = ">=1.8.0" },
+    { name = "mystmd", specifier = ">=1.10.1" },
     { name = "nbval", marker = "extra == 'test'" },
     { name = "pandas-datareader", marker = "extra == 'notebooks'" },
     { name = "pytest", marker = "extra == 'test'" },
@@ -1946,15 +1946,15 @@ wheels = [
 
 [[package]]
 name = "mystmd"
-version = "1.8.0"
+version = "1.10.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "nodeenv" },
     { name = "platformdirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b1/05/9045016d777b9289a2192b84bb06b604e62ffb1814dd0b409d6e07edf733/mystmd-1.8.0.tar.gz", hash = "sha256:1bbbb282e17ba7aef2ec2f8f7d0031d41d8f89dd9264578199e61c6487160dce", size = 2782964, upload-time = "2026-01-21T21:16:59.574Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/18/6e/117ae46e81709d74f8ca8fc444511d6f11cad5a01555618dad0beb905d81/mystmd-1.10.1.tar.gz", hash = "sha256:40b24f20f3c6b77b5292aac4a1b2f89c1915848dd796bb9f2c1d2af71622fc99", size = 2981748, upload-time = "2026-06-05T17:07:02.098Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ea/e5/4a03c21b6b5a48894339ab3a7c63ddedd220fb05819130b2e2efb2d8d553/mystmd-1.8.0-py3-none-any.whl", hash = "sha256:4df0957040172ebaec46825bd314ff7f158cae9950c58ce650dae03c3b633c5f", size = 2814122, upload-time = "2026-01-21T21:16:57.436Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/16/b71308f641c431936964459df6cdd4b941f8f4a42e9b53f1c8b249cd27e9/mystmd-1.10.1-py3-none-any.whl", hash = "sha256:353bac72edea3dd9335efcf5ec72f95f40509a46026e248b75a96cd373398054", size = 3013401, upload-time = "2026-06-05T17:06:59.902Z" },
 ]
 
 [[package]]
