@@ -2,7 +2,8 @@ name: DemARK
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
+  # HARK requires Python >=3.12 as of econ-ark 0.17.x; 3.10 breaks install.
+  - python=3.12
   - ipywidgets
   - pandas-datareader
   - linearmodels
