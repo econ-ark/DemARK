@@ -28,14 +28,11 @@ project:
   license: Apache-2.0
   open_access: true
   github: https://github.com/econ-ark/DemARK
-  thebe:
-    binder:
-      url: https://mybinder.org
-      repo: econ-ark/DemARK
-      ref: main
-    lite: false
-  resources:
-    - binder/environment.yml
+  # Notebooks execute in the reader's browser via JupyterLite and Pyodide.
+  # No Binder, no server, no cold-start queue. Requires econ-ark >= 0.17.3,
+  # which imports without numba (numba has no WebAssembly build).
+  jupyter:
+    lite: true
   toc:
     - file: README.md
     - title: Notebooks

@@ -2,7 +2,10 @@
 
 Demonstrations of how to use material in the [Econ-ARK](https://github.com/econ-ark/HARK).
 
-[![Launch Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/main)
+[![Run in your browser](https://img.shields.io/badge/Run%20in%20your%20browser-DemARK-blue)](https://econ-ark.github.io/DemARK)
+
+The notebooks run in your browser. Open the site above and press Run on any
+page. The code executes locally in WebAssembly.
 
 [![DemARK build on MacOS, Ubuntu and Windows](https://github.com/econ-ark/DemARK/actions/workflows/build.yml/badge.svg)](https://github.com/econ-ark/DemARK/actions/workflows/build.yml)
 
