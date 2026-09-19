@@ -2,7 +2,9 @@ name: DemARK
 channels:
   - conda-forge
 dependencies:
-  # HARK requires Python >=3.12 as of econ-ark 0.17.x; 3.10 breaks install.
+  # Single source of the Python version for CI and for Binder.
+  # HARK main requires Python >=3.12, so 3.10 breaks the pip install below.
+  # The released econ-ark 0.17.2 still allows 3.10, so the floor comes from main.
   - python=3.12
   - ipywidgets
   - pandas-datareader

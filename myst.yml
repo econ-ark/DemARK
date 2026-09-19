@@ -29,8 +29,8 @@ project:
   open_access: true
   github: https://github.com/econ-ark/DemARK
   # Notebooks execute in the reader's browser via JupyterLite and Pyodide.
-  # No Binder, no server, no cold-start queue. Requires econ-ark >= 0.17.3,
-  # which imports without numba (numba has no WebAssembly build).
+  # No Binder, no server, no cold-start queue. The econ-ark release this needs
+  # is described in README.md under "Running in your browser".
   jupyter:
     lite: true
   toc:

@@ -4,8 +4,16 @@ Demonstrations of how to use material in the [Econ-ARK](https://github.com/econ-
 
 [![Run in your browser](https://img.shields.io/badge/Run%20in%20your%20browser-DemARK-blue)](https://econ-ark.github.io/DemARK)
 
+## Running in your browser
+
 The notebooks run in your browser. Open the site above and press Run on any
 page. The code executes locally in WebAssembly.
+
+This path needs an econ-ark that installs under Pyodide, which means numba,
+interpolation and quantecon have to be optional, because none of them builds
+for WebAssembly. HARK `main` marks them `sys_platform != 'emscripten'`.
+Released econ-ark 0.17.2 does not, so Run will fail on the published site
+until a newer econ-ark reaches PyPI.
 
 [![DemARK build on MacOS, Ubuntu and Windows](https://github.com/econ-ark/DemARK/actions/workflows/build.yml/badge.svg)](https://github.com/econ-ark/DemARK/actions/workflows/build.yml)
 
