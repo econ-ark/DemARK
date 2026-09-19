@@ -28,11 +28,14 @@ project:
   license: Apache-2.0
   open_access: true
   github: https://github.com/econ-ark/DemARK
-  # Notebooks execute in the reader's browser via JupyterLite and Pyodide.
-  # No Binder, no server, no cold-start queue. The econ-ark release this needs
-  # is described in README.md under "Running in your browser".
-  jupyter:
-    lite: true
+  thebe:
+    binder:
+      url: https://mybinder.org
+      repo: econ-ark/DemARK
+      ref: main
+    lite: false
+  resources:
+    - binder/environment.yml
   toc:
     - file: README.md
     - title: Notebooks
