@@ -95,9 +95,7 @@ site:
     # is the only way to replace it: the template declares the part for exactly that purpose, and no
     # option hides the badge.
     primary_sidebar_footer: |
-      [Econ-ARK](https://econ-ark.org)
-
-      Built with [MyST](https://mystmd.org)
+      [![](econ-ark-myst/favicon.png) Powered by Econ-ARK](https://econ-ark.org)
   actions:
     - title: GitHub
       url: https://github.com/econ-ark/DemARK
