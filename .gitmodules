@@ -1,0 +1,4 @@
+[submodule "econ-ark-myst"]
+	path = econ-ark-myst
+	url = https://github.com/econ-ark/econ-ark-myst
+	branch = main
