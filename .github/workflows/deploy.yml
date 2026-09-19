@@ -25,6 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The theme is a submodule. Without this the gitlink checks out empty and the deploy
+          # ships a site with no stylesheet, plugin, fonts, logos, favicon or banner.
+          submodules: true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
