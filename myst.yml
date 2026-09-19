@@ -90,6 +90,14 @@ site:
     favicon: econ-ark-myst/favicon.png
     style: econ-ark-myst/theme.css
   nav: []
+  parts:
+    # book-theme renders this where it otherwise falls back to its own "Made with MyST" badge, which
+    # is the only way to replace it: the template declares the part for exactly that purpose, and no
+    # option hides the badge.
+    primary_sidebar_footer: |
+      [Econ-ARK](https://econ-ark.org)
+
+      Built with [MyST](https://mystmd.org)
   actions:
     - title: GitHub
       url: https://github.com/econ-ark/DemARK
