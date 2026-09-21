@@ -71,9 +71,9 @@ Income risk enters and the consumption function stops being a straight line.
 
 (life-cycle)=
 
-## Life cycle models
+## Life cycle and the data
 
-Spending follows income over a working life. These ask how closely, then where the model misses.
+Income and spending over a working life, set beside what households are measured doing.
 
 ::::{grid} 1 1 2 3
 
@@ -82,13 +82,6 @@ Spending follows income over a working life. These ask how closely, then where t
 **The life cycle model against the data**
 ^^^
 Simulated profiles set beside what households actually do.
-:::
-
-:::{card}
-:link: ./incexpectationexample/
-**The persistent shock model**
-^^^
-What a household expects its income to be, when shocks do not wash out.
 :::
 
 :::{card}
@@ -105,20 +98,6 @@ Transitory and permanent shocks pull expected and actual income apart.
 What perfect foresight implies for how much is put aside.
 :::
 
-:::{card}
-:link: ./perfforesightcrra-approximation/
-**Approximating CRRA**
-^^^
-How close a tractable approximation gets before it parts from the exact solution.
-:::
-
-:::{card}
-:link: ./tractablebufferstock-interactive/
-**The tractable buffer stock model**
-^^^
-A version simple enough to move by hand, with the parameters exposed.
-:::
-
 ::::
 
 +++ { "class": "ark-section col-body-outset" }
@@ -127,7 +106,7 @@ A version simple enough to move by hand, with the parameters exposed.
 
 ## Shocks, credit and constraints
 
-Policy questions. Each one turns on credit, patience or a constraint.
+Income a household cannot insure, and limits on what it can borrow against.
 
 ::::{grid} 1 1 2 3
 
@@ -146,17 +125,24 @@ What happens to the consumption function when borrowing gets harder.
 :::
 
 :::{card}
+:link: ./incexpectationexample/
+**The persistent shock model**
+^^^
+What a household expects its income to be, when shocks do not wash out.
+:::
+
+:::{card}
+:link: ./tractablebufferstock-interactive/
+**The tractable buffer stock model**
+^^^
+Labor income risk in a model simple enough to move by hand, parameters exposed.
+:::
+
+:::{card}
 :link: ./nondurables-during-great-recession/
 **Nondurables in the Great Recession**
 ^^^
 Whether the model accounts for the spending drop of 2008.
-:::
-
-:::{card}
-:link: ./micro-and-macro-implications-of-very-impatient-hhs/
-**Impatient households, micro and macro**
-^^^
-What impatience does to one household, and to the wealth distribution.
 :::
 
 :::{card}
@@ -166,22 +152,15 @@ What impatience does to one household, and to the wealth distribution.
 Whether precautionary motives explain saving through a period of fast growth.
 :::
 
-:::{card}
-:link: ./alternative-combos-of-parameter-values/
-**Alternative parameters in cstwMPC**
-^^^
-One model under combinations of parameter values that each fit the data.
-:::
-
 ::::
 
 +++ { "class": "ark-section col-body-outset" }
 
 (aggregates)=
 
-## Aggregates and asset prices
+## Aggregates, prices and data
 
-Where many households are added up, so that prices come back out.
+Many households added up, prices coming back out, and the aggregate series beside them.
 
 ::::{grid} 1 1 2 3
 
@@ -210,9 +189,42 @@ Growth rates compared quarterly and over ten years, where the two diverge.
 
 +++ { "class": "ark-section col-body-outset" }
 
+(calibration)=
+
+## Calibration and estimation
+
+Which parameter values the evidence pins down.
+
+::::{grid} 1 1 2 3
+
+:::{card}
+:link: ./micro-and-macro-implications-of-very-impatient-hhs/
+**Impatient households, micro and macro**
+^^^
+What one cstwMPC parameter does to a household, and to the wealth distribution.
+:::
+
+:::{card}
+:link: ./alternative-combos-of-parameter-values/
+**Alternative parameters in cstwMPC**
+^^^
+The same model under combinations of parameter values that each fit the data.
+:::
+
+:::{card}
+:link: ./structural-estimates-from-empirical-mpcs-fagereng-/
+**Structural estimates from empirical MPCs**
+^^^
+Turning a reduced-form MPC estimate into structural parameters.
+:::
+
+::::
+
++++ { "class": "ark-section col-body-outset" }
+
 (method)=
 
-## Method, and making it fast
+## Method and speed
 
 For readers who came for the algorithms.
 
@@ -229,14 +241,14 @@ Solving a discrete choice by endogenous gridpoints, with the kinks that leaves.
 :link: ./harmenberg-aggregation/
 **Harmenberg aggregation**
 ^^^
-A change of measure that cuts some calculations by a factor of a hundred.
+A change of measure that needs a hundredth as many agents for the same precision.
 :::
 
 :::{card}
-:link: ./structural-estimates-from-empirical-mpcs-fagereng-/
-**Structural estimates from empirical MPCs**
+:link: ./perfforesightcrra-approximation/
+**Approximating CRRA**
 ^^^
-Turning a reduced-form MPC estimate into structural parameters.
+How close the approximate consumption function gets before it parts from the exact one.
 :::
 
 ::::
