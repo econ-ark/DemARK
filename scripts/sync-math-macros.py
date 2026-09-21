@@ -27,7 +27,10 @@ import sys
 
 logging.basicConfig(format="%(message)s", level=logging.INFO)
 
-NEWCOMMAND = re.compile(r"\\newcommand\{\\(\w+)\}(?:\[\d\])?\s*\{")
+# \providecommand, since a cell that repeats a definition metadata.math already carries is what
+# Temml refuses: it errors on \newcommand for a name it has, and passes over \providecommand.
+# MathJax honours either, so the notebook still reads in Jupyter.
+NEWCOMMAND = re.compile(r"\\(?:new|renew|provide)command\{\\(\w+)\}(?:\[\d\])?\s*\{")
 
 
 def _balanced(text: str, brace: int) -> tuple[str, int]:
