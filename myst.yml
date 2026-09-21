@@ -36,46 +36,70 @@ project:
     lite: false
   resources:
     - binder/environment.yml
+  plugins:
+    # Sets the maths in Fira Math, so it matches the text rather than falling back to a system face.
+    - econ-ark-myst/plugins/fira-math.bundle.mjs
+  static_files:
+    # Every face the theme asks for, served from the theme submodule.
+    - econ-ark-myst/fonts
+    # theme.css paints the landing hero with this, and it has to reach the site root. A static file
+    # is served at its basename whatever directory it comes from, so brand/ reaches /banner.svg.
+    - econ-ark-myst/brand/banner.svg
   toc:
-    - file: README.md
-    - title: Notebooks
-      children:
-        - file: notebooks/Alternative-Combos-Of-Parameter-Values.ipynb
-        - file: notebooks/ChangeLiqConstr.ipynb
-        - file: notebooks/Chinese-Growth.ipynb
-        - file: notebooks/DCEGM-Upper-Envelope.ipynb
-        - file: notebooks/DiamondOLG.ipynb
-        - file: notebooks/Durables-vs-Nondurables-At-Low-And-High-Frequencies.ipynb
-        - file: notebooks/FisherTwoPeriod.ipynb
-        - file: notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb
-        - file: notebooks/Gentle-Intro-To-HARK-PerfForesightCRRA.ipynb
-        - file: notebooks/Harmenberg-Aggregation.ipynb
-        - file: notebooks/IncExpectationExample.ipynb
-        - file: notebooks/KeynesFriedmanModigliani.ipynb
-        - file: notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb
-        - file: notebooks/LifeCycleModelTheoryVsData.ipynb
-        - file: notebooks/Lucas-Asset-Pricing-Model.ipynb
-        - file: notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income.ipynb
-        - file: notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb
-        - file: notebooks/Nondurables-During-Great-Recession.ipynb
-        - file: notebooks/PerfForesightCRRA-Approximation.ipynb
-        - file: notebooks/PerfForesightCRRA-SavingRate.ipynb
-        - file: notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
-        - file: notebooks/TractableBufferStock-Interactive.ipynb
+    # One non-notebook page. The landing is the grouped index of all twenty-two as well as the front
+    # door, so nothing is listed twice, and the README stays a repository file: it is the single
+    # home for the install steps, which the landing links to on GitHub rather than restating.
+    - file: index.md
+    # Flat, with no parent title. book-theme renders a titled group as a button that collapses, and
+    # its children leave the DOM while it is shut, so the twenty-two demonstrations were reachable
+    # only after a click and invisible to anyone scanning the sidebar.
+    - file: notebooks/Alternative-Combos-Of-Parameter-Values.ipynb
+    - file: notebooks/ChangeLiqConstr.ipynb
+    - file: notebooks/Chinese-Growth.ipynb
+    - file: notebooks/DCEGM-Upper-Envelope.ipynb
+    - file: notebooks/DiamondOLG.ipynb
+    - file: notebooks/Durables-vs-Nondurables-At-Low-And-High-Frequencies.ipynb
+    - file: notebooks/FisherTwoPeriod.ipynb
+    - file: notebooks/Gentle-Intro-To-HARK-Buffer-Stock-Model.ipynb
+    - file: notebooks/Gentle-Intro-To-HARK-PerfForesightCRRA.ipynb
+    - file: notebooks/Harmenberg-Aggregation.ipynb
+    - file: notebooks/IncExpectationExample.ipynb
+    - file: notebooks/KeynesFriedmanModigliani.ipynb
+    - file: notebooks/LC-Model-Expected-Vs-Realized-Income-Growth.ipynb
+    - file: notebooks/LifeCycleModelTheoryVsData.ipynb
+    - file: notebooks/Lucas-Asset-Pricing-Model.ipynb
+    - file: notebooks/MPC-Out-of-Credit-vs-MPC-Out-of-Income.ipynb
+    - file: notebooks/Micro-and-Macro-Implications-of-Very-Impatient-HHs.ipynb
+    - file: notebooks/Nondurables-During-Great-Recession.ipynb
+    - file: notebooks/PerfForesightCRRA-Approximation.ipynb
+    - file: notebooks/PerfForesightCRRA-SavingRate.ipynb
+    - file: notebooks/Structural-Estimates-From-Empirical-MPCs-Fagereng-et-al.ipynb
+    - file: notebooks/TractableBufferStock-Interactive.ipynb
 site:
   template: book-theme
   title: DemARK
   options:
-    logo: /econ-ark-logo.png
-    favicon: /econ-ark-logo-small.png
-    static:
-      - econ-ark-logo.png
-      - econ-ark-logo-small.png
+    # These paths resolve against this directory, so a leading slash reads as a URL and the file
+    # never ships: it 404s and the header falls back to naming the tooling. Everything here comes
+    # from the theme submodule, where the assets live under brand/.
+    logo: econ-ark-myst/brand/logo.png
+    logo_dark: econ-ark-myst/brand/logo-dark.png
+    logo_text: DemARK
+    # No logo_url. It overrides the home link, and pointing it at econ-ark.org sent the one control
+    # a reader uses to get back to the top of the site off to another domain instead.
+    logo_alt: Econ-ARK
+    favicon: econ-ark-myst/brand/favicon.png
+    style: econ-ark-myst/theme.css
   nav: []
+  parts:
+    # book-theme renders this where it otherwise falls back to its own "Made with MyST" badge, and
+    # the part is the only way to replace it, no option hiding the badge. The lockup is the theme's
+    # own file, so its words and its mark are named here rather than copied.
+    primary_sidebar_footer: econ-ark-myst/brand/powered-by.md
   actions:
     - title: GitHub
       url: https://github.com/econ-ark/DemARK
-    - title: Econ-ARK
-      url: https://econ-ark.org
+    # Two. Three plus the logo text and the search box overran a 375px viewport by 39px, which the
+    # header does not wrap out of, so the page scrolled sideways on a phone.
     - title: HARK Docs
       url: https://docs.econ-ark.org

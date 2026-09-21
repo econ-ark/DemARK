@@ -25,6 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The theme is a submodule. Without this the gitlink checks out empty and the deploy
+          # ships a site with no stylesheet, plugin, fonts, logos, favicon or banner.
+          submodules: true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -32,8 +36,24 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
+      # myst.yml serves econ-ark-myst/fonts, which the theme gitignores because it subsets the
+      # faces from one pinned release rather than tracking them. A checkout has the submodule but
+      # no fonts, so without this the site publishes with the system sans.
+      - name: Subset the theme's webfonts
+        run: econ-ark-myst/scripts/fonts.sh webfonts
+
       - name: Build HTML Assets
         run: uv run myst build --html
+
+      # Every path above fails quietly: an empty submodule, an unsubsetted fonts directory and a
+      # mistyped static_files entry all build clean and publish a site that merely looks wrong.
+      - name: Check the theme reached the build
+        run: |
+          set -euo pipefail
+          faces=$(find _build/html -name 'FiraSans-*.woff2' | wc -l)
+          test "$faces" -ge 4 || { echo "only $faces FiraSans faces served; readers get the system sans"; exit 1; }
+          test -f _build/html/banner.svg || { echo "banner.svg absent, so the landing hero paints flat"; exit 1; }
+          grep -q -- '--ark-blue' _build/html/myst-theme.css || { echo "theme.css carries no palette"; exit 1; }
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
