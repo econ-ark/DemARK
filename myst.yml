@@ -42,8 +42,9 @@ project:
   static_files:
     # Every face the theme asks for, served from the theme submodule.
     - econ-ark-myst/fonts
-    # theme.css paints the landing hero with this, so it has to be served at the site root.
-    - econ-ark-myst/banner.svg
+    # theme.css paints the landing hero with this, and it has to reach the site root. A static file
+    # is served at its basename whatever directory it comes from, so brand/ reaches /banner.svg.
+    - econ-ark-myst/brand/banner.svg
   toc:
     # One non-notebook page. The landing is the grouped index of all twenty-two as well as the front
     # door, so nothing is listed twice, and the README stays a repository file: it is the single
@@ -80,22 +81,21 @@ site:
   options:
     # These paths resolve against this directory, so a leading slash reads as a URL and the file
     # never ships: it 404s and the header falls back to naming the tooling. Everything here comes
-    # from the theme submodule, which tracks econ-ark-myst main.
-    logo: econ-ark-myst/logo.png
-    logo_dark: econ-ark-myst/logo-dark.png
+    # from the theme submodule, where the assets live under brand/.
+    logo: econ-ark-myst/brand/logo.png
+    logo_dark: econ-ark-myst/brand/logo-dark.png
     logo_text: DemARK
     # No logo_url. It overrides the home link, and pointing it at econ-ark.org sent the one control
     # a reader uses to get back to the top of the site off to another domain instead.
     logo_alt: Econ-ARK
-    favicon: econ-ark-myst/favicon.png
+    favicon: econ-ark-myst/brand/favicon.png
     style: econ-ark-myst/theme.css
   nav: []
   parts:
-    # book-theme renders this where it otherwise falls back to its own "Made with MyST" badge, which
-    # is the only way to replace it: the template declares the part for exactly that purpose, and no
-    # option hides the badge.
-    primary_sidebar_footer: |
-      [![](econ-ark-myst/favicon.png) Powered by Econ-ARK](https://econ-ark.org)
+    # book-theme renders this where it otherwise falls back to its own "Made with MyST" badge, and
+    # the part is the only way to replace it, no option hiding the badge. The lockup is the theme's
+    # own file, so its words and its mark are named here rather than copied.
+    primary_sidebar_footer: econ-ark-myst/brand/powered-by.md
   actions:
     - title: GitHub
       url: https://github.com/econ-ark/DemARK
