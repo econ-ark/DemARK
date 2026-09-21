@@ -19,16 +19,20 @@ site:
 Twenty-two notebooks that build consumption and saving models one assumption at a time, from a
 two-period problem to a life cycle with uninsurable risk.
 
-{button}`Start with perfect foresight <./gentle-intro-to-hark-perfforesightcrra/>`
-{button}`Jump to the full list <#life-cycle>`
+{button}`Start with Keynes, Friedman, Modigliani <./keynesfriedmanmodigliani/>`
+{button}`See all twenty-two <#start-here>`
 
 +++ { "class": "ark-section col-body-outset" }
+
+<!-- The label on each section below is a deep-link target, so a reader can send someone straight to
+     the shocks group. The hero's second button uses this one; the rest are reachable by hand. -->
 
 (start-here)=
 
 ## Start here
 
-Only four of the twenty-two build on each other. Here they are, in the order they build.
+These four make a reading path for anyone new. The theory comes first, then a two-period problem
+solved by hand, then that same model in code, then income risk.
 
 ::::{grid} 1 1 2 2
 :class: ark-steps
@@ -241,8 +245,11 @@ Turning a reduced-form MPC estimate into structural parameters.
 
 ## Running them
 
-The launch control at the top right of a notebook page starts a compute session, which lets you run
-and edit its cells in place.
+A **Launch kernel** control sits on the right above the first cell of each notebook. It connects the
+page to a session on Binder, and from then on you can run and edit the cells in place. Binder builds
+that session on request, which takes a few minutes the first time. The rocket icon in the row of
+links above the title opens the notebook somewhere else instead, in an external interface away from
+this site.
 
 To work offline, or to keep your changes, clone the repository and run JupyterLab locally. The
 [README](https://github.com/econ-ark/DemARK#install-and-run-locally) has the steps for uv, conda and

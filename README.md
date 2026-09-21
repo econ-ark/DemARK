@@ -1,9 +1,10 @@
 # DemARK
 
-Twenty-two Jupyter notebooks that demonstrate [Econ-ARK](https://github.com/econ-ark/HARK), building
-consumption and saving models one assumption at a time, from a two-period problem to a life cycle
-with uninsurable risk. Read them at [econ-ark.github.io/DemARK](https://econ-ark.github.io/DemARK),
-where each one runs in the browser, or install them below and run them locally.
+Twenty-two Jupyter notebooks that demonstrate [HARK](https://github.com/econ-ark/HARK), the
+[Econ-ARK](https://econ-ark.org) toolkit, building consumption and saving models one assumption at a
+time, from a two-period problem to a life cycle with uninsurable risk. Read them at
+[econ-ark.github.io/DemARK](https://econ-ark.github.io/DemARK), where each page can start a Binder
+session and run its own cells, or install them below and run them locally.
 
 [![Launch Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/DemARK/main)
 [![DemARK build on MacOS, Ubuntu and Windows](https://github.com/econ-ark/DemARK/actions/workflows/build.yml/badge.svg)](https://github.com/econ-ark/DemARK/actions/workflows/build.yml)
@@ -50,13 +51,16 @@ differently across the two install paths, the uv one is the released behaviour.
 ## Contributing
 
 New notebooks and edits to existing ones are equally welcome, both as pull requests. A new notebook
-should run top to bottom from a fresh kernel, since that is what CI checks and what a reader will
-do first. For anything that is not a change to the notebooks, please
-[open an issue](https://github.com/econ-ark/DemARK/issues).
+should run top to bottom from a fresh kernel, which is what a reader does first and what CI does to
+all but two of them: `build.yml` runs `nbval` over `notebooks/` and skips `Chinese-Growth` and
+`Harmenberg-Aggregation`, whose run times exceed what a CI job allows. Those two are checked by
+hand, so a change to either needs a local run. For anything that is not a change to the notebooks,
+please [open an issue](https://github.com/econ-ark/DemARK/issues).
 
 ## Running the build on demand
 
 With write access to this repository, open the
 [most recent build run](https://github.com/econ-ark/DemARK/actions/workflows/build.yml) and press
-**Re-run all jobs**. This checks every notebook against the current development version of HARK,
-which is how a break in HARK `main` is caught here before a release.
+**Re-run all jobs**. This runs twenty of the twenty-two notebooks, the two long ones above excepted,
+against the current development version of HARK, which is how a break in HARK `main` is caught here
+before a release.
