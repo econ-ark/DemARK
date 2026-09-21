@@ -75,7 +75,9 @@ Income risk enters and the consumption function stops being a straight line.
 
 Income and spending over a working life, set beside what households are measured doing.
 
-::::{grid} 1 1 2 3
+<!-- Three columns from the medium breakpoint up, not two. A group of three in a two-column grid
+     leaves the third card alone on a row, which the six-card group below never does. -->
+::::{grid} 1 1 3 3
 
 :::{card}
 :link: ./lifecyclemodeltheoryvsdata/
@@ -162,7 +164,7 @@ Whether precautionary motives explain saving through a period of fast growth.
 
 Many households added up, prices coming back out, and the aggregate series beside them.
 
-::::{grid} 1 1 2 3
+::::{grid} 1 1 3 3
 
 :::{card}
 :link: ./diamondolg/
@@ -195,7 +197,7 @@ Growth rates compared quarterly and over ten years, where the two diverge.
 
 Which parameter values the evidence pins down.
 
-::::{grid} 1 1 2 3
+::::{grid} 1 1 3 3
 
 :::{card}
 :link: ./micro-and-macro-implications-of-very-impatient-hhs/
@@ -228,7 +230,7 @@ Turning a reduced-form MPC estimate into structural parameters.
 
 For readers who came for the algorithms.
 
-::::{grid} 1 1 2 3
+::::{grid} 1 1 3 3
 
 :::{card}
 :link: ./dcegm-upper-envelope/
