@@ -2,10 +2,9 @@
 title: DemARK
 description: Twenty-two worked demonstrations of heterogeneous-agent consumption and saving models, built on HARK
 site:
-  # A landing page carries its own navigation, so the rails come off. The sidebar is position:fixed
-  # and overlays the left 240px, which landing blocks run underneath rather than around, so leaving
-  # it on puts the banner and every section heading behind the notebook list.
-  hide_toc: true
+  # The rails are position:fixed and overlay the margins, which landing blocks run underneath
+  # rather than around. Only the outline is dropped here: hide_toc would take the contents out of
+  # the page, and on a phone that element is the drawer. theme.css hides its rail instead.
   hide_outline: true
   # The hero below is the title. Without this the page shows the frontmatter title block first, so
   # a reader meets "DemARK" twice before reading anything.
