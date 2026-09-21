@@ -17,7 +17,6 @@ jobs:
       max-parallel: 12
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.10"]
 
     steps:
       - uses: actions/checkout@v4
@@ -25,11 +24,11 @@ jobs:
       - name: Setup mamba environment to run notebooks
         uses: mamba-org/setup-micromamba@v2
         with:
+          # binder/environment.yml is the single source of the Python version.
           environment-file: binder/environment.yml
           create-args: >-
             pytest
             pytest-xdist
-            python=${{ matrix.python-version }}
           cache-environment: false
       # Note: Chinese-Growth.ipynb and Harmenberg-Aggregation.ipynb are excluded
       # because they require extended computation time that exceeds CI limits
