@@ -1,6 +1,6 @@
 ---
 title: DemARK
-description: Twenty-two worked demonstrations of heterogeneous-agent consumption and saving models, built on HARK
+description: Twenty-one worked demonstrations of heterogeneous-agent consumption and saving models, built on HARK
 site:
   # The rails are position:fixed and overlay the margins, which landing blocks run underneath
   # rather than around. Only the outline is dropped here: hide_toc would take the contents out of
@@ -15,11 +15,11 @@ site:
 
 # Models you can open and change
 
-Twenty-two notebooks that build consumption and saving models one assumption at a time, from a
+Twenty-one notebooks that build consumption and saving models one assumption at a time, from a
 two-period problem to a life cycle with uninsurable risk.
 
-{button}`Start with Keynes, Friedman, Modigliani <./keynesfriedmanmodigliani/>`
-{button}`See all twenty-two <#start-here>`
+{button}`Start with the Fisher two-period problem <./fishertwoperiod/>`
+{button}`See all twenty-one <#start-here>`
 
 +++ { "class": "ark-section col-body-outset" }
 
@@ -30,17 +30,18 @@ two-period problem to a life cycle with uninsurable risk.
 
 ## Start here
 
-These four make a reading path for anyone new. The theory comes first, then a two-period problem
-solved by hand, then that same model in code, then income risk.
+These four make a reading path for anyone new. The theory comes first, in a chapter of *A Gentle
+Introduction to Intertemporal Choice*, then a two-period problem solved by hand, then that same
+model in code, then income risk.
 
 ::::{grid} 1 1 2 2
 :class: ark-steps
 
 :::{card}
-:link: ./keynesfriedmanmodigliani/
-**Keynes, Friedman, Modigliani**
+:link: https://intertemporal-choice.github.io/content/consumption/keynesfriedmanmodigliani/
+**Keynes, Duesenberry, and Friedman**
 ^^^
-Three consumption theories the rest of the library descends from, before any code.
+Three consumption theories the rest of the library descends from, set against US data.
 :::
 
 :::{card}

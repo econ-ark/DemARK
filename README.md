@@ -1,6 +1,6 @@
 # DemARK
 
-Twenty-two Jupyter notebooks that demonstrate [HARK](https://github.com/econ-ark/HARK), the
+Twenty-one Jupyter notebooks that demonstrate [HARK](https://github.com/econ-ark/HARK), the
 [Econ-ARK](https://econ-ark.org) toolkit, building consumption and saving models one assumption at a
 time, from a two-period problem to a life cycle with uninsurable risk. Read them at
 [econ-ark.github.io/DemARK](https://econ-ark.github.io/DemARK), where each page can start a Binder
@@ -61,6 +61,6 @@ please [open an issue](https://github.com/econ-ark/DemARK/issues).
 
 With write access to this repository, open the
 [most recent build run](https://github.com/econ-ark/DemARK/actions/workflows/build.yml) and press
-**Re-run all jobs**. This runs twenty of the twenty-two notebooks, the two long ones above excepted,
+**Re-run all jobs**. This runs nineteen of the twenty-one notebooks, the two long ones above excepted,
 against the current development version of HARK, which is how a break in HARK `main` is caught here
 before a release.
