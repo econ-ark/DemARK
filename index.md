@@ -39,7 +39,7 @@ model in code, then income risk.
 
 :::{card}
 :link: https://intertemporal-choice.github.io/content/consumption/keynesfriedmanmodigliani/
-**Keynes, Duesenberry, and Friedman**
+**Keynes, Friedman, Modigliani**
 ^^^
 Three consumption theories the rest of the library descends from, set against US data.
 :::
