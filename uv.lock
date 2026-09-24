@@ -521,12 +521,16 @@ dev = [
     { name = "nbval" },
     { name = "pytest" },
     { name = "pytest-xdist" },
+    { name = "seaborn" },
+    { name = "statsmodels" },
     { name = "tqdm" },
 ]
 notebooks = [
     { name = "econ-ark" },
     { name = "ipywidgets" },
     { name = "linearmodels" },
+    { name = "seaborn" },
+    { name = "statsmodels" },
     { name = "tqdm" },
 ]
 test = [
@@ -546,6 +550,8 @@ requires-dist = [
     { name = "nbval", marker = "extra == 'test'" },
     { name = "pytest", marker = "extra == 'test'" },
     { name = "pytest-xdist", marker = "extra == 'test'" },
+    { name = "seaborn", marker = "extra == 'notebooks'" },
+    { name = "statsmodels", marker = "extra == 'notebooks'" },
     { name = "tqdm", marker = "extra == 'notebooks'" },
 ]
 provides-extras = ["notebooks", "test", "dev"]

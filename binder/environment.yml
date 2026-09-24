@@ -8,6 +8,8 @@ dependencies:
   - python=3.12
   - ipywidgets
   - linearmodels
+  - seaborn
+  - statsmodels
   - tqdm
   - nbval
   - pip
