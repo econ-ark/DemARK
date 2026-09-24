@@ -7,7 +7,6 @@ dependencies:
   # The released econ-ark 0.17.2 still allows 3.10, so the floor comes from main.
   - python=3.12
   - ipywidgets
-  - pandas-datareader
   - linearmodels
   - tqdm
   - nbval
