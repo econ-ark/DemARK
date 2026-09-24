@@ -13,8 +13,9 @@ dependencies = [
 notebooks = [
     "econ-ark",
     "ipywidgets",
-    "pandas-datareader",
     "linearmodels",
+    "seaborn",
+    "statsmodels",
     "tqdm",
 ]
 test = [
