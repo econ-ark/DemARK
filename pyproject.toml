@@ -11,11 +11,16 @@ dependencies = [
 
 [project.optional-dependencies]
 notebooks = [
-    "econ-ark",
+    # 0.17.2 is the first release whose expected() takes dstn=, as the Lucas and LC-Model notebooks call it.
+    "econ-ark>=0.17.2",
     "ipywidgets",
     "linearmodels",
     "seaborn",
     "statsmodels",
+    # econ-ark 0.17.2 imports sympy without declaring it, and quantecon, which used to bring it in,
+    # stopped requiring it in 0.12. HARK main declares it (econ-ark/HARK#1819), so this can go once
+    # a release carries that.
+    "sympy",
     "tqdm",
 ]
 test = [

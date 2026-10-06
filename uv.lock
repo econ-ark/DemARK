@@ -523,6 +523,7 @@ dev = [
     { name = "pytest-xdist" },
     { name = "seaborn" },
     { name = "statsmodels" },
+    { name = "sympy" },
     { name = "tqdm" },
 ]
 notebooks = [
@@ -531,6 +532,7 @@ notebooks = [
     { name = "linearmodels" },
     { name = "seaborn" },
     { name = "statsmodels" },
+    { name = "sympy" },
     { name = "tqdm" },
 ]
 test = [
@@ -542,7 +544,7 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "demark", extras = ["notebooks", "test"], marker = "extra == 'dev'" },
-    { name = "econ-ark", marker = "extra == 'notebooks'" },
+    { name = "econ-ark", marker = "extra == 'notebooks'", specifier = ">=0.17.2" },
     { name = "ipywidgets", marker = "extra == 'notebooks'" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "linearmodels", marker = "extra == 'notebooks'" },
@@ -552,13 +554,14 @@ requires-dist = [
     { name = "pytest-xdist", marker = "extra == 'test'" },
     { name = "seaborn", marker = "extra == 'notebooks'" },
     { name = "statsmodels", marker = "extra == 'notebooks'" },
+    { name = "sympy", marker = "extra == 'notebooks'" },
     { name = "tqdm", marker = "extra == 'notebooks'" },
 ]
 provides-extras = ["notebooks", "test", "dev"]
 
 [[package]]
 name = "econ-ark"
-version = "0.17.0"
+version = "0.17.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "interpolation" },
@@ -578,9 +581,9 @@ dependencies = [
     { name = "statsmodels" },
     { name = "xarray" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e7/e7/c330a15890c2f9dde43e3371bdd39a01f749242bf9fbb625e82b23be7907/econ_ark-0.17.0.tar.gz", hash = "sha256:7578307d38508f7afb976023832d1aa7217e25ed58355073c982f6b0ff1fd97e", size = 17423480, upload-time = "2026-01-05T18:44:58.975Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a2/d0/1962148c0c287bbe4e96dffdcfefa794eb290a2769ded08bf9d1e93a2703/econ_ark-0.17.2.tar.gz", hash = "sha256:2ba04af415cdcd204842afc1fbffcd3ea96d3af8f73046c45c0976686c501c5c", size = 19083958, upload-time = "2026-05-01T21:51:29.221Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/44/f1dc5e1827ad388255aa7fb1249c91b25be914087fa46d9ffecd0f6c7af5/econ_ark-0.17.0-py3-none-any.whl", hash = "sha256:bcb4f441f98807b8d5d003e119808cdcff800b2d8c50248bf8ad8114346563a9", size = 2258310, upload-time = "2026-01-05T18:44:56.263Z" },
+    { url = "https://files.pythonhosted.org/packages/0e/49/6a0c154bdb1bb8cedcee627f5450af96237d10544e14a46d942ecdb92e54/econ_ark-0.17.2-py3-none-any.whl", hash = "sha256:e3906d0010f7c2cf1b71288a737bbd2e448e315314ce781dac5488e6be6822e3", size = 2306149, upload-time = "2026-05-01T21:51:26.558Z" },
 ]
 
 [[package]]
