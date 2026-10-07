@@ -1,0 +1,23 @@
+{
+  "_comment": "Negative control for check_jupyterlite_ready.py. Trimmed from the real PyPI payload for econ-ark 0.17.2, which declares the three native-only dependencies with no platform marker. The gate must exit 1 on this.",
+  "info": {
+    "version": "0.17.2",
+    "requires_python": ">=3.10",
+    "requires_dist": [
+      "interpolation",
+      "joblib>=1.2",
+      "matplotlib>=3.6",
+      "networkx>=3",
+      "numba",
+      "numpy",
+      "pandas>=1.5",
+      "quantecon",
+      "scipy>=1.10",
+      "seaborn>=0.12",
+      "sequence-jacobian",
+      "statsmodels>=0.14.2",
+      "sympy",
+      "xarray>=2023"
+    ]
+  }
+}

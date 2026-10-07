@@ -1,0 +1,23 @@
+{
+  "_comment": "Positive control for check_jupyterlite_ready.py. Same payload as econ-ark-ungated.json with the three native-only dependencies gated on the emscripten marker, which is what a release carrying econ-ark/HARK#1819 should publish. The gate must exit 0 on this. Keep both fixtures: once the real release lands, live PyPI stops serving the failing case and this pair is the only remaining proof the gate can tell them apart.",
+  "info": {
+    "version": "0.17.3",
+    "requires_python": ">=3.12",
+    "requires_dist": [
+      "interpolation>=2.2.3; sys_platform != \"emscripten\"",
+      "joblib>=1.2",
+      "matplotlib>=3.6",
+      "networkx>=3",
+      "numba; sys_platform != \"emscripten\"",
+      "numpy",
+      "pandas>=1.5",
+      "quantecon; sys_platform != \"emscripten\"",
+      "scipy>=1.10",
+      "seaborn>=0.12",
+      "sequence-jacobian",
+      "statsmodels>=0.14.2",
+      "sympy",
+      "xarray>=2023"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+name: JupyterLite readiness
+
+# Red while the released econ-ark cannot install under Pyodide, the state that
+# makes the site's Run button fail. The daily schedule turns it green on its own
+# within a day of the release reaching PyPI.
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: 41 5 * * *
+
+jobs:
+  econ-ark-installs-under-pyodide:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Both controls run first. A gate nobody has seen fail is a gate of
+      # unknown power, so the fixtures prove it can still tell the two states
+      # apart even after the live index starts returning the passing one.
+      - name: Gate rejects an ungated release
+        run: |
+          if python .github/scripts/check_jupyterlite_ready.py \
+              .github/scripts/testdata/econ-ark-ungated.json; then
+            echo "::error::Gate passed its negative control. It cannot detect an unusable release."
+            exit 1
+          fi
+
+      - name: Gate accepts a gated release
+        run: |
+          python .github/scripts/check_jupyterlite_ready.py \
+            .github/scripts/testdata/econ-ark-gated.json
+
+      - name: Released econ-ark supports Pyodide
+        run: python .github/scripts/check_jupyterlite_ready.py
