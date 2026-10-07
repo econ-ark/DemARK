@@ -15,6 +15,7 @@ notebooks = [
     "econ-ark>=0.17.2",
     "ipywidgets",
     "linearmodels",
+    "openpyxl",
     "seaborn",
     "statsmodels",
     # econ-ark 0.17.2 imports sympy without declaring it, and quantecon, which used to bring it in,

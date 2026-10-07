@@ -519,6 +519,7 @@ dev = [
     { name = "jupyterlab" },
     { name = "linearmodels" },
     { name = "nbval" },
+    { name = "openpyxl" },
     { name = "pytest" },
     { name = "pytest-xdist" },
     { name = "seaborn" },
@@ -530,6 +531,7 @@ notebooks = [
     { name = "econ-ark" },
     { name = "ipywidgets" },
     { name = "linearmodels" },
+    { name = "openpyxl" },
     { name = "seaborn" },
     { name = "statsmodels" },
     { name = "sympy" },
@@ -550,6 +552,7 @@ requires-dist = [
     { name = "linearmodels", marker = "extra == 'notebooks'" },
     { name = "mystmd", specifier = ">=1.10.1" },
     { name = "nbval", marker = "extra == 'test'" },
+    { name = "openpyxl", marker = "extra == 'notebooks'" },
     { name = "pytest", marker = "extra == 'test'" },
     { name = "pytest-xdist", marker = "extra == 'test'" },
     { name = "seaborn", marker = "extra == 'notebooks'" },
@@ -584,6 +587,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a2/d0/1962148c0c287bbe4e96dffdcfefa794eb290a2769ded08bf9d1e93a2703/econ_ark-0.17.2.tar.gz", hash = "sha256:2ba04af415cdcd204842afc1fbffcd3ea96d3af8f73046c45c0976686c501c5c", size = 19083958, upload-time = "2026-05-01T21:51:29.221Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0e/49/6a0c154bdb1bb8cedcee627f5450af96237d10544e14a46d942ecdb92e54/econ_ark-0.17.2-py3-none-any.whl", hash = "sha256:e3906d0010f7c2cf1b71288a737bbd2e448e315314ce781dac5488e6be6822e3", size = 2306149, upload-time = "2026-05-01T21:51:26.558Z" },
+]
+
+[[package]]
+name = "et-xmlfile"
+version = "2.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d3/38/af70d7ab1ae9d4da450eeec1fa3918940a5fafb9055e934af8d6eb0c2313/et_xmlfile-2.0.0.tar.gz", hash = "sha256:dab3f4764309081ce75662649be815c4c9081e88f0837825f90fd28317d4da54", size = 17234, upload-time = "2024-10-25T17:25:40.039Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c1/8b/5fe2cc11fee489817272089c4203e679c63b570a5aaeb18d852ae3cbba6a/et_xmlfile-2.0.0-py3-none-any.whl", hash = "sha256:7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa", size = 18059, upload-time = "2024-10-25T17:25:39.051Z" },
 ]
 
 [[package]]
@@ -1657,6 +1669,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/51/41/851c4b4082402d9ea860c3626db5d5df47164a712cb23b54be028b184c1c/numpy-2.3.5-cp314-cp314t-win32.whl", hash = "sha256:93eebbcf1aafdf7e2ddd44c2923e2672e1010bddc014138b229e49725b4d6be5", size = 6479806, upload-time = "2025-11-16T22:52:14.641Z" },
     { url = "https://files.pythonhosted.org/packages/90/30/d48bde1dfd93332fa557cff1972fbc039e055a52021fbef4c2c4b1eefd17/numpy-2.3.5-cp314-cp314t-win_amd64.whl", hash = "sha256:c8a9958e88b65c3b27e22ca2a076311636850b612d6bbfb76e8d156aacde2aaf", size = 13105760, upload-time = "2025-11-16T22:52:17.975Z" },
     { url = "https://files.pythonhosted.org/packages/2d/fd/4b5eb0b3e888d86aee4d198c23acec7d214baaf17ea93c1adec94c9518b9/numpy-2.3.5-cp314-cp314t-win_arm64.whl", hash = "sha256:6203fdf9f3dc5bdaed7319ad8698e685c7a3be10819f41d32a0723e611733b42", size = 10545459, upload-time = "2025-11-16T22:52:20.55Z" },
+]
+
+[[package]]
+name = "openpyxl"
+version = "3.1.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "et-xmlfile" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3d/f9/88d94a75de065ea32619465d2f77b29a0469500e99012523b91cc4141cd1/openpyxl-3.1.5.tar.gz", hash = "sha256:cf0e3cf56142039133628b5acffe8ef0c12bc902d2aadd3e0fe5878dc08d1050", size = 186464, upload-time = "2024-06-28T14:03:44.161Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c0/da/977ded879c29cbd04de313843e76868e6e13408a94ed6b987245dc7c8506/openpyxl-3.1.5-py2.py3-none-any.whl", hash = "sha256:5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2", size = 250910, upload-time = "2024-06-28T14:03:41.161Z" },
 ]
 
 [[package]]
