@@ -246,10 +246,10 @@ A change of measure that needs a hundredth as many agents for the same precision
 :::
 
 :::{card}
-:link: ./perfforesightcrra-approximation/
-**Approximating CRRA**
+:link: ./perfforesightcrra-convergence/
+**How close HARK's solution gets**
 ^^^
-How close the approximate consumption function gets before it parts from the exact one.
+Backward iteration against the exact infinite-horizon solution, and when it stops too soon.
 :::
 
 ::::
