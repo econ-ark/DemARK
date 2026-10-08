@@ -5,7 +5,7 @@ tags:
   - Demonstration
   - Teaching
   - Notebook
-abstract: 'Perfect Foresight CRRA Model - Approximation'
+abstract: 'Moved to PerfForesightCRRA-Convergence'
 authors:
   -
     family-names: Carroll
@@ -19,4 +19,4 @@ notebooks:
 dashboards:
 ---
 
-Perfect Foresight CRRA Model - Approximation
+This notebook has moved to [PerfForesightCRRA-Convergence](https://econ-ark.org/materials/perfforesightcrra-convergence), which measures how close HARK's infinite-horizon solution of the perfect foresight model comes to the exact one.
