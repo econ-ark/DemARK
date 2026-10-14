@@ -86,7 +86,7 @@ project:
     # Method and speed.
     - file: notebooks/DCEGM-Upper-Envelope.ipynb
     - file: notebooks/Harmenberg-Aggregation.ipynb
-    - file: notebooks/PerfForesightCRRA-Approximation.ipynb
+    - file: notebooks/PerfForesightCRRA-Convergence.ipynb
 site:
   template: book-theme
   title: DemARK
